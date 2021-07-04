@@ -2,14 +2,8 @@ package xyz.voidmoment.skyblockd;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.*;
 public class SkyblockD extends JavaPlugin {
 
     public static SkyblockD instance;
