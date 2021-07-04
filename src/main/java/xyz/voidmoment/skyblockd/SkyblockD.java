@@ -6,11 +6,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import xyz.voidmoment.skyblockd.commands.CommandManager;
-import xyz.voidmoment.skyblockd.commands.NameCommand;
-import xyz.voidmoment.skyblockd.commands.RankCommand;
-import xyz.voidmoment.skyblockd.commands.SBDHelpCommand;
-import xyz.voidmoment.skyblockd.commands.DevTestCommand;
+import xyz.voidmoment.skyblockd.commands.*;
 import xyz.voidmoment.skyblockd.events.ChatListener;
 import xyz.voidmoment.skyblockd.gui.InventoryManager;
 import xyz.voidmoment.skyblockd.gui.TestGUI;
@@ -74,6 +70,7 @@ public class SkyblockD extends JavaPlugin {
         commandManager.addContain(new SBDHelpCommand());
         commandManager.addContain(new RankCommand());
         commandManager.addContain(new DevTestCommand());
+        commandManager.addContain(new UpdateCommand());
         commandManager.register();
 
         // register inventories

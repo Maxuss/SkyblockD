@@ -27,6 +27,11 @@ commands:
     usage: /<command>
     permission: skyblockd.admin
     permission-message: §6You don't have sufficient permission! Requires <permission>
+  updatesb:
+    description: Reloads all plugins and updates config!
+    usage: /<command>
+    permission: skyblockd.admin
+    permission-message: §6You don't have sufficient permission! Requires <permission>
 permissions:
   skyblockd.default:
     description: Allows you basic command access
