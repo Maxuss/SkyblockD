@@ -8,7 +8,7 @@ import xyz.voidmoment.skyblockd.objects.RankContainer;
 
 import java.util.UUID;
 
-public class RankCommand implements ICommand {
+public class RankCommand implements ChatCommand {
 
     @Override
     public String getName() {

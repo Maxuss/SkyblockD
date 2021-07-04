@@ -4,7 +4,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import xyz.voidmoment.skyblockd.SkyblockD;
 
-public class DevTestCommand implements ICommand{
+public class DevTestCommand implements ChatCommand {
     @Override
     public String getName() {
         return "sbdevtest";

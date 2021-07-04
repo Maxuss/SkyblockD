@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.voidmoment.skyblockd.commands.*;
@@ -12,6 +13,8 @@ import xyz.voidmoment.skyblockd.gui.InventoryManager;
 import xyz.voidmoment.skyblockd.gui.TestGUI;
 import xyz.voidmoment.skyblockd.helpers.JsonHelper;
 import xyz.voidmoment.skyblockd.helpers.RankHelper;
+import xyz.voidmoment.skyblockd.items.ItemManager;
+import xyz.voidmoment.skyblockd.items.TestItem;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +27,10 @@ public class SkyblockD extends JavaPlugin {
     private static SkyblockD instance;
     private static CommandManager commandManager;
     private static InventoryManager inventoryManager;
+    private static ItemManager itemManager;
     private static TreeMap<String, Inventory> guis;
     private static HashMap<String, Object> rankGroups;
+    private static TreeMap<String, ItemStack> citems;
     private static PluginManager pluginManager;
 
     public static Logger logger;
@@ -41,6 +46,8 @@ public class SkyblockD extends JavaPlugin {
     public static String getServerName() {return getHost().getName();}
     public static String getServerIp() {return getHost().getIp();}
     public static PluginManager getPluginManager() {return pluginManager;}
+    public static ItemManager getItemManager() {return itemManager;}
+    public static TreeMap<String, ItemStack> getCustomItems() {return citems;}
 
     public static String getCurrentDir() {return System.getProperty("user.dir");}
 
@@ -50,6 +57,7 @@ public class SkyblockD extends JavaPlugin {
         instance = this;
         commandManager = new CommandManager();
         inventoryManager = new InventoryManager();
+        itemManager = new ItemManager();
         pluginManager = getHost().getPluginManager();
         logger = getLogger();
 
@@ -71,12 +79,19 @@ public class SkyblockD extends JavaPlugin {
         commandManager.addContain(new RankCommand());
         commandManager.addContain(new DevTestCommand());
         commandManager.addContain(new UpdateCommand());
+        commandManager.addContain(new GetItemCommand());
+        commandManager.addContain(new ShoutCommand());
         commandManager.register();
 
         // register inventories
         inventoryManager.addContain(new TestGUI());
         inventoryManager.register();
         guis = inventoryManager.generated;
+
+        // register items
+        itemManager.addContain(new TestItem());
+        itemManager.register();
+        citems = itemManager.generated;
 
         // initialize rank groups
         try {

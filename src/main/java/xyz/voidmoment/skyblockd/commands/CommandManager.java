@@ -6,12 +6,12 @@ import xyz.voidmoment.skyblockd.helpers.ManagerBase;
 
 import java.util.Objects;
 
-public class CommandManager extends ManagerBase<ICommand> {
+public class CommandManager extends ManagerBase<ChatCommand> {
 
     @Override
     public void register(){
         if(!contains.isEmpty()) {
-            for (ICommand cmd : contains) {
+            for (ChatCommand cmd : contains) {
                 try {
                     String n = cmd.getName();
                     CommandExecutor e = cmd.getExecutor();

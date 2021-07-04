@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
  *
  *
  */
-public interface ICommand {
+public interface ChatCommand {
     String getName();
     CommandExecutor getExecutor();
 }

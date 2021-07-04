@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 
-public class SBDHelpCommand implements ICommand {
+public class SBDHelpCommand implements ChatCommand {
 
     @Override
     public String getName() {

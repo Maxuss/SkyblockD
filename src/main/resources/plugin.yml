@@ -32,6 +32,16 @@ commands:
     usage: /<command>
     permission: skyblockd.admin
     permission-message: §6You don't have sufficient permission! Requires <permission>
+  getitem:
+    description: Gets item by provided id if it exists
+    usage: /<command> [id]
+    permission: skyblockd.admin
+    permission-message: §6You don't have sufficient permission! Requires <permission>
+  shout:
+    description: Broadcasts message to all players.
+    usage: /<command> [text]
+    permission: skyblockd.default
+    permission-message: §6You don't have sufficient permission! Requires <permission>
 permissions:
   skyblockd.default:
     description: Allows you basic command access

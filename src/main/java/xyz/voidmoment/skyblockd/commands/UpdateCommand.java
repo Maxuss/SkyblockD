@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import xyz.voidmoment.skyblockd.SkyblockD;
 
-public class UpdateCommand implements ICommand {
+public class UpdateCommand implements ChatCommand {
 
     @Override
     public String getName() {

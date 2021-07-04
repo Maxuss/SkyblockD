@@ -1,5 +1,6 @@
 package xyz.voidmoment.skyblockd.events;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,6 +29,7 @@ public class ChatListener implements Listener {
             cont.rankGroup = "rank.none";
         }
         String prefix = (String) SkyblockD.getRankGroups().get(cont.rankGroup);
-        e.setFormat((prefix.startsWith("B") ? prefix.replaceFirst("B", "") : prefix) + (cont.rankGroup.equals("rank.none") ? "" : " ") + p.getName() + ChatColor.WHITE + ": " + e.getMessage());
+        String full = (prefix.startsWith("B") ? prefix.replaceFirst("B", "") : prefix) + (cont.rankGroup.equals("rank.none") ? "" : " ") + p.getName();
+        e.setFormat(full.replaceFirst("B", "") + ChatColor.WHITE + ": " + e.getMessage());
     }
 }
