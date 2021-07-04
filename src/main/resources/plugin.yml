@@ -14,10 +14,26 @@ commands:
     permission-message: §6You don't have sufficient permission! Requires <permission>
   sbdhelp:
     description: Prints all commands related to SkyblockD
-    usage: /<command> {sbdcommand}
+    usage: /<command>
     permission: skyblockd.default
+    permission-message: §6You don't have sufficient permission! Requires <permission>
+  sbrank:
+    description: Sets a rank to player
+    usage: /<command> [playername]
+    permission: skyblockd.admin
+    permission-message: §6You don't have sufficient permission! Requires <permission>
+  sbdevtest:
+    description: Command for testing!
+    usage: /<command>
+    permission: skyblockd.admin
     permission-message: §6You don't have sufficient permission! Requires <permission>
 permissions:
   skyblockd.default:
     description: Allows you basic command access
     default: true
+  skyblockd.admin:
+    description: Permission for admins
+    default: op
+  skyblockd.player:
+    description: Default permission for all players
+    default: not op
