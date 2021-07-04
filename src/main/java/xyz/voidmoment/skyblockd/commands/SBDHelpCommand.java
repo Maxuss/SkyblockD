@@ -20,6 +20,11 @@ public class SBDHelpCommand implements ChatCommand {
                         ChatColor.GOLD + "------ SkyblockD ------",
                         genStr("myname", "What is your name"),
                         genStr("sbdhelp", "Prints this message"),
+                        genStr("sbrank [username] [rank.id]", "Sets a special rank for player"),
+                        genStr("updatesb", "Updates the configuration and reloads plugin"),
+                        genStr("getitem [item.id]", "Gives you item with provided id if it exists"),
+                        genStr("shout [message]", "Sends message to all players"),
+                        genStr("sbmenu", "Opens SkyblockD menu"),
                         ChatColor.GOLD + "------ SkyblockD ------"
                 };
                 String msg = String.join("\n", help);

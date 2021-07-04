@@ -30,6 +30,7 @@ public class ChatListener implements Listener {
         }
         String prefix = (String) SkyblockD.getRankGroups().get(cont.rankGroup);
         String full = (prefix.startsWith("B") ? prefix.replaceFirst("B", "") : prefix) + (cont.rankGroup.equals("rank.none") ? "" : " ") + p.getName();
-        e.setFormat(full.replaceFirst("B", "") + ChatColor.WHITE + ": " + e.getMessage());
+        String m = full.replaceFirst("B", "") + ChatColor.WHITE + ": " + e.getMessage();
+        e.setFormat(m.replace("&", "§"));
     }
 }

@@ -5,6 +5,7 @@ import org.bukkit.inventory.Inventory;
 import xyz.voidmoment.skyblockd.SkyblockD;
 import xyz.voidmoment.skyblockd.helpers.ManagerBase;
 
+import java.util.Arrays;
 import java.util.TreeMap;
 
 public class InventoryManager extends ManagerBase<InventoryBase> {
@@ -21,7 +22,7 @@ public class InventoryManager extends ManagerBase<InventoryBase> {
                 SkyblockD.logger.info("Successfully registered inventory with ID " + inv.getId());
             }
             catch(Exception ex){
-                SkyblockD.logger.info("Could not register inventory with ID " + inv.getId()+"! Exception: "+ex.getMessage());
+                SkyblockD.logger.info("Could not register inventory with ID " + inv.getId()+"! Exception: "+ex.getMessage()+"\nTrace: "+ Arrays.toString(ex.getStackTrace()));
             }
         }
     }

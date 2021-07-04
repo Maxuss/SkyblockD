@@ -42,6 +42,11 @@ commands:
     usage: /<command> [text]
     permission: skyblockd.default
     permission-message: §6You don't have sufficient permission! Requires <permission>
+  sbmenu:
+    description: Opens SkyblockD menu
+    usage: /<command>
+    permission: skyblockd.default
+    permission-message: §6You don't have sufficient permission! Requires <permission>
 permissions:
   skyblockd.default:
     description: Allows you basic command access
