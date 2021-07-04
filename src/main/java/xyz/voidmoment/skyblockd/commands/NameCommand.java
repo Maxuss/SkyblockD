@@ -1,23 +1,25 @@
 package xyz.voidmoment.skyblockd.commands;
 
-import org.bukkit.command.Command;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import xyz.voidmoment.skyblockd.*;
 
 
-public class HelpCommand extends CommandBase {
+public class NameCommand extends CommandBase {
 
     @Override
     public String getName() {
-        return "helpmee";
+        return "myname";
     }
 
     @Override
     public CommandExecutor getExecutor() {
         return (sender, command, label, args) -> {
             String n = sender.getName();
-            SkyblockD.sender.sendMessage("Your name is "+n);
+            SkyblockD.getSender().sendMessage("User "+n+" executed command "+getName());
+            Player player = (Player) sender;
+            player.sendMessage("Your name is "+ChatColor.YELLOW+n+ChatColor.WHITE+"!");
             return false;
         };
     }

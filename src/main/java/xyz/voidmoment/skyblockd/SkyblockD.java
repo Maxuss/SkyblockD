@@ -4,32 +4,53 @@ import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.voidmoment.skyblockd.commands.CommandManager;
+import xyz.voidmoment.skyblockd.commands.NameCommand;
+import xyz.voidmoment.skyblockd.commands.SBDHelpCommand;
+
+import java.util.logging.Logger;
+
 public class SkyblockD extends JavaPlugin {
 
-    public static SkyblockD instance;
+    private static SkyblockD instance;
+    private static CommandManager commandManager;
 
-    public static Server host;
-    public static ConsoleCommandSender sender;
-    public static String serverName;
+    public static Logger logger;
+
+    public static SkyblockD getInstance() {return instance;}
+    public static CommandManager getCommandManager() {return commandManager;}
+    public static Server getHost() {return instance.getServer();}
+    public static ConsoleCommandSender getSender() {return getHost().getConsoleSender();}
+    public static String getServerName() {return getHost().getName();}
+    public static String getServerIp() {return getHost().getIp();}
 
     @Override
     public void onEnable() {
+        // instantiate main stuff
         instance = this;
-        host = this.getServer();
-        sender = host.getConsoleSender();
-        serverName = host.getName();
+        commandManager = new CommandManager();
+        logger = getLogger();
 
-        this.getCommand("");
+        // register commands
+        commandManager.addCommand(new NameCommand());
+        commandManager.addCommand(new SBDHelpCommand());
 
-        sender.sendMessage(ChatColor.BOLD +"["+ ChatColor.GOLD +"SkyblockD"+ChatColor.RESET+""+ChatColor.BOLD+"]"+ChatColor.RESET+" > Plugin initialized!");
+        commandManager.registerCommands();
+
+        // send success message and log
+        getSender().sendMessage(ChatColor.BOLD +"["+ ChatColor.GOLD +"SkyblockD"+ChatColor.RESET+""+ChatColor.BOLD+"]"+ChatColor.RESET+" > Plugin initialized!");
+        logger.info("Successfully loaded SkyblockD plugin!");
     }
 
     @Override
     public void onDisable() {
-        sender.sendMessage(ChatColor.BOLD +"["+ ChatColor.GOLD +"SkyblockD"+ChatColor.RESET+""+ChatColor.BOLD+"]"+ChatColor.RESET+" > Plugin disabled!");
+        // de-instantiate main stuff
         instance = null;
-        host = null;
-        sender = null;
-        serverName = null;
+        commandManager = null;
+
+        // send message because of disabling
+        getSender().sendMessage(ChatColor.BOLD +"["+ ChatColor.GOLD +"SkyblockD"+ChatColor.RESET+""+ChatColor.BOLD+"]"+ChatColor.RESET+" > Plugin disabled!");
+        logger.info("Successfully unloaded SkyblockD plugin!");
+        logger = null;
     }
 }

@@ -2,7 +2,22 @@ name: SkyblockD
 version: ${project.version}
 main: xyz.voidmoment.skyblockd.SkyblockD
 api-version: 1.16
-prefix: [ SbD ]
+prefix: SkyblockD
 authors: [ Maxus ]
 description: Plugin that adds multiple features from HySb to vanilla!
 website: https://voidmoment.xyz
+commands:
+  myname:
+    description: Gets name of current user.
+    usage: /<command>
+    permission: skyblockd.default
+    permission-message: §6You don't have sufficient permission! Requires <permission>
+  sbdhelp:
+    description: Prints all commands related to SkyblockD
+    usage: /<command> {sbdcommand}
+    permission: skyblockd.default
+    permission-message: §6You don't have sufficient permission! Requires <permission>
+permissions:
+  skyblockd.default:
+    description: Allows you basic command access
+    default: true
