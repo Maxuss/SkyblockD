@@ -1,6 +1,6 @@
 name: SkyblockD
 version: ${project.version}
-main: xyz.voidmoment.skyblockd.SkyblockD
+main: SkyblockD
 api-version: 1.16
 prefix: SkyblockD
 authors: [ Maxus ]
