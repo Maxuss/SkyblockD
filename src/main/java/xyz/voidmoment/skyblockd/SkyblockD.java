@@ -14,6 +14,7 @@ import xyz.voidmoment.skyblockd.events.LoginListener;
 import xyz.voidmoment.skyblockd.gui.InventoryManager;
 import xyz.voidmoment.skyblockd.gui.MainMenuGUI;
 import xyz.voidmoment.skyblockd.gui.TestGUI;
+import xyz.voidmoment.skyblockd.helpers.Config;
 import xyz.voidmoment.skyblockd.helpers.JsonHelper;
 import xyz.voidmoment.skyblockd.helpers.RankHelper;
 import xyz.voidmoment.skyblockd.items.ItemManager;
@@ -35,6 +36,7 @@ public class SkyblockD extends JavaPlugin {
     private static HashMap<String, Object> rankGroups;
     private static TreeMap<String, ItemStack> citems;
     private static PluginManager pluginManager;
+    private static Config config;
 
     public static Logger logger;
     public static HashMap<String, Object> playerRanks;
@@ -51,6 +53,7 @@ public class SkyblockD extends JavaPlugin {
     public static PluginManager getPluginManager() {return pluginManager;}
     public static ItemManager getItemManager() {return itemManager;}
     public static TreeMap<String, ItemStack> getCustomItems() {return citems;}
+    public static Config getCfg() {return config;}
 
     public static String getCurrentDir() {return System.getProperty("user.dir");}
 
@@ -62,10 +65,11 @@ public class SkyblockD extends JavaPlugin {
         inventoryManager = new InventoryManager();
         itemManager = new ItemManager();
         pluginManager = getHost().getPluginManager();
+        config = new Config(this, "config.yml");
         logger = getLogger();
 
         // create necessary files
-        File ranks = new File(getCurrentDir()+"\\ranks.json");
+        File ranks = new File(getCurrentDir()+"\\plugins\\SkyblockD\\ranks.json");
         if(!ranks.exists())
         {
             try {
@@ -137,6 +141,7 @@ public class SkyblockD extends JavaPlugin {
         inventoryManager = null;
         itemManager = null;
         logger = null;
+        config = null;
     }
 
 

@@ -1,0 +1,15 @@
+# Main config for SkyblockD plugin
+# Made with <3 by Maxus
+# https://github.com/Maxuss | https://maxus.space
+
+skyblockd:
+  chat:
+    shout:
+      enabled: true
+      hasCooldown: true
+      cooldown: 10
+    ranks:
+      enabled: true
+      interceptMessages: true
+  commands:
+    devmode: true

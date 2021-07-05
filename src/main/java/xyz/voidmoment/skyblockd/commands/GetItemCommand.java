@@ -3,9 +3,7 @@ package xyz.voidmoment.skyblockd.commands;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import xyz.voidmoment.skyblockd.SkyblockD;
 
 import java.util.Objects;
