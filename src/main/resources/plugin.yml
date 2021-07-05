@@ -1,11 +1,11 @@
 name: SkyblockD
 version: ${project.version}
-main: SkyblockD
+main: space.maxus.skyblockd.SkyblockD
 api-version: 1.16
 prefix: SkyblockD
 authors: [ Maxus ]
 description: Plugin that adds multiple features from HySb to vanilla!
-website: https://voidmoment.xyz
+website: https://maxus.space
 commands:
   myname:
     description: Gets name of current user.
