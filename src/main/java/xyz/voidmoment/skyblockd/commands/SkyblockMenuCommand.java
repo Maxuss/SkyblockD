@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import xyz.voidmoment.skyblockd.SkyblockD;
 
-public class SkyblockMenuCommand implements ChatCommand, Listener {
+public class SkyblockMenuCommand implements ChatCommand{
 
     @Override
     public String getName() {
@@ -27,14 +27,5 @@ public class SkyblockMenuCommand implements ChatCommand, Listener {
             p.openInventory(SkyblockD.getInventories().get("sbd.menus.main"));
             return true;
         });
-    }
-
-    @EventHandler
-    public void onInteract(InventoryInteractEvent e){
-        Player p = (Player) e.getWhoClicked();
-        if(e.getView().getTitle().contains("SkyblockD Menu")){
-            e.setResult(Event.Result.DENY);
-            p.updateInventory();
-        }
     }
 }

@@ -26,7 +26,7 @@ public class MainMenuGUI extends InventoryBase{
         return 54;
     }
 
-    // TODO: Fix indexation bug
+    // fixed indexation
     @Override
     public Inventory generateContains(Inventory base) {
         List<String> indev = new ArrayList<>();
@@ -46,6 +46,8 @@ public class MainMenuGUI extends InventoryBase{
 
         base.addItem(profile);
 
+        indx++;
+
         fillWith(5, gls, base);
 
         // Skills
@@ -61,10 +63,14 @@ public class MainMenuGUI extends InventoryBase{
         // EC
         base.addItem(genSimpleMenuItem("Ender Chest", Material.ENDER_CHEST, indev));
 
+        indx += 6;
+
         fillWith(5, gls, base);
 
         // Crafts
         base.addItem(genSimpleMenuItem("Crafting Table", Material.CRAFTING_TABLE, indev));
+
+        indx++;
 
         fillWith(16, gls, base);
 
@@ -72,6 +78,8 @@ public class MainMenuGUI extends InventoryBase{
         base.addItem(genSimpleMenuItem("Settings", Material.NAME_TAG, indev));
         // Exit GUI
         base.addItem(genSimpleMenuItem("Close", Material.NAME_TAG, indev));
+
+        indx += 2;
 
         fillWith(4, gls, base);
 

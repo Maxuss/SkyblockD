@@ -9,6 +9,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.voidmoment.skyblockd.commands.*;
 import xyz.voidmoment.skyblockd.events.ChatListener;
+import xyz.voidmoment.skyblockd.events.InventoryListener;
+import xyz.voidmoment.skyblockd.events.LoginListener;
 import xyz.voidmoment.skyblockd.gui.InventoryManager;
 import xyz.voidmoment.skyblockd.gui.MainMenuGUI;
 import xyz.voidmoment.skyblockd.gui.TestGUI;
@@ -114,7 +116,8 @@ public class SkyblockD extends JavaPlugin {
 
         // register events
         pluginManager.registerEvents(new ChatListener(), this);
-        pluginManager.registerEvents(new SkyblockMenuCommand(), this);
+        pluginManager.registerEvents(new InventoryListener(), this);
+        pluginManager.registerEvents(new LoginListener(), this);
 
         // send success message and log
         getSender().sendMessage(ChatColor.BOLD +"["+ ChatColor.GOLD +"SkyblockD"+ChatColor.RESET+""+ChatColor.BOLD+"]"+ChatColor.RESET+" Plugin initialized!");
@@ -124,15 +127,15 @@ public class SkyblockD extends JavaPlugin {
     @Override
     public void onDisable() {
         // de-instantiate main stuff
+        // send message because of disabling
+
+        getSender().sendMessage(ChatColor.BOLD +"["+ ChatColor.GOLD +"SkyblockD"+ChatColor.RESET+""+ChatColor.BOLD+"]"+ChatColor.RESET+" Plugin disabled!");
+        logger.info("Successfully unloaded SkyblockD plugin!");
         instance = null;
         commandManager = null;
         pluginManager = null;
         inventoryManager = null;
         itemManager = null;
-
-        // send message because of disabling
-        getSender().sendMessage(ChatColor.BOLD +"["+ ChatColor.GOLD +"SkyblockD"+ChatColor.RESET+""+ChatColor.BOLD+"]"+ChatColor.RESET+" Plugin disabled!");
-        logger.info("Successfully unloaded SkyblockD plugin!");
         logger = null;
     }
 
