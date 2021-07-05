@@ -122,41 +122,52 @@ public class SkyblockD extends JavaPlugin {
         // register commands
         commandManager.addContain(new NameCommand());
         commandManager.addContain(new SBDHelpCommand());
-        commandManager.addContain(new RankCommand());
-        commandManager.addContain(new DevTestCommand());
+        if (config.ranksEnabled()) {
+            commandManager.addContain(new RankCommand());
+        }
+        if (config.inDevMode()) {
+            commandManager.addContain(new DevTestCommand());
+        }
         commandManager.addContain(new UpdateCommand());
         commandManager.addContain(new GetItemCommand());
-        commandManager.addContain(new ShoutCommand());
+        if (config.shoutEnabled()) {
+            commandManager.addContain(new ShoutCommand());
+        }
         commandManager.addContain(new SkyblockMenuCommand());
         commandManager.register();
 
         // register inventories
-        inventoryManager.addContain(new TestGUI());
+        if (config.inDevMode()) {
+            inventoryManager.addContain(new TestGUI());
+        }
         inventoryManager.addContain(new MainMenuGUI());
         inventoryManager.register();
         guis = inventoryManager.generated;
 
         // register items
-        itemManager.addContain(new TestItem());
+        if (config.inDevMode()) {
+            itemManager.addContain(new TestItem());
+        }
         itemManager.register();
         citems = itemManager.generated;
 
         // initialize rank groups
-        try {
-            rankGroups = RankHelper.getGroups();
-        } catch (IOException e) {
-            logger.severe("Could not load rank groups!");
+        if (config.ranksEnabled()) {
+            try {
+                rankGroups = RankHelper.getGroups();
+            } catch (IOException e) {
+                logger.severe("Could not load rank groups!");
+            }
+            try {
+                playerRanks = JsonHelper.mapJson(JsonHelper.readJsonFile(getCurrentDir() + "\\ranks.json"));
+                if (playerRanks.isEmpty()) playerRanks = new HashMap<>();
+                RankHelper.updateRanks();
+            } catch (Exception e) {
+                logger.severe("Could not read rank groups!");
+                playerRanks = new HashMap<>();
+                RankHelper.updateRanks();
+            }
         }
-        try {
-            playerRanks = JsonHelper.mapJson(JsonHelper.readJsonFile(getCurrentDir() + "\\ranks.json"));
-            if (playerRanks.isEmpty()) playerRanks = new HashMap<>();
-            RankHelper.updateRanks();
-        } catch (Exception e) {
-            logger.severe("Could not read rank groups!");
-            playerRanks = new HashMap<>();
-            RankHelper.updateRanks();
-        }
-
         // register events
         pluginManager.registerEvents(new ChatListener(), this);
         pluginManager.registerEvents(new InventoryListener(), this);
@@ -171,7 +182,6 @@ public class SkyblockD extends JavaPlugin {
     public void onDisable() {
         // de-instantiate main stuff
         // send message because of disabling
-
         getSender().sendMessage(ChatColor.BOLD + "[" + ChatColor.GOLD + "SkyblockD" + ChatColor.RESET + "" + ChatColor.BOLD + "]" + ChatColor.RESET + " Plugin disabled!");
         logger.info("Successfully unloaded SkyblockD plugin!");
         instance = null;
@@ -182,6 +192,4 @@ public class SkyblockD extends JavaPlugin {
         logger = null;
         config = null;
     }
-
-
 }

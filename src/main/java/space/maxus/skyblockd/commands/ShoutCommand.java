@@ -4,13 +4,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
+import space.maxus.skyblockd.SkyblockD;
 
 import java.util.HashMap;
 
 public class ShoutCommand implements ChatCommand {
 
     private final static HashMap<String, Long> lastCommands = new HashMap<>();
-    private static final long cd = 25000;
+    private static final long cd = SkyblockD.getCfg().shoutHasCooldown()
+            ? SkyblockD.getCfg().shoutCooldown() * 1000L
+            : 0;
 
 
     @Override
@@ -29,7 +32,7 @@ public class ShoutCommand implements ChatCommand {
             Long lastCommand = lastCommands.get(sender.getName());
             if (lastCommand == null || lastCommand + cd < System.currentTimeMillis()) {
                 Player p = (Player) sender;
-                String msg = ChatColor.YELLOW + "[SHOUT] > " + p.getDisplayName().replaceFirst("B", "") + ChatColor.WHITE + ": " + args[0];
+                String msg = ChatColor.YELLOW + "[SHOUT] > " + ChatColor.RESET + p.getDisplayName().replaceFirst("B", "") + ChatColor.WHITE + ": " + args[0];
                 Bukkit.broadcastMessage(msg);
                 lastCommands.put(sender.getName(), System.currentTimeMillis());
             } else {

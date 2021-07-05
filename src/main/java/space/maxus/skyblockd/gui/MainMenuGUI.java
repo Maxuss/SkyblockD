@@ -33,7 +33,6 @@ public class MainMenuGUI extends InventoryBase {
         indev.add(ChatColor.RED + "In development!");
 
         ItemStack gls = GuiHelper.getMenuGlass();
-
         fillWith(13, gls, base);
 
         // Profile
@@ -43,9 +42,7 @@ public class MainMenuGUI extends InventoryBase {
         pm.setDisplayName(ChatColor.YELLOW + "Your Skyblock profile");
         pm.setLore(indev);
         profile.setItemMeta(GuiHelper.setHideAllFlags(pm));
-
         base.addItem(profile);
-
         indx++;
 
         fillWith(5, gls, base);
@@ -72,7 +69,7 @@ public class MainMenuGUI extends InventoryBase {
 
         indx++;
 
-        fillWith(16, gls, base);
+        fillWith(17, gls, base);
 
         // Plugin settings
         base.addItem(genSimpleMenuItem("Settings", Material.NAME_TAG, indev));
