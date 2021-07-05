@@ -1,4 +1,4 @@
-package space.maxus.skyblockd.helpers;
+package space.maxus.skyblockd.utils;
 
 
 import org.bukkit.configuration.InvalidConfigurationException;

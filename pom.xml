@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>space.maxus.skyblockd</groupId>
-    <artifactId>SkyblockD</artifactId>
-    <version>1.0</version>
+    <artifactId>skyblocked-1.16.5</artifactId>
+    <version>0.5</version>
     <packaging>jar</packaging>
 
     <name>SkyblockD</name>

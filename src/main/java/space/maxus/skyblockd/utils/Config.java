@@ -1,6 +1,7 @@
-package space.maxus.skyblockd.helpers;
+package space.maxus.skyblockd.utils;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import space.maxus.skyblockd.utils.ConfigurationFile;
 
 public class Config extends ConfigurationFile {
     public Config(JavaPlugin plugin, String name) {

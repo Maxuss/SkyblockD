@@ -3,7 +3,7 @@ package space.maxus.skyblockd.gui;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import space.maxus.skyblockd.SkyblockD;
-import space.maxus.skyblockd.helpers.ManagerBase;
+import space.maxus.skyblockd.utils.ManagerBase;
 
 import java.util.Arrays;
 import java.util.TreeMap;

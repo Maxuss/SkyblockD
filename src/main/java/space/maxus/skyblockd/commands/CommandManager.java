@@ -2,7 +2,7 @@ package space.maxus.skyblockd.commands;
 
 import org.bukkit.command.CommandExecutor;
 import space.maxus.skyblockd.SkyblockD;
-import space.maxus.skyblockd.helpers.ManagerBase;
+import space.maxus.skyblockd.utils.ManagerBase;
 
 import java.util.Objects;
 

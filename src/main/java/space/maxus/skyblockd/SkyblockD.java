@@ -9,12 +9,14 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import space.maxus.skyblockd.commands.*;
 import space.maxus.skyblockd.events.ChatListener;
+import space.maxus.skyblockd.events.DamageListener;
 import space.maxus.skyblockd.events.InventoryListener;
 import space.maxus.skyblockd.events.LoginListener;
 import space.maxus.skyblockd.gui.InventoryManager;
 import space.maxus.skyblockd.gui.MainMenuGUI;
 import space.maxus.skyblockd.gui.TestGUI;
-import space.maxus.skyblockd.helpers.Config;
+import space.maxus.skyblockd.utils.Config;
+import space.maxus.skyblockd.utils.Constants;
 import space.maxus.skyblockd.helpers.JsonHelper;
 import space.maxus.skyblockd.helpers.RankHelper;
 import space.maxus.skyblockd.items.ItemManager;
@@ -37,6 +39,7 @@ public class SkyblockD extends JavaPlugin {
     private static TreeMap<String, ItemStack> citems;
     private static PluginManager pluginManager;
     private static Config config;
+    private static Constants consts;
 
     public static Logger logger;
     public static HashMap<String, Object> playerRanks;
@@ -44,57 +47,47 @@ public class SkyblockD extends JavaPlugin {
     public static SkyblockD getInstance() {
         return instance;
     }
-
     public static CommandManager getCommandManager() {
         return commandManager;
     }
-
     public static InventoryManager getInventoryManager() {
         return inventoryManager;
     }
-
     public static TreeMap<String, Inventory> getInventories() {
         return guis;
     }
-
     public static HashMap<String, Object> getRankGroups() {
         return rankGroups;
     }
-
     public static Server getHost() {
         return instance.getServer();
     }
-
     public static ConsoleCommandSender getSender() {
         return getHost().getConsoleSender();
     }
-
     public static String getServerName() {
         return getHost().getName();
     }
-
     public static String getServerIp() {
         return getHost().getIp();
     }
-
     public static PluginManager getPluginManager() {
         return pluginManager;
     }
-
     public static ItemManager getItemManager() {
         return itemManager;
     }
-
     public static TreeMap<String, ItemStack> getCustomItems() {
         return citems;
     }
-
     public static Config getCfg() {
         return config;
     }
-
     public static String getCurrentDir() {
         return System.getProperty("user.dir");
+    }
+    public static Constants getConsts(){
+        return consts;
     }
 
     @Override
@@ -107,9 +100,10 @@ public class SkyblockD extends JavaPlugin {
         pluginManager = getHost().getPluginManager();
         config = new Config(this, "config.yml");
         logger = getLogger();
+        consts = new Constants();
 
         // create necessary files
-        File ranks = new File(getCurrentDir() + "\\plugins\\SkyblockD\\ranks.json");
+        File ranks = new File(getDataFolder().toPath() + "\\ranks.json");
         if (!ranks.exists()) {
             try {
                 boolean cr = ranks.createNewFile();
@@ -172,6 +166,7 @@ public class SkyblockD extends JavaPlugin {
         pluginManager.registerEvents(new ChatListener(), this);
         pluginManager.registerEvents(new InventoryListener(), this);
         pluginManager.registerEvents(new LoginListener(), this);
+        pluginManager.registerEvents(new DamageListener(), this);
 
         // send success message and log
         getSender().sendMessage(ChatColor.BOLD + "[" + ChatColor.GOLD + "SkyblockD" + ChatColor.RESET + "" + ChatColor.BOLD + "]" + ChatColor.RESET + " Plugin initialized!");
@@ -184,6 +179,7 @@ public class SkyblockD extends JavaPlugin {
         // send message because of disabling
         getSender().sendMessage(ChatColor.BOLD + "[" + ChatColor.GOLD + "SkyblockD" + ChatColor.RESET + "" + ChatColor.BOLD + "]" + ChatColor.RESET + " Plugin disabled!");
         logger.info("Successfully unloaded SkyblockD plugin!");
+
         instance = null;
         commandManager = null;
         pluginManager = null;
@@ -191,5 +187,6 @@ public class SkyblockD extends JavaPlugin {
         itemManager = null;
         logger = null;
         config = null;
+        consts = null;
     }
 }
