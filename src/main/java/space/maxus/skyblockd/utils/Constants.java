@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 import java.util.HashMap;
 
 public class Constants {
-    private HashMap<Integer, ChatColor> damageMap;
+    private final HashMap<Integer, ChatColor> damageMap;
 
     public HashMap<Integer, ChatColor> getDamageMap() {return damageMap;}
 

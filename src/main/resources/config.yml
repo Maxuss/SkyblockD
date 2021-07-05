@@ -13,3 +13,8 @@ skyblockd:
       interceptMessages: true
   commands:
     devmode: true
+  motd:
+    enabled: true
+    extraMessages:
+      - $cHello, i am a cool message in red!
+      - $6Hello, i am a cool message with\nan escape sequence!

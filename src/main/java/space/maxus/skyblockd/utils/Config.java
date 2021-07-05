@@ -3,6 +3,8 @@ package space.maxus.skyblockd.utils;
 import org.bukkit.plugin.java.JavaPlugin;
 import space.maxus.skyblockd.utils.ConfigurationFile;
 
+import java.util.List;
+
 public class Config extends ConfigurationFile {
     public Config(JavaPlugin plugin, String name) {
         super(plugin, name);
@@ -31,4 +33,8 @@ public class Config extends ConfigurationFile {
     public boolean inDevMode() {
         return getBool("skyblockd.commands.devmode");
     }
+
+    public boolean customMotdEnabled() {return getBool("skyblockd.motd.enabled");}
+
+    public List<String> customMotdElements() {return getStrList("skyblockd.motd.extraMessages");}
 }

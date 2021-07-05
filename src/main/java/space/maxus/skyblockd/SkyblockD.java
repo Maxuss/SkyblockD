@@ -8,10 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import space.maxus.skyblockd.commands.*;
-import space.maxus.skyblockd.events.ChatListener;
-import space.maxus.skyblockd.events.DamageListener;
-import space.maxus.skyblockd.events.InventoryListener;
-import space.maxus.skyblockd.events.LoginListener;
+import space.maxus.skyblockd.events.*;
 import space.maxus.skyblockd.gui.InventoryManager;
 import space.maxus.skyblockd.gui.MainMenuGUI;
 import space.maxus.skyblockd.gui.TestGUI;
@@ -40,6 +37,15 @@ public class SkyblockD extends JavaPlugin {
     private static PluginManager pluginManager;
     private static Config config;
     private static Constants consts;
+
+    // version and stuff here:
+    private static final String shortVersion = "v0.5";
+    private static final String longVersion = "V0.5 Pre-Alpha";
+    private static final String versionName = "Dev-test ALPHA";
+    private static final String pluginName = "SkyblockD";
+    private static final String fullShortName = pluginName+" "+shortVersion;
+    private static final String fullLongName = pluginName+" "+longVersion;
+
 
     public static Logger logger;
     public static HashMap<String, Object> playerRanks;
@@ -89,6 +95,14 @@ public class SkyblockD extends JavaPlugin {
     public static Constants getConsts(){
         return consts;
     }
+
+    public static String getShortVersion() {return shortVersion;}
+    public static String getLongVersion() {return longVersion;}
+    public static String getVersionName() {return versionName;}
+    public static String getPluginName() {return pluginName;}
+    public static String getFullShortName() {return fullShortName;}
+    public static String getFullLongName() {return fullLongName;}
+
 
     @Override
     public void onEnable() {
@@ -167,6 +181,8 @@ public class SkyblockD extends JavaPlugin {
         pluginManager.registerEvents(new InventoryListener(), this);
         pluginManager.registerEvents(new LoginListener(), this);
         pluginManager.registerEvents(new DamageListener(), this);
+        if(getCfg().customMotdEnabled())
+            pluginManager.registerEvents(new PingListener(), this);
 
         // send success message and log
         getSender().sendMessage(ChatColor.BOLD + "[" + ChatColor.GOLD + "SkyblockD" + ChatColor.RESET + "" + ChatColor.BOLD + "]" + ChatColor.RESET + " Plugin initialized!");
