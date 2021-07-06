@@ -2,6 +2,7 @@ package space.maxus.skyblockd;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
@@ -86,7 +87,7 @@ public class SkyblockD extends JavaPlugin {
     public static Constants getConsts(){
         return consts;
     }
-
+    public static World getWorld() {return getHost().getWorlds().get(0);}
 
     public static String getShortVersion() {return shortVersion;}
     public static String getLongVersion() {return longVersion;}
