@@ -2,7 +2,6 @@ package space.maxus.skyblockd.commands;
 
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
-import space.maxus.skyblockd.entities.ExpandedEntity;
 import space.maxus.skyblockd.entities.TestEntity;
 
 public class DevTestCommand implements ChatCommand {

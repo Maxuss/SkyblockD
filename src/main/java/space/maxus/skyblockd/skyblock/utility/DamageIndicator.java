@@ -11,8 +11,8 @@ import java.util.HashMap;
 
 public class DamageIndicator extends Hologram {
 
-    public DamageIndicator(int damage, Location loc){
-        super(new HologramParams(""+damage, loc));
+    public DamageIndicator(int damage, Location loc) {
+        super(new HologramParams("" + damage, loc));
     }
 
     @Override
@@ -20,13 +20,13 @@ public class DamageIndicator extends Hologram {
         char[] arr = in.getDisplayText().toCharArray();
         StringBuilder sb = new StringBuilder();
         HashMap<Integer, ChatColor> m = SkyblockD.getConsts().getDamageMap();
-        for(int i = 0; i < arr.length; i++){
+        for (int i = 0; i < arr.length; i++) {
             ChatColor cl = m.get(i);
             char ch = arr[i];
             sb.append(cl).append(ch);
         }
         String _final = sb.toString();
-        String tf = ChatColor.WHITE + "✧"+ _final + ChatColor.WHITE + "✧";
+        String tf = ChatColor.WHITE + "✧" + _final + ChatColor.WHITE + "✧";
         return new HologramParams(tf, in.getLocation());
     }
 

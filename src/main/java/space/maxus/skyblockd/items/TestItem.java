@@ -3,11 +3,12 @@ package space.maxus.skyblockd.items;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.ItemMeta;
+import space.maxus.skyblockd.SkyblockD;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestItem implements CustomItem {
+public class TestItem extends CustomItem {
     @Override
     public Material getMaterial() {
         return Material.DIAMOND_HOE;
@@ -29,8 +30,8 @@ public class TestItem implements CustomItem {
     }
 
     @Override
-    public String getRawName() {
-        return "item.test";
+    public String getId() {
+        return SkyblockD.getNamespace("item_test");
     }
 
 }

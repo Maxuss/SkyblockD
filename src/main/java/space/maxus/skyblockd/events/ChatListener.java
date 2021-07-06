@@ -13,7 +13,7 @@ public class ChatListener implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e) {
-        if(SkyblockD.getCfg().ranksFancy() && SkyblockD.getCfg().ranksEnabled()) {
+        if (SkyblockD.getCfg().ranksFancy() && SkyblockD.getCfg().ranksEnabled()) {
             Player p = e.getPlayer();
             if (!SkyblockD.playerRanks.containsKey(p.getUniqueId().toString())) {
                 SkyblockD.playerRanks.put(p.getUniqueId().toString(), new RankContainer(p.getUniqueId().toString(), p.getName()));

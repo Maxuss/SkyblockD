@@ -11,7 +11,7 @@ import space.maxus.skyblockd.items.CustomItem;
 import java.util.Arrays;
 import java.util.List;
 
-public class SkyblockMenuItem implements CustomItem {
+public class SkyblockMenuItem extends CustomItem {
 
     @Override
     public Material getMaterial() {
@@ -25,9 +25,9 @@ public class SkyblockMenuItem implements CustomItem {
 
     @Override
     public ItemMeta generateMeta(ItemMeta m) {
-        m.setDisplayName(ChatColor.YELLOW+"Skyblock Menu");
+        m.setDisplayName(ChatColor.YELLOW + "Skyblock Menu");
         List<String> lore = Arrays.asList(
-                ChatColor.GRAY+"Right click this item to open", ChatColor.GRAY+"Skyblock menu!"
+                ChatColor.GRAY + "Right click this item to open", ChatColor.GRAY + "Skyblock menu!"
         );
         m.setLore(lore);
         GuiHelper.setHideAllFlags(m);
@@ -36,7 +36,7 @@ public class SkyblockMenuItem implements CustomItem {
     }
 
     @Override
-    public String getRawName() {
+    public String getId() {
         return SkyblockD.getNamespace("skyblock_menu");
     }
 }

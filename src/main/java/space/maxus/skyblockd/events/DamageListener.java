@@ -12,9 +12,9 @@ import java.util.Random;
 
 public class DamageListener implements Listener {
     @EventHandler
-    public void onDamage(EntityDamageByEntityEvent e){
+    public void onDamage(EntityDamageByEntityEvent e) {
         Entity en = e.getEntity();
-        if(!(en instanceof Player)){
+        if (!(en instanceof Player)) {
             int dmg = (int) e.getFinalDamage();
             Location loc = en.getLocation();
 
@@ -28,9 +28,9 @@ public class DamageListener implements Listener {
             double r2 = r.nextDouble();
             double r3 = r.nextDouble();
 
-            double nx = x+(r.nextBoolean() ? r1 : -r1);
-            double ny = y+(r.nextBoolean() ? r2 : -r2);
-            double nz = z+(r.nextBoolean() ? r3 : -r3);
+            double nx = x + (r.nextBoolean() ? r1 : -r1);
+            double ny = y + (r.nextBoolean() ? r2 : -r2);
+            double nz = z + (r.nextBoolean() ? r3 : -r3);
 
             loc.setX(nx);
             loc.setY(ny);

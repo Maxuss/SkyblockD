@@ -7,7 +7,7 @@ import space.maxus.skyblockd.utils.Hologram;
 
 public class SimpleHologram extends Hologram {
 
-    public SimpleHologram(String text, Location loc){
+    public SimpleHologram(String text, Location loc) {
         super(new HologramParams(text, loc));
     }
 
@@ -15,6 +15,7 @@ public class SimpleHologram extends Hologram {
     public HologramParams preInit(HologramParams in) {
         return in;
     }
+
     @Override
     public void postInit(HologramParams in, ArmorStand holo) {
 

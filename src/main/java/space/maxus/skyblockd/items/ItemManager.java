@@ -19,7 +19,7 @@ public class ItemManager extends ManagerBase<CustomItem> {
             for (CustomItem i : contains) {
                 ItemStack item = new ItemStack(i.getMaterial(), i.getCount());
                 item.setItemMeta(i.generateMeta(item.getItemMeta()));
-                generated.put(i.getRawName(), item);
+                generated.put(i.getId(), item);
             }
         }
     }

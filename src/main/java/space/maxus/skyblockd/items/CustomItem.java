@@ -3,12 +3,12 @@ package space.maxus.skyblockd.items;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public interface CustomItem {
-    Material getMaterial();
+public abstract class CustomItem {
+    public abstract Material getMaterial();
 
-    int getCount();
+    public abstract int getCount();
 
-    ItemMeta generateMeta(ItemMeta empty);
+    public abstract ItemMeta generateMeta(ItemMeta empty);
 
-    String getRawName();
+    public abstract String getId();
 }

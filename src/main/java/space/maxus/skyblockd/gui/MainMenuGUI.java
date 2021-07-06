@@ -87,7 +87,7 @@ public class MainMenuGUI extends InventoryBase {
 
 
     @Override
-    public InventoryHolder getHolder(){
+    public InventoryHolder getHolder() {
         return p;
     }
 

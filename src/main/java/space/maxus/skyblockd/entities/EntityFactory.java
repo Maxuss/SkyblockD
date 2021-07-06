@@ -17,8 +17,9 @@ public class EntityFactory {
 
     /**
      * Generates a new entity on based params
+     *
      * @param entityType Type of entity to be created
-     * @param location Location for entity to be spawned
+     * @param location   Location for entity to be spawned
      * @return Generated entity
      */
     public static Entity generateNew(EntityType entityType, Location location) {
