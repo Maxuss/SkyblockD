@@ -43,8 +43,6 @@ public class SkyblockD extends JavaPlugin {
     private static final String fullLongName = pluginName + " " + longVersion;
     private static final String namespacedKey = pluginName.toLowerCase(Locale.ENGLISH);
 
-    public static final List<String> registeredEntries = new ArrayList<>();
-
     public static Logger logger;
     public static HashMap<String, Object> playerRanks;
 
