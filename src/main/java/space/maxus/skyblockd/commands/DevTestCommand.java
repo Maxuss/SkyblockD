@@ -4,11 +4,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
-import space.maxus.skyblockd.SkyblockD;
-import space.maxus.skyblockd.objects.HologramParams;
-import space.maxus.skyblockd.skyblock.DamageIndicator;
-import space.maxus.skyblockd.skyblock.SimpleHologram;
-import space.maxus.skyblockd.utils.Hologram;
+import space.maxus.skyblockd.skyblock.utility.DamageIndicator;
+import space.maxus.skyblockd.skyblock.utility.SimpleHologram;
 
 public class DevTestCommand implements ChatCommand {
     @Override

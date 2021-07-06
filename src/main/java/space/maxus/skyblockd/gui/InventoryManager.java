@@ -8,6 +8,10 @@ import space.maxus.skyblockd.utils.ManagerBase;
 import java.util.Arrays;
 import java.util.TreeMap;
 
+/**
+ * @deprecated - Should not be used because of difficulties with player related inventories
+ */
+@Deprecated
 public class InventoryManager extends ManagerBase<InventoryBase> {
     public TreeMap<String, Inventory> generated;
 

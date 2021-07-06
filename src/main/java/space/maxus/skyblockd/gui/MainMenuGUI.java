@@ -4,17 +4,22 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import space.maxus.skyblockd.helpers.GuiHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainMenuGUI extends InventoryBase {
 
     private Player p;
-    private int indx = 0;
+
+    public void setPlayer(Player player) {
+        p = player;
+    }
 
     @Override
     public String getName() {
@@ -32,9 +37,8 @@ public class MainMenuGUI extends InventoryBase {
         List<String> indev = new ArrayList<>();
         indev.add(ChatColor.RED + "In development!");
 
+        // menu glass
         ItemStack gls = GuiHelper.getMenuGlass();
-        fillWith(13, gls, base);
-
         // Profile
         ItemStack profile = GuiHelper.getPlayerHead(p);
         ItemMeta pm = profile.getItemMeta();
@@ -43,42 +47,35 @@ public class MainMenuGUI extends InventoryBase {
         pm.setLore(indev);
         profile.setItemMeta(GuiHelper.setHideAllFlags(pm));
         base.addItem(profile);
-        indx++;
-
-        fillWith(5, gls, base);
-
         // Skills
-        base.addItem(genSimpleMenuItem("Your Skills", Material.DIAMOND_SWORD, indev));
+        ItemStack skills = genSimpleMenuItem("Your Skills", Material.DIAMOND_SWORD, indev);
         // Collections
-        base.addItem(genSimpleMenuItem("Collections", Material.PAINTING, indev));
+        ItemStack coll = genSimpleMenuItem("Collections", Material.PAINTING, indev);
         // Recipes
-        base.addItem(genSimpleMenuItem("Recipe Book", Material.BOOK, indev));
+        ItemStack recipes = genSimpleMenuItem("Recipe Book", Material.BOOK, indev);
         // Trades
-        base.addItem(genSimpleMenuItem("Trades", Material.EMERALD, indev));
+        ItemStack trades = genSimpleMenuItem("Trades", Material.EMERALD, indev);
         // Events + calendar
-        base.addItem(genSimpleMenuItem("Upcoming Events", Material.CLOCK, indev));
+        ItemStack eve = genSimpleMenuItem("Upcoming Events", Material.CLOCK, indev);
         // EC
-        base.addItem(genSimpleMenuItem("Ender Chest", Material.ENDER_CHEST, indev));
-
-        indx += 6;
-
-        fillWith(5, gls, base);
-
+        ItemStack ec = genSimpleMenuItem("Ender Chest", Material.ENDER_CHEST, indev);
         // Crafts
-        base.addItem(genSimpleMenuItem("Crafting Table", Material.CRAFTING_TABLE, indev));
-
-        indx++;
-
-        fillWith(17, gls, base);
-
+        ItemStack craft = genSimpleMenuItem("Crafting Table", Material.CRAFTING_TABLE, indev);
         // Plugin settings
-        base.addItem(genSimpleMenuItem("Settings", Material.NAME_TAG, indev));
+        ItemStack settings = genSimpleMenuItem("Settings", Material.NAME_TAG, indev);
         // Exit GUI
-        base.addItem(genSimpleMenuItem("Close", Material.NAME_TAG, indev));
+        ItemStack close = genSimpleMenuItem("Close", Material.NAME_TAG, indev);
 
-        indx += 2;
+        ItemStack[] items = {
+                gls, gls, gls, gls, gls, gls, gls, gls, gls,
+                gls, gls, gls, gls, profile, gls, gls, gls, gls,
+                gls, gls, gls, skills, coll, recipes, gls, gls, gls,
+                gls, gls, gls, trades, eve, ec, gls, gls, gls,
+                gls, gls, gls, gls, craft, gls, gls, gls, gls,
+                settings, gls, gls, gls, gls, gls, gls, gls, close
+        };
 
-        fillWith(4, gls, base);
+        base.setContents(items);
 
         return base;
     }
@@ -88,8 +85,10 @@ public class MainMenuGUI extends InventoryBase {
         return "sbd.menus.main";
     }
 
-    public void setPlayer(Player player) {
-        p = player;
+
+    @Override
+    public InventoryHolder getHolder(){
+        return p;
     }
 
     private ItemStack genSimpleMenuItem(String name, Material material, List<String> lore) {
@@ -100,13 +99,5 @@ public class MainMenuGUI extends InventoryBase {
         sm.setLore(lore);
         i.setItemMeta(GuiHelper.setHideAllFlags(sm));
         return i;
-    }
-
-    private Inventory fillWith(int times, ItemStack fillable, Inventory inv) {
-        for (int i = 0; i < times; i++) {
-            inv.setItem(indx, fillable);
-            indx++;
-        }
-        return inv;
     }
 }

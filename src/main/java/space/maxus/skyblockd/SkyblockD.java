@@ -3,15 +3,12 @@ package space.maxus.skyblockd;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import space.maxus.skyblockd.commands.*;
 import space.maxus.skyblockd.events.*;
-import space.maxus.skyblockd.gui.InventoryManager;
-import space.maxus.skyblockd.gui.MainMenuGUI;
-import space.maxus.skyblockd.gui.TestGUI;
+import space.maxus.skyblockd.skyblock.items.SkyblockMenuItem;
 import space.maxus.skyblockd.utils.Config;
 import space.maxus.skyblockd.utils.Constants;
 import space.maxus.skyblockd.helpers.JsonHelper;
@@ -22,6 +19,7 @@ import space.maxus.skyblockd.items.TestItem;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
@@ -29,9 +27,7 @@ public class SkyblockD extends JavaPlugin {
 
     private static SkyblockD instance;
     private static CommandManager commandManager;
-    private static InventoryManager inventoryManager;
     private static ItemManager itemManager;
-    private static TreeMap<String, Inventory> guis;
     private static HashMap<String, Object> rankGroups;
     private static TreeMap<String, ItemStack> citems;
     private static PluginManager pluginManager;
@@ -45,6 +41,7 @@ public class SkyblockD extends JavaPlugin {
     private static final String pluginName = "SkyblockD";
     private static final String fullShortName = pluginName+" "+shortVersion;
     private static final String fullLongName = pluginName+" "+longVersion;
+    private static final String namespacedKey = pluginName.toLowerCase(Locale.ENGLISH);
 
 
     public static Logger logger;
@@ -55,12 +52,6 @@ public class SkyblockD extends JavaPlugin {
     }
     public static CommandManager getCommandManager() {
         return commandManager;
-    }
-    public static InventoryManager getInventoryManager() {
-        return inventoryManager;
-    }
-    public static TreeMap<String, Inventory> getInventories() {
-        return guis;
     }
     public static HashMap<String, Object> getRankGroups() {
         return rankGroups;
@@ -96,20 +87,21 @@ public class SkyblockD extends JavaPlugin {
         return consts;
     }
 
+
     public static String getShortVersion() {return shortVersion;}
     public static String getLongVersion() {return longVersion;}
     public static String getVersionName() {return versionName;}
     public static String getPluginName() {return pluginName;}
     public static String getFullShortName() {return fullShortName;}
     public static String getFullLongName() {return fullLongName;}
-
+    public static String getNamespace() {return namespacedKey+":";}
+    public static String getNamespace(String name) {return namespacedKey+":"+name.toUpperCase(Locale.ENGLISH);}
 
     @Override
     public void onEnable() {
         // instantiate main stuff
         instance = this;
         commandManager = new CommandManager();
-        inventoryManager = new InventoryManager();
         itemManager = new ItemManager();
         pluginManager = getHost().getPluginManager();
         config = new Config(this, "config.yml");
@@ -144,18 +136,11 @@ public class SkyblockD extends JavaPlugin {
         commandManager.addContain(new SkyblockMenuCommand());
         commandManager.register();
 
-        // register inventories
-        if (config.inDevMode()) {
-            inventoryManager.addContain(new TestGUI());
-        }
-        inventoryManager.addContain(new MainMenuGUI());
-        inventoryManager.register();
-        guis = inventoryManager.generated;
-
         // register items
         if (config.inDevMode()) {
             itemManager.addContain(new TestItem());
         }
+        itemManager.addContain(new SkyblockMenuItem());
         itemManager.register();
         citems = itemManager.generated;
 
@@ -181,8 +166,7 @@ public class SkyblockD extends JavaPlugin {
         pluginManager.registerEvents(new InventoryListener(), this);
         pluginManager.registerEvents(new LoginListener(), this);
         pluginManager.registerEvents(new DamageListener(), this);
-        if(getCfg().customMotdEnabled())
-            pluginManager.registerEvents(new PingListener(), this);
+        pluginManager.registerEvents(new ActionListener(), this);
 
         // send success message and log
         getSender().sendMessage(ChatColor.BOLD + "[" + ChatColor.GOLD + "SkyblockD" + ChatColor.RESET + "" + ChatColor.BOLD + "]" + ChatColor.RESET + " Plugin initialized!");
@@ -199,7 +183,6 @@ public class SkyblockD extends JavaPlugin {
         instance = null;
         commandManager = null;
         pluginManager = null;
-        inventoryManager = null;
         itemManager = null;
         logger = null;
         config = null;

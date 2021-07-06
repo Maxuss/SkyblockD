@@ -1,9 +1,12 @@
 package space.maxus.skyblockd.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.gui.MainMenuGUI;
 
 public class SkyblockMenuCommand implements ChatCommand {
 
@@ -20,7 +23,11 @@ public class SkyblockMenuCommand implements ChatCommand {
                 return true;
             }
             Player p = (Player) sender;
-            p.openInventory(SkyblockD.getInventories().get("sbd.menus.main"));
+            MainMenuGUI m = new MainMenuGUI();
+            Inventory inv = Bukkit.createInventory(p, m.getSize(), m.getName());
+            m.generateContains(inv);
+            p.openInventory(inv);
+            p.updateInventory();
             return true;
         });
     }

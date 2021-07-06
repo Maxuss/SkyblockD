@@ -1,4 +1,4 @@
-package space.maxus.skyblockd.skyblock;
+package space.maxus.skyblockd.skyblock.utility;
 
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;

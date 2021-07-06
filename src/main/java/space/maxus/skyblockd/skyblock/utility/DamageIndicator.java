@@ -1,4 +1,4 @@
-package space.maxus.skyblockd.skyblock;
+package space.maxus.skyblockd.skyblock.utility;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -7,7 +7,6 @@ import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.objects.HologramParams;
 import space.maxus.skyblockd.utils.Hologram;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class DamageIndicator extends Hologram {

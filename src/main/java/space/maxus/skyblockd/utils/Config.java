@@ -33,8 +33,4 @@ public class Config extends ConfigurationFile {
     public boolean inDevMode() {
         return getBool("skyblockd.commands.devmode");
     }
-
-    public boolean customMotdEnabled() {return getBool("skyblockd.motd.enabled");}
-
-    public List<String> customMotdElements() {return getStrList("skyblockd.motd.extraMessages");}
 }
