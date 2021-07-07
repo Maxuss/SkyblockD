@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.skyblock.objects;
 
 import org.bukkit.ChatColor;
+import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class SkyblockItemAbility {
         f.addAll(getDescription());
         if(getManaCost() <= 0) f.add(ChatColor.DARK_GRAY+"Mana cost: "+ChatColor.AQUA+getManaCost());
         if(getCooldown() <= 0) f.add(ChatColor.DARK_GRAY+"Cooldown: "+ChatColor.GREEN+getCooldown());
-        if(getSoulflowCost() <= 0) f.add(ChatColor.DARK_GRAY+"Soulflow cost: "+ChatColor.DARK_AQUA+getSoulflowCost());
+        if(getSoulflowCost() <= 0) f.add(ChatColor.DARK_GRAY+"Soulflow cost: "+ChatColor.DARK_AQUA+getSoulflowCost()+ SkyblockConstants.OVERFLOW);
         f.add("");
         return f;
     }

@@ -18,12 +18,15 @@ public enum SkyblockItemType {
     BREWING_INGREDIENT("BREWING INGREDIENT", false, true),
     COSMETIC("COSMETIC", false, true),
     PET_ITEM("PET ITEM", false, true)
-
     ;
 
-    public String display;
-    public boolean isReforgeable;
-    public boolean isConsumable;
+    private final String display;
+    private final boolean isReforgeable;
+    private final boolean isConsumable;
+
+    public String getDisplay() {return display;}
+    public boolean isReforgeable() {return isReforgeable;}
+    public boolean isConsumable() {return isConsumable;}
 
     SkyblockItemType(String display, boolean isReforgeable, boolean isConsumable){
         this.display = display;

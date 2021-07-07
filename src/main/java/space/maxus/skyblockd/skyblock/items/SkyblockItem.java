@@ -1,5 +1,6 @@
 package space.maxus.skyblockd.skyblock.items;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -49,6 +50,12 @@ public abstract class SkyblockItem extends CustomItem {
         m.setDisplayName(name);
         List<String> lore = new ArrayList<>();
 
+        if(cfg.getType().isConsumable()) lore.add(ChatColor.DARK_GRAY+"Consumed on use");
 
+
+
+        if(!(cfg.getAbilities() == null)){
+            // todo finish
+        }
     }
 }
