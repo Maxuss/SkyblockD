@@ -31,13 +31,13 @@ public class SkyblockItemAbility {
         description = descr;
     }
 
-    List<String> generate(){
+    public List<String> generate(){
         List<String> f = new ArrayList<>();
         f.add(getType().shown.replace("%NAME%", getName()));
         f.addAll(getDescription());
-        if(getManaCost() <= 0) f.add(ChatColor.DARK_GRAY+"Mana cost: "+ChatColor.AQUA+getManaCost());
-        if(getCooldown() <= 0) f.add(ChatColor.DARK_GRAY+"Cooldown: "+ChatColor.GREEN+getCooldown());
-        if(getSoulflowCost() <= 0) f.add(ChatColor.DARK_GRAY+"Soulflow cost: "+ChatColor.DARK_AQUA+getSoulflowCost()+ SkyblockConstants.OVERFLOW);
+        if(getManaCost() > 0) f.add(ChatColor.DARK_GRAY+"Mana cost: "+ChatColor.AQUA+getManaCost());
+        if(getCooldown() > 0) f.add(ChatColor.DARK_GRAY+"Cooldown: "+ChatColor.GREEN+getCooldown());
+        if(getSoulflowCost() > 0) f.add(ChatColor.DARK_GRAY+"Soulflow cost: "+ChatColor.DARK_AQUA+getSoulflowCost()+ SkyblockConstants.OVERFLOW);
         f.add("");
         return f;
     }

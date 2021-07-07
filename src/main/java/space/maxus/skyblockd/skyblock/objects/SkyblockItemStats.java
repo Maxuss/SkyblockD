@@ -1,5 +1,8 @@
 package space.maxus.skyblockd.skyblock.objects;
 
+import org.bukkit.ChatColor;
+import space.maxus.skyblockd.skyblock.utility.StatPosition;
+
 public class SkyblockItemStats {
     private int damage = 0;
     private int strength = 0;
@@ -15,6 +18,7 @@ public class SkyblockItemStats {
     private int magicFind = 0;
     private int petLuck = 0;
     private int ferocity = 0;
+    private int soulflow = 0;
 
     public SkyblockItemStats setDamage(int damage) {
         this.damage = damage;
@@ -86,62 +90,79 @@ public class SkyblockItemStats {
         return this;
     }
 
+    public SkyblockItemStats setSoulflow(int soulflow){
+        this.soulflow = soulflow;
+        return this;
+    }
+
     ///
 
+    private static final ChatColor r = ChatColor.RED;
+    private static final ChatColor g = ChatColor.GREEN;
+    private static final ChatColor b = ChatColor.DARK_AQUA;
 
-    public int getCritChance() {
-        return critChance;
+    @StatPosition(0)
+    public String getDamage() {
+        return proccessStat("Damage", damage, r, false);
+    }
+    @StatPosition(1)
+    public String getStrength() {
+        return proccessStat("Strength", strength, r, false);
+    }
+    @StatPosition(2)
+    public String getAttackSpeed() {
+        return proccessStat("Bonus Attack Speed", attackSpeed, r, false);
+    }
+    @StatPosition(3)
+    public String getCritChance() {
+        return proccessStat("Crit Chance", critChance, r, true);
+    }
+    @StatPosition(4)
+    public String getCritDamage() {
+        return proccessStat("Crit Damage", critDamage, r, true);
+    }
+    @StatPosition(5)
+    public String getSeaCreatureChance() {
+        return proccessStat("Sea Creature Chance", seaCreatureChance, r, true);
     }
 
-    public int getDamage() {
-        return damage;
-    }
+    @StatPosition(6)
+    public String getReflectEmpty() { return " "; }
 
-    public int getDefense() {
-        return defense;
+    @StatPosition(7)
+    public String getHealth() {
+        return proccessStat("Health", health, g, false);
     }
-
-    public int getHealth() {
-        return health;
+    @StatPosition(8)
+    public String getDefense() {
+        return proccessStat("Defense", defense, g, false);
     }
-
-    public int getIntelligence() {
-        return intelligence;
+    @StatPosition(9)
+    public String getSpeed() {
+        return proccessStat("Speed", speed, g, false);
     }
-
-    public int getCritDamage() {
-        return critDamage;
+    @StatPosition(10)
+    public String getIntelligence() { return proccessStat("Intelligence", intelligence, g, false); }
+    @StatPosition(11)
+    public String getMagicFind() {
+        return proccessStat("Magic Find", magicFind, g, false);
     }
-
-    public int getStrength() {
-        return strength;
+    @StatPosition(12)
+    public String getPetLuck() {
+        return proccessStat("Pet Luck", petLuck, g, false);
     }
-
-    public int getAttackSpeed() {
-        return attackSpeed;
+    @StatPosition(13)
+    public String getTrueDefense() {
+        return proccessStat("True Defense", trueDefense, g, false);
     }
-
-    public int getFerocity() {
-        return ferocity;
+    @StatPosition(14)
+    public String getFerocity() {
+        return proccessStat("Ferocity", ferocity, g, false);
     }
+    @StatPosition(15)
+    public String getSoulflow() { return proccessStat("Soulflow", soulflow, b, false); }
 
-    public int getMagicFind() {
-        return magicFind;
-    }
-
-    public int getPetLuck() {
-        return petLuck;
-    }
-
-    public int getSeaCreatureChance() {
-        return seaCreatureChance;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public int getTrueDefense() {
-        return trueDefense;
+    private String proccessStat(String name, int amount, ChatColor color, boolean percented){
+        return amount != 0 ? ChatColor.GRAY + name + ": " + color +(amount < 0 ? amount : "+"+amount) + (percented ? "%" : ""): "";
     }
 }

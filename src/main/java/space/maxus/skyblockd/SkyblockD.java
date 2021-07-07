@@ -1,9 +1,11 @@
 package space.maxus.skyblockd;
 
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,13 +15,19 @@ import space.maxus.skyblockd.helpers.JsonHelper;
 import space.maxus.skyblockd.helpers.RankHelper;
 import space.maxus.skyblockd.items.ItemManager;
 import space.maxus.skyblockd.items.TestItem;
+import space.maxus.skyblockd.skyblock.items.SkyblockItemRegisterer;
 import space.maxus.skyblockd.skyblock.items.SkyblockMenuItem;
 import space.maxus.skyblockd.utils.Config;
 import space.maxus.skyblockd.utils.Constants;
+import space.maxus.skyblockd.utils.ItemGlint;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 public class SkyblockD extends JavaPlugin {
@@ -32,6 +40,7 @@ public class SkyblockD extends JavaPlugin {
     private static PluginManager pluginManager;
     private static Config config;
     private static Constants consts;
+    private static SkyblockItemRegisterer itemRegisterer;
 
 
     // version and stuff here:
@@ -49,83 +58,65 @@ public class SkyblockD extends JavaPlugin {
     public static SkyblockD getInstance() {
         return instance;
     }
-
     public static CommandManager getCommandManager() {
         return commandManager;
     }
-
     public static HashMap<String, Object> getRankGroups() {
         return rankGroups;
     }
-
     public static Server getHost() {
         return instance.getServer();
     }
-
     public static ConsoleCommandSender getSender() {
         return getHost().getConsoleSender();
     }
-
     public static String getServerName() {
         return getHost().getName();
     }
-
     public static String getServerIp() {
         return getHost().getIp();
     }
-
     public static PluginManager getPluginManager() {
         return pluginManager;
     }
-
     public static ItemManager getItemManager() {
         return itemManager;
     }
-
     public static TreeMap<String, ItemStack> getCustomItems() {
         return citems;
     }
-
     public static Config getCfg() {
         return config;
     }
-
     public static String getCurrentDir() {
         return System.getProperty("user.dir");
     }
-
     public static Constants getConsts() {
         return consts;
     }
-
     public static World getWorld() {
         return getHost().getWorlds().get(0);
     }
+    public static SkyblockItemRegisterer getItemRegisterer() { return itemRegisterer; }
 
     public static String getShortVersion() {
         return shortVersion;
     }
-
     public static String getLongVersion() {
         return longVersion;
     }
-
     public static String getVersionName() {
         return versionName;
     }
-
     public static String getPluginName() {
         return pluginName;
     }
-
     public static String getFullShortName() {
         return fullShortName;
     }
-
     public static String getFullLongName() {
         return fullLongName;
     }
-
     public static String getNamespace() {
         return namespacedKey + ":";
     }
@@ -188,8 +179,28 @@ public class SkyblockD extends JavaPlugin {
         pluginManager.registerEvents(new LoginListener(), this);
         pluginManager.registerEvents(new DamageListener(), this);
         pluginManager.registerEvents(new ActionListener(), this);
+
+        itemRegisterer = new SkyblockItemRegisterer();
     }
 
+    public void registerEnchantments() {
+        try {
+            Field f = Enchantment.class.getDeclaredField("acceptingNew");
+            f.setAccessible(true);
+            f.set(null, true);
+        }
+        catch (Exception e) {
+            logger.severe("Could not register item glint enchantment! " + Arrays.toString(e.getStackTrace()));
+        }
+        try {
+            NamespacedKey key = new NamespacedKey(this, getDescription().getName());
+
+            ItemGlint glow = new ItemGlint(key);
+            Enchantment.registerEnchantment(glow);
+        } catch (Exception e){
+            logger.severe("Could not register item glint enchantment! " + Arrays.toString(e.getStackTrace()));
+        }
+    }
 
     @Override
     public void onEnable() {
@@ -219,6 +230,8 @@ public class SkyblockD extends JavaPlugin {
                 RankHelper.updateRanks();
             }
         }
+
+        registerEnchantments();
 
         // send success message and log
         getSender().sendMessage(ChatColor.BOLD + "[" + ChatColor.GOLD + "SkyblockD" + ChatColor.RESET + "" + ChatColor.BOLD + "]" + ChatColor.RESET + " Plugin initialized!");
