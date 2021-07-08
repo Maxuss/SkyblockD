@@ -52,6 +52,8 @@ public abstract class SkyblockItem implements SkyblockFeature {
         Set<Method> getters = ReflectionUtils.getAllMethods(stats.getClass(),
                 ReflectionUtils.withModifier(Modifier.PUBLIC), ReflectionUtils.withPrefix("get"));
 
+
+
         HashMap<Integer, Method> d = new HashMap<>();
 
         getters.forEach((get) -> {
@@ -92,6 +94,9 @@ public abstract class SkyblockItem implements SkyblockFeature {
         GuiHelper.setHideAllFlags(m);
 
         if(hasGlint()) ItemHelper.applyGlint(m);
+
+        // add nbt
+        addSkyblockTag(m);
 
         item.setItemMeta(m);
 

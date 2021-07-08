@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -13,7 +12,8 @@ import space.maxus.skyblockd.gui.MainMenuGUI;
 
 import java.util.Objects;
 
-public class ActionListener implements Listener {
+public class ActionListener extends BetterListener {
+
     @EventHandler
     public void onAction(PlayerInteractEvent e) {
         Action a = e.getAction();

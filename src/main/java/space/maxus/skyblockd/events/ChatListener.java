@@ -9,7 +9,7 @@ import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.RankHelper;
 import space.maxus.skyblockd.objects.RankContainer;
 
-public class ChatListener implements Listener {
+public class ChatListener extends BetterListener {
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e) {

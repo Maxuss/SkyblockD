@@ -15,8 +15,9 @@ import space.maxus.skyblockd.helpers.JsonHelper;
 import space.maxus.skyblockd.helpers.RankHelper;
 import space.maxus.skyblockd.items.ItemManager;
 import space.maxus.skyblockd.items.TestItem;
-import space.maxus.skyblockd.skyblock.items.SkyblockItemRegisterer;
-import space.maxus.skyblockd.skyblock.items.SkyblockMenuItem;
+import space.maxus.skyblockd.skyblock.events.handlers.SkyblockClickListener;
+import space.maxus.skyblockd.skyblock.items.created.SkyblockItemRegisterer;
+import space.maxus.skyblockd.skyblock.items.created.SkyblockMenuItem;
 import space.maxus.skyblockd.utils.Config;
 import space.maxus.skyblockd.utils.Constants;
 import space.maxus.skyblockd.utils.ItemGlint;
@@ -124,6 +125,7 @@ public class SkyblockD extends JavaPlugin {
     public static String getNamespace(String name) {
         return namespacedKey + ":" + name.toUpperCase(Locale.ENGLISH);
     }
+    public static NamespacedKey getKey(String name) { return new NamespacedKey(SkyblockD.getInstance(), name); }
 
     private void initialize() {
         instance = this;
@@ -173,14 +175,19 @@ public class SkyblockD extends JavaPlugin {
         itemManager.register();
         citems = itemManager.generated;
 
-        // register events
-        pluginManager.registerEvents(new ChatListener(), this);
-        pluginManager.registerEvents(new InventoryListener(), this);
-        pluginManager.registerEvents(new LoginListener(), this);
-        pluginManager.registerEvents(new DamageListener(), this);
-        pluginManager.registerEvents(new ActionListener(), this);
-
         itemRegisterer = new SkyblockItemRegisterer();
+    }
+
+    public void registerEvents(){
+        // normal events
+        new ChatListener();
+        new InventoryListener();
+        new LoginListener();
+        new DamageListener();
+        new ActionListener();
+        new ClickListener();
+        // skyblock related events
+        new SkyblockClickListener();
     }
 
     public void registerEnchantments() {
@@ -212,6 +219,8 @@ public class SkyblockD extends JavaPlugin {
 
         ///
         configureManagers();
+
+        registerEvents();
 
         // initialize rank groups
         if (config.ranksEnabled()) {

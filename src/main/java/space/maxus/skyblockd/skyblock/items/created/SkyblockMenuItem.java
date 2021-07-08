@@ -1,4 +1,4 @@
-package space.maxus.skyblockd.skyblock.items;
+package space.maxus.skyblockd.skyblock.items.created;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -7,11 +7,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
 import space.maxus.skyblockd.items.CustomItem;
+import space.maxus.skyblockd.skyblock.utility.SkyblockFeature;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class SkyblockMenuItem extends CustomItem {
+public class SkyblockMenuItem extends CustomItem implements SkyblockFeature {
 
     @Override
     public Material getMaterial() {
@@ -32,11 +33,17 @@ public class SkyblockMenuItem extends CustomItem {
         m.setLore(lore);
         GuiHelper.setHideAllFlags(m);
         m.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
+        addSkyblockTag(m);
         return m;
     }
 
     @Override
     public String getId() {
         return SkyblockD.getNamespace("skyblock_menu");
+    }
+
+    @Override
+    public String getSkyblockId() {
+        return getId();
     }
 }

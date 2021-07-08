@@ -4,7 +4,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import space.maxus.skyblockd.SkyblockD;
-import space.maxus.skyblockd.skyblock.items.TestSkyblockItem;
+import space.maxus.skyblockd.skyblock.items.created.TestSkyblockItem;
 
 public class DevTestCommand implements ChatCommand {
     @Override

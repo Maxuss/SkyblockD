@@ -1,13 +1,14 @@
-package space.maxus.skyblockd.skyblock.items;
+package space.maxus.skyblockd.skyblock.items.created;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.skyblock.items.SkyblockItem;
 import space.maxus.skyblockd.skyblock.objects.*;
 
 import java.util.Collections;
 
-public class TestSkyblockItem extends SkyblockItem{
+public class TestSkyblockItem extends SkyblockItem {
     @Override
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
