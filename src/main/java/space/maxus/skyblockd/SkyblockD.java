@@ -16,7 +16,7 @@ import space.maxus.skyblockd.helpers.RankHelper;
 import space.maxus.skyblockd.items.ItemManager;
 import space.maxus.skyblockd.items.TestItem;
 import space.maxus.skyblockd.skyblock.events.handlers.SkyblockClickListener;
-import space.maxus.skyblockd.skyblock.items.created.SkyblockItemRegisterer;
+import space.maxus.skyblockd.skyblock.items.SkyblockItemRegisterer;
 import space.maxus.skyblockd.skyblock.items.created.SkyblockMenuItem;
 import space.maxus.skyblockd.utils.Config;
 import space.maxus.skyblockd.utils.Constants;
@@ -188,6 +188,7 @@ public class SkyblockD extends JavaPlugin {
         new ClickListener();
         // skyblock related events
         new SkyblockClickListener();
+        new PickupListener();
     }
 
     public void registerEnchantments() {
