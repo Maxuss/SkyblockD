@@ -70,7 +70,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
                         + name + ChatColor.RESET + " " + ChatColor.GREEN + (int) e.getHealth() + ChatColor.WHITE
                         + "/" + ChatColor.GREEN +
                         (int) Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue()
-                        + ChatColor.RED + " " + SkyblockConstants.HEALTH
+                        + ChatColor.RED + "" + SkyblockConstants.HEALTH
         );
         e.getPersistentDataContainer().set(SkyblockD.getKey("entityLevel"), PersistentDataType.INTEGER, lvl);
         e.getPersistentDataContainer().set(SkyblockD.getKey("entityName"), PersistentDataType.STRING, name);
