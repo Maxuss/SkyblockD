@@ -5,7 +5,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.gui.MainMenuGUI;
 
 public class SkyblockMenuCommand implements ChatCommand {

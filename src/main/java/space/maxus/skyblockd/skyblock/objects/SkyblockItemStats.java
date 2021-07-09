@@ -20,6 +20,10 @@ public class SkyblockItemStats {
     private int ferocity = 0;
     private int soulflow = 0;
 
+    private static final ChatColor r = ChatColor.RED;
+    private static final ChatColor g = ChatColor.GREEN;
+    private static final ChatColor b = ChatColor.DARK_AQUA;
+
     public SkyblockItemStats setDamage(int damage) {
         this.damage = damage;
         return this;
@@ -96,10 +100,6 @@ public class SkyblockItemStats {
     }
 
     ///
-
-    private static final ChatColor r = ChatColor.RED;
-    private static final ChatColor g = ChatColor.GREEN;
-    private static final ChatColor b = ChatColor.DARK_AQUA;
 
     @StatPosition(0)
     public String getDamage() {

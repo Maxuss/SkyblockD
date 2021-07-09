@@ -1,6 +1,5 @@
 package space.maxus.skyblockd.utils;
 
-import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import space.maxus.skyblockd.objects.HologramParams;

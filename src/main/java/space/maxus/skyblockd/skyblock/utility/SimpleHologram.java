@@ -18,6 +18,7 @@ public class SimpleHologram extends Hologram {
 
     @Override
     public void postInit(HologramParams in, ArmorStand holo) {
+        // does nothing
 
     }
 }

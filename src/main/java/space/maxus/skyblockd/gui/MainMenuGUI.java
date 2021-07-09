@@ -10,7 +10,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import space.maxus.skyblockd.helpers.GuiHelper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainMenuGUI extends InventoryBase {
