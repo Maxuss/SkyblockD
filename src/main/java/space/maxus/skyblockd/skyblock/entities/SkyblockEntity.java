@@ -43,7 +43,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
         // set display name
         e.setCustomNameVisible(true);
         e.setCustomName(
-                ChatColor.GRAY + "[" + ChatColor.DARK_GRAY + getLevel() + ChatColor.GRAY + "]" + " "
+                ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + getLevel() + ChatColor.DARK_GRAY + "]" + " "
                 + getName() + ChatColor.RESET + " " + ChatColor.GREEN + getHealth() + ChatColor.WHITE
                 + "/" + ChatColor.GREEN + (int) getHealth() + ChatColor.RED + " " + SkyblockConstants.HEALTH
         );
@@ -62,7 +62,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
             name = ChatColor.RED + capitalize(e.getType().toString().toLowerCase(Locale.ENGLISH).replace("_", " "));
         } else name = e.getCustomName();
 
-        int lvl = (int) (e.getHealth() / 2.1);
+        int lvl = (int) (e.getHealth() / 2);
 
         e.setCustomNameVisible(true);
         e.setCustomName(
