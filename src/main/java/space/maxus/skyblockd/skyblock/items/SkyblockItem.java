@@ -2,8 +2,11 @@ package space.maxus.skyblockd.skyblock.items;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.reflections.ReflectionUtils;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
@@ -97,6 +100,7 @@ public abstract class SkyblockItem implements SkyblockFeature {
 
         // add nbt
         addSkyblockTag(m);
+        m.getPersistentDataContainer().set(SkyblockD.getKey("itemRarity"), PersistentDataType.INTEGER, rar.getIndex());
 
         item.setItemMeta(m);
 
@@ -105,6 +109,31 @@ public abstract class SkyblockItem implements SkyblockFeature {
 
         SkyblockD.getItemRegisterer().register(this);
 
+        return item;
+    }
+
+    public static ItemStack recombobulate(ItemStack item){
+        ItemMeta m = item.getItemMeta();
+        assert m != null;
+        PersistentDataContainer c = m.getPersistentDataContainer();
+        NamespacedKey rKey = SkyblockD.getKey("itemRarity");
+        if(c.has(SkyblockD.getKey("recombobulated"), PersistentDataType.STRING)) return item;
+        if(c.has(rKey, PersistentDataType.INTEGER)){
+            Integer rarity = c.get(rKey, PersistentDataType.INTEGER);
+            assert rarity != null;
+            SkyblockRarity r = SkyblockRarity.byIndex(rarity+1);
+            String sname = ChatColor.stripColor(m.getDisplayName());
+            String name = ChatColor.RESET+""+r.displayColor+sname;
+            String rdisp = r.displayColor+""+ChatColor.BOLD+""+ChatColor.MAGIC+"a "+ChatColor.RESET+r.displayName+ChatColor.BOLD+""+ChatColor.MAGIC+" a";
+            List<String> lore = m.getLore();
+            if (lore != null) {
+                lore.set(lore.size()-1, rdisp);
+            }
+            m.setLore(lore);
+            m.setDisplayName(name);
+            c.set(SkyblockD.getKey("recombobulated"), PersistentDataType.STRING, "true");
+            item.setItemMeta(m);
+        }
         return item;
     }
 }

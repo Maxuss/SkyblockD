@@ -6,6 +6,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.persistence.PersistentDataType;
+import space.maxus.skyblockd.SkyblockD;
 
 public class GuiHelper {
     public static ItemStack getMenuGlass() {
@@ -14,6 +16,7 @@ public class GuiHelper {
         assert m != null;
         setHideAllFlags(m);
         m.setDisplayName(" ");
+        m.getPersistentDataContainer().set(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING, "true");
         s.setItemMeta(m);
         return s;
     }

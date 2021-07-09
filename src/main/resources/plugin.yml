@@ -47,6 +47,12 @@ commands:
     usage: /<command>
     permission: skyblockd.default
     permission-message: §6You don't have sufficient permission! Requires <permission>
+  recombobulate:
+    description: Upgrades rarity of item you are currently holding
+    usage: /<command>
+    permission: skyblockd.admin
+    permission-message: §6You don't have sufficient permission! Requires <permission>
+    aliases: [recomb, rec]
 permissions:
   skyblockd.default:
     description: Allows you basic command access

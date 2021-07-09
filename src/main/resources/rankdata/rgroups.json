@@ -6,9 +6,9 @@
   "server.jrhelper": "&9[JR.HELPER]",
 
   "rank.mvp.pp": "&6[MVP§c++&6]",
-  "rank.mvp.p": "&b[MVP&c+&B]",
+  "rank.mvp.p": "&b[MVP&c+&b]",
   "rank.mvp": "&b[MVP]",
-  "rank.vip.p": "&A[VIP&6+&A]",
-  "rank.vip": "&A[VIP]",
+  "rank.vip.p": "&a[VIP&6+&a]",
+  "rank.vip": "&a[VIP]",
   "rank.none": "&7"
 }

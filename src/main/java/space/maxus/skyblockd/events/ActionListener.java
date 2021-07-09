@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import space.maxus.skyblockd.gui.MainMenuGUI;
+import space.maxus.skyblockd.gui.RecombobulatorInventory;
 
 import java.util.Objects;
 
@@ -26,6 +27,13 @@ public class ActionListener extends BetterListener {
                 Inventory inv = Bukkit.createInventory(p, gui.getSize(), gui.getName());
                 gui.generateContains(inv);
                 p.openInventory(inv);
+                p.updateInventory();
+            } else if(name.equalsIgnoreCase(ChatColor.GOLD+"Recombobulator 5000")){
+                RecombobulatorInventory in = new RecombobulatorInventory();
+                Inventory tr = Bukkit.createInventory(in.getHolder(p), in.getSize(), in.getName());
+                in.generateContains(tr);
+                p.openInventory(tr);
+                p.getInventory().remove(i);
                 p.updateInventory();
             }
         }

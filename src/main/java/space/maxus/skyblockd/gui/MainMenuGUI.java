@@ -86,8 +86,8 @@ public class MainMenuGUI extends InventoryBase {
 
 
     @Override
-    public InventoryHolder getHolder() {
-        return p;
+    public InventoryHolder getHolder(Player pl) {
+        return pl;
     }
 
     private ItemStack genSimpleMenuItem(String name, Material material, List<String> lore) {

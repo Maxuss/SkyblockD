@@ -46,6 +46,7 @@ public abstract class CustomItem {
 
         NamespacedKey key = SkyblockD.getKey("skyblockNative");
         m.getPersistentDataContainer().set(key, PersistentDataType.STRING, "true");
+        m.getPersistentDataContainer().set(SkyblockD.getKey("itemRarity"), PersistentDataType.INTEGER, r.getIndex());
         i.setItemMeta(m);
     }
 

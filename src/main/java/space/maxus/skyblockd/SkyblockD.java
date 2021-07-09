@@ -165,6 +165,7 @@ public class SkyblockD extends JavaPlugin {
             commandManager.addContain(new ShoutCommand());
         }
         commandManager.addContain(new SkyblockMenuCommand());
+        commandManager.addContain(new RecombobulateCommand());
         commandManager.register();
 
         // register items
@@ -186,11 +187,13 @@ public class SkyblockD extends JavaPlugin {
         new DamageListener();
         new ActionListener();
         new ClickListener();
+
         // skyblock related events
         new SkyblockClickListener();
         new PickupListener();
         new EntityListener();
     }
+
 
     public void registerEnchantments() {
         try {
@@ -233,11 +236,9 @@ public class SkyblockD extends JavaPlugin {
             }
             try {
                 playerRanks = JsonHelper.mapJson(JsonHelper.readJsonFile(getCurrentDir() + "\\ranks.json"));
-                if (playerRanks.isEmpty()) playerRanks = new HashMap<>();
                 RankHelper.updateRanks();
             } catch (Exception e) {
                 logger.severe("Could not read rank groups!");
-                playerRanks = new HashMap<>();
                 RankHelper.updateRanks();
             }
         }

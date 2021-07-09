@@ -17,7 +17,9 @@ public enum SkyblockItemType {
     SHEARS("SHEARS", true, false),
     BREWING_INGREDIENT("BREWING INGREDIENT", false, true),
     COSMETIC("COSMETIC", false, true),
-    PET_ITEM("PET ITEM", false, true)
+    PET_ITEM("PET ITEM", false, true),
+    OTHER_CONSUMABLE("", false, true),
+    OTHER_NONCONSUMABLE("", false, false)
     ;
 
     private final String display;

@@ -1,5 +1,6 @@
 package space.maxus.skyblockd.gui;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
@@ -12,7 +13,7 @@ public abstract class InventoryBase {
 
     public abstract String getId();
 
-    public InventoryHolder getHolder() {
+    public InventoryHolder getHolder(Player p) {
         return null;
     }
 }
