@@ -25,6 +25,10 @@ public abstract class CustomItem {
 
     public static void toSkyblockItem(Item it) {
         ItemStack i = it.getItemStack();
+        toSkyblockItem(i);
+    }
+
+    public static void toSkyblockItem(ItemStack i){
         ItemMeta m = i.getItemMeta();
 
         assert m != null;

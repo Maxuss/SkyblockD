@@ -2,6 +2,7 @@ package space.maxus.skyblockd.skyblock.items.created;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockItem;
 import space.maxus.skyblockd.skyblock.objects.*;
@@ -34,5 +35,10 @@ public class TestSkyblockItem extends SkyblockItem {
     @Override
     public String getSkyblockId() {
         return SkyblockD.getNamespace("sb_item_test");
+    }
+
+    @Override
+    public ItemStack postInit(ItemStack i) {
+        return i;
     }
 }

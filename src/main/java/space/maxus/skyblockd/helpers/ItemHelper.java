@@ -1,7 +1,11 @@
 package space.maxus.skyblockd.helpers;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.meta.ItemMeta;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
@@ -125,5 +129,11 @@ public class ItemHelper {
 
             default: return SkyblockRarity.COMMON;
         }
+    }
+
+    public static Multimap<Attribute, AttributeModifier> generateAttributes(Attribute attribute, AttributeModifier modifier){
+        Multimap<Attribute, AttributeModifier> mm = ArrayListMultimap.create();
+        mm.put(attribute, modifier);
+        return mm;
     }
 }

@@ -22,7 +22,7 @@ public abstract class SkyblockItem implements SkyblockFeature {
     public abstract SkyblockItemConfig getConfig();
     public abstract boolean hasGlint();
     public abstract String getSkyblockId();
-
+    public abstract ItemStack postInit(ItemStack i);
     private ItemStack item;
 
     public ItemStack getItem() { return item; }
@@ -99,6 +99,9 @@ public abstract class SkyblockItem implements SkyblockFeature {
         addSkyblockTag(m);
 
         item.setItemMeta(m);
+
+        // finish the initialization by calling postInit
+        postInit(item);
 
         SkyblockD.getItemRegisterer().register(this);
 

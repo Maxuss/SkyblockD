@@ -189,6 +189,7 @@ public class SkyblockD extends JavaPlugin {
         // skyblock related events
         new SkyblockClickListener();
         new PickupListener();
+        new EntityListener();
     }
 
     public void registerEnchantments() {

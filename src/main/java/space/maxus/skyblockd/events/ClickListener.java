@@ -2,6 +2,7 @@ package space.maxus.skyblockd.events;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,7 +18,7 @@ public class ClickListener extends BetterListener {
             ItemMeta m = i.getItemMeta();
             assert m != null;
             boolean h = m.getPersistentDataContainer().has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING);
-            if(h) {
+            if(h && (e.getAction() == Action.RIGHT_CLICK_AIR)) {
                 SkyblockItemClickEvent event = new SkyblockItemClickEvent(e);
                 SkyblockD.getPluginManager().callEvent(event);
             }
