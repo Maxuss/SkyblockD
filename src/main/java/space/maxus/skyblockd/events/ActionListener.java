@@ -24,6 +24,7 @@ public class ActionListener extends BetterListener {
             String name = Objects.requireNonNull(i.getItemMeta()).getDisplayName();
             if (name.equalsIgnoreCase(ChatColor.YELLOW + "Skyblock Menu")) {
                 MainMenuGUI gui = new MainMenuGUI();
+                gui.setPlayer(p);
                 Inventory inv = Bukkit.createInventory(p, gui.getSize(), gui.getName());
                 gui.generateContains(inv);
                 p.openInventory(inv);

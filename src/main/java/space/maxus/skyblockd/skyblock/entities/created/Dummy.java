@@ -2,16 +2,14 @@ package space.maxus.skyblockd.skyblock.entities.created;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
-import org.bukkit.inventory.ItemStack;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 
-public class TestEntity extends SkyblockEntity {
+public class Dummy extends SkyblockEntity {
     @Override
     public Location getLocation(Player p) {
         return p.getLocation();
@@ -19,56 +17,52 @@ public class TestEntity extends SkyblockEntity {
 
     @Override
     public EntityEquipment getEquipment(EntityEquipment base) {
-        base.setHelmet(new ItemStack(Material.DIAMOND_HELMET));
-        base.setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
-        base.setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
-        base.setBoots(new ItemStack(Material.DIAMOND_BOOTS));
-        base.setItemInMainHand(new ItemStack(Material.DIAMOND_AXE));
-        base.setItemInOffHand(new ItemStack(Material.DIAMOND_AXE));
         return base;
     }
 
     @Override
     public EntityType getType() {
-        return EntityType.ZOMBIE;
+        return EntityType.IRON_GOLEM;
     }
 
     @Override
     public String getName() {
-        return ChatColor.RED+"Buffed Zombie";
+        return ChatColor.RED+"Training Dummy";
     }
 
     @Override
     public double getHealth() {
-        return 350;
+        return 1024;
     }
 
     @Override
     public double getDamage() {
-        return 5;
+        return 0;
     }
 
     @Override
     public double getDefense() {
-        return 3;
+        return 0;
     }
 
     @Override
     public int getLevel() {
-        return 120;
+        return 12345;
     }
 
     @Override
     public String getSkyblockId() {
-        return SkyblockD.getNamespace("test_entity");
+        return SkyblockD.getNamespace("training_dummy");
     }
 
     @Override
     public void postInit(LivingEntity entity, Player p) {
-        SkyblockD.getSender().sendMessage(ChatColor.GRAY+"Generated entity!");
+        entity.setAI(false);
+        entity.setInvulnerable(true);
+        p.sendMessage(ChatColor.GOLD+"Successfully generated training dummy!");
     }
 
-    public TestEntity(Player p) {
+    public Dummy(Player p){
         super.generate(p);
     }
 }

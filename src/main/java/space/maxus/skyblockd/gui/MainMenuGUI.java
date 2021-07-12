@@ -2,15 +2,22 @@ package space.maxus.skyblockd.gui;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import space.maxus.skyblockd.helpers.GuiHelper;
+import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+
+import static space.maxus.skyblockd.helpers.GuiHelper.genSimpleMenuItem;
 
 public class MainMenuGUI extends InventoryBase {
 
@@ -43,7 +50,7 @@ public class MainMenuGUI extends InventoryBase {
         ItemMeta pm = profile.getItemMeta();
         assert pm != null;
         pm.setDisplayName(ChatColor.YELLOW + "Your Skyblock profile");
-        pm.setLore(indev);
+        getPlayerStats(p, pm);
         profile.setItemMeta(GuiHelper.setHideAllFlags(pm));
         base.addItem(profile);
         // Skills
@@ -90,13 +97,85 @@ public class MainMenuGUI extends InventoryBase {
         return pl;
     }
 
-    private ItemStack genSimpleMenuItem(String name, Material material, List<String> lore) {
-        ItemStack i = new ItemStack(material);
-        ItemMeta sm = i.getItemMeta();
-        assert sm != null;
-        sm.setDisplayName(ChatColor.YELLOW + name);
-        sm.setLore(lore);
-        i.setItemMeta(GuiHelper.setHideAllFlags(sm));
-        return i;
+
+
+    private void getPlayerStats(Player p, ItemMeta base){
+        try {
+            ItemStack[] armor = p.getInventory().getArmorContents();
+            ItemStack heldItem = p.getInventory().getItemInMainHand();
+            int strength = 0;
+            int defense = 0;
+            int health = 100;
+            int speed = 100;
+            int attackSpeed = 0;
+            for (ItemStack a : armor) {
+                if (a != null && Objects.requireNonNull(a.getItemMeta()).hasAttributeModifiers()) {
+                    ItemMeta m = a.getItemMeta();
+                    try {
+                        AttributeModifier def = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ARMOR)).toArray()[0];
+                        defense += def.getAmount() * 10;
+                    } catch (NullPointerException ignored) {
+                    }
+                    try {
+                        AttributeModifier str = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ATTACK_DAMAGE)).toArray()[0];
+                        strength += str.getAmount() * 10;
+                    } catch (NullPointerException ignored) {
+                    }
+                    try {
+                        AttributeModifier ats = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ATTACK_SPEED)).toArray()[0];
+                        attackSpeed += ats.getAmount() * 25;
+                    } catch (NullPointerException ignored) {
+                    }
+                    try {
+                        AttributeModifier hp = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_MAX_HEALTH)).toArray()[0];
+                        health += hp.getAmount() * 10;
+                    } catch (NullPointerException ignored) {
+                    }
+                    try {
+                        AttributeModifier spd = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_MOVEMENT_SPEED)).toArray()[0];
+                        speed += spd.getAmount() * 1000;
+                    } catch (NullPointerException ignored) {
+                    }
+                }
+            }
+            if (heldItem.hasItemMeta() && Objects.requireNonNull(heldItem.getItemMeta()).hasAttributeModifiers()) {
+                ItemMeta m = heldItem.getItemMeta();
+                try {
+                    AttributeModifier def = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ARMOR)).toArray()[0];
+                    defense += def.getAmount() * 10;
+                } catch (NullPointerException ignored) {
+                }
+                try {
+                    AttributeModifier str = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ATTACK_DAMAGE)).toArray()[0];
+                    strength += str.getAmount() * 10;
+                } catch (NullPointerException ignored) {
+                }
+                try {
+                    AttributeModifier ats = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ATTACK_SPEED)).toArray()[0];
+                    attackSpeed += ats.getAmount() * 10;
+                } catch (NullPointerException ignored) {
+                }
+                try {
+                    AttributeModifier hp = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_MAX_HEALTH)).toArray()[0];
+                    health += hp.getAmount() * 10;
+                } catch (NullPointerException ignored) {
+                }
+                try {
+                    AttributeModifier spd = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_MOVEMENT_SPEED)).toArray()[0];
+                    speed += spd.getAmount() * 1000;
+                } catch (NullPointerException ignored) {
+                }
+            }
+
+            String str = ChatColor.RED + SkyblockConstants.STRENGTH + " Strength: " + strength;
+            String def = ChatColor.GREEN + SkyblockConstants.DEFENCE + " Defense: " + defense;
+            String hp = ChatColor.RED + SkyblockConstants.HEALTH + " Health: " + health;
+            String spd = ChatColor.WHITE + SkyblockConstants.SPEED + " Speed: " + speed;
+            String ats = ChatColor.YELLOW + SkyblockConstants.ATTACK_SPEED + " Bonus Attack Speed: " + attackSpeed;
+
+            base.setLore(Arrays.asList(str, def, hp, spd, ats));
+        } catch (NullPointerException e){
+            p.sendMessage(ChatColor.GOLD+"Uh oh! Looks like you are not yet ready to use SkyblockD menu!");
+        }
     }
 }

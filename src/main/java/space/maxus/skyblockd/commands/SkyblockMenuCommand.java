@@ -23,6 +23,7 @@ public class SkyblockMenuCommand implements ChatCommand {
             }
             Player p = (Player) sender;
             MainMenuGUI m = new MainMenuGUI();
+            m.setPlayer(p);
             Inventory inv = Bukkit.createInventory(p, m.getSize(), m.getName());
             m.generateContains(inv);
             p.openInventory(inv);

@@ -53,6 +53,11 @@ commands:
     permission: skyblockd.admin
     permission-message: §6You don't have sufficient permission! Requires <permission>
     aliases: [recomb, rec]
+  dev:
+    description: Gets info on certain inner code parts
+    usage: /<command> (properties|methods) (classname)
+    permission: skyblockd.admin
+    permission-message: §6You don't have sufficient permission! Requires <permission>
 permissions:
   skyblockd.default:
     description: Allows you basic command access

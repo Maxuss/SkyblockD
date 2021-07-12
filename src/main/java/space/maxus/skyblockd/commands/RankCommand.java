@@ -1,5 +1,6 @@
 package space.maxus.skyblockd.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import space.maxus.skyblockd.SkyblockD;
@@ -28,11 +29,20 @@ public class RankCommand implements ChatCommand {
                 RankContainer container = new RankContainer(id.toString(), p.getName());
                 container.rankGroup = rank;
 
-                SkyblockD.playerRanks.put(id.toString(), container);
+                if(!SkyblockD.playerRanks.contains(container)) SkyblockD.playerRanks.add(container);
 
                 RankHelper.updateRanks();
 
-                p.setDisplayName(SkyblockD.getRankGroups().get(rank) + " " + p.getName());
+                String rname = ((String) SkyblockD.getRankGroups().get(rank)).replace("&", "§");
+                String _name = rname + " " + p.getName();
+
+                String stripped = ChatColor.stripColor(((String)SkyblockD.getRankGroups().get(rank)).replace("&", "§"));
+
+                p.setDisplayName(_name);
+                p.setPlayerListName(_name);
+                p.setCustomName(_name.replace(stripped, ""));
+
+                p.setCustomNameVisible(true);
                 return true;
             }
             return false;

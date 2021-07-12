@@ -26,7 +26,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
     public abstract double getDefense();
     public abstract int getLevel();
     public abstract String getSkyblockId();
-    public abstract void postInit(LivingEntity entity);
+    public abstract void postInit(LivingEntity entity, Player player);
 
     public void generate(Player p){
         LivingEntity e = (LivingEntity) p.getWorld().spawnEntity(getLocation(p), getType());
@@ -53,7 +53,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
         e.getPersistentDataContainer().set(SkyblockD.getKey("entityLevel"), PersistentDataType.INTEGER, getLevel());
 
         // finish initialization by calling postInit
-        postInit(e);
+        postInit(e, p);
     }
 
     public static void toSkyblockEntity(LivingEntity e){

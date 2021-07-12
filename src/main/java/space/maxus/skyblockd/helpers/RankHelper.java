@@ -12,7 +12,7 @@ public class RankHelper {
 
     public static void updateRanks() {
         try {
-            JsonHelper.writeJson(SkyblockD.getCurrentDir() + "\\ranks.json", SkyblockD.playerRanks);
+            JsonHelper.writeJson(SkyblockD.getInstance().getDataFolder().toPath() + "\\ranks.json", SkyblockD.playerRanks);
         } catch (IOException e) {
             e.printStackTrace();
         }

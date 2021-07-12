@@ -2,7 +2,7 @@ package space.maxus.skyblockd.commands;
 
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
-import space.maxus.skyblockd.skyblock.items.created.Recombobulator;
+import space.maxus.skyblockd.skyblock.items.created.Madness;
 
 public class DevTestCommand implements ChatCommand {
     @Override
@@ -15,7 +15,7 @@ public class DevTestCommand implements ChatCommand {
         return ((sender, command, label, args) -> {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                p.getInventory().addItem(new Recombobulator().generate());
+                p.getInventory().addItem(new Madness().generate());
                 return true;
             }
             return false;

@@ -1,5 +1,6 @@
 package space.maxus.skyblockd.helpers;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -8,6 +9,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
+
+import java.util.List;
 
 public class GuiHelper {
     public static ItemStack getMenuGlass() {
@@ -40,5 +43,16 @@ public class GuiHelper {
         m.setOwningPlayer(player);
         head.setItemMeta(m);
         return head;
+    }
+
+    public static ItemStack genSimpleMenuItem(String name, Material material, List<String> lore) {
+        ItemStack i = new ItemStack(material);
+        ItemMeta sm = i.getItemMeta();
+        assert sm != null;
+        sm.setDisplayName(ChatColor.YELLOW + name);
+        sm.setLore(lore);
+        sm.getPersistentDataContainer().set(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING, "true");
+        i.setItemMeta(GuiHelper.setHideAllFlags(sm));
+        return i;
     }
 }

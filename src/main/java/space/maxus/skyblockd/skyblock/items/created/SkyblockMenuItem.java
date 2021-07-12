@@ -32,6 +32,7 @@ public class SkyblockMenuItem extends CustomItem implements SkyblockFeature {
         );
         m.setLore(lore);
         GuiHelper.setHideAllFlags(m);
+        blockVanillaRecipes(m);
         m.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true);
         addSkyblockTag(m);
         return m;

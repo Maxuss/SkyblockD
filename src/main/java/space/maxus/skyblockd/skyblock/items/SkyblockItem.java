@@ -1,7 +1,6 @@
 package space.maxus.skyblockd.skyblock.items;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -30,18 +29,21 @@ public abstract class SkyblockItem implements SkyblockFeature {
 
     public ItemStack getItem() { return item; }
 
-    @SuppressWarnings("unchecked")
     public ItemStack generate(){
+        item = new ItemStack(getConfig().getMaterial(), 1);
+        return inheritanceGeneration(item);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected ItemStack inheritanceGeneration(ItemStack item){
         SkyblockItemConfig cfg = getConfig();
 
         List<SkyblockItemAbility> abils = cfg.getAbilities();
         List<String> desc = cfg.getDescription();
         String name = cfg.getName();
-        Material mat = cfg.getMaterial();
         SkyblockRarity rar = cfg.getRarity();
         SkyblockItemType t = cfg.getType();
 
-        item = new ItemStack(mat, 1);
         ItemMeta m = item.getItemMeta();
         assert m != null;
         m.setDisplayName(name);

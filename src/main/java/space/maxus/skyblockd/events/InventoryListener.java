@@ -22,6 +22,10 @@ public class InventoryListener extends BetterListener{
     public void onClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
         String title = e.getView().getTitle();
+        if(title.contains("Skill")) {
+            e.setResult(Result.DENY);
+            p.updateInventory();
+        }
         if (title.equalsIgnoreCase(ChatColor.DARK_GRAY + "SkyblockD Menu")) {
             e.setResult(Result.DENY);
             p.updateInventory();

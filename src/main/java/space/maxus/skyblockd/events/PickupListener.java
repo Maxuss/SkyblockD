@@ -31,8 +31,8 @@ public class PickupListener extends BetterListener {
         Inventory i = e.getInventory();
         ItemStack[] items = i.getContents();
         for (ItemStack item : items) {
-            if(item != null) {
-                boolean isSb = Objects.requireNonNull(item.getItemMeta()).getPersistentDataContainer().has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING);
+            if(item != null && item.getItemMeta() != null) {
+                boolean isSb = item.getItemMeta().getPersistentDataContainer().has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING);
                 if (!isSb) CustomItem.toSkyblockItem(item);
             }
         }
