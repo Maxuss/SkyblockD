@@ -2,7 +2,6 @@ package space.maxus.skyblockd.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.reflections.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -83,9 +82,5 @@ public class DeveloperCommand implements ChatCommand {
             }
             return true;
         });
-    }
-
-    private void send(CommandSender s, String message){
-        s.sendMessage(ChatColor.GOLD+"["+ChatColor.GREEN+"dev"+ChatColor.GOLD+"] > "+message);
     }
 }

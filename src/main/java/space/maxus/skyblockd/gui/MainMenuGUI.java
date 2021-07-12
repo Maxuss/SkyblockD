@@ -111,60 +111,22 @@ public class MainMenuGUI extends InventoryBase {
             for (ItemStack a : armor) {
                 if (a != null && Objects.requireNonNull(a.getItemMeta()).hasAttributeModifiers()) {
                     ItemMeta m = a.getItemMeta();
-                    try {
-                        AttributeModifier def = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ARMOR)).toArray()[0];
-                        defense += def.getAmount() * 10;
-                    } catch (NullPointerException ignored) {
-                    }
-                    try {
-                        AttributeModifier str = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ATTACK_DAMAGE)).toArray()[0];
-                        strength += str.getAmount() * 10;
-                    } catch (NullPointerException ignored) {
-                    }
-                    try {
-                        AttributeModifier ats = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ATTACK_SPEED)).toArray()[0];
-                        attackSpeed += ats.getAmount() * 25;
-                    } catch (NullPointerException ignored) {
-                    }
-                    try {
-                        AttributeModifier hp = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_MAX_HEALTH)).toArray()[0];
-                        health += hp.getAmount() * 10;
-                    } catch (NullPointerException ignored) {
-                    }
-                    try {
-                        AttributeModifier spd = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_MOVEMENT_SPEED)).toArray()[0];
-                        speed += spd.getAmount() * 1000;
-                    } catch (NullPointerException ignored) {
-                    }
+                    int[] data = operateStats(m, 0, 0, 0, 100, 100);
+                    defense = data[0];
+                    strength = data[1];
+                    attackSpeed = data[2];
+                    health = data[3];
+                    speed = data[4];
                 }
             }
             if (heldItem.hasItemMeta() && Objects.requireNonNull(heldItem.getItemMeta()).hasAttributeModifiers()) {
                 ItemMeta m = heldItem.getItemMeta();
-                try {
-                    AttributeModifier def = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ARMOR)).toArray()[0];
-                    defense += def.getAmount() * 10;
-                } catch (NullPointerException ignored) {
-                }
-                try {
-                    AttributeModifier str = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ATTACK_DAMAGE)).toArray()[0];
-                    strength += str.getAmount() * 10;
-                } catch (NullPointerException ignored) {
-                }
-                try {
-                    AttributeModifier ats = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ATTACK_SPEED)).toArray()[0];
-                    attackSpeed += ats.getAmount() * 10;
-                } catch (NullPointerException ignored) {
-                }
-                try {
-                    AttributeModifier hp = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_MAX_HEALTH)).toArray()[0];
-                    health += hp.getAmount() * 10;
-                } catch (NullPointerException ignored) {
-                }
-                try {
-                    AttributeModifier spd = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_MOVEMENT_SPEED)).toArray()[0];
-                    speed += spd.getAmount() * 1000;
-                } catch (NullPointerException ignored) {
-                }
+                int[] data2 = operateStats(m, defense, strength, attackSpeed, health, speed);
+                defense = data2[0];
+                strength = data2[1];
+                attackSpeed = data2[2];
+                health = data2[3];
+                speed = data2[4];
             }
 
             String str = ChatColor.RED + SkyblockConstants.STRENGTH + " Strength: " + strength;
@@ -177,5 +139,20 @@ public class MainMenuGUI extends InventoryBase {
         } catch (NullPointerException e){
             p.sendMessage(ChatColor.GOLD+"Uh oh! Looks like you are not yet ready to use SkyblockD menu!");
         }
+    }
+
+    private int[] operateStats(ItemMeta m, int defense, int strength, int attackSpeed, int health, int speed){
+        int[] data = {defense, strength, attackSpeed, health, speed};
+        Attribute[] atts = {Attribute.GENERIC_ARMOR, Attribute.GENERIC_ATTACK_DAMAGE, Attribute.GENERIC_ATTACK_SPEED, Attribute.GENERIC_MAX_HEALTH, Attribute.GENERIC_MOVEMENT_SPEED};
+        int[] modifiers = {10, 10, 25, 10, 1000};
+        for(int i = 0; i < data.length; i++){
+            Attribute att = atts[i];
+            int mod = modifiers[i];
+            try {
+                AttributeModifier modifier = (AttributeModifier) Objects.requireNonNull(m.getAttributeModifiers(att)).toArray()[0];
+                data[i] += modifier.getAmount() * mod;
+            } catch (NullPointerException ignored) { }
+        }
+        return data;
     }
 }

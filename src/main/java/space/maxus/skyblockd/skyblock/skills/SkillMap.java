@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class SkillMap {
-    public abstract List<SimpleReward> getRewardList();
-
     private final StatTable rewards;
     private final SkillTable levels;
     private final String name;
     private final String prof;
+
+    public abstract List<SimpleReward> getRewardList();
 
     public StatTable getRewards() {return rewards;}
     public SkillTable getExperience() {return levels;}

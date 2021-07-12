@@ -24,6 +24,13 @@ import java.util.Locale;
 
 public abstract class Skill implements SkyblockFeature {
 
+    protected String name;
+    protected String prof;
+    protected SkillTable levelTable;
+    protected StatTable rewardTable;
+    protected Player owner;
+
+
     // utility constructor for classes extending it
     @Utility
     protected Skill() {
@@ -35,12 +42,6 @@ public abstract class Skill implements SkyblockFeature {
     public abstract Material getSkillItem();
     public abstract String getSkillResourceFile();
     public abstract Player getOwner(Player p);
-
-    protected String name;
-    protected String prof;
-    protected SkillTable levelTable;
-    protected StatTable rewardTable;
-    protected Player owner;
 
     public Skill(Player p) throws IOException {
         String res = getSkillResourceFile();

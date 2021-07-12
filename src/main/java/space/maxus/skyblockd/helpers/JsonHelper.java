@@ -13,6 +13,8 @@ public class JsonHelper<T> {
     private final Gson g;
     private final Class<T> cl;
 
+    public Class<T> getTClass() {return cl;}
+
     public JsonHelper(Class<T> tClass, boolean prettify) {
         cl = tClass;
         g = prettify ? new GsonBuilder().setPrettyPrinting().create() : new Gson();

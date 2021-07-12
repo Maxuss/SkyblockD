@@ -13,8 +13,6 @@ public abstract class ArmorSet implements SkyblockFeature {
     public abstract ItemStack getLeggings();
     public abstract ItemStack getBoots();
 
-    public ArmorSet(){ }
-
     public void register(){
         SkyblockD.getArmorSets().put(getSkyblockId(), this);
     }

@@ -1,6 +1,5 @@
 package space.maxus.skyblockd.events;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -12,7 +11,6 @@ import space.maxus.skyblockd.SkyblockD;
 public class ClickListener extends BetterListener {
     @EventHandler
     public void onClick(PlayerInteractEvent e){
-        Player p = e.getPlayer();
         ItemStack i = e.getItem();
         if(i != null){
             ItemMeta m = i.getItemMeta();

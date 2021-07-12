@@ -13,7 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-public class EntityFactory {
+public class EntityUtils {
 
     /**
      * Generates a new entity on based params
@@ -48,7 +48,7 @@ public class EntityFactory {
             return (Entity) entity.getClass().getMethod("getBukkitEntity").invoke(entity);
 
         } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException exception) {
-            SkyblockD.logger.severe("An error occurred in EntityFactory! " + Arrays.toString(exception.getStackTrace()));
+            SkyblockD.logger.severe("An error occurred in EntityUtils! " + Arrays.toString(exception.getStackTrace()));
         }
         return null;
     }

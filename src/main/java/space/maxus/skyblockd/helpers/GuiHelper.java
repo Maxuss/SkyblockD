@@ -1,12 +1,12 @@
 package space.maxus.skyblockd.helpers;
 
+import dev.dbassett.skullcreator.SkullCreator;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
 
@@ -37,12 +37,7 @@ public class GuiHelper {
     }
 
     public static ItemStack getPlayerHead(Player player) {
-        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta m = (SkullMeta) head.getItemMeta();
-        assert m != null;
-        m.setOwningPlayer(player);
-        head.setItemMeta(m);
-        return head;
+        return SkullCreator.itemFromUuid(player.getUniqueId());
     }
 
     public static ItemStack genSimpleMenuItem(String name, Material material, List<String> lore) {
