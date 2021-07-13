@@ -4,8 +4,8 @@ import space.maxus.skyblockd.SkyblockD;
 
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ResourceHelper {
     @Deprecated
@@ -40,13 +40,12 @@ public class ResourceHelper {
     }
 
     public static String readResourceSafely(String rpath) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                Objects.requireNonNull(ResourceHelper.class.getClassLoader().getResourceAsStream(rpath)), StandardCharsets.UTF_8));
-        String line;
-        while((line = br.readLine()) != null){
-            sb.append(line).append("\n");
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        try (InputStream is = classLoader.getResourceAsStream(rpath)) {
+            try (InputStreamReader isr = new InputStreamReader(is);
+                 BufferedReader reader = new BufferedReader(isr)) {
+                return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+            }
         }
-        return sb.toString();
     }
 }

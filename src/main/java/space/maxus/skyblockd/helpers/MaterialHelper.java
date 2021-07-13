@@ -101,6 +101,23 @@ public class MaterialHelper {
         }
     }
 
+    public static boolean isMaterialLog(Material mat) {
+        return mat.name().endsWith("_LOG") || mat.name().endsWith("_STEM");
+    }
+
+    public static boolean isMaterialStone(Material mat) {
+        switch(mat){
+            case END_STONE:
+            case ANCIENT_DEBRIS:
+            case OBSIDIAN:
+            case STONE:
+            case COBBLESTONE: return true;
+
+
+            default: return mat.name().endsWith("_ORE");
+        }
+    }
+
     public enum TableType {
         FARMING ("farming.json"),
         FORAGING ("foraging.json"),

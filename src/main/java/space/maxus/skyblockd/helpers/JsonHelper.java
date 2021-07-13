@@ -3,6 +3,7 @@ package space.maxus.skyblockd.helpers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import space.maxus.skyblockd.SkyblockD;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +22,12 @@ public class JsonHelper<T> {
     }
 
     public T deserializeJson(String json, Type t) {
-        return g.fromJson(json, t);
+        String j = "";
+        if(!json.startsWith("[") && !json.startsWith("[")){
+            j = "{" + json;
+        } else j = json;
+        SkyblockD.logger.info(j);
+        return g.fromJson(j, t);
     }
 
     public String serializeJson(T json) {
@@ -33,7 +39,7 @@ public class JsonHelper<T> {
         return deserializeJson(FileHelper.readFromFile(new File(path)), t);
     }
 
-    public T jsonFromResource(String rpath)  {
+    public T jsonFromResource(String rpath) throws IOException {
         Type t = new TypeToken<T>(){}.getType();
         return deserializeJson(ResourceHelper.readResource(rpath), t);
     }

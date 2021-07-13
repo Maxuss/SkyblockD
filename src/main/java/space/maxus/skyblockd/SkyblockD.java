@@ -1,10 +1,7 @@
 package space.maxus.skyblockd;
 
 import com.google.gson.reflect.TypeToken;
-import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Server;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +15,7 @@ import space.maxus.skyblockd.helpers.RankHelper;
 import space.maxus.skyblockd.items.ItemManager;
 import space.maxus.skyblockd.items.TestItem;
 import space.maxus.skyblockd.objects.RankContainer;
+import space.maxus.skyblockd.objects.ServerStorage;
 import space.maxus.skyblockd.recipes.TestRecipe;
 import space.maxus.skyblockd.skyblock.events.handlers.SkyblockClickListener;
 import space.maxus.skyblockd.skyblock.items.ArmorSet;
@@ -50,6 +48,7 @@ public class SkyblockD extends JavaPlugin {
     private static Constants consts;
     private static SkyblockItemRegisterer itemRegisterer;
     private static HashMap<String, ArmorSet> armorSets = new HashMap<>();
+    private static ServerStorage serverData;
 
     private static final SkillMapManager mapManager = new SkillMapManager();
     private static final List<String> allowedSbIngredients = Arrays.asList(
@@ -114,6 +113,7 @@ public class SkyblockD extends JavaPlugin {
     public static HashMap<String, ArmorSet> getArmorSets() {return armorSets;}
     public static List<String> getAllowedIngredients() {return allowedSbIngredients;}
     public static SkillMapManager getMapManager() { return mapManager; }
+    public static ServerStorage getServerData() { return serverData; }
 
     public static String getShortVersion() {
         return shortVersion;
@@ -209,6 +209,12 @@ public class SkyblockD extends JavaPlugin {
         citems.put(sfb.getSkyblockId(), sfb.generate());
 
         mapManager.addMap("mining", new MiningSkillMap("Mining", "Speleologist"));
+
+        try {
+            serverData = new ServerStorage();
+        } catch (IOException e) {
+            SkyblockD.logger.severe(" [FATAL] > Could not read CDN data!");
+        }
     }
 
     public void registerEvents(){
@@ -225,6 +231,7 @@ public class SkyblockD extends JavaPlugin {
         new PickupListener();
         new EntityListener();
         new CraftListener();
+        new BlockBreakListener();
     }
 
 
@@ -325,7 +332,11 @@ public class SkyblockD extends JavaPlugin {
         } catch(Exception e){
             logger.severe("Could not process rank groups!");
             logger.info("Sometimes that happens if you reload the plugin a lot of times!");
+            logger.info("Exception info: " + Arrays.toString(e.getStackTrace()));
         }
+
+        // dispatch a command to make sure actionbar display messsages dont spam OP's chat etc.
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule sendCommandFeedback false");
 
         // send success message and log
         getSender().sendMessage(ChatColor.BOLD + "[" + ChatColor.GOLD + "SkyblockD" + ChatColor.RESET + "" + ChatColor.BOLD + "]" + ChatColor.RESET + " Plugin initialized!");
