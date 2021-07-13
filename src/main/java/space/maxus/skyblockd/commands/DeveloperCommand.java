@@ -1,7 +1,11 @@
 package space.maxus.skyblockd.commands;
 
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.reflections.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -79,6 +83,28 @@ public class DeveloperCommand implements ChatCommand {
                             "Return type: "+ m.getReturnType()+"\n"+
                             "Parameters: Count: "+m.getParameterCount()+" As array: "+ Arrays.toString(m.getParameters()));
                 }
+            }
+            else if(args[0].equals("nbt")){
+                if(!(s instanceof Player)){
+                    s.sendMessage(ChatColor.RED+"Only for players!");
+                    return true;
+                }
+                Player p = (Player) s;
+                ItemStack item = p.getInventory().getItemInMainHand();
+                if(item == null || !item.hasItemMeta()){
+                    s.sendMessage(ChatColor.RED+"You dont hold any item!");
+                    return true;
+                }
+                ItemMeta m = item.getItemMeta();
+                Set<NamespacedKey> keys = m.getPersistentDataContainer().getKeys();
+                if(m.getPersistentDataContainer().isEmpty()){
+                    s.sendMessage(ChatColor.RED+"Could not find any keys!");
+                    return true;
+                }
+                for (NamespacedKey k: keys) {
+                    p.sendMessage(ChatColor.GOLD+"Found a Data key! "+ChatColor.GREEN+k.getKey());
+                }
+                return true;
             }
             return true;
         });

@@ -22,7 +22,7 @@ public class Madness extends SkyblockSkull {
                 SkyblockItemType.HELMET, new SkyblockItemStats().setHealth(-200)
                 .setStrength(350)
         );
-        cfg.setDescription(Arrays.asList("", ChatColor.DARK_GRAY+"Your soul will be corrupted!"));
+        cfg.setDescription(Collections.singletonList(ChatColor.DARK_GRAY + "Your soul will be corrupted!"));
         cfg.setAbilities(Collections.singletonList(new SkyblockItemAbility(
                 "Shatter!", SkyblockAbilityType.PASSIVE,
                 Arrays.asList(ChatColor.GRAY+"You reflect all damage you take,",

@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.ArmorSet;
+import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
 import java.util.Objects;
 import java.util.TreeMap;
@@ -45,7 +46,14 @@ public class GetItemCommand implements ChatCommand {
             }
             TreeMap<String, ItemStack> ci = SkyblockD.getCustomItems();
             if (!ci.containsKey(id)) {
-                p.sendMessage(ChatColor.YELLOW + "Item with id " + ChatColor.RED + id + ChatColor.YELLOW + " is not registered!");
+                try {
+                    SkyblockMaterial mat = SkyblockMaterial.valueOf(id);
+                    give(p, mat.getItem());
+                    String msg = ChatColor.YELLOW + "Successfuly gave you item " + Objects.requireNonNull(mat.getItem().getItemMeta()).getDisplayName();
+                    p.sendMessage(msg);
+                } catch(IllegalArgumentException e) {
+                    p.sendMessage(ChatColor.YELLOW + "Item with id " + ChatColor.RED + id + ChatColor.YELLOW + " is not registered!");
+                }
                 return true;
             }
             ItemStack it = ci.get(id);

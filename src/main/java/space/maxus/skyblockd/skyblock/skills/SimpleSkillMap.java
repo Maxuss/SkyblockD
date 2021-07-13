@@ -6,9 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class SimpleSkillMap extends SkillMap {
-    public SimpleSkillMap(String name, String prof) {
-        super(name, prof);
-    }
+    public SimpleSkillMap(String name, String prof) { super(name, prof); }
 
     @Override
     public List<SimpleReward> getRewardList() {

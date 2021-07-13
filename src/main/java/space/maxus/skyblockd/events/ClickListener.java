@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.skyblock.events.SkyblockItemClickEvent;
 
 public class ClickListener extends BetterListener {
     @EventHandler

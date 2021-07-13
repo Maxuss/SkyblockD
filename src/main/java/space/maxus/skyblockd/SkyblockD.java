@@ -24,7 +24,9 @@ import space.maxus.skyblockd.skyblock.items.ArmorSet;
 import space.maxus.skyblockd.skyblock.items.SkyblockItemRegisterer;
 import space.maxus.skyblockd.skyblock.items.created.*;
 import space.maxus.skyblockd.skyblock.skills.SimpleSkillMap;
+import space.maxus.skyblockd.skyblock.skills.SkillMapManager;
 import space.maxus.skyblockd.skyblock.skills.SkillResource;
+import space.maxus.skyblockd.skyblock.skills.created.MiningSkillMap;
 import space.maxus.skyblockd.utils.Config;
 import space.maxus.skyblockd.utils.Constants;
 import space.maxus.skyblockd.utils.ItemGlint;
@@ -49,7 +51,7 @@ public class SkyblockD extends JavaPlugin {
     private static SkyblockItemRegisterer itemRegisterer;
     private static HashMap<String, ArmorSet> armorSets = new HashMap<>();
 
-
+    private static final SkillMapManager mapManager = new SkillMapManager();
     private static final List<String> allowedSbIngredients = Arrays.asList(
             "Nullified Abyss", "Error?"
     );
@@ -110,6 +112,8 @@ public class SkyblockD extends JavaPlugin {
     }
     public static SkyblockItemRegisterer getItemRegisterer() { return itemRegisterer; }
     public static HashMap<String, ArmorSet> getArmorSets() {return armorSets;}
+    public static List<String> getAllowedIngredients() {return allowedSbIngredients;}
+    public static SkillMapManager getMapManager() { return mapManager; }
 
     public static String getShortVersion() {
         return shortVersion;
@@ -132,7 +136,6 @@ public class SkyblockD extends JavaPlugin {
     public static String getNamespace() {
         return namespacedKey + ":";
     }
-    public static List<String> getAllowedIngredients() {return allowedSbIngredients;}
 
     public static String getNamespace(String name) {
         return namespacedKey + ":" + name.toUpperCase(Locale.ENGLISH);
@@ -204,6 +207,8 @@ public class SkyblockD extends JavaPlugin {
         citems.put(sfc.getSkyblockId(), sfc.generate());
         citems.put(sfl.getSkyblockId(), sfl.generate());
         citems.put(sfb.getSkyblockId(), sfb.generate());
+
+        mapManager.addMap("mining", new MiningSkillMap("Mining", "Speleologist"));
     }
 
     public void registerEvents(){

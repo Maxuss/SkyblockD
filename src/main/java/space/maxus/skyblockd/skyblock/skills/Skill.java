@@ -19,6 +19,7 @@ import space.maxus.skyblockd.skyblock.utility.SkyblockFeature;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -70,6 +71,7 @@ public abstract class Skill implements SkyblockFeature {
                 gls, air, air, air, air, air, air, air, gls,
                 gls, gls, gls, gls, gls, gls, gls, gls, gls
         });
+        List<Integer> bytes = Arrays.asList(0, 7, 14, 21);
         for (int j = 0; j < levels.size(); j++) {
             int xp = levels.get(j);
             SimpleReward rew = stats.get(j);
@@ -81,14 +83,15 @@ public abstract class Skill implements SkyblockFeature {
             if (rew.getStatName() != null) {
                 lore.add(" ");
                 lore.add(ChatColor.GRAY + "Grants +" + rew.getStatValue() +" "+ rew.getStatName().replace("&", "§"));
-                if (rew.getItemName() != null) {
+                if (rew.getItemName() != null && !rew.getItemName().equals("")) {
                     String nn = CustomItem
                             .capitalize(rew.getItemName().toLowerCase(Locale.ENGLISH).replace("_", " "));
                     String na = rew.getItemValue() > 1 ? ChatColor.AQUA + "" + rew.getItemValue() + " " : "a ";
                     lore.add(ChatColor.GRAY + "and " + na + nn.replace("&", "§"));
                 }
             }
-            ItemStack item = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
+            ItemStack item = bytes.contains(j) ? new ItemStack(getSkillItem()) :
+                    new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
             ItemMeta m = item.getItemMeta();
             assert m != null;
             m.setDisplayName(ChatColor.AQUA + name + " " + (j+1));

@@ -3,7 +3,7 @@ package space.maxus.skyblockd.skyblock.events.handlers;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerInteractEvent;
 import space.maxus.skyblockd.events.BetterListener;
-import space.maxus.skyblockd.events.SkyblockItemClickEvent;
+import space.maxus.skyblockd.skyblock.events.SkyblockItemClickEvent;
 
 import java.util.Objects;
 

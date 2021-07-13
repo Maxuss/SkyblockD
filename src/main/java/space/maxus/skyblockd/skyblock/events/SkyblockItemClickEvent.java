@@ -1,8 +1,7 @@
-package space.maxus.skyblockd.events;
+package space.maxus.skyblockd.skyblock.events;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
-import space.maxus.skyblockd.skyblock.events.SkyblockEvent;
 
 public class SkyblockItemClickEvent extends SkyblockEvent {
 
