@@ -42,6 +42,7 @@ public class MainMenuGUI extends InventoryBase {
     public Inventory generateContains(Inventory base) {
         List<String> indev = new ArrayList<>();
         indev.add(ChatColor.RED + "In development!");
+        List<String> zkill = Arrays.asList(ChatColor.GRAY+"Click this item to view", ChatColor.GRAY+"your skill information.");
 
         // menu glass
         ItemStack gls = GuiHelper.getMenuGlass();
@@ -54,7 +55,7 @@ public class MainMenuGUI extends InventoryBase {
         profile.setItemMeta(GuiHelper.setHideAllFlags(pm));
         base.addItem(profile);
         // Skills
-        ItemStack skills = genSimpleMenuItem("Your Skills", Material.DIAMOND_SWORD, indev);
+        ItemStack skills = genSimpleMenuItem("Your Skills", Material.DIAMOND_SWORD, zkill);
         // Collections
         ItemStack coll = genSimpleMenuItem("Collections", Material.PAINTING, indev);
         // Recipes

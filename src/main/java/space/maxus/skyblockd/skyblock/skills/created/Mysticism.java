@@ -3,29 +3,28 @@ package space.maxus.skyblockd.skyblock.skills.created;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import space.maxus.skyblockd.SkyblockD;
-import space.maxus.skyblockd.skyblock.skills.MappedSkill;
-import space.maxus.skyblockd.skyblock.skills.SimpleSkillMap;
+import space.maxus.skyblockd.skyblock.skills.ExtendableSkill;
+import space.maxus.skyblockd.skyblock.skills.ModificableSkill;
 import space.maxus.skyblockd.skyblock.skills.SkillMap;
 
-public class TestSkill extends MappedSkill {
-
-    public TestSkill(Player p) {
+public class Mysticism extends ExtendableSkill implements ModificableSkill {
+    public Mysticism(Player p) {
         super(p);
     }
 
     @Override
     public SkillMap getMap() {
-        return new SimpleSkillMap("Gaming", "Gamer");
+        return SkyblockD.getMapManager().getMaps().get("mysticism");
     }
 
     @Override
     public String getSkyblockId() {
-        return SkyblockD.getNamespace("test_skill");
+        return SkyblockD.getNamespace("skill_mysticism");
     }
 
     @Override
     public Material getSkillItem() {
-        return Material.DIAMOND_SWORD;
+        return Material.ENDER_EYE;
     }
 
     @Override

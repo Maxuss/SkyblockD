@@ -23,6 +23,7 @@ public class ItemHelper {
         // i am sorry for this switch
         switch(m){
             // uncommon
+            case BONE_BLOCK:
             case SHULKER_SHELL:
             case TUBE_CORAL:
             case HORN_CORAL:
@@ -62,6 +63,7 @@ public class ItemHelper {
             case DIAMOND_PICKAXE: return SkyblockRarity.UNCOMMON;
 
             // rare
+            case WITHER_ROSE:
             case YELLOW_SHULKER_BOX:
             case WHITE_SHULKER_BOX:
             case RED_SHULKER_BOX:
@@ -99,6 +101,7 @@ public class ItemHelper {
             case ENDER_CHEST: return SkyblockRarity.RARE;
 
             // epic
+            case ELYTRA:
             case SPONGE:
             case DRAGON_HEAD:
             case WITHER_SKELETON_SKULL:
@@ -115,13 +118,10 @@ public class ItemHelper {
             case NETHERITE_HOE: return SkyblockRarity.EPIC;
 
             // legendary
+            case NETHERITE_BLOCK:
             case BEACON:
-            case ELYTRA:
             case DRAGON_EGG:
             case NETHER_STAR: return SkyblockRarity.LEGENDARY;
-
-            // mythic
-            case NETHERITE_BLOCK: return SkyblockRarity.MYTHIC;
 
             // special
             case SPAWNER:

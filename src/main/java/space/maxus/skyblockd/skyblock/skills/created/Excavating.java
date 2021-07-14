@@ -7,25 +7,24 @@ import space.maxus.skyblockd.skyblock.skills.ExtendableSkill;
 import space.maxus.skyblockd.skyblock.skills.ModificableSkill;
 import space.maxus.skyblockd.skyblock.skills.SkillMap;
 
-public class Mining extends ExtendableSkill implements ModificableSkill {
-
-    public Mining(Player p) {
+public class Excavating extends ExtendableSkill implements ModificableSkill {
+    public Excavating(Player p) {
         super(p);
     }
 
     @Override
     public SkillMap getMap() {
-        return SkyblockD.getMapManager().getMaps().get("mining");
+        return SkyblockD.getMapManager().getMaps().get("excavating");
     }
 
     @Override
     public String getSkyblockId() {
-        return SkyblockD.getNamespace("skill_mining");
+        return SkyblockD.getNamespace("skill_excavating");
     }
 
     @Override
     public Material getSkillItem() {
-        return Material.IRON_PICKAXE;
+        return Material.IRON_SHOVEL;
     }
 
     @Override

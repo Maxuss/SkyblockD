@@ -3,9 +3,9 @@ package space.maxus.skyblockd.skyblock.skills;
 import java.util.List;
 
 public class StatTable {
-    public List<SimpleReward> statValues;
+    public List<? extends SkillReward> statValues;
 
-    public StatTable(List<SimpleReward> rewards){
+    public StatTable(List<? extends SkillReward> rewards){
         statValues = rewards;
     }
 }

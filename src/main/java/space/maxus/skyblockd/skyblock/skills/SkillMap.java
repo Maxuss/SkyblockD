@@ -9,7 +9,7 @@ public abstract class SkillMap {
     private final String name;
     private final String prof;
 
-    public abstract List<SimpleReward> getRewardList();
+    public abstract List<? extends SkillReward> getRewardList();
 
     public StatTable getRewards() {return rewards;}
     public SkillTable getExperience() {return levels;}

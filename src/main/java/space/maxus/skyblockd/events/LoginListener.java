@@ -5,8 +5,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import space.maxus.skyblockd.SkyblockD;
-import space.maxus.skyblockd.helpers.RankHelper;
+import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
+import space.maxus.skyblockd.objects.PlayerContainer;
+import space.maxus.skyblockd.objects.PlayerSkills;
 import space.maxus.skyblockd.objects.RankContainer;
 
 import java.util.List;
@@ -24,20 +26,25 @@ public class LoginListener extends BetterListener {
             p.sendMessage(ChatColor.GOLD + "Welcome to " + SkyblockD.getServerName() + " server, " + p.getName() + "!");
             e.setJoinMessage(ChatColor.GOLD + "New player, " + p.getName() +ChatColor.GOLD+ " just joined the server for first time!");
         }
-
     }
 
     private void processPlayer(Player p){
-        List<RankContainer> r = UniversalHelper.filter(SkyblockD.playerRanks, c -> c.uuid.equals(p.getUniqueId().toString()));
-        if(r.isEmpty()){
+        List<PlayerContainer> ps = UniversalHelper.filter(SkyblockD.getPlayers(), c -> c.uuid.equals(p.getUniqueId()));
+
+        if(ps.isEmpty()){
             RankContainer c = new RankContainer(p.getUniqueId().toString(), p.getName());
-            SkyblockD.playerRanks.add(c);
-            RankHelper.updateRanks();
-            r = UniversalHelper.filter(SkyblockD.playerRanks, rc -> rc.uuid.equals(p.getUniqueId().toString()));
+            PlayerSkills skills = PlayerSkills.EMPTY;
+            PlayerContainer pl = new PlayerContainer(c, p.getUniqueId(), skills, p.hasPermission("skyblockd.admin"));
+            SkyblockD.players.add(pl);
+            ContainerHelper.updatePlayers();
+            ps = UniversalHelper.filter(SkyblockD.getPlayers(), o -> o.uuid.equals(p.getUniqueId()));
         }
 
-        RankContainer cont = r.get(r.size()-1);
-        String rank = cont.rankGroup;
+        PlayerContainer pc = ps.get(ps.size()-1);
+
+        RankContainer pr = pc.ranks;
+
+        String rank = pr.rankGroup;
 
         String rname = ((String) SkyblockD.getRankGroups().get(rank)).replace("&", "§");
         String name = rname + " " + p.getName();

@@ -25,6 +25,7 @@ public class SkillHelper {
                 put("mining", SkyblockD.getServerData().mining);
                 put("farming", SkyblockD.getServerData().farming);
                 put("foraging", SkyblockD.getServerData().foraging);
+                put("excavating", SkyblockD.getServerData().excavating);
             }
         };
         SkyblockD.logger.info(skill.toLowerCase(Locale.ENGLISH));

@@ -13,6 +13,7 @@ public class ServerStorage {
     public final HashMap<String, Integer> farming;
     public final HashMap<String, Integer> foraging;
     public final HashMap<String, Integer> mining;
+    public final HashMap<String, Integer> excavating;
 
     public ServerStorage() throws IOException {
         Type mapType = new TypeToken<HashMap<String, Integer>>(){}.getType();
@@ -20,6 +21,6 @@ public class ServerStorage {
         farming = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/farming.json", mapType);
         foraging = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/foraging.json", mapType);
         mining = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/mining.json", mapType);
+        excavating = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/excavating.json", mapType);
     }
-
 }

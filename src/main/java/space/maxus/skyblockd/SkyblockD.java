@@ -9,12 +9,12 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import space.maxus.skyblockd.commands.*;
 import space.maxus.skyblockd.events.*;
+import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.FileHelper;
 import space.maxus.skyblockd.helpers.JsonHelper;
-import space.maxus.skyblockd.helpers.RankHelper;
 import space.maxus.skyblockd.items.ItemManager;
 import space.maxus.skyblockd.items.TestItem;
-import space.maxus.skyblockd.objects.RankContainer;
+import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.ServerStorage;
 import space.maxus.skyblockd.recipes.TestRecipe;
 import space.maxus.skyblockd.skyblock.events.handlers.SkyblockClickListener;
@@ -24,7 +24,7 @@ import space.maxus.skyblockd.skyblock.items.created.*;
 import space.maxus.skyblockd.skyblock.skills.SimpleSkillMap;
 import space.maxus.skyblockd.skyblock.skills.SkillMapManager;
 import space.maxus.skyblockd.skyblock.skills.SkillResource;
-import space.maxus.skyblockd.skyblock.skills.created.MiningSkillMap;
+import space.maxus.skyblockd.skyblock.skills.created.*;
 import space.maxus.skyblockd.utils.Config;
 import space.maxus.skyblockd.utils.Constants;
 import space.maxus.skyblockd.utils.ItemGlint;
@@ -50,6 +50,8 @@ public class SkyblockD extends JavaPlugin {
     private static HashMap<String, ArmorSet> armorSets = new HashMap<>();
     private static ServerStorage serverData;
 
+    public static List<PlayerContainer> players = new ArrayList<>();
+
     private static final SkillMapManager mapManager = new SkillMapManager();
     private static final List<String> allowedSbIngredients = Arrays.asList(
             "Nullified Abyss", "Error?"
@@ -65,7 +67,6 @@ public class SkyblockD extends JavaPlugin {
     private static final String namespacedKey = pluginName.toLowerCase(Locale.ENGLISH);
 
     public static Logger logger;
-    public static List<RankContainer> playerRanks = new ArrayList<>();
 
     public static SkyblockD getInstance() {
         return instance;
@@ -114,6 +115,7 @@ public class SkyblockD extends JavaPlugin {
     public static List<String> getAllowedIngredients() {return allowedSbIngredients;}
     public static SkillMapManager getMapManager() { return mapManager; }
     public static ServerStorage getServerData() { return serverData; }
+    public static List<PlayerContainer> getPlayers() { return players; }
 
     public static String getShortVersion() {
         return shortVersion;
@@ -209,11 +211,17 @@ public class SkyblockD extends JavaPlugin {
         citems.put(sfb.getSkyblockId(), sfb.generate());
 
         mapManager.addMap("mining", new MiningSkillMap("Mining", "Speleologist"));
+        mapManager.addMap("foraging", new ForagingSkillMap("Foraging", "Logger"));
+        mapManager.addMap("excavating", new ExcavatingSkillMap("Excavating", "Digger"));
+        mapManager.addMap("crafting", new CraftingSkillMap("Crafting", "Engineer"));
+        mapManager.addMap("farming", new FarmingSkillMap("Farming", "Farmhand"));
+        mapManager.addMap("mysticism", new MysticismSkillMap("Mysticism", "Wizard"));
+        mapManager.addMap("combat", new CombatSkillMap("Combat", "Warrior"));
 
         try {
             serverData = new ServerStorage();
         } catch (IOException e) {
-            SkyblockD.logger.severe(" [FATAL] > Could not read CDN data!");
+            SkyblockD.logger.severe(" [FATAL] > Could not read CDN data! Are you in offline mode?");
         }
     }
 
@@ -232,6 +240,7 @@ public class SkyblockD extends JavaPlugin {
         new EntityListener();
         new CraftListener();
         new BlockBreakListener();
+        new KillListener();
     }
 
 
@@ -264,22 +273,22 @@ public class SkyblockD extends JavaPlugin {
     public void processRanks(){
         if (config.ranksEnabled()) {
             try {
-                rankGroups = RankHelper.getGroups();
+                rankGroups = ContainerHelper.getGroups();
             } catch (IOException e) {
                 logger.severe("Could not load rank groups!");
                 logger.severe("Error: "+ Arrays.toString(e.getStackTrace()));
             }
             try {
                 @SuppressWarnings("unchecked")
-                JsonHelper<List<RankContainer>> container = new JsonHelper<>((Class<List<RankContainer>>) playerRanks.getClass(), true);
-                Type t = new TypeToken<List<RankContainer>>() {}.getType();
-                playerRanks = container.deserializeJson(JsonHelper.readJsonFile(getDataFolder().toPath() + "\\ranks.json"), t);
-                if(playerRanks == null) playerRanks = new ArrayList<>();
-                RankHelper.updateRanks();
+                JsonHelper<List<PlayerContainer>> container = new JsonHelper<>((Class<List<PlayerContainer>>) players.getClass(), true);
+                Type t = new TypeToken<List<PlayerContainer>>() {}.getType();
+                players = container.deserializeJson(JsonHelper.readJsonFile(getDataFolder().toPath() + "\\players.json"), t);
+                if(players == null) players = new ArrayList<>();
+                ContainerHelper.updatePlayers();
             } catch (Exception e) {
-                logger.severe("Could not read rank groups!");
+                logger.severe("Could not read player groups!");
                 logger.severe("Error: "+ Arrays.toString(e.getStackTrace()));
-                RankHelper.updateRanks();
+                ContainerHelper.updatePlayers();
             }
         }
     }

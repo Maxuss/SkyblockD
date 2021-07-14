@@ -44,7 +44,7 @@ public class GuiHelper {
         ItemStack i = new ItemStack(material);
         ItemMeta sm = i.getItemMeta();
         assert sm != null;
-        sm.setDisplayName(ChatColor.YELLOW + name);
+        sm.setDisplayName(ChatColor.GREEN + name);
         sm.setLore(lore);
         sm.getPersistentDataContainer().set(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING, "true");
         i.setItemMeta(GuiHelper.setHideAllFlags(sm));

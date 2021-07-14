@@ -52,9 +52,9 @@ public class JsonHelper<T> {
         return ResourceHelper.readResourceSafely(rpath);
     }
 
-    public static void writeJson(String path, Object object) throws IOException {
-        JsonHelper<Object> j = new JsonHelper<>(Object.class, true);
-        FileHelper.writeFile(path, j.serializeJson(object));
+    public static <T> void writeJson(String path, T object) throws IOException {
+        Gson gs = new GsonBuilder().setPrettyPrinting().create();
+        FileHelper.writeFile(path, gs.toJson(object, new TypeToken<T>(){}.getType()));
     }
 
     public static HashMap<String, Object> mapJson(String json) {

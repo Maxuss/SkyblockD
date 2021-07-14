@@ -5,8 +5,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
-import space.maxus.skyblockd.helpers.RankHelper;
+import space.maxus.skyblockd.objects.PlayerContainer;
+import space.maxus.skyblockd.objects.PlayerSkills;
 import space.maxus.skyblockd.objects.RankContainer;
 
 import java.util.Arrays;
@@ -19,23 +21,28 @@ public class ChatListener extends BetterListener {
         if (SkyblockD.getCfg().ranksFancy() && SkyblockD.getCfg().ranksEnabled()) {
             Player p = e.getPlayer();
             RankContainer c = new RankContainer(p.getUniqueId().toString(), p.getName());
-            List<RankContainer> filtered = UniversalHelper.filter(
-                            SkyblockD.playerRanks,
-                            container -> container.uuid.equals(p.getUniqueId().toString()));
+
+            List<PlayerContainer> filtered = UniversalHelper.filter(
+                            SkyblockD.players,
+                            co -> co.uuid.equals(p.getUniqueId()));
+
             if (filtered.isEmpty()) {
-                SkyblockD.playerRanks.add(c);
-                RankHelper.updateRanks();
+                PlayerContainer pc = new PlayerContainer(c, p.getUniqueId(), PlayerSkills.EMPTY, p.hasPermission("skyblockd.admin"));
+
+                SkyblockD.players.add(pc);
+                ContainerHelper.updatePlayers();
             }
             RankContainer cont;
             filtered = UniversalHelper
                     .filter(
-                            SkyblockD.playerRanks,
-                            container -> container.uuid.equals(p.getUniqueId().toString()));
+                            SkyblockD.players,
+                            container -> container.uuid.equals(p.getUniqueId()));
             try {
                 if(filtered.size() > 1) {
-                    SkyblockD.playerRanks.remove(filtered.get(0));
+                    SkyblockD.players.remove(filtered.get(0));
                 }
-                cont = filtered.get(filtered.size() - 1);
+                cont = filtered.get(filtered.size() - 1).ranks;
+                ContainerHelper.updatePlayers();
             } catch (Exception ex) {
                 SkyblockD.logger.warning(ex + " " + Arrays.toString(ex.getStackTrace()));
                 cont = new RankContainer(p.getUniqueId().toString(), p.getName());
@@ -43,8 +50,8 @@ public class ChatListener extends BetterListener {
             }
 
             String prefix = (String) SkyblockD.getRankGroups().get(cont.rankGroup);
-            String full = (prefix.startsWith("B") ? prefix.replaceFirst("B", "") : prefix) + (cont.rankGroup.equals("rank.none") ? "" : " ") + p.getName();
-            String m = full.replaceFirst("B", "") + ChatColor.WHITE + ": " + e.getMessage();
+            String full = (prefix.startsWith("B") ? prefix.replaceFirst("B", "") : prefix) + (cont.rankGroup.equals("rank.none") ? "" : " ");
+            String m = full.replace("B", "") +p.getName() + ChatColor.WHITE + ": " + e.getMessage();
             e.setFormat(m.replace("&", "§"));
         }
     }

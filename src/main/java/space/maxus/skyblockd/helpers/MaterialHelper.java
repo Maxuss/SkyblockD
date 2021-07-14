@@ -107,21 +107,54 @@ public class MaterialHelper {
 
     public static boolean isMaterialStone(Material mat) {
         switch(mat){
+            case GRANITE:
+            case ANDESITE:
+            case DIORITE:
             case END_STONE:
             case ANCIENT_DEBRIS:
             case OBSIDIAN:
             case STONE:
             case COBBLESTONE: return true;
 
-
             default: return mat.name().endsWith("_ORE");
+        }
+    }
+
+    public static boolean isMaterialDirt(Material mat) {
+        switch(mat){
+            case CLAY:
+            case SOUL_SOIL:
+            case SOUL_SAND:
+            case GRAVEL:
+            case SAND:
+            case DIRT: return true;
+
+            default: return false;
+        }
+    }
+
+    public static boolean isMaterialPlant(Material mat) {
+        switch(mat) {
+            case BEETROOTS:
+            case NETHER_WART:
+            case CHORUS_FLOWER:
+            case CHORUS_PLANT:
+            case BROWN_MUSHROOM:
+            case RED_MUSHROOM:
+            case WHEAT:
+            case CARROTS:
+            case POTATOES:
+            case SUGAR_CANE: return true;
+
+            default: return false;
         }
     }
 
     public enum TableType {
         FARMING ("farming.json"),
         FORAGING ("foraging.json"),
-        MINING ("mining.json")
+        MINING ("mining.json"),
+        EXCAVATING("excavating.json")
         ;
 
         public String filename;

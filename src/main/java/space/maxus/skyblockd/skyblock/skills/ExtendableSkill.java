@@ -1,67 +1,38 @@
 package space.maxus.skyblockd.skyblock.skills;
 
-import com.google.gson.reflect.TypeToken;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Utility;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.GuiHelper;
-import space.maxus.skyblockd.helpers.JsonHelper;
+import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.items.CustomItem;
-import space.maxus.skyblockd.skyblock.utility.SkyblockFeature;
+import space.maxus.skyblockd.objects.PlayerContainer;
+import space.maxus.skyblockd.objects.SkillContainer;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
-public abstract class Skill implements SkyblockFeature {
-
-    protected String name;
-    protected String prof;
-    protected SkillTable levelTable;
-    protected StatTable rewardTable;
-    protected Player owner;
-
-
-    // utility constructor for classes extending it
-    @Utility
-    protected Skill() {
-    }
+public abstract class ExtendableSkill extends MappedSkill implements ModificableSkill {
 
     public abstract String getSkyblockId();
-
-    public abstract Class<? extends SkillResource> getResource();
     public abstract Material getSkillItem();
-    public abstract String getSkillResourceFile();
     public abstract Player getOwner(Player p);
+    public abstract SkillMap getMap();
 
-    public Skill(Player p) throws IOException {
-        String res = getSkillResourceFile();
-        JsonHelper<? extends SkillResource> json = new JsonHelper<>(getResource(), true);
-        Type t = new TypeToken<SkillResource>(){}.getType();
-        SkillResource resource = json.deserializeJson(JsonHelper.readJsonResource(res), t);
-        name = resource.getSkillName();
-        prof = resource.getProfession();
-        levelTable = resource.getLevelTable();
-        rewardTable = resource.getStatRewards();
-        owner = getOwner(p);
-    }
-
-    public Inventory generateMenu() {
+    @Override
+    public Inventory generateMenu(){
         Inventory i = Bukkit.createInventory(owner, 54, name + " Skill");
         ItemStack gls = GuiHelper.getMenuGlass();
         List<Integer> levels = levelTable.table;
         @SuppressWarnings("unchecked")
-        List<SimpleReward> stats = (List<SimpleReward>) rewardTable.statValues;
+        List<ComplexReward> stats = (List<ComplexReward>) rewardTable.statValues;
+
         // assigning null to air so it looks better
         ItemStack air = new ItemStack(Material.AIR);
         i.setContents(new ItemStack[] {
@@ -75,7 +46,7 @@ public abstract class Skill implements SkyblockFeature {
         List<Integer> bytes = Arrays.asList(0, 7, 14, 21);
         for (int j = 0; j < levels.size(); j++) {
             int xp = levels.get(j);
-            SimpleReward rew = stats.get(j);
+            ComplexReward rew = stats.get(j);
             List<String> lore = new ArrayList<>();
             int sa = xp <= 0 ? 1 : xp;
             lore.add(ChatColor.DARK_GRAY + prof + " " + ChatColor.DARK_AQUA + (j+1));
@@ -84,14 +55,15 @@ public abstract class Skill implements SkyblockFeature {
             if (rew.getStatName() != null) {
                 lore.add(" ");
                 lore.add(ChatColor.GRAY + "Grants +" + rew.getStatValue() +" "+ rew.getStatName().replace("&", "§"));
-                if (rew.getItemName() != null && !rew.getItemName().equals("")) {
-                    String nn = CustomItem
-                            .capitalize(rew.getItemName().toLowerCase(Locale.ENGLISH).replace("_", " "));
-                    String na = rew.getItemValue() > 1 ? ChatColor.AQUA + "" + rew.getItemValue() + " " : "a ";
+                if (rew.getItem() != null) {
+                    String dn = Objects.requireNonNull(rew.getItem().getItemMeta()).getDisplayName();
+                    String nn = dn.equals("") ? CustomItem.capitalize(rew.getItem().getType().name().toLowerCase(Locale.ENGLISH).replace("_", " ")) : dn;
+                    String na = rew.getItemValue() > 1 ? ChatColor.AQUA + "" + rew.getItemValue() + " " : "a " + ChatColor.AQUA;
                     lore.add(ChatColor.GRAY + "and " + na + nn.replace("&", "§"));
                 }
             }
             ItemStack item = bytes.contains(j) ? new ItemStack(getSkillItem()) :
+                    rew.getItem() != null ? new ItemStack(rew.getItem().getType(), 1) :
                     new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
             ItemMeta m = item.getItemMeta();
             assert m != null;
@@ -104,4 +76,33 @@ public abstract class Skill implements SkyblockFeature {
         }
         return i;
     }
+
+    public void claimReward(int reward, Player p){
+        ContainerHelper.updatePlayers();
+        List<PlayerContainer> pl = UniversalHelper.filter(SkyblockD.players, c -> c.uuid.equals(p.getUniqueId()));
+        PlayerContainer cont = pl.get(pl.size()-1);
+        String skillname = getSkyblockId().replace("skyblockd:SKILL_", "").toLowerCase(Locale.ENGLISH);
+        SkillContainer sc = cont.skills.data.get(skillname);
+        HashMap<String, Boolean> da = sc.collectedRewards;
+        SkyblockD.logger.info(""+da);
+        boolean wasCollected = da.get("collected."+reward);
+        boolean wasUnlocked = da.get("unlocked."+reward);
+
+        if(wasCollected) {
+            p.sendMessage(ChatColor.RED+"This reward was already claimed!");
+            return;
+        }
+        if(wasUnlocked) {
+            da.put("collected."+reward, true);
+            ItemStack item = ((ComplexReward) getMap().getRewardList().get(reward)).item;
+            p.getInventory().addItem(item == null ? new ItemStack(Material.AIR) : item);
+            p.sendMessage(ChatColor.GREEN + "Successfully claimed reward for level " + (reward + 1));
+            ContainerHelper.updatePlayers();
+        } else {
+            p.sendMessage(ChatColor.RED+"You have not yet achieved this level!");
+        }
+    }
+
+    public ExtendableSkill(Player p) { super(p); }
+
 }
