@@ -5,9 +5,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.MaterialHelper;
@@ -21,6 +24,8 @@ import space.maxus.skyblockd.skyblock.utility.SkillHelper;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.Random;
 
 public class BlockBreakListener extends BetterListener {
     @EventHandler
@@ -65,6 +70,12 @@ public class BlockBreakListener extends BetterListener {
         p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
         PlayerContainer cont = getPlayer(p);
         int lvl = cont.skills.data.get(name.toLowerCase(Locale.ENGLISH)).currentLevel;
+        Random r = new Random();
+        int rand = r.nextInt(30);
+        if(rand <= lvl) {
+            Item dropped = (Item) Objects.requireNonNull(p.getLocation().getWorld()).spawnEntity(p.getLocation(), EntityType.DROPPED_ITEM);
+            dropped.setItemStack(new ItemStack(blockMat == Material.STONE ? Material.COBBLESTONE : blockMat, r.nextInt(2)+1));
+        }
         int tlvl = lvl == 0 ? 1 : lvl;
         float exp = SkillHelper.getExpForSkill(blockMat, name.toLowerCase(Locale.ENGLISH)) * SkillHelper.getModifier(tlvl);
         String sxp = String.valueOf(exp).replace(",", ".");

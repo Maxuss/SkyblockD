@@ -15,6 +15,7 @@ public enum SkyblockMaterial {
     SHADOW_FRACTURE_LEGGINGS(new ShadowFractureLeggings()),
     SHADOW_FRACTURE_HELMET(new ShadowFractureHelmet()),
     THE_STORM(new Storm()),
+    TRANSMUTATION_POWDER(new CrystalPowder()),
     SKYBLOCK_MENU(SkyblockD.getItemManager().generated.get("skyblockd:SKYBLOCK_MENU"))
     //#endregion Materials
     ;

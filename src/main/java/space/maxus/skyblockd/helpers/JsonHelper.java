@@ -3,7 +3,6 @@ package space.maxus.skyblockd.helpers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import space.maxus.skyblockd.SkyblockD;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +25,6 @@ public class JsonHelper<T> {
         if(!json.startsWith("[") && !json.startsWith("[")){
             j = "{" + json;
         } else j = json;
-        SkyblockD.logger.info(j);
         return g.fromJson(j, t);
     }
 

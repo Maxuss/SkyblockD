@@ -1,10 +1,7 @@
 package space.maxus.skyblockd.helpers;
 
-import space.maxus.skyblockd.SkyblockD;
-
 import java.io.*;
 import java.net.URL;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ResourceHelper {
@@ -25,7 +22,6 @@ public class ResourceHelper {
 
     public static InputStream getResource(String path) {
         ClassLoader loader = ResourceHelper.class.getClassLoader();
-        SkyblockD.logger.info(Objects.requireNonNull(loader.getResourceAsStream(path)).toString());
         return loader.getResourceAsStream(path);
     }
 

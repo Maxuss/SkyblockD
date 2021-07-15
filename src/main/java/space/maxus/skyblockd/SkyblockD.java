@@ -17,7 +17,6 @@ import space.maxus.skyblockd.items.TestItem;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.ServerStorage;
 import space.maxus.skyblockd.recipes.TestRecipe;
-import space.maxus.skyblockd.skyblock.events.handlers.SkyblockClickListener;
 import space.maxus.skyblockd.skyblock.items.ArmorSet;
 import space.maxus.skyblockd.skyblock.items.SkyblockItemRegisterer;
 import space.maxus.skyblockd.skyblock.items.created.*;
@@ -234,13 +233,13 @@ public class SkyblockD extends JavaPlugin {
         new ActionListener();
         new ClickListener();
 
-        // skyblock related events
-        new SkyblockClickListener();
         new PickupListener();
         new EntityListener();
         new CraftListener();
         new BlockBreakListener();
         new KillListener();
+        new EnchantListener();
+        new PotionListener();
     }
 
 

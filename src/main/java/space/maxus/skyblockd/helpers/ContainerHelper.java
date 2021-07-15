@@ -13,7 +13,6 @@ import java.util.List;
 public class ContainerHelper {
     public static HashMap<String, Object> getGroups() throws IOException {
         HashMap<String, Object> dat = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/rgroups.json", new TypeToken<HashMap<String, Object>>(){}.getType());
-        SkyblockD.logger.info(dat.toString());
         return dat;
     }
 

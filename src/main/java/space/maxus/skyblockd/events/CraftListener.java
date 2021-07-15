@@ -68,7 +68,6 @@ public class CraftListener extends BetterListener {
                     }
                 }
             }
-
             operateItems(e, iterable);
         }
         else if(r instanceof ShapelessRecipe) {
@@ -81,9 +80,13 @@ public class CraftListener extends BetterListener {
         int totalExp = 0;
         for(ItemStack i : iterable) {
             boolean isSb = Objects.requireNonNull(i.getItemMeta()).getPersistentDataContainer().has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING);
+            boolean wasCrafted = Objects.requireNonNull(i.getItemMeta()).getPersistentDataContainer().has(SkyblockD.getKey("craftedPreviously"), PersistentDataType.STRING);
             if (!isSb) CustomItem.toSkyblockItem(i);
-            Integer rar = i.getItemMeta().getPersistentDataContainer().get(SkyblockD.getKey("itemRarity"), PersistentDataType.INTEGER);
-            totalExp += rar == null ? 0 : rar * 1.2;
+            if(!wasCrafted) {
+                Integer rar = i.getItemMeta().getPersistentDataContainer().get(SkyblockD.getKey("itemRarity"), PersistentDataType.INTEGER);
+                totalExp += rar == null ? 0 : rar;
+                Objects.requireNonNull(i.getItemMeta()).getPersistentDataContainer().set(SkyblockD.getKey("craftedPreviously"), PersistentDataType.STRING, "true");
+            }
         }
         Player p = (Player) e.getWhoClicked();
         List<PlayerContainer> containers = UniversalHelper.filter(SkyblockD.players, c -> c.uuid.equals(p.getUniqueId()));
@@ -92,7 +95,7 @@ public class CraftListener extends BetterListener {
         int lvl = pc.skills.data.get("crafting").currentLevel;
         int tlvl = lvl == 0 ? 1 : lvl;
 
-        float exp = totalExp * SkillHelper.getModifier(tlvl);
+        float exp = totalExp * SkillHelper.getModifier(tlvl) * 6;
 
         p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
         String sxp = String.valueOf(exp).replace(",", ".");

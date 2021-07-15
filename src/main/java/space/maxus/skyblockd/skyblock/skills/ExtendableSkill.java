@@ -35,13 +35,17 @@ public abstract class ExtendableSkill extends MappedSkill implements Modificable
 
         // assigning null to air so it looks better
         ItemStack air = new ItemStack(Material.AIR);
+
+        ItemStack back = GuiHelper.genSimpleMenuItem(ChatColor.RED+"Go back", Material.ARROW,
+                Collections.emptyList());
+
         i.setContents(new ItemStack[] {
                 gls, gls, gls, gls, gls, gls, gls, gls, gls,
                 gls, air, air, air, air, air, air, air, gls,
                 gls, air, air, air, air, air, air, air, gls,
                 gls, air, air, air, air, air, air, air, gls,
                 gls, air, air, air, air, air, air, air, gls,
-                gls, gls, gls, gls, gls, gls, gls, gls, gls
+                gls, gls, gls, gls, back, gls, gls, gls, gls
         });
         List<Integer> bytes = Arrays.asList(0, 7, 14, 21);
         for (int j = 0; j < levels.size(); j++) {
@@ -84,7 +88,6 @@ public abstract class ExtendableSkill extends MappedSkill implements Modificable
         String skillname = getSkyblockId().replace("skyblockd:SKILL_", "").toLowerCase(Locale.ENGLISH);
         SkillContainer sc = cont.skills.data.get(skillname);
         HashMap<String, Boolean> da = sc.collectedRewards;
-        SkyblockD.logger.info(""+da);
         boolean wasCollected = da.get("collected."+reward);
         boolean wasUnlocked = da.get("unlocked."+reward);
 

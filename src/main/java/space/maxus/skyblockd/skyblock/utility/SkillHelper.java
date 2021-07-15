@@ -28,7 +28,6 @@ public class SkillHelper {
                 put("excavating", SkyblockD.getServerData().excavating);
             }
         };
-        SkyblockD.logger.info(skill.toLowerCase(Locale.ENGLISH));
         return datas.get(skill.toLowerCase(Locale.ENGLISH)).get(item.name());
     }
 }

@@ -3,10 +3,17 @@ package space.maxus.skyblockd.helpers;
 import com.google.gson.reflect.TypeToken;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.skyblock.elixirs.ElixirEffect;
+import space.maxus.skyblockd.skyblock.elixirs.created.*;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class MaterialHelper {
     public static Material fromString(String mat){
@@ -86,15 +93,25 @@ public class MaterialHelper {
 
             case ARMOR_STAND:
             case AREA_EFFECT_CLOUD:
+            case PAINTING:
+            case LEASH_HITCH:
+            case ARROW:
+            case TRIDENT:
+            case MINECART:
+            case ITEM_FRAME:
                 return 0;
 
-            case SILVERFISH: return 3;
+            case SILVERFISH:
+            case RABBIT:
+                return 3;
             case CAVE_SPIDER: return 17;
             case PIGLIN_BRUTE: return 60;
             case BLAZE: return 30;
             case ENDERMAN: return 40;
             case SHULKER: return 45;
             case SKELETON: return 12;
+            case FOX: return 7;
+            case PANDA: return 2;
 
             default:
                 return 5;
@@ -147,6 +164,101 @@ public class MaterialHelper {
             case SUGAR_CANE: return true;
 
             default: return false;
+        }
+    }
+
+    public static ElixirEffect getEffect(ItemStack i, ItemStack potion) {
+        ItemMeta m = i.getItemMeta();
+        assert m != null;
+        if(m.getPersistentDataContainer().has(SkyblockD.getKey("elixirEffect"), PersistentDataType.STRING)) {
+            String type = m.getPersistentDataContainer().get(SkyblockD.getKey("elixirEffect"), PersistentDataType.STRING);
+            switch(Objects.requireNonNull(type)) {
+                case "insanity":
+                    return new InsanityEffect(potion);
+                case "fury":
+                    return new FuryEffect(potion);
+                case "berserk":
+                    return new BerserkEffect(potion);
+                case "fleet":
+                    return new FleetEffect(potion);
+                case "digger":
+                    return new DiggerEffect(potion);
+                case "paralysis":
+                    return new ParalysisEffect(potion);
+                case "yeti":
+                    return new YetiEffect(potion);
+                case "dragon":
+                    return new DragonEffect(potion);
+                default: return new FailedEffect(potion);
+            }
+        }
+        else {
+            Material type = i.getType();
+            switch(type) {
+                case IRON_PICKAXE:
+                case IRON_INGOT:
+                case COCOA:
+                case DIAMOND_PICKAXE:
+                case BAMBOO:
+                case GLOWSTONE:
+                case REDSTONE:
+                    return new DiggerEffect(potion);
+
+                case NETHERITE_SCRAP:
+                case DIAMOND:
+                case SUGAR_CANE:
+                case SUGAR:
+                    return new FleetEffect(potion);
+
+                case TRIPWIRE_HOOK:
+                case CREEPER_HEAD:
+                case SPONGE:
+                case COD:
+                case GUNPOWDER:
+                case TNT:
+                    return new InsanityEffect(potion);
+
+                case BLAZE_POWDER:
+                case BLAZE_ROD:
+                case EMERALD_BLOCK:
+                case BARRIER:
+                case NETHERITE_SWORD:
+                    return new BerserkEffect(potion);
+
+                case FIRE_CHARGE:
+                case GOLD_INGOT:
+                case NETHERITE_INGOT:
+                case NETHERITE_AXE:
+                case DIAMOND_BLOCK:
+                    return new FuryEffect(potion);
+
+                case BEACON:
+                case DRAGON_EGG:
+                case DRAGON_HEAD:
+                case DRAGON_BREATH:
+                case DEAD_FIRE_CORAL:
+                case FIRE_CORAL:
+                case DIAMOND_SWORD:
+                    return new DragonEffect(potion);
+
+                case TURTLE_EGG:
+                case ANVIL:
+                case TURTLE_HELMET:
+                case SHULKER_SHELL:
+                case NAUTILUS_SHELL:
+                    return new ParalysisEffect(potion);
+
+                case ICE:
+                case LIGHT_BLUE_WOOL:
+                case SNOW:
+                case PACKED_ICE:
+                case BLUE_ICE:
+                case SNOW_BLOCK:
+                    return new YetiEffect(potion);
+
+
+                default: return new FailedEffect(potion);
+            }
         }
     }
 

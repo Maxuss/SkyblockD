@@ -1,8 +1,6 @@
 package space.maxus.skyblockd.events;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -13,13 +11,18 @@ import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.gui.MainMenuGUI;
 import space.maxus.skyblockd.gui.SkillsGui;
+import space.maxus.skyblockd.helpers.ContainerHelper;
+import space.maxus.skyblockd.helpers.GuiHelper;
+import space.maxus.skyblockd.helpers.MaterialHelper;
+import space.maxus.skyblockd.helpers.UniversalHelper;
+import space.maxus.skyblockd.objects.PlayerContainer;
+import space.maxus.skyblockd.objects.SkillContainer;
+import space.maxus.skyblockd.skyblock.elixirs.ElixirEffect;
 import space.maxus.skyblockd.skyblock.items.SkyblockItem;
 import space.maxus.skyblockd.skyblock.skills.created.*;
+import space.maxus.skyblockd.skyblock.utility.SkillHelper;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 
 import static org.bukkit.event.Event.Result;
 
@@ -37,7 +40,121 @@ public class InventoryListener extends BetterListener{
             skills(e, p);
         } else if (title.contains("Skill")) {
             skillClaim(e, p);
+        } else if (title.equalsIgnoreCase("Elixir Brewer")) {
+            elixirs(e, p);
         }
+    }
+
+    private void elixirs(InventoryClickEvent e, Player p) {
+        ItemStack is = e.getCurrentItem();
+        e.setResult(Result.DENY);
+        if(is != null) {
+            String item = ChatColor.stripColor(Objects.requireNonNull(is.getItemMeta()).getDisplayName());
+            Inventory ui = e.getInventory();
+            if(item.equals("Brew")) {
+                ItemStack ingredient = ui.getItem(13);
+                ItemStack base = ui.getItem(40);
+                if(ingredient == null) {
+                    p.sendMessage(ChatColor.RED+"Please put an ingredient!");
+                    return;
+                }
+                if(base == null || base.getType() != Material.HONEY_BOTTLE) {
+                    p.sendMessage(ChatColor.RED+"Please put bottle of honey to apply effects to!");
+                    return;
+                }
+
+                PersistentDataContainer lc = Objects.requireNonNull(ingredient.getItemMeta()).getPersistentDataContainer();
+                PersistentDataContainer bc = Objects.requireNonNull(base.getItemMeta()).getPersistentDataContainer();
+
+                NamespacedKey sb = SkyblockD.getKey("skyblockNative");
+
+                if(!lc.has(sb, PersistentDataType.STRING) ||
+                        !bc.has(sb, PersistentDataType.STRING)) {
+                    p.sendMessage(ChatColor.GRAY+"You can not use this items as ingredients!");
+                    p.sendMessage(ChatColor.GRAY+"Tip: try dropping the item on ground and trying again!");
+                    return;
+                }
+
+                ItemStack pot = new ItemStack(Material.HONEY_BOTTLE, 1);
+                pot.setItemMeta(GuiHelper.setHideAllFlags(Objects.requireNonNull(pot.getItemMeta())));
+                ElixirEffect eff = MaterialHelper.getEffect(ingredient, pot);
+
+                ui.setItem(40, eff.getItem());
+                ui.setItem(13, null);
+
+                p.sendMessage(ChatColor.GREEN + "Brewing finished! Your elixir received effect: " + eff.getEffectName());
+                p.playSound(p.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1, 0.5f);
+
+                List<PlayerContainer> players = UniversalHelper.filter(SkyblockD.players, c -> c.uuid.equals(p.getUniqueId()));
+                PlayerContainer pc = players.get(players.size()-1);
+
+                SkillContainer mysticism = pc.skills.data.get("mysticism");
+                int lvl = mysticism.currentLevel;
+                int tlvl = lvl == 0 ? 1 : lvl;
+                float modifier = SkillHelper.getModifier(tlvl);
+
+                float exp = modifier * 15 * new Random().nextInt(3);
+
+                String sxp = String.valueOf(exp).replace(",", ".");
+
+                String rawCommand = "title "+p.getName()+" actionbar {\"text\":\"+"+sxp+" Mysticism Experience\", \"color\":\"dark_aqua\"}";
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), rawCommand);
+                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
+
+                pc.skills.totalExp += exp;
+
+                mysticism.totalExp += exp;
+                mysticism.levelExp += exp;
+                int toNext = SkyblockD.getMapManager().getMaps().get("mysticism").getExperience().table
+                        .get(mysticism.currentLevel + 1);
+                int div = mysticism.levelExp - toNext;
+                if(div >= 0) {
+                    mysticism.levelExp = div;
+                    p.sendMessage(new String[]{
+                                    ChatColor.GOLD + "" + ChatColor.BOLD + "-----------------------------",
+                                    ChatColor.YELLOW + "" + ChatColor.BOLD + "MYSTICISM LEVEL UP!",
+                                    " ",
+                                    ChatColor.GREEN + "You are now combat level " + (mysticism.currentLevel + 1) + "!",
+                                    ChatColor.GREEN + "Check out new level rewards in Skyblock Menu!",
+                                    ChatColor.GOLD + "" + ChatColor.BOLD + "-----------------------------"
+                            }
+                    );
+                    p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 0.5f);
+                    int level = mysticism.currentLevel;
+                    mysticism.currentLevel++;
+                    String levl = "unlocked."+level;
+                    mysticism.collectedRewards.put(levl, true);
+                    ContainerHelper.updatePlayers();
+                    setPlayer(pc, p);
+                }
+            }
+            else {
+                if(is.getType() == Material.HONEY_BOTTLE && e.getClickedInventory() == p.getInventory()) {
+                    p.getInventory().remove(is);
+                    if(ui.getItem(40) != null) {
+                        p.getInventory().addItem(ui.getItem(40));
+                    }
+                    ui.setItem(40, is);
+                } else if(e.getClickedInventory() == p.getInventory()){
+                    p.getInventory().remove(is);
+                    if(ui.getItem(40) != null) {
+                        p.getInventory().addItem(ui.getItem(40));
+                    }
+                    ui.setItem(13, is);
+                } else {
+                    p.getInventory().addItem(is);
+                    ui.remove(is);
+                }
+                p.playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1.5f);
+            }
+        }
+    }
+
+    private void setPlayer(PlayerContainer p, Player pl){
+        List<PlayerContainer> conts = UniversalHelper.filter(SkyblockD.getPlayers(), c -> c.uuid.equals(pl.getUniqueId()));
+        SkyblockD.players.remove(conts.get(conts.size() - 1));
+        SkyblockD.players.add(p);
+        ContainerHelper.updatePlayers();
     }
 
     private void skills(InventoryClickEvent e, Player p){
@@ -79,6 +196,7 @@ public class InventoryListener extends BetterListener{
                 p.closeInventory();
                 p.openInventory(mmg.generateContains(Bukkit.createInventory(mmg.getHolder(p), mmg.getSize(), mmg.getName())));
                 break;
+            default: break;
         }
     }
 
@@ -138,7 +256,14 @@ public class InventoryListener extends BetterListener{
     private void skillClaim(InventoryClickEvent e, Player p) {
         e.setResult(Result.DENY);
         p.updateInventory();
-
+        if(e.getCurrentItem() != null && ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equals("Go back")) {
+            MainMenuGUI m = new MainMenuGUI();
+            m.setPlayer(p);
+            Inventory inv = Bukkit.createInventory(p, m.getSize(), m.getName());
+            m.generateContains(inv);
+            p.openInventory(inv);
+            p.updateInventory();
+        }
         String skill = ChatColor.stripColor(e.getView().getTitle().replace(" Skill", "")).toLowerCase(Locale.ENGLISH);
         int index = e.getSlot();
 
@@ -181,6 +306,20 @@ public class InventoryListener extends BetterListener{
                 break;
             case "excavating":
                 new Excavating(p).claimReward(index, p);
+                break;
+            case "combat":
+                new Combat(p).claimReward(index, p);
+                break;
+            case "mysticism":
+                new Mysticism(p).claimReward(index, p);
+                break;
+            case "farming":
+                new Farming(p).claimReward(index, p);
+                break;
+            case "crafting":
+                new Crafting(p).claimReward(index, p);
+                break;
+            default:
                 break;
         }
     }
