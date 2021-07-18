@@ -17,8 +17,8 @@ public class ShadowFractureBoots extends SkyblockItem {
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.NETHERITE_BOOTS, "Shadow Fracture Boots",
-                SkyblockRarity.MYTHIC, SkyblockItemType.BOOTS,
-                new SkyblockItemStats().setStrength(150).setHealth(100).setSpeed(50)
+                SkyblockRarity.LEGENDARY, SkyblockItemType.BOOTS,
+                new SkyblockItemStats().setStrength(150).setHealth(100).setSpeed(50).setDefense(50)
         );
         cfg.setDescription(Collections.singletonList(ChatColor.DARK_GRAY+"Fractured"));
         cfg.setAbilities(Collections.singletonList(
@@ -53,6 +53,9 @@ public class ShadowFractureBoots extends SkyblockItem {
         m.addAttributeModifier(
                 Attribute.GENERIC_MOVEMENT_SPEED,
                 new AttributeModifier("generic.movementSpeed", 0.05, AttributeModifier.Operation.ADD_NUMBER));
+        m.addAttributeModifier(
+                Attribute.GENERIC_ARMOR,
+                new AttributeModifier("generic.armor", 5, AttributeModifier.Operation.ADD_NUMBER));
         i.setItemMeta(m);
         return i;
     }

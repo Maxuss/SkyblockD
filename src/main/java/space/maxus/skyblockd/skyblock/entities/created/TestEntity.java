@@ -3,6 +3,7 @@ package space.maxus.skyblockd.skyblock.entities.created;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -13,7 +14,7 @@ import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 
 public class TestEntity extends SkyblockEntity {
     @Override
-    public Location getLocation(Player p) {
+    public Location getLocation(Entity p) {
         return p.getLocation();
     }
 
@@ -64,7 +65,7 @@ public class TestEntity extends SkyblockEntity {
     }
 
     @Override
-    public void postInit(LivingEntity entity, Player p) {
+    public void postInit(LivingEntity entity, Entity p) {
         SkyblockD.getSender().sendMessage(ChatColor.GRAY+"Generated entity!");
     }
 

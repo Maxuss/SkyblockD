@@ -3,9 +3,9 @@ package space.maxus.skyblockd.skyblock.entities;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public abstract class SkyblockEntity implements SkyblockFeature {
 
-    public abstract Location getLocation(Player p);
+    public abstract Location getLocation(Entity e);
     public abstract EntityEquipment getEquipment(EntityEquipment base);
     public abstract EntityType getType();
     public abstract String getName();
@@ -26,10 +26,10 @@ public abstract class SkyblockEntity implements SkyblockFeature {
     public abstract double getDefense();
     public abstract int getLevel();
     public abstract String getSkyblockId();
-    public abstract void postInit(LivingEntity entity, Player player);
+    public abstract void postInit(LivingEntity entity, Entity base);
 
-    public void generate(Player p){
-        LivingEntity e = (LivingEntity) p.getWorld().spawnEntity(getLocation(p), getType());
+    public void generate(Entity en){
+        LivingEntity e = (LivingEntity) en.getWorld().spawnEntity(getLocation(en), getType());
 
         // set equipment
         getEquipment(e.getEquipment());
@@ -43,7 +43,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
         // set display name
         e.setCustomNameVisible(true);
         e.setCustomName(
-                ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + getLevel() + ChatColor.DARK_GRAY + "]" + " "
+                ChatColor.DARK_GRAY + "[" + ChatColor.GRAY+ "Lvl " + getLevel() + ChatColor.DARK_GRAY + "]" + " "
                 + getName() + ChatColor.RESET + " " + ChatColor.GREEN + getHealth() + ChatColor.WHITE
                 + "/" + ChatColor.GREEN + (int) getHealth() + ChatColor.RED + " " + SkyblockConstants.HEALTH
         );
@@ -53,7 +53,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
         e.getPersistentDataContainer().set(SkyblockD.getKey("entityLevel"), PersistentDataType.INTEGER, getLevel());
 
         // finish initialization by calling postInit
-        postInit(e, p);
+        postInit(e, en);
     }
 
     public static void toSkyblockEntity(LivingEntity e){

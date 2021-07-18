@@ -1,14 +1,13 @@
 package space.maxus.skyblockd.skyblock.events;
 
-import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class SkyblockItemClickEvent extends SkyblockEvent {
+public class SkyblockItemClickEvent extends SkyblockEvent<PlayerInteractEvent> {
 
     private final PlayerInteractEvent predcessor;
 
     @Override
-    public Event getPredcessor() {
+    public PlayerInteractEvent getPredcessor() {
         return predcessor;
     }
 

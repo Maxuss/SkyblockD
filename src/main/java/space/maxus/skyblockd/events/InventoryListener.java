@@ -6,15 +6,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.gui.MainMenuGUI;
 import space.maxus.skyblockd.gui.SkillsGui;
-import space.maxus.skyblockd.helpers.ContainerHelper;
-import space.maxus.skyblockd.helpers.GuiHelper;
-import space.maxus.skyblockd.helpers.MaterialHelper;
-import space.maxus.skyblockd.helpers.UniversalHelper;
+import space.maxus.skyblockd.helpers.*;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.SkillContainer;
 import space.maxus.skyblockd.skyblock.elixirs.ElixirEffect;
@@ -75,7 +73,12 @@ public class InventoryListener extends BetterListener{
                     return;
                 }
 
-                ItemStack pot = new ItemStack(Material.HONEY_BOTTLE, 1);
+                ItemStack pot = new ItemStack(Material.POTION, 1);
+                PotionMeta m = (PotionMeta) pot.getItemMeta();
+                assert m != null;
+                ItemHelper.applyGlint(m);
+                m.setColor(Color.fromRGB(108,34,122));
+                pot.setItemMeta(GuiHelper.setHideAllFlags(m));
                 pot.setItemMeta(GuiHelper.setHideAllFlags(Objects.requireNonNull(pot.getItemMeta())));
                 ElixirEffect eff = MaterialHelper.getEffect(ingredient, pot);
 
@@ -93,9 +96,11 @@ public class InventoryListener extends BetterListener{
                 int tlvl = lvl == 0 ? 1 : lvl;
                 float modifier = SkillHelper.getModifier(tlvl);
 
-                float exp = modifier * 15 * new Random().nextInt(3);
+                float exp = modifier * 25.5f * (new Random().nextFloat() + 1);
 
-                String sxp = String.valueOf(exp).replace(",", ".");
+                double d = Math.floor(exp);
+
+                String sxp = String.valueOf(d).replace(",", ".");
 
                 String rawCommand = "title "+p.getName()+" actionbar {\"text\":\"+"+sxp+" Mysticism Experience\", \"color\":\"dark_aqua\"}";
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), rawCommand);
@@ -129,23 +134,34 @@ public class InventoryListener extends BetterListener{
                 }
             }
             else {
-                if(is.getType() == Material.HONEY_BOTTLE && e.getClickedInventory() == p.getInventory()) {
-                    p.getInventory().remove(is);
+                if(is.getType() == Material.LIME_STAINED_GLASS_PANE || is.getType() == Material.GRAY_STAINED_GLASS_PANE) return;
+                else if(is.getType() == Material.HONEY_BOTTLE && e.getClickedInventory() == p.getInventory()) {
                     if(ui.getItem(40) != null) {
                         p.getInventory().addItem(ui.getItem(40));
                     }
                     ui.setItem(40, is);
+                    removeItem(is, p.getInventory(), is.getAmount());
                 } else if(e.getClickedInventory() == p.getInventory()){
-                    p.getInventory().remove(is);
-                    if(ui.getItem(40) != null) {
-                        p.getInventory().addItem(ui.getItem(40));
+                    if(ui.getItem(13) != null) {
+                        p.getInventory().addItem(ui.getItem(13));
                     }
                     ui.setItem(13, is);
+                    removeItem(is, p.getInventory(), is.getAmount());
                 } else {
                     p.getInventory().addItem(is);
                     ui.remove(is);
                 }
                 p.playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1.5f);
+            }
+        }
+    }
+
+    private void removeItem(ItemStack item, Inventory i, int amount) {
+        for(ItemStack it : i.getContents()) {
+            if(it != null && it.getType() != Material.AIR && it.isSimilar(item)) {
+                it.setAmount(it.getAmount()-amount);
+                it.setType(Material.AIR);
+                return;
             }
         }
     }
@@ -256,8 +272,8 @@ public class InventoryListener extends BetterListener{
     private void skillClaim(InventoryClickEvent e, Player p) {
         e.setResult(Result.DENY);
         p.updateInventory();
-        if(e.getCurrentItem() != null && ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).equals("Go back")) {
-            MainMenuGUI m = new MainMenuGUI();
+        if(e.getCurrentItem() != null && ChatColor.stripColor(Objects.requireNonNull(e.getCurrentItem().getItemMeta()).getDisplayName()).equals("Go back")) {
+            SkillsGui m = new SkillsGui();
             m.setPlayer(p);
             Inventory inv = Bukkit.createInventory(p, m.getSize(), m.getName());
             m.generateContains(inv);

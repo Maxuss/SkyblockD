@@ -68,7 +68,18 @@ public class CraftListener extends BetterListener {
                     }
                 }
             }
+            if(e.getInventory().getResult() != null && Objects.requireNonNull(e.getInventory().getResult().getItemMeta()).getPersistentDataContainer().has(SkyblockD.getKey("craftedPreviously"), PersistentDataType.STRING)) return;
             operateItems(e, iterable);
+            ItemStack result = e.getInventory().getResult();
+            if(result != null) {
+                ItemMeta m = result.getItemMeta();
+                assert m != null;
+                m.getPersistentDataContainer().set(SkyblockD.getKey("craftedPreviously"), PersistentDataType.STRING, "true");
+                result.setItemMeta(m);
+                if(!m.getPersistentDataContainer().has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING)) {
+                    CustomItem.toSkyblockItem(result);
+                }
+            }
         }
         else if(r instanceof ShapelessRecipe) {
             ShapelessRecipe sr = (ShapelessRecipe) r;
@@ -79,13 +90,21 @@ public class CraftListener extends BetterListener {
     private void operateItems(CraftItemEvent e, List<ItemStack> iterable) {
         int totalExp = 0;
         for(ItemStack i : iterable) {
-            boolean isSb = Objects.requireNonNull(i.getItemMeta()).getPersistentDataContainer().has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING);
-            boolean wasCrafted = Objects.requireNonNull(i.getItemMeta()).getPersistentDataContainer().has(SkyblockD.getKey("craftedPreviously"), PersistentDataType.STRING);
-            if (!isSb) CustomItem.toSkyblockItem(i);
-            if(!wasCrafted) {
-                Integer rar = i.getItemMeta().getPersistentDataContainer().get(SkyblockD.getKey("itemRarity"), PersistentDataType.INTEGER);
-                totalExp += rar == null ? 0 : rar;
-                Objects.requireNonNull(i.getItemMeta()).getPersistentDataContainer().set(SkyblockD.getKey("craftedPreviously"), PersistentDataType.STRING, "true");
+            if(i != null) {
+                ItemMeta m = i.getItemMeta();
+                if (m == null) {
+                    totalExp += 1.5;
+                    continue;
+                }
+                PersistentDataContainer c = m.getPersistentDataContainer();
+                boolean isSb = c.has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING);
+                boolean wasCrafted = c.has(SkyblockD.getKey("craftedPreviously"), PersistentDataType.STRING);
+                if (!isSb) CustomItem.toSkyblockItem(i);
+                if (!wasCrafted) {
+                    Integer rar = i.getItemMeta().getPersistentDataContainer().get(SkyblockD.getKey("itemRarity"), PersistentDataType.INTEGER);
+                    totalExp += rar == null ? 0 : rar;
+                    Objects.requireNonNull(i.getItemMeta()).getPersistentDataContainer().set(SkyblockD.getKey("craftedPreviously"), PersistentDataType.STRING, "true");
+                }
             }
         }
         Player p = (Player) e.getWhoClicked();

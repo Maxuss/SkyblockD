@@ -3,10 +3,10 @@ package space.maxus.skyblockd.skyblock.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public abstract class SkyblockEvent extends Event {
+public abstract class SkyblockEvent<T extends Event> extends Event {
     private static final HandlerList handlers = new HandlerList();
 
-    public abstract Event getPredcessor();
+    public abstract T getPredcessor();
 
     @Override
     public HandlerList getHandlers() {

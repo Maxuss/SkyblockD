@@ -1,13 +1,12 @@
 package space.maxus.skyblockd.skyblock.events;
 
-import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 
-public class SkyblockBlockBreakEvent extends SkyblockEvent {
+public class SkyblockBlockBreakEvent extends SkyblockEvent<BlockBreakEvent> {
     private final BlockBreakEvent predcessor;
 
     @Override
-    public Event getPredcessor() {
+    public BlockBreakEvent getPredcessor() {
         return predcessor;
     }
 

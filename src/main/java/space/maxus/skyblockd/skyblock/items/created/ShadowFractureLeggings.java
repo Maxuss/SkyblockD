@@ -17,8 +17,8 @@ public class ShadowFractureLeggings extends SkyblockItem {
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.NETHERITE_LEGGINGS, "Shadow Fracture Leggings",
-                SkyblockRarity.MYTHIC, SkyblockItemType.LEGGINGS,
-                new SkyblockItemStats().setStrength(150).setHealth(100).setSpeed(50)
+                SkyblockRarity.LEGENDARY, SkyblockItemType.LEGGINGS,
+                new SkyblockItemStats().setStrength(150).setHealth(100).setSpeed(50).setDefense(100)
         );
         cfg.setDescription(Collections.singletonList(ChatColor.DARK_GRAY+"Fractured"));
         cfg.setAbilities(Collections.singletonList(
@@ -53,6 +53,9 @@ public class ShadowFractureLeggings extends SkyblockItem {
         m.addAttributeModifier(
                 Attribute.GENERIC_MOVEMENT_SPEED,
                 new AttributeModifier("generic.movementSpeed", 0.025, AttributeModifier.Operation.ADD_NUMBER));
+        m.addAttributeModifier(
+                Attribute.GENERIC_ARMOR,
+                new AttributeModifier("generic.armor", 10, AttributeModifier.Operation.ADD_NUMBER));
         i.setItemMeta(m);
         return i;
     }

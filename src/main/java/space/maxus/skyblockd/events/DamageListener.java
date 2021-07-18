@@ -1,5 +1,6 @@
 package space.maxus.skyblockd.events;
 
+import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
@@ -20,7 +21,19 @@ public class DamageListener extends BetterListener {
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
         Entity en = e.getEntity();
-        if (!(en instanceof Player) && !(en instanceof ArmorStand)) {
+        if(en.hasMetadata("NPC")) {
+            LivingEntity le = (LivingEntity) en;
+            NPC npc = SkyblockD.getNpcRegistry().getNPC(le);
+            int lvl = (int) (Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue() / 2);
+            String n = le.getPersistentDataContainer().get(SkyblockD.getKey("entityName"), PersistentDataType.STRING);
+            String name = ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lvl " +lvl + ChatColor.DARK_GRAY + "]" + " "
+                    + n + ChatColor.RESET + " " + ChatColor.GREEN + (int)le.getHealth() + ChatColor.WHITE
+                    + "/" + ChatColor.GREEN +
+                    (int) Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue()
+                    + ChatColor.RED + "" + SkyblockConstants.HEALTH;
+            npc.setName(name);
+        }
+        if (!(en instanceof ArmorStand)) {
             int dmg = (int) e.getFinalDamage();
             Location loc = en.getLocation();
 

@@ -18,6 +18,9 @@ public enum SkyblockItemType {
     BREWING_INGREDIENT("BREWING INGREDIENT", false, true),
     COSMETIC("COSMETIC", false, true),
     PET_ITEM("PET ITEM", false, true),
+    ELIXIR("ELIXIR", false, true),
+    ELIXIR_INGREDIENT("ELIXIR INGREDIENT", false, true),
+
     OTHER_CONSUMABLE("", false, true),
     OTHER_NONCONSUMABLE("", false, false)
     ;

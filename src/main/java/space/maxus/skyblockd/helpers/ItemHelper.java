@@ -2,11 +2,16 @@ package space.maxus.skyblockd.helpers;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 import space.maxus.skyblockd.utils.ItemGlint;
@@ -23,6 +28,11 @@ public class ItemHelper {
         // i am sorry for this switch
         switch(m){
             // uncommon
+            case SOUL_TORCH:
+            case SOUL_CAMPFIRE:
+            case SOUL_LANTERN:
+            case SOUL_SOIL:
+            case SOUL_SAND:
             case BONE_BLOCK:
             case SHULKER_SHELL:
             case TUBE_CORAL:
@@ -135,5 +145,35 @@ public class ItemHelper {
         Multimap<Attribute, AttributeModifier> mm = ArrayListMultimap.create();
         mm.put(attribute, modifier);
         return mm;
+    }
+
+    public static boolean isOnCooldown(ItemStack item, int cd, Player p) {
+        if(item == null || !item.hasItemMeta()) return false;
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        PersistentDataContainer c = meta.getPersistentDataContainer();
+        NamespacedKey cdKey = SkyblockD.getKey("lastUse");
+        double time = System.currentTimeMillis() / 1000d;
+        if(!c.has(cdKey, PersistentDataType.INTEGER)) {
+            c.set(SkyblockD.getKey("lastUse"), PersistentDataType.INTEGER, (int) time);
+            item.setItemMeta(meta);
+            p.sendMessage(ChatColor.RED+"Please wait a bit before using this again!");
+            return true;
+        }
+        Integer lastTime = c.get(cdKey, PersistentDataType.INTEGER);
+        if (lastTime == null || lastTime == 0) {
+            c.set(SkyblockD.getKey("lastUse"), PersistentDataType.INTEGER, (int) time);
+            item.setItemMeta(meta);
+            return false;
+        }
+        if (time - cd > lastTime) {
+            c.set(SkyblockD.getKey("lastUse"), PersistentDataType.INTEGER, (int) time);
+            item.setItemMeta(meta);
+            return false;
+        }
+        int timeLeft = (int) time - lastTime;
+        timeLeft = cd - timeLeft;
+        p.sendMessage(ChatColor.RED+"Please wait " + timeLeft + "s before using this again!");
+        return true;
     }
 }

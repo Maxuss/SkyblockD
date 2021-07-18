@@ -1,9 +1,10 @@
-package space.maxus.skyblockd.recipes;
+package space.maxus.skyblockd.recipes.created;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.recipes.RecipeBase;
 import space.maxus.skyblockd.skyblock.items.created.Recombobulator;
 import space.maxus.skyblockd.skyblock.items.created.Storm;
 

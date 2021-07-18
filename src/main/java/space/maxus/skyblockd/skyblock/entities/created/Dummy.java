@@ -2,16 +2,16 @@ package space.maxus.skyblockd.skyblock.entities.created;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 
 public class Dummy extends SkyblockEntity {
     @Override
-    public Location getLocation(Player p) {
+    public Location getLocation(Entity p) {
         return p.getLocation();
     }
 
@@ -56,13 +56,9 @@ public class Dummy extends SkyblockEntity {
     }
 
     @Override
-    public void postInit(LivingEntity entity, Player p) {
+    public void postInit(LivingEntity entity, Entity p) {
         entity.setAI(false);
         entity.setInvulnerable(true);
         p.sendMessage(ChatColor.GOLD+"Successfully generated training dummy!");
-    }
-
-    public Dummy(Player p){
-        super.generate(p);
     }
 }

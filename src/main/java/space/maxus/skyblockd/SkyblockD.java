@@ -1,8 +1,12 @@
 package space.maxus.skyblockd;
 
 import com.google.gson.reflect.TypeToken;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.MemoryNPCDataStore;
+import net.citizensnpcs.api.npc.NPCRegistry;
 import org.bukkit.*;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
@@ -16,10 +20,14 @@ import space.maxus.skyblockd.items.ItemManager;
 import space.maxus.skyblockd.items.TestItem;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.ServerStorage;
-import space.maxus.skyblockd.recipes.TestRecipe;
+import space.maxus.skyblockd.recipes.created.*;
+import space.maxus.skyblockd.skyblock.events.handlers.SkyblockBreakListener;
+import space.maxus.skyblockd.skyblock.events.handlers.SkyblockClickListener;
 import space.maxus.skyblockd.skyblock.items.ArmorSet;
 import space.maxus.skyblockd.skyblock.items.SkyblockItemRegisterer;
-import space.maxus.skyblockd.skyblock.items.created.*;
+import space.maxus.skyblockd.skyblock.items.created.EmeraldSet;
+import space.maxus.skyblockd.skyblock.items.created.ShadowFractureSet;
+import space.maxus.skyblockd.skyblock.items.created.SkyblockMenuItem;
 import space.maxus.skyblockd.skyblock.skills.SimpleSkillMap;
 import space.maxus.skyblockd.skyblock.skills.SkillMapManager;
 import space.maxus.skyblockd.skyblock.skills.SkillResource;
@@ -48,6 +56,7 @@ public class SkyblockD extends JavaPlugin {
     private static SkyblockItemRegisterer itemRegisterer;
     private static HashMap<String, ArmorSet> armorSets = new HashMap<>();
     private static ServerStorage serverData;
+    private static NPCRegistry npcRegistry;
 
     public static List<PlayerContainer> players = new ArrayList<>();
 
@@ -115,6 +124,7 @@ public class SkyblockD extends JavaPlugin {
     public static SkillMapManager getMapManager() { return mapManager; }
     public static ServerStorage getServerData() { return serverData; }
     public static List<PlayerContainer> getPlayers() { return players; }
+    public static NPCRegistry getNpcRegistry() {return npcRegistry;}
 
     public static String getShortVersion() {
         return shortVersion;
@@ -166,7 +176,14 @@ public class SkyblockD extends JavaPlugin {
     }
 
     private void registerRecipes(){
-        new TestRecipe();
+        new Infusion1Recipe();
+        new Infusion2Recipe();
+        new PowderRecipe();
+        new GrailRecipe();
+        new EmeraldHelmetRecipe();
+        new EmeraldChestplateRecipe();
+        new EmeraldLeggingsRecipe();
+        new EmeraldBootsRecipe();
     }
 
     private void configureManagers() {
@@ -187,7 +204,16 @@ public class SkyblockD extends JavaPlugin {
         }
         commandManager.addContain(new SkyblockMenuCommand());
         commandManager.addContain(new RecombobulateCommand());
+        commandManager.addContain(new SpawnCommand());
         commandManager.register();
+
+        PluginCommand getitem = this.getCommand("getitem");
+        PluginCommand spawn = this.getCommand("spawn");
+
+        assert getitem != null && spawn != null;
+
+        getitem.setTabCompleter(new GetItemCompleter());
+        spawn.setTabCompleter(new SpawnCompleter());
 
         // register items
         if (config.inDevMode()) {
@@ -198,16 +224,6 @@ public class SkyblockD extends JavaPlugin {
         citems = itemManager.generated;
 
         itemRegisterer = new SkyblockItemRegisterer();
-
-        ShadowFractureHelmet sfh = new ShadowFractureHelmet();
-        ShadowFractureChestplate sfc = new ShadowFractureChestplate();
-        ShadowFractureLeggings sfl = new ShadowFractureLeggings();
-        ShadowFractureBoots sfb = new ShadowFractureBoots();
-
-        citems.put(sfh.getSkyblockId(), sfh.generate());
-        citems.put(sfc.getSkyblockId(), sfc.generate());
-        citems.put(sfl.getSkyblockId(), sfl.generate());
-        citems.put(sfb.getSkyblockId(), sfb.generate());
 
         mapManager.addMap("mining", new MiningSkillMap("Mining", "Speleologist"));
         mapManager.addMap("foraging", new ForagingSkillMap("Foraging", "Logger"));
@@ -240,8 +256,13 @@ public class SkyblockD extends JavaPlugin {
         new KillListener();
         new EnchantListener();
         new PotionListener();
-    }
+        new MovementListener();
+        new PlayerDeathListener();
+        new ShootListener();
 
+        new SkyblockClickListener();
+        new SkyblockBreakListener();
+    }
 
     public void registerEnchantments() {
         try {
@@ -267,6 +288,7 @@ public class SkyblockD extends JavaPlugin {
     public void registerArmor(){
         armorSets = new HashMap<>();
         armorSets.put("set::SHADOW_FRACTURE", new ShadowFractureSet());
+        armorSets.put("set::EMERALD", new EmeraldSet());
     }
 
     public void processRanks(){
@@ -329,9 +351,6 @@ public class SkyblockD extends JavaPlugin {
         registerRecipes();
 
         // TEST
-
-
-
         // END TEST
 
         // initialize rank groups
@@ -343,6 +362,8 @@ public class SkyblockD extends JavaPlugin {
             logger.info("Exception info: " + Arrays.toString(e.getStackTrace()));
         }
 
+        npcRegistry = CitizensAPI.createAnonymousNPCRegistry(new MemoryNPCDataStore());
+
         // dispatch a command to make sure actionbar display messsages dont spam OP's chat etc.
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule sendCommandFeedback false");
 
@@ -353,6 +374,9 @@ public class SkyblockD extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        // deregister all NPCs so they wont clog memory
+        npcRegistry.deregisterAll();
+
         // de-instantiate main stuff
         // send message because of disabling
         getSender().sendMessage(ChatColor.BOLD + "[" + ChatColor.GOLD + "SkyblockD" + ChatColor.RESET + "" + ChatColor.BOLD + "]" + ChatColor.RESET + " Plugin disabled!");

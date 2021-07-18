@@ -17,8 +17,8 @@ public class ShadowFractureChestplate extends SkyblockItem {
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.NETHERITE_CHESTPLATE, "Shadow Fracture Chestplate",
-                SkyblockRarity.MYTHIC, SkyblockItemType.CHESTPLATE,
-                new SkyblockItemStats().setStrength(200).setHealth(100).setSpeed(30)
+                SkyblockRarity.LEGENDARY, SkyblockItemType.CHESTPLATE,
+                new SkyblockItemStats().setStrength(200).setHealth(100).setSpeed(30).setDefense(100)
         );
         cfg.setDescription(Collections.singletonList(ChatColor.DARK_GRAY+"Fractured"));
         cfg.setAbilities(Collections.singletonList(
@@ -53,6 +53,9 @@ public class ShadowFractureChestplate extends SkyblockItem {
         m.addAttributeModifier(
                 Attribute.GENERIC_MOVEMENT_SPEED,
                 new AttributeModifier("generic.movementSpeed", 0.03, AttributeModifier.Operation.ADD_NUMBER));
+        m.addAttributeModifier(
+                Attribute.GENERIC_ARMOR,
+                new AttributeModifier("generic.armor", 10, AttributeModifier.Operation.ADD_NUMBER));
         i.setItemMeta(m);
         return i;
     }

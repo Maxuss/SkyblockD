@@ -6,6 +6,7 @@ prefix: SkyblockD
 authors: [ Maxus ]
 description: Plugin that adds multiple features from HySb to vanilla!
 website: https://maxus.space
+softdepend: [ Citizens ]
 commands:
   myname:
     description: Gets name of current user.
@@ -55,7 +56,12 @@ commands:
     aliases: [recomb, rec]
   dev:
     description: Gets info on certain inner code parts
-    usage: /<command> (properties|methods) (classname)
+    usage: /<command> [properties|methods|nbt] (classname)
+    permission: skyblockd.admin
+    permission-message: §6You don't have sufficient permission! Requires <permission>
+  spawn:
+    description: Spawns an entity with provided id if it exists
+    usage: /<command> [id]
     permission: skyblockd.admin
     permission-message: §6You don't have sufficient permission! Requires <permission>
 permissions:

@@ -22,7 +22,7 @@ public class KillListener extends BetterListener {
     public void onKill(EntityDeathEvent e) {
         LivingEntity en = e.getEntity();
         Player p = en.getKiller();
-        if(p == null) return;
+        if(p == null || p.hasMetadata("NPC")) return;
         List<PlayerContainer> players = UniversalHelper.filter(SkyblockD.players, c -> c.uuid.equals(p.getUniqueId()));
         PlayerContainer pc = players.get(players.size()-1);
 

@@ -25,10 +25,12 @@ public class ClickListener extends BetterListener {
             ItemMeta m = i.getItemMeta();
             assert m != null;
             boolean h = m.getPersistentDataContainer().has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING);
-            if(h && e.getAction() == Action.RIGHT_CLICK_AIR) {
-                SkyblockItemClickEvent event = new SkyblockItemClickEvent(e);
-                SkyblockD.getPluginManager().callEvent(event);
-            } else if(e.getAction() == Action.RIGHT_CLICK_BLOCK && m.getPersistentDataContainer().has(SkyblockD.getKey("itemType"), PersistentDataType.STRING)) {
+            if(h) {
+                SkyblockItemClickEvent ev = new SkyblockItemClickEvent(e);
+                SkyblockD.getPluginManager().callEvent(ev);
+            }
+
+            if (e.getAction() == Action.RIGHT_CLICK_BLOCK && m.getPersistentDataContainer().has(SkyblockD.getKey("itemType"), PersistentDataType.STRING)) {
                 Block b = e.getClickedBlock();
                 if(b != null && b.getType() == Material.CAULDRON) {
                     Location loc = b.getLocation();
@@ -37,7 +39,8 @@ public class ClickListener extends BetterListener {
                     loc.setY(loc.getY()+2);
                     Block dia = Objects.requireNonNull(loc.getWorld()).getBlockAt(loc);
                     if(fire.getType() == Material.SOUL_FIRE && dia.getType() == Material.DIAMOND_BLOCK) {
-                        e.getPlayer().getInventory().remove(i);
+                        ItemStack mh = e.getPlayer().getInventory().getItemInMainHand();
+                        mh.setAmount(mh.getAmount()-1);
                         ElixirGui g = new ElixirGui();
                         Inventory inv = g.generateContains(Bukkit.createInventory(g.getHolder(e.getPlayer()), g.getSize(), g.getName()));
                         e.getPlayer().openInventory(inv);

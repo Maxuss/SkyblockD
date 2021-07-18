@@ -9,6 +9,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import space.maxus.skyblockd.SkyblockD;
@@ -19,6 +20,7 @@ import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.PlayerSkills;
 import space.maxus.skyblockd.objects.RankContainer;
 import space.maxus.skyblockd.objects.SkillContainer;
+import space.maxus.skyblockd.skyblock.events.SkyblockBlockBreakEvent;
 import space.maxus.skyblockd.skyblock.skills.SkillMap;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
 
@@ -28,11 +30,13 @@ import java.util.Objects;
 import java.util.Random;
 
 public class BlockBreakListener extends BetterListener {
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent e){
+    @EventHandler(priority = EventPriority.LOW)
+    public void onBlockBreak(BlockBreakEvent e) {
         Block b = e.getBlock();
         Player p = e.getPlayer();
         Material blockMat = b.getType();
+        SkyblockBlockBreakEvent ev = new SkyblockBlockBreakEvent(e);
+        SkyblockD.getPluginManager().callEvent(ev);
         boolean isStone = MaterialHelper.isMaterialStone(blockMat);
         boolean isWood = MaterialHelper.isMaterialLog(blockMat);
         boolean isDirt = MaterialHelper.isMaterialDirt(blockMat);
