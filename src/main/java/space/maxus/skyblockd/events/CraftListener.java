@@ -1,6 +1,5 @@
 package space.maxus.skyblockd.events;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -17,11 +16,16 @@ import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.items.CustomItem;
+import space.maxus.skyblockd.nms.NMSColor;
+import space.maxus.skyblockd.nms.PacketUtils;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.SkillContainer;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 public class CraftListener extends BetterListener {
 
@@ -118,8 +122,8 @@ public class CraftListener extends BetterListener {
 
         p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
         String sxp = String.valueOf(exp).replace(",", ".");
-        String rawCommand = "title "+p.getName()+" actionbar {\"text\":\"+"+sxp+" Crafting Experience\", \"color\":\"dark_aqua\"}";
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), rawCommand);
+
+        PacketUtils.sendActionbar(p, "+"+sxp+" Crafting Experience", NMSColor.DARK_AQUA);
 
         pc.skills.totalExp += exp;
         SkillContainer skc = pc.skills.data.get("crafting");

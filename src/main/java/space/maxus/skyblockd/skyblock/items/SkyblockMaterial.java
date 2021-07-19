@@ -36,7 +36,8 @@ public enum SkyblockMaterial {
     EMERALD_LEGGINGS(new EmeraldLeggings()),
     EMERALD_CHESTPLATE(new EmeraldChestplate()),
     EMERALD_HELMET(new EmeraldHelmet()),
-    SKYBLOCK_MENU(SkyblockD.getItemManager().generated.get("skyblockd:SKYBLOCK_MENU"))
+    MAGIC_MAGNET(new MagicMagnet()),
+    SKYBLOCK_MENU(SkyblockD.getItemManager().generated.get("skyblockd:SKYBLOCK_MENU")),
     //#endregion Materials
     ;
 

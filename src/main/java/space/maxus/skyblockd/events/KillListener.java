@@ -1,16 +1,22 @@
 package space.maxus.skyblockd.events;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
+import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.MaterialHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
+import space.maxus.skyblockd.items.CustomItem;
+import space.maxus.skyblockd.nms.NMSColor;
+import space.maxus.skyblockd.nms.PacketUtils;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.SkillContainer;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
@@ -23,6 +29,27 @@ public class KillListener extends BetterListener {
         LivingEntity en = e.getEntity();
         Player p = en.getKiller();
         if(p == null || p.hasMetadata("NPC")) return;
+        List<ItemStack> drops = e.getDrops();
+        if(ItemHelper.hasMagnet(p) && !drops.isEmpty()) {
+            for (int i = 0; i < drops.size(); i++) {
+                if(p.getInventory().firstEmpty() != -1) {
+                    ItemStack item = drops.get(i);
+                    if(item == null) return;
+                    assert item.getItemMeta() != null;
+                    if(!item.getItemMeta().getPersistentDataContainer().has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING)) {
+                        CustomItem.toSkyblockItem(item);
+                    }
+                    p.getInventory().addItem(item);
+                    drops.set(i, new ItemStack(Material.AIR));
+                } else {
+                    for (ItemStack left : drops) {
+                        if(left.getType() != Material.AIR) p.getWorld().dropItemNaturally(en.getLocation(), left);
+                        drops.remove(left);
+                    }
+                    break;
+                }
+            }
+        }
         List<PlayerContainer> players = UniversalHelper.filter(SkyblockD.players, c -> c.uuid.equals(p.getUniqueId()));
         PlayerContainer pc = players.get(players.size()-1);
 
@@ -36,8 +63,8 @@ public class KillListener extends BetterListener {
 
         String sxp = String.valueOf(exp).replace(",", ".");
 
-        String rawCommand = "title "+p.getName()+" actionbar {\"text\":\"+"+sxp+" Combat Experience\", \"color\":\"dark_aqua\"}";
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), rawCommand);
+        PacketUtils.sendActionbar(p, "+"+sxp+" Combat Experience", NMSColor.DARK_AQUA);
+
         p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
 
         pc.skills.totalExp += exp;

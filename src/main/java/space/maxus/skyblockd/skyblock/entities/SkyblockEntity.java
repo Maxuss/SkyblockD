@@ -3,6 +3,8 @@ package space.maxus.skyblockd.skyblock.entities;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -12,6 +14,7 @@ import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 import space.maxus.skyblockd.skyblock.utility.SkyblockFeature;
 
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -27,6 +30,16 @@ public abstract class SkyblockEntity implements SkyblockFeature {
     public abstract int getLevel();
     public abstract String getSkyblockId();
     public abstract void postInit(LivingEntity entity, Entity base);
+
+    private static final HashSet<Biome> nether = new HashSet<Biome>() {
+        {
+            add(Biome.NETHER_WASTES);
+            add(Biome.SOUL_SAND_VALLEY);
+            add(Biome.WARPED_FOREST);
+            add(Biome.CRIMSON_FOREST);
+            add(Biome.BASALT_DELTAS);
+        }
+    };
 
     public void generate(Entity en){
         LivingEntity e = (LivingEntity) en.getWorld().spawnEntity(getLocation(en), getType());
@@ -62,11 +75,44 @@ public abstract class SkyblockEntity implements SkyblockFeature {
             name = ChatColor.RED + capitalize(e.getType().toString().toLowerCase(Locale.ENGLISH).replace("_", " "));
         } else name = e.getCustomName();
 
+        Biome entityBiome = e.getLocation().getBlock().getBiome();
+
+        double maxHp = Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
+
+        boolean isEnd = entityBiome.name().contains("END");
+
+        if(nether.contains(entityBiome) && maxHp <= 20) {
+            Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(maxHp * 2);
+            e.setHealth(maxHp * 2);
+        } else if(isEnd && maxHp <= 40) {
+            Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(maxHp * 4);
+            e.setHealth(maxHp * 4);
+            maxHp = Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
+        }
+
+
+        if(isEnd) {
+            int tx = Math.abs(e.getLocation().getBlockX());
+            float multiplier = tx <= 200 ? 1 : tx <= 4000 ? tx / 1000f : 4;
+            int integerMultiplier = Math.round(multiplier);
+
+            AttributeInstance damage = e.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
+
+            if(damage != null) {
+                double dmg = damage.getBaseValue();
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(dmg + (2 * integerMultiplier));
+            }
+
+            Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(maxHp * integerMultiplier);
+
+            e.setHealth(maxHp * integerMultiplier);
+        }
+
         int lvl = (int) (e.getHealth() / 2);
 
         e.setCustomNameVisible(true);
         e.setCustomName(
-                ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + lvl + ChatColor.DARK_GRAY + "]" + " "
+                ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lvl " +lvl + ChatColor.DARK_GRAY + "]" + " "
                         + name + ChatColor.RESET + " " + ChatColor.GREEN + (int) e.getHealth() + ChatColor.WHITE
                         + "/" + ChatColor.GREEN +
                         (int) Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue()

@@ -19,16 +19,16 @@ public class CombatSkillMap extends SkillMap  {
 
     @Override
     public List<ComplexReward> getRewardList() {
-        ComplexReward stat1 = new ComplexReward(ChatColor.RED+"Strength", 2, null, 0);
-        ComplexReward stat2 = new ComplexReward(ChatColor.RED+"Strength", 3, null, 0);
-        ComplexReward stat3 = new ComplexReward(ChatColor.RED+"Strength", 5, null, 0);
-        ComplexReward stat4 = new ComplexReward(ChatColor.RED+"Strength", 10, null, 0);
-        ComplexReward item1 = new ComplexReward(ChatColor.RED+"Strength", 3, new ItemStack(Material.IRON_INGOT, 32), 32);
-        ComplexReward item2 = new ComplexReward(ChatColor.RED+"Strength", 3, new ItemStack(Material.NETHERITE_SCRAP, 64), 32);
-        ComplexReward item3 = new ComplexReward(ChatColor.RED+"Strength", 5, new ItemStack(Material.STICK, 128), 128);
-        ComplexReward item4 = new ComplexReward(ChatColor.RED+"Strength", 5, new ItemStack(Material.NETHERITE_INGOT, 5), 5);
-        ComplexReward item5 = new ComplexReward(ChatColor.RED+"Strength", 10, new ItemStack(Material.NETHERITE_SWORD, 1), 1);
-        ComplexReward item6 = new ComplexReward(ChatColor.RED+"Strength", 25, new ItemStack(Material.NETHERITE_BLOCK, 5), 5);
+        ComplexReward stat1 = new ComplexReward(ChatColor.RED+"% more Damage", 1, null, 0);
+        ComplexReward stat2 = new ComplexReward(ChatColor.RED+"% more Damage", 2, null, 0);
+        ComplexReward stat3 = new ComplexReward(ChatColor.RED+"% more Damage", 3, null, 0);
+        ComplexReward stat4 = new ComplexReward(ChatColor.RED+"% more Damage", 5, null, 0);
+        ComplexReward item1 = new ComplexReward(ChatColor.RED+"% more Damage", 1, new ItemStack(Material.IRON_INGOT, 32), 32);
+        ComplexReward item2 = new ComplexReward(ChatColor.RED+"% more Damage", 2, new ItemStack(Material.NETHERITE_SCRAP, 64), 32);
+        ComplexReward item3 = new ComplexReward(ChatColor.RED+"% more Damage", 2, new ItemStack(Material.STICK, 128), 128);
+        ComplexReward item4 = new ComplexReward(ChatColor.RED+"% more Damage", 3, new ItemStack(Material.NETHERITE_INGOT, 5), 5);
+        ComplexReward item5 = new ComplexReward(ChatColor.RED+"% more Damage", 5, new ItemStack(Material.NETHERITE_SWORD, 1), 1);
+        ComplexReward item6 = new ComplexReward(ChatColor.RED+"% more Damage", 5, new ItemStack(Material.NETHERITE_BLOCK, 5), 5);
 
         List<ComplexReward> rewards = new ArrayList<>(Collections.nCopies(5, stat1));
         rewards.addAll(Arrays.asList(

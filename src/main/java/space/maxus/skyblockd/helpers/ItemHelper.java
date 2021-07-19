@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 import space.maxus.skyblockd.utils.ItemGlint;
 
@@ -147,7 +148,7 @@ public class ItemHelper {
         return mm;
     }
 
-    public static boolean isOnCooldown(ItemStack item, int cd, Player p) {
+    public static boolean isOnCooldown(ItemStack item, int cd, Player p, boolean displayMessage) {
         if(item == null || !item.hasItemMeta()) return false;
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
@@ -173,7 +174,11 @@ public class ItemHelper {
         }
         int timeLeft = (int) time - lastTime;
         timeLeft = cd - timeLeft;
-        p.sendMessage(ChatColor.RED+"Please wait " + timeLeft + "s before using this again!");
+        if(displayMessage) p.sendMessage(ChatColor.RED+"Please wait " + timeLeft + "s before using this again!");
         return true;
+    }
+
+    public static boolean hasMagnet(Player player) {
+        return player.getInventory().contains(SkyblockMaterial.MAGIC_MAGNET.getItem());
     }
 }

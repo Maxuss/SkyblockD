@@ -17,7 +17,6 @@ public class EntityListener extends BetterListener {
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent e){
         LivingEntity le = e.getEntity();
-        e.getEntity();
         if(le.hasMetadata("NPC")) {
             NPC npc = SkyblockD.getNpcRegistry().getNPC(le);
             int lvl = (int) (Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue() / 2);
@@ -30,7 +29,7 @@ public class EntityListener extends BetterListener {
             npc.setName(name);
         }
         if(!le.getPersistentDataContainer()
-                .has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING)){
+                .has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING)) {
             SkyblockEntity.toSkyblockEntity(le);
         }
     }

@@ -8,8 +8,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.events.BlockBreakListener;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.MaterialHelper;
+import space.maxus.skyblockd.items.CustomItem;
 
 import java.util.*;
 
@@ -18,12 +20,12 @@ public class AbilityStorage {
     public static final int JUNGLE_AXE_AMOUNT = 5;
     public static final int TREECAPITATOR_AMOUNT = 15;
     public static final int TREENIHILATOR_AMOUNT = 30;
-    public static final int ETHEREAL_CRUSHER_AMOUNT = 4;
+    public static final int ETHEREAL_CRUSHER_AMOUNT = 2;
 
     public static final int JUNGLE_AXE_CD = 2;
     public static final int TREECAPITATOR_CD = 4;
     public static final int TREENIHILATOR_CD = 3;
-    public static final int ETHEREAL_CRUSHER_CD = 3;
+    public static final int ETHEREAL_CRUSHER_CD = 4;
 
     private static final HashSet<Material> unbreakable = new HashSet<>(Arrays.asList(
             Material.BARRIER, Material.BEDROCK, Material.END_PORTAL_FRAME,
@@ -44,7 +46,7 @@ public class AbilityStorage {
     }
 
     public static void thanathosAbility(ItemStack i, Player p) {
-        if(!ItemHelper.isOnCooldown(i, 1, p)) {
+        if(!ItemHelper.isOnCooldown(i, 1, p, true)) {
             Location n = raycast(p, 8);
             p.teleport(n);
             p.playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 0.5f, 1f);
@@ -62,7 +64,7 @@ public class AbilityStorage {
     }
 
     public static void dragonAspectAbility(ItemStack i, Player p) {
-        if(!ItemHelper.isOnCooldown(i, 1, p)) {
+        if(!ItemHelper.isOnCooldown(i, 1, p, true)) {
             p.spawnParticle(Particle.EXPLOSION_HUGE, p.getLocation(), 2, 1, 1, 1, 1);
             createHelix(p);
             List<Entity> entities = p.getNearbyEntities(4, 4, 4);
@@ -80,7 +82,7 @@ public class AbilityStorage {
     }
 
     public static void crusherAbility(ItemStack i, Player p) {
-        if (!ItemHelper.isOnCooldown(i, 3, p)) {
+        if (!ItemHelper.isOnCooldown(i, 3, p, true)) {
             Location l = p.getLocation();
             int range = 5;
             int minX = l.getBlockX() - range / 2;
@@ -116,7 +118,7 @@ public class AbilityStorage {
     }
 
     private static void blockBreaker(Block start, int limit, ItemStack axe, int cd, Player p, BreakType t) {
-        if(ItemHelper.isOnCooldown(axe, cd, p)) return;
+        if(ItemHelper.isOnCooldown(axe, cd, p, false)) return;
         Material targetMaterial = start.getType();
 
         List<Block> blocks = new ArrayList<>();
@@ -136,8 +138,19 @@ public class AbilityStorage {
                     for (Block b : Arrays.asList(upperBlock, lowerBlock, northBlock, eastBlock, southBlock, westBlock)) {
                         if (b.getType() == targetMaterial) {
                             if (t.isRequired(b.getType())) {
-                                block.breakNaturally(axe);
-                                b.getWorld().playSound(b.getLocation(), t.sound, 0.5f, 2f);
+                                b.getWorld().playSound(b.getLocation(), t.sound, 0.7f, 2f);
+                                b.getWorld().playSound(b.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.1f, 2f);
+                                if(ItemHelper.hasMagnet(p) && p.getInventory().firstEmpty() != -1) {
+                                    Collection<ItemStack> drops = b.getDrops(p.getInventory().getItemInMainHand());
+                                    drops.forEach(CustomItem::toSkyblockItem);
+                                    p.getInventory().addItem((drops.toArray(new ItemStack[0])));
+                                    drops.clear();
+                                    BlockBreakListener.operateSkill(t.skillName, p, b, false);
+                                    b.setType(Material.AIR);
+                                }  else {
+                                    block.breakNaturally(axe);
+                                    BlockBreakListener.operateSkill(t.skillName, p, b, false);
+                                }
                                 blocks.add(b);
                             }
                         }
@@ -160,9 +173,9 @@ public class AbilityStorage {
     }
 
     private enum BreakType {
-        WOOD(Sound.BLOCK_WOOD_BREAK),
-        ROCK(Sound.BLOCK_STONE_BREAK),
-        DIRT(Sound.BLOCK_GRAVEL_BREAK)
+        WOOD(Sound.BLOCK_WOOD_BREAK, "Foraging"),
+        ROCK(Sound.BLOCK_STONE_BREAK, "Mining"),
+        DIRT(Sound.BLOCK_GRAVEL_BREAK, "Excavating")
         ;
         boolean isRequired(Material mat) {
             switch(this) {
@@ -173,10 +186,12 @@ public class AbilityStorage {
             }
         }
 
+        String skillName;
         Sound sound;
 
-        BreakType(Sound snd) {
+        BreakType(Sound snd, String skill) {
             sound = snd;
+            skillName = skill;
         }
     }
 

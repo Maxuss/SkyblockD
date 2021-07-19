@@ -4,9 +4,11 @@ import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.*;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
@@ -19,7 +21,7 @@ import java.util.Random;
 
 public class DamageListener extends BetterListener {
     @EventHandler
-    public void onDamage(EntityDamageByEntityEvent e) {
+    public void onDamage(EntityDamageEvent e) {
         Entity en = e.getEntity();
         if(en.hasMetadata("NPC")) {
             LivingEntity le = (LivingEntity) en;
@@ -59,22 +61,19 @@ public class DamageListener extends BetterListener {
 
             if(en instanceof LivingEntity) {
                 LivingEntity le = (LivingEntity) en;
-                if (!(le instanceof Item)) {
-                    PersistentDataContainer c = le.getPersistentDataContainer();
-                    if (!c.has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING)
-                            || !c.has(SkyblockD.getKey("entityLevel"), PersistentDataType.INTEGER)) {
-                        SkyblockEntity.toSkyblockEntity(le);
-                    } else {
-                        String name = c.get(SkyblockD.getKey("entityName"), PersistentDataType.STRING);
-                        Integer lvl = c.get(SkyblockD.getKey("entityLevel"), PersistentDataType.INTEGER);
-                        le.setCustomName(
-                                ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + lvl + ChatColor.DARK_GRAY + "]" + " "
-                                        + name + ChatColor.RESET + " " + ChatColor.GREEN + (int) le.getHealth() + ChatColor.WHITE
-                                        + "/" + ChatColor.GREEN +
-                                        (int) Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue()
-                                        + ChatColor.RED + " " + SkyblockConstants.HEALTH
-                        );
-                    }
+                PersistentDataContainer c = le.getPersistentDataContainer();
+                if (!c.has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING)) {
+                    SkyblockEntity.toSkyblockEntity(le);
+                } else {
+                    String name = c.get(SkyblockD.getKey("entityName"), PersistentDataType.STRING);
+                    Integer lvl = c.get(SkyblockD.getKey("entityLevel"), PersistentDataType.INTEGER);
+                    le.setCustomName(
+                            ChatColor.DARK_GRAY + "[" + ChatColor.GRAY +"Lvl " + lvl + ChatColor.DARK_GRAY + "]" + " "
+                                    + name + ChatColor.RESET + " " + ChatColor.GREEN + (int) le.getHealth() + ChatColor.WHITE
+                                    + "/" + ChatColor.GREEN +
+                                    (int) Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue()
+                                    + ChatColor.RED + " " + SkyblockConstants.HEALTH
+                    );
                 }
             }
         }

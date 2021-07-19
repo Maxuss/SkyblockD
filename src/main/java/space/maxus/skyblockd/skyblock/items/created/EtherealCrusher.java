@@ -11,6 +11,7 @@ import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockItem;
 import space.maxus.skyblockd.skyblock.objects.*;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 public class EtherealCrusher extends SkyblockItem {
@@ -24,10 +25,18 @@ public class EtherealCrusher extends SkyblockItem {
                 new SkyblockItemStats().setDefense(100)
         );
         cfg.setDescription(Collections.singletonList(ChatColor.DARK_GRAY + "You won't be able to say 'Rock'\nas I will be at bedrock!"));
-        cfg.setAbilities(Collections.singletonList(new SkyblockItemAbility(
-                "Hunger for blocks",
+        SkyblockItemAbility hunger = new SkyblockItemAbility(
+                "Block Hunger",
                 SkyblockAbilityType.RIGHT_CLICK,
-                Collections.singletonList(ChatColor.GRAY+"Break multiple blocks around you!"))));
+                Collections.singletonList(ChatColor.GRAY+"Break multiple blocks around you!"));
+        hunger.setCooldown(3);
+        SkyblockItemAbility miner = new SkyblockItemAbility(
+                "Master Miner",
+                SkyblockAbilityType.PASSIVE,
+                Arrays.asList(
+                        ChatColor.GRAY+"When mining blocks, have a chance",
+                        ChatColor.GRAY+"to break more blocks around."));
+        cfg.setAbilities(Arrays.asList(miner, hunger));
         return cfg;
     }
 

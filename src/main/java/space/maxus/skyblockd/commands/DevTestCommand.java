@@ -2,7 +2,8 @@ package space.maxus.skyblockd.commands;
 
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
-import space.maxus.skyblockd.skyblock.entities.npc.created.EnderianZealot;
+import space.maxus.skyblockd.nms.NMSColor;
+import space.maxus.skyblockd.nms.PacketUtils;
 
 public class DevTestCommand implements ChatCommand {
     @Override
@@ -15,7 +16,7 @@ public class DevTestCommand implements ChatCommand {
         return ((sender, command, label, args) -> {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                new EnderianZealot().generate(p);
+                PacketUtils.sendActionbar(p, "Hello, this is an action bar!", NMSColor.GREEN);
                 p.updateInventory();
                 return true;
             }
