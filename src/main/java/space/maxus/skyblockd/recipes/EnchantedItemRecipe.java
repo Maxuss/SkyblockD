@@ -1,0 +1,46 @@
+package space.maxus.skyblockd.recipes;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
+import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
+
+public class EnchantedItemRecipe {
+    public EnchantedItemRecipe(Material base) {
+        try {
+            String enchName = "ENCHANTED_"+base.name();
+            SkyblockMaterial result = SkyblockMaterial.valueOf(enchName);
+            ItemStack res = result.getItem();
+            ShapedRecipe rec = new ShapedRecipe(SkyblockD.getKey(enchName+"_RECIPE"), res);
+            rec.shape(
+                    "III",
+                    "III",
+                    "III"
+            );
+            rec.setIngredient('I', base);
+            SkyblockD.getHost().addRecipe(rec);
+        } catch (Exception e) {
+            SkyblockD.logger.severe("Could not load register enchanted item recipe!");
+            SkyblockD.logger.severe(e.toString());
+        }
+    }
+
+    public EnchantedItemRecipe(ItemStack base, SkyblockMaterial result) {
+        try {
+            ItemStack res = result.getItem();
+            ShapedRecipe rec = new ShapedRecipe(SkyblockD.getKey(result.name()+"_RECIPE"), res);
+            rec.shape(
+                    " I ",
+                    "III",
+                    " I "
+            );
+            rec.setIngredient('I', new RecipeChoice.ExactChoice(base));
+            SkyblockD.getHost().addRecipe(rec);
+        } catch (Exception e) {
+            SkyblockD.logger.severe("Could not load register enchanted item recipe!");
+            SkyblockD.logger.severe(e.toString());
+        }
+    }
+}

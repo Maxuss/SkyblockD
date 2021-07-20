@@ -56,7 +56,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
         // set display name
         e.setCustomNameVisible(true);
         e.setCustomName(
-                ChatColor.DARK_GRAY + "[" + ChatColor.GRAY+ "Lvl " + getLevel() + ChatColor.DARK_GRAY + "]" + " "
+                ChatColor.DARK_GRAY + "[" + ChatColor.GRAY+ "Lv " + getLevel() + ChatColor.DARK_GRAY + "]" + " "
                 + getName() + ChatColor.RESET + " " + ChatColor.GREEN + getHealth() + ChatColor.WHITE
                 + "/" + ChatColor.GREEN + (int) getHealth() + ChatColor.RED + " " + SkyblockConstants.HEALTH
         );
@@ -112,7 +112,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
 
         e.setCustomNameVisible(true);
         e.setCustomName(
-                ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lvl " +lvl + ChatColor.DARK_GRAY + "]" + " "
+                ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv " +lvl + ChatColor.DARK_GRAY + "]" + " "
                         + name + ChatColor.RESET + " " + ChatColor.GREEN + (int) e.getHealth() + ChatColor.WHITE
                         + "/" + ChatColor.GREEN +
                         (int) Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue()

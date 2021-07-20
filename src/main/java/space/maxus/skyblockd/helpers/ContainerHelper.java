@@ -3,8 +3,11 @@ package space.maxus.skyblockd.helpers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.bukkit.entity.Player;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.objects.PlayerContainer;
+import space.maxus.skyblockd.objects.PlayerSkills;
+import space.maxus.skyblockd.objects.RankContainer;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,5 +27,20 @@ public class ContainerHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static PlayerContainer getPlayer(Player player) {
+        List<PlayerContainer> filtered = UniversalHelper.filter(SkyblockD.players, c -> c.uuid.equals(player.getUniqueId()));
+        if(!filtered.isEmpty()) {
+            return filtered.get(filtered.size()-1);
+        }
+        PlayerContainer n = new PlayerContainer(
+                new RankContainer(player.getUniqueId().toString(), player.getName()),
+                player.getUniqueId(), PlayerSkills.EMPTY, player.hasPermission("skyblockd.admin"));
+
+        SkyblockD.players.add(n);
+        updatePlayers();
+
+        return n;
     }
 }

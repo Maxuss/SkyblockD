@@ -57,7 +57,7 @@ public class EtherealCrusher extends SkyblockItem {
         m.addAttributeModifier(
                 Attribute.GENERIC_ARMOR,
                 new AttributeModifier("generic.armor", 10, AttributeModifier.Operation.ADD_NUMBER));
-        m.getPersistentDataContainer().set(SkyblockD.getKey("ETHEREAL_CRUSHER"), PersistentDataType.BYTE, (byte)1);
+        m.getPersistentDataContainer().set(SkyblockD.getKey("ETHEREAL_CRUSHER"), PersistentDataType.BYTE, (byte)0);
         i.setItemMeta(m);
         return i;
     }

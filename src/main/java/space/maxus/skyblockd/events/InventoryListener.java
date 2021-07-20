@@ -13,6 +13,8 @@ import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.gui.MainMenuGUI;
 import space.maxus.skyblockd.gui.SkillsGui;
 import space.maxus.skyblockd.helpers.*;
+import space.maxus.skyblockd.nms.NMSColor;
+import space.maxus.skyblockd.nms.PacketUtils;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.SkillContainer;
 import space.maxus.skyblockd.skyblock.elixirs.ElixirEffect;
@@ -85,7 +87,7 @@ public class InventoryListener extends BetterListener{
                 ui.setItem(40, eff.getItem());
                 ui.setItem(13, null);
 
-                p.sendMessage(ChatColor.GREEN + "Brewing finished! Your elixir received effect: " + eff.getEffectName());
+                p.sendMessage(ChatColor.GREEN + "Brewing finished! Your elixir received following effect: " + eff.getEffectName());
                 p.playSound(p.getLocation(), Sound.BLOCK_BREWING_STAND_BREW, 1, 0.5f);
 
                 List<PlayerContainer> players = UniversalHelper.filter(SkyblockD.players, c -> c.uuid.equals(p.getUniqueId()));
@@ -102,8 +104,7 @@ public class InventoryListener extends BetterListener{
 
                 String sxp = String.valueOf(d).replace(",", ".");
 
-                String rawCommand = "title "+p.getName()+" actionbar {\"text\":\"+"+sxp+" Mysticism Experience\", \"color\":\"dark_aqua\"}";
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), rawCommand);
+                PacketUtils.sendActionbar(p, "+"+sxp+" Mysticism Experience", NMSColor.DARK_AQUA);
                 p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
 
                 pc.skills.totalExp += exp;

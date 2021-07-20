@@ -57,8 +57,6 @@ public abstract class SkyblockItem implements SkyblockFeature {
         Set<Method> getters = ReflectionUtils.getAllMethods(stats.getClass(),
                 ReflectionUtils.withModifier(Modifier.PUBLIC), ReflectionUtils.withPrefix("get"));
 
-
-
         HashMap<Integer, Method> d = new HashMap<>();
 
         getters.forEach((get) -> {
@@ -72,9 +70,15 @@ public abstract class SkyblockItem implements SkyblockFeature {
         for(int i = 0; i < getters.size(); i++){
             Method g = nd.get(i);
             try {
-                String stat = (String) g.invoke(stats);
-                if(!stat.equals("")){
-                    lore.add(stat);
+                if(i == 6) {
+                    if(stats.hasRedStats() && stats.hasGreenStats()) {
+                        lore.add(" ");
+                    }
+                } else {
+                    String stat = (String) g.invoke(stats);
+                    if (!stat.equals("")) {
+                        lore.add(stat);
+                    }
                 }
             } catch (IllegalAccessException | InvocationTargetException e) {
                 SkyblockD.logger.severe("Could not set stats to object! " + Arrays.toString(e.getStackTrace()));
@@ -90,7 +94,6 @@ public abstract class SkyblockItem implements SkyblockFeature {
 
         if(desc != null) lore.addAll(desc);
 
-        lore.add("");
         if(t.isReforgeable()) lore.add(ChatColor.DARK_GRAY+"This item can be reforged!");
 
         lore.add(rar.displayColor + "" + ChatColor.BOLD + rar.unformattedName+ " " + t.getDisplay());

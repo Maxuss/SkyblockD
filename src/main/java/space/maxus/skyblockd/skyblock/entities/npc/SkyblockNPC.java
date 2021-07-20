@@ -96,7 +96,7 @@ public abstract class SkyblockNPC extends SkyblockEntity {
         Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR)).setBaseValue(getDefense());
 
         npc.setName(
-                ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lvl " +getLevel() + ChatColor.DARK_GRAY + "]" + " "
+                ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv " +getLevel() + ChatColor.DARK_GRAY + "]" + " "
                         + getName() + ChatColor.RESET + " " + ChatColor.GREEN + getHealth() + ChatColor.WHITE
                         + "/" + ChatColor.GREEN + (int) getHealth() + ChatColor.RED + " " + SkyblockConstants.HEALTH
         );

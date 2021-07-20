@@ -20,6 +20,7 @@ import space.maxus.skyblockd.items.ItemManager;
 import space.maxus.skyblockd.items.TestItem;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.ServerStorage;
+import space.maxus.skyblockd.recipes.RecipeRegisterer;
 import space.maxus.skyblockd.recipes.created.*;
 import space.maxus.skyblockd.skyblock.events.handlers.SkyblockBreakListener;
 import space.maxus.skyblockd.skyblock.events.handlers.SkyblockClickListener;
@@ -184,6 +185,8 @@ public class SkyblockD extends JavaPlugin {
         new EmeraldChestplateRecipe();
         new EmeraldLeggingsRecipe();
         new EmeraldBootsRecipe();
+
+        RecipeRegisterer.registerEnchantedItems();
     }
 
     private void configureManagers() {

@@ -1,6 +1,5 @@
 package space.maxus.skyblockd.events;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -9,6 +8,8 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
+import space.maxus.skyblockd.nms.NMSColor;
+import space.maxus.skyblockd.nms.PacketUtils;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.SkillContainer;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
@@ -35,8 +36,8 @@ public class EnchantListener extends BetterListener {
 
         String sxp = String.valueOf(exp).replace(",", ".");
 
-        String rawCommand = "title "+p.getName()+" actionbar {\"text\":\"+"+sxp+" Mysticism Experience\", \"color\":\"dark_aqua\"}";
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), rawCommand);
+        PacketUtils.sendActionbar(p, "+"+sxp+" Mysticism Experience", NMSColor.DARK_AQUA);
+
         p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
 
         pc.skills.totalExp += exp;

@@ -3,6 +3,9 @@ package space.maxus.skyblockd.skyblock.objects;
 import org.bukkit.ChatColor;
 import space.maxus.skyblockd.skyblock.utility.StatPosition;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class SkyblockItemStats {
     private int damage = 0;
     private int strength = 0;
@@ -23,7 +26,7 @@ public class SkyblockItemStats {
     private static final ChatColor r = ChatColor.RED;
     private static final ChatColor g = ChatColor.GREEN;
     private static final ChatColor b = ChatColor.DARK_AQUA;
-
+    //#region setters
     public SkyblockItemStats setDamage(int damage) {
         this.damage = damage;
         return this;
@@ -98,9 +101,25 @@ public class SkyblockItemStats {
         this.soulflow = soulflow;
         return this;
     }
-
+    //#endregion setters
     ///
 
+    public boolean hasRedStats() {
+        List<Integer> stats = Arrays.asList(
+                damage, strength, attackSpeed, critChance,
+                critDamage, seaCreatureChance
+        );
+        return stats.stream().anyMatch(i -> i != 0);
+    }
+
+    public boolean hasGreenStats() {
+        List<Integer> stats = Arrays.asList(
+                health, defense, speed, intelligence,
+                magicFind, petLuck, trueDefense, ferocity, soulflow
+        );
+        return stats.stream().anyMatch(i -> i != 0);
+    }
+    //#region red
     @StatPosition(0)
     public String getDamage() {
         return proccessStat("Damage", damage, r, false);
@@ -125,6 +144,7 @@ public class SkyblockItemStats {
     public String getSeaCreatureChance() {
         return proccessStat("Sea Creature Chance", seaCreatureChance, r, true);
     }
+    //#endregion red
 
     @StatPosition(6)
     public String getReflectEmpty() { return " "; }
@@ -163,6 +183,6 @@ public class SkyblockItemStats {
     public String getSoulflow() { return proccessStat("Soulflow", soulflow, b, false); }
 
     private String proccessStat(String name, int amount, ChatColor color, boolean percented){
-        return amount != 0 ? ChatColor.GRAY + name + ": " + color +(amount < 0 ? amount : "+"+amount) + (percented ? "%" : ""): "";
+        return amount != 0 ? ChatColor.GRAY + name + ": " + color +(amount < 0 ? amount : "+" +amount) + (percented ? "%" : ""): "";
     }
 }

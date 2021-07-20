@@ -21,7 +21,7 @@ public class EntityListener extends BetterListener {
             NPC npc = SkyblockD.getNpcRegistry().getNPC(le);
             int lvl = (int) (Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue() / 2);
             String n = npc.getName();
-            String name = ChatColor.DARK_GRAY + "[" + ChatColor.GRAY +"Lvl "+ lvl + ChatColor.DARK_GRAY + "]" + " "
+            String name = ChatColor.DARK_GRAY + "[" + ChatColor.GRAY +"Lv "+ lvl + ChatColor.DARK_GRAY + "]" + " "
                     + n + ChatColor.RESET + " " + ChatColor.GREEN + (int)le.getHealth() + ChatColor.WHITE
                     + "/" + ChatColor.GREEN +
                     (int) Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue()

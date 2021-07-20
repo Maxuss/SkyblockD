@@ -28,8 +28,8 @@ public class DamageListener extends BetterListener {
             NPC npc = SkyblockD.getNpcRegistry().getNPC(le);
             int lvl = (int) (Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue() / 2);
             String n = le.getPersistentDataContainer().get(SkyblockD.getKey("entityName"), PersistentDataType.STRING);
-            String name = ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lvl " +lvl + ChatColor.DARK_GRAY + "]" + " "
-                    + n + ChatColor.RESET + " " + ChatColor.GREEN + (int)le.getHealth() + ChatColor.WHITE
+            String name = ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv " +lvl + ChatColor.DARK_GRAY + "]" + " "
+                    + n + ChatColor.RESET + " " + ChatColor.GREEN + (int)(le.getHealth()-e.getFinalDamage()) + ChatColor.WHITE
                     + "/" + ChatColor.GREEN +
                     (int) Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue()
                     + ChatColor.RED + "" + SkyblockConstants.HEALTH;
@@ -69,7 +69,7 @@ public class DamageListener extends BetterListener {
                     Integer lvl = c.get(SkyblockD.getKey("entityLevel"), PersistentDataType.INTEGER);
                     le.setCustomName(
                             ChatColor.DARK_GRAY + "[" + ChatColor.GRAY +"Lvl " + lvl + ChatColor.DARK_GRAY + "]" + " "
-                                    + name + ChatColor.RESET + " " + ChatColor.GREEN + (int) le.getHealth() + ChatColor.WHITE
+                                    + name + ChatColor.RESET + " " + ChatColor.GREEN + (int)(le.getHealth()-dmg) + ChatColor.WHITE
                                     + "/" + ChatColor.GREEN +
                                     (int) Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue()
                                     + ChatColor.RED + " " + SkyblockConstants.HEALTH

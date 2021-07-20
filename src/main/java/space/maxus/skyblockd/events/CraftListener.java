@@ -78,7 +78,6 @@ public class CraftListener extends BetterListener {
             if(result != null) {
                 ItemMeta m = result.getItemMeta();
                 assert m != null;
-                m.getPersistentDataContainer().set(SkyblockD.getKey("craftedPreviously"), PersistentDataType.STRING, "true");
                 result.setItemMeta(m);
                 if(!m.getPersistentDataContainer().has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING)) {
                     CustomItem.toSkyblockItem(result);
@@ -102,13 +101,9 @@ public class CraftListener extends BetterListener {
                 }
                 PersistentDataContainer c = m.getPersistentDataContainer();
                 boolean isSb = c.has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING);
-                boolean wasCrafted = c.has(SkyblockD.getKey("craftedPreviously"), PersistentDataType.STRING);
                 if (!isSb) CustomItem.toSkyblockItem(i);
-                if (!wasCrafted) {
-                    Integer rar = i.getItemMeta().getPersistentDataContainer().get(SkyblockD.getKey("itemRarity"), PersistentDataType.INTEGER);
-                    totalExp += rar == null ? 0 : rar;
-                    Objects.requireNonNull(i.getItemMeta()).getPersistentDataContainer().set(SkyblockD.getKey("craftedPreviously"), PersistentDataType.STRING, "true");
-                }
+                Integer rar = i.getItemMeta().getPersistentDataContainer().get(SkyblockD.getKey("itemRarity"), PersistentDataType.INTEGER);
+                totalExp += rar == null ? 0 : rar;
             }
         }
         Player p = (Player) e.getWhoClicked();

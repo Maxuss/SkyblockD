@@ -27,15 +27,15 @@ public class SkyblockClickListener extends BetterListener {
         Player p = e.getPlayer();
         ItemStack i = e.getItem();
         if(e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.RIGHT_CLICK_AIR) {
-            if(i != null) {
-                PersistentDataContainer c = Objects.requireNonNull(i.getItemMeta()).getPersistentDataContainer();
-                if (c.has(SkyblockD.getKey("ETHEREAL_CRUSHER"), b)) {
-                    AbilityStorage.crusherAbility(i, p);
-                } else if (c.has(SkyblockD.getKey("ASPECT_OF_DRAGON"), b)) {
-                    AbilityStorage.dragonAspectAbility(i, p);
-                } else if (c.has(SkyblockD.getKey("THANATHOS"), b)) {
-                    AbilityStorage.thanathosAbility(i, p);
-                }
+            if(i == null) return;
+
+            PersistentDataContainer c = Objects.requireNonNull(i.getItemMeta()).getPersistentDataContainer();
+            if (c.has(SkyblockD.getKey("ETHEREAL_CRUSHER"), b)) {
+                AbilityStorage.crusherAbility(i, p);
+            } else if (c.has(SkyblockD.getKey("ASPECT_OF_DRAGON"), b)) {
+                AbilityStorage.dragonAspectAbility(i, p);
+            } else if (c.has(SkyblockD.getKey("THANATHOS"), b)) {
+                AbilityStorage.thanathosAbility(i, p);
             }
         }
     }

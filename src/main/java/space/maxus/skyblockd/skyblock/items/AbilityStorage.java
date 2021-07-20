@@ -21,11 +21,13 @@ public class AbilityStorage {
     public static final int TREECAPITATOR_AMOUNT = 15;
     public static final int TREENIHILATOR_AMOUNT = 30;
     public static final int ETHEREAL_CRUSHER_AMOUNT = 2;
+    public static final int WORLD_DIGESTER_AMOUNT = 2;
 
     public static final int JUNGLE_AXE_CD = 2;
     public static final int TREECAPITATOR_CD = 4;
     public static final int TREENIHILATOR_CD = 3;
     public static final int ETHEREAL_CRUSHER_CD = 4;
+    public static final int WORLD_DIGESTER_CD = 1;
 
     private static final HashSet<Material> unbreakable = new HashSet<>(Arrays.asList(
             Material.BARRIER, Material.BEDROCK, Material.END_PORTAL_FRAME,
@@ -37,8 +39,8 @@ public class AbilityStorage {
 
     public static void tripleShot(Player p) {
         Vector base = p.getLocation().getDirection();
-        Vector left = base.rotateAroundZ(-30d);
-        Vector right = base.rotateAroundZ(30d);
+        Vector left = base.rotateAroundZ(-60d);
+        Vector right = base.rotateAroundZ(60d);
         Arrow arr1 = p.launchProjectile(Arrow.class, left);
         Arrow arr2 = p.launchProjectile(Arrow.class, right);
         arr1.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
@@ -46,19 +48,27 @@ public class AbilityStorage {
     }
 
     public static void thanathosAbility(ItemStack i, Player p) {
-        if(!ItemHelper.isOnCooldown(i, 1, p, true)) {
-            Location n = raycast(p, 8);
+        if(!ItemHelper.isOnCooldown(i, 0.75f, p, false)) {
+            Location n = raycast(p, 5);
             p.teleport(n);
-            p.playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 0.5f, 1f);
-            p.spawnParticle(Particle.EXPLOSION_LARGE, p.getLocation(), 1, 1, 1, 1, 1);
+            p.playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 0.3f, 1f);
+            p.spawnParticle(Particle.EXPLOSION_HUGE, p.getLocation(), 1, 1, 1, 1, 1);
             List<Entity> entities = p.getNearbyEntities(3, 3, 3);
+            int damage = ItemHelper.calcMagicDamage(p, 5f);
+            int totalDamage = 0;
+            int totalEntities = 0;
             if (!entities.isEmpty()) {
                 for (Entity en : entities) {
                     if (en instanceof LivingEntity) {
                         LivingEntity le = (LivingEntity) en;
-                        le.damage(20);
+                        le.damage(damage);
+                        totalDamage += damage;
+                        totalEntities++;
                     }
                 }
+            }
+            if(totalEntities > 0) {
+                p.sendMessage(ChatColor.GRAY+"Your God of Death hit " +ChatColor.RED+ totalEntities + ChatColor.GRAY + (totalEntities == 1 ? " enemy" : " enemies")+" for a total of "+ ChatColor.RED + totalDamage + ChatColor.GRAY + " damage!");
             }
         }
     }
@@ -69,12 +79,13 @@ public class AbilityStorage {
             createHelix(p);
             List<Entity> entities = p.getNearbyEntities(4, 4, 4);
             p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
+            int damage = ItemHelper.calcMagicDamage(p, 7.5f);
             if (!entities.isEmpty()) {
                 for (Entity en : entities) {
                     if (en instanceof LivingEntity) {
                         LivingEntity le = (LivingEntity) en;
-                        le.damage(40);
-                        le.setFireTicks(200);
+                        le.damage(damage);
+                        le.setFireTicks(40);
                     }
                 }
             }
@@ -107,6 +118,10 @@ public class AbilityStorage {
 
             world.spawnParticle(Particle.EXPLOSION_HUGE, l, 3, 5, 2, 2, 2);
         }
+    }
+
+    public static void dirtBlockBreaker(Block start, int limit, ItemStack shovel, int cooldown, Player p) {
+        blockBreaker(start, limit, shovel, cooldown, p, BreakType.DIRT);
     }
 
     public static void woodenBlockBreaker(Block start, int limit, ItemStack axe, int cooldown, Player p) {
@@ -144,14 +159,18 @@ public class AbilityStorage {
                                     Collection<ItemStack> drops = b.getDrops(p.getInventory().getItemInMainHand());
                                     drops.forEach(CustomItem::toSkyblockItem);
                                     p.getInventory().addItem((drops.toArray(new ItemStack[0])));
+                                    for(ItemStack drop : drops) {
+                                        ItemHelper.usePress(p, drop);
+                                    }
                                     drops.clear();
                                     BlockBreakListener.operateSkill(t.skillName, p, b, false);
+                                    blocks.add(b);
                                     b.setType(Material.AIR);
                                 }  else {
                                     block.breakNaturally(axe);
                                     BlockBreakListener.operateSkill(t.skillName, p, b, false);
+                                    blocks.add(b);
                                 }
-                                blocks.add(b);
                             }
                         }
                     }
@@ -164,11 +183,13 @@ public class AbilityStorage {
         Location loc = p.getLocation();
         int radius = 1;
         Random r = new Random(p.getWorld().getSeed());
-        for(double y = 0; y <= 4; y+=0.15) {
+        float j = 0.1f;
+        for(double y = 0; y <= 4; y+=(0.15+j)) {
             double x = radius * Math.cos(y) * r.nextFloat() - 0.2;
             double z = radius * Math.sin(y) * r.nextFloat() - 0.1;
 
             p.spawnParticle(Particle.SOUL_FIRE_FLAME, new Location(p.getWorld(), (float) (loc.getX() + x), (float) (loc.getY() + y), (float) (loc.getZ() + z)), 1, 0, 0, 0, 0);
+            j += 0.05f;
         }
     }
 
@@ -197,24 +218,29 @@ public class AbilityStorage {
 
     // gets the position of last non-solid block in provided distance
     private static Location raycast(LivingEntity from, int distance) {
-        Location eyes = from.getEyeLocation();
-        BlockIterator iterator = new BlockIterator(from.getLocation(), 1, distance);
-        while(iterator.hasNext()){
-            Location loc = iterator.next().getLocation();
-            if(loc.getBlock().getType().isSolid()) {
-                if(loc.equals(from.getLocation())) {
-                    from.sendMessage(ChatColor.RED+"There are blocks in the way!");
+        try {
+            Location eyes = from.getEyeLocation();
+            BlockIterator iterator = new BlockIterator(from.getLocation(), 1, distance);
+            while (iterator.hasNext()) {
+                Location loc = iterator.next().getLocation();
+                if (loc.getBlock().getType().isSolid()) {
+                    if (loc.equals(from.getLocation())) {
+                        from.sendMessage(ChatColor.RED + "There are blocks in the way!");
+                    }
+                    loc.setPitch(eyes.getPitch());
+                    loc.setYaw(eyes.getYaw());
+                    loc.setY(loc.getY() + 1);
+                    return loc;
                 }
-                loc.setPitch(eyes.getPitch());
-                loc.setYaw(eyes.getYaw());
-                loc.setY(loc.getY()+1);
-                return loc;
             }
+            Location n = from.getEyeLocation().clone().add(from.getEyeLocation().getDirection().multiply(distance));
+            n.setPitch(eyes.getPitch());
+            n.setYaw(eyes.getYaw());
+            n.setY(n.getY() + 1);
+            return n;
+        } catch (IllegalStateException e) {
+            from.sendMessage(ChatColor.RED+"There are blocks in the way!");
+            return from.getLocation();
         }
-        Location n = from.getEyeLocation().clone().add(from.getEyeLocation().getDirection().multiply(distance));
-        n.setPitch(eyes.getPitch());
-        n.setYaw(eyes.getYaw());
-        n.setY(n.getY()+1);
-        return n;
     }
 }

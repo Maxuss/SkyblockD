@@ -40,6 +40,7 @@ public class KillListener extends BetterListener {
                         CustomItem.toSkyblockItem(item);
                     }
                     p.getInventory().addItem(item);
+                    ItemHelper.usePress(p, item);
                     drops.set(i, new ItemStack(Material.AIR));
                 } else {
                     for (ItemStack left : drops) {

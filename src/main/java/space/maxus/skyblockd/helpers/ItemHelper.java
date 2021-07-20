@@ -13,11 +13,38 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.items.CustomItem;
+import space.maxus.skyblockd.objects.PlayerSkills;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 import space.maxus.skyblockd.utils.ItemGlint;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class ItemHelper {
+    private static final List<String> illegals = new ArrayList<>(Arrays.asList(
+            "ENCHANTED_NETHERITE_BLOCK",
+            "ENCHANTED_BONE_BLOCK",
+            "ENCHANTED_CLAY_BLOCK",
+            "ENCHANTED_COAL_BLOCK",
+            "ENCHANTED_DIAMOND_BLOCK",
+            "ENCHANTED_REDSTONE_BLOCK",
+            "ENCHANTED_LAPIS_BLOCK",
+            "ENCHANTED_EMERALD_BLOCK",
+            "ENCHANTED_IRON_BLOCK",
+            "ENCHANTED_SLIME_BLOCK",
+            "ENCHANTED_MAGMA_BLOCK",
+            "ENCHANTED_GOLD_BLOCK",
+            "ENCHANTED_RED_MUSHROOM_BLOCK",
+            "ENCHANTED_BROWN_MUSHROOM_BLOCK",
+            "ENCHANTED_WISP",
+            "ENCHANTED_BLAZE_ROD",
+            "ENCHANTED_NETHER_STAR",
+            "ENCHANTED_EYE_OF_ENDER"
+            ));
+
     public static ItemMeta applyGlint(ItemMeta in){
         NamespacedKey key = new NamespacedKey(SkyblockD.getInstance(), SkyblockD.getInstance().getDescription().getName());
         ItemGlint g = new ItemGlint(key);
@@ -27,8 +54,15 @@ public class ItemHelper {
 
     public static SkyblockRarity getRarity(Material m){
         // i am sorry for this switch
+        if(m.name().startsWith("WARPED_") || m.name().startsWith("CRIMSON_")) return SkyblockRarity.UNCOMMON;
         switch(m){
             // uncommon
+            case TROPICAL_FISH_BUCKET:
+            case TROPICAL_FISH:
+            case BLAZE_POWDER:
+            case BLAZE_ROD:
+            case MAGMA_CREAM:
+            case GHAST_TEAR:
             case SOUL_TORCH:
             case SOUL_CAMPFIRE:
             case SOUL_LANTERN:
@@ -74,6 +108,7 @@ public class ItemHelper {
             case DIAMOND_PICKAXE: return SkyblockRarity.UNCOMMON;
 
             // rare
+            case HEART_OF_THE_SEA:
             case WITHER_ROSE:
             case YELLOW_SHULKER_BOX:
             case WHITE_SHULKER_BOX:
@@ -112,6 +147,10 @@ public class ItemHelper {
             case ENDER_CHEST: return SkyblockRarity.RARE;
 
             // epic
+            case CONDUIT:
+            case NETHER_STAR:
+            case TOTEM_OF_UNDYING:
+            case WET_SPONGE:
             case ELYTRA:
             case SPONGE:
             case DRAGON_HEAD:
@@ -131,8 +170,7 @@ public class ItemHelper {
             // legendary
             case NETHERITE_BLOCK:
             case BEACON:
-            case DRAGON_EGG:
-            case NETHER_STAR: return SkyblockRarity.LEGENDARY;
+            case DRAGON_EGG: return SkyblockRarity.LEGENDARY;
 
             // special
             case SPAWNER:
@@ -148,7 +186,7 @@ public class ItemHelper {
         return mm;
     }
 
-    public static boolean isOnCooldown(ItemStack item, int cd, Player p, boolean displayMessage) {
+    public static boolean isOnCooldown(ItemStack item, float cd, Player p, boolean displayMessage) {
         if(item == null || !item.hasItemMeta()) return false;
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
@@ -172,7 +210,7 @@ public class ItemHelper {
             item.setItemMeta(meta);
             return false;
         }
-        int timeLeft = (int) time - lastTime;
+        float timeLeft = (float) time - lastTime;
         timeLeft = cd - timeLeft;
         if(displayMessage) p.sendMessage(ChatColor.RED+"Please wait " + timeLeft + "s before using this again!");
         return true;
@@ -180,5 +218,45 @@ public class ItemHelper {
 
     public static boolean hasMagnet(Player player) {
         return player.getInventory().contains(SkyblockMaterial.MAGIC_MAGNET.getItem());
+    }
+
+    public static boolean hasPress(Player player) {
+        return player.getInventory().contains(SkyblockMaterial.PERSONAL_COMPACTOR.getItem());
+    }
+
+    public static int calcMagicDamage(Player p, float base) {
+        PlayerSkills skills = ContainerHelper.getPlayer(p).skills;
+        int mystMod = skills.data.get("mysticism").currentLevel + 1;
+        int craftMod = skills.data.get("crafting").currentLevel + 1;
+        float dmg = ((craftMod + mystMod) * base) / 2f;
+        return Math.round(dmg);
+    }
+
+    public static void usePress(Player p, ItemStack i) {
+        if(!hasPress(p)) return;
+
+        String name = i.getType().name();
+        try {
+            SkyblockMaterial mat = SkyblockMaterial.valueOf("ENCHANTED_"+name);
+            if(illegals.contains(mat.name())) {
+                throw new IllegalArgumentException();
+            }
+            int amount = 0;
+            for(ItemStack it : p.getInventory().getContents()) {
+                if(it != null && it.getType() != Material.AIR) {
+                    if (it.isSimilar(i) &&!it.getItemMeta().getPersistentDataContainer().has(SkyblockD.getKey("compacted"), PersistentDataType.BYTE))
+                        amount += it.getAmount();
+                }
+            }
+            if(amount < 9) return;
+            amount -= (amount % 9);
+            int crafted = amount / 9;
+            ItemStack nonsb = new ItemStack(i.getType(), amount);
+            CustomItem.toSkyblockItem(nonsb);
+            p.getInventory().removeItem(nonsb);
+            ItemStack craft = mat.getItem();
+            craft.setAmount(crafted);
+            p.getInventory().addItem(craft);
+        } catch(IllegalArgumentException ignored) {}
     }
 }

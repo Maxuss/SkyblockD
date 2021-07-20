@@ -8,6 +8,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.persistence.PersistentDataType;
+import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.gui.MainMenuGUI;
 import space.maxus.skyblockd.gui.RecombobulatorInventory;
 
@@ -20,7 +23,21 @@ public class ActionListener extends BetterListener {
         Action a = e.getAction();
         Player p = e.getPlayer();
         ItemStack i = e.getItem();
-        if ((a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) && i != null) {
+        if(i == null) return;
+        if(Objects.requireNonNull(i.getItemMeta()).getPersistentDataContainer().has(SkyblockD.getKey("blockClicks"), PersistentDataType.BYTE)) {
+            e.setCancelled(true);
+            return;
+        }
+        if(i.getItemMeta().getPersistentDataContainer().has(SkyblockD.getKey("headClick"), PersistentDataType.BYTE)) {
+            e.setCancelled(true);
+            PlayerInventory inv = p.getInventory();
+            inv.remove(i);
+            if(inv.getHelmet() != null) {
+                inv.addItem(inv.getHelmet());
+            }
+            inv.setHelmet(i);
+        }
+        if (a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) {
             String name = Objects.requireNonNull(i.getItemMeta()).getDisplayName();
             if (name.equalsIgnoreCase(ChatColor.YELLOW + "Skyblock Menu")) {
                 MainMenuGUI gui = new MainMenuGUI();

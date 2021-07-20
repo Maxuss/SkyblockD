@@ -32,6 +32,8 @@ public class SkyblockBreakListener extends BetterListener {
                 AbilityStorage.woodenBlockBreaker(e.getBlock(), AbilityStorage.TREECAPITATOR_AMOUNT, item, AbilityStorage.TREECAPITATOR_CD, p);
             } else if(c.has(SkyblockD.getKey("TREENIHILATOR"), PersistentDataType.BYTE)) {
                 AbilityStorage.woodenBlockBreaker(e.getBlock(), AbilityStorage.TREENIHILATOR_AMOUNT, item, AbilityStorage.TREENIHILATOR_CD, p);
+            } else if(c.has(SkyblockD.getKey("WORLD_DIGESTER"), PersistentDataType.BYTE)) {
+                AbilityStorage.dirtBlockBreaker(e.getBlock(), AbilityStorage.WORLD_DIGESTER_AMOUNT, item, AbilityStorage.WORLD_DIGESTER_CD, p);
             }
         }
     }

@@ -29,4 +29,9 @@ public interface SkyblockFeature {
         NamespacedKey key = SkyblockD.getKey("restrictRecipes");
         m.getPersistentDataContainer().set(key, PersistentDataType.STRING, "true");
     }
+
+    default void blockItemPlacement(ItemMeta m){
+        NamespacedKey key = SkyblockD.getKey("restrictPlacement");
+        m.getPersistentDataContainer().set(key, PersistentDataType.STRING, "true");
+    }
 }

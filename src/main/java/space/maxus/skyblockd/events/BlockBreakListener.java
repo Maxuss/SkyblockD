@@ -36,7 +36,7 @@ public class BlockBreakListener extends BetterListener {
         if(ItemHelper.hasMagnet(p) && p.getInventory().firstEmpty() != -1){
             e.setDropItems(false);
             Collection<ItemStack> drops = b.getDrops(p.getInventory().getItemInMainHand());
-            if(drops != null && !drops.isEmpty()) {
+            if(!drops.isEmpty()) {
                 drops.forEach(CustomItem::toSkyblockItem);
                 p.getInventory().addItem(drops.toArray(new ItemStack[0]));
             }
@@ -94,7 +94,7 @@ public class BlockBreakListener extends BetterListener {
         }
         int tlvl = lvl == 0 ? 1 : lvl;
         float exp = SkillHelper.getExpForSkill(blockMat, name.toLowerCase(Locale.ENGLISH)) * SkillHelper.getModifier(tlvl);
-        String sxp = String.valueOf(exp).replace(",", ".");
+        String sxp = String.valueOf(Math.round(exp));
 
         PacketUtils.sendActionbar(p, "+"+sxp+" "+name+" Experience", NMSColor.DARK_AQUA);
 

@@ -9,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.items.CustomItem;
 
 import java.util.Objects;
@@ -23,6 +24,10 @@ public class PickupListener extends BetterListener {
             ItemStack s = i.getItemStack();
             boolean isSb = Objects.requireNonNull(s.getItemMeta()).getPersistentDataContainer().has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING);
             if (!isSb) CustomItem.toSkyblockItem(e.getItem());
+
+            Player p = (Player) e.getEntity();
+
+            ItemHelper.usePress(p, s);
         }
     }
 
