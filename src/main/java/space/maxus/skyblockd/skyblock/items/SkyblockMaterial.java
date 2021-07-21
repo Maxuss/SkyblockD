@@ -13,6 +13,7 @@ public enum SkyblockMaterial {
     ICARUS_WINGS(new IcarusWings()),
     MADNESS(new Madness()),
     RECOMBOBULATOR(new Recombobulator()),
+    RECOMBOBULATOR_CORE(new RecombobulatorCore()),
     SHADOW_FRACTURE_BOOTS(new ShadowFractureBoots()),
     SHADOW_FRACTURE_CHESTPLATE(new ShadowFractureChestplate()),
     SHADOW_FRACTURE_LEGGINGS(new ShadowFractureLeggings()),
@@ -42,6 +43,9 @@ public enum SkyblockMaterial {
     WORLD_DIGESTER(new WorldDigester()),
     PERSONAL_COMPACTOR(new HydraulicPress()),
 
+    MOON_STONE(new MoonStone()),
+    ENCHANTED_MOON_STONE(new EnchantedMoonStone()),
+
     // MINING
     ENCHANTED_DIAMOND(new EnchantedItem("Enchanted Diamond", Material.DIAMOND, SkyblockRarity.RARE)),
     ENCHANTED_LAPIS_LAZULI(new EnchantedItem("Enchanted Lapis Lazuli", Material.LAPIS_LAZULI, SkyblockRarity.UNCOMMON)),
@@ -55,6 +59,7 @@ public enum SkyblockMaterial {
     ENCHANTED_END_STONE(new EnchantedItem("Enchanted End Stone", Material.END_STONE, SkyblockRarity.RARE)),
     ENCHANTED_ROCK_PILE(new EnchantedItem("Enchanted Rock Pile", Material.ANDESITE, SkyblockRarity.UNCOMMON)),
     ENCHANTED_NETHERITE_SCRAP(new EnchantedItem("Enchanted Netherite Scrap", Material.NETHERITE_SCRAP, SkyblockRarity.RARE)),
+    ENCHANTED_QUARTZ(new EnchantedItem("Enchanted Quartz", Material.QUARTZ, SkyblockRarity.UNCOMMON)),
 
     // EXCAVATING
     ENCHANTED_DIRT(new EnchantedItem("Enchanted Dirt", Material.DIRT, SkyblockRarity.COMMON)),
@@ -102,7 +107,7 @@ public enum SkyblockMaterial {
     // FISHING
     ENCHANTED_COD(new EnchantedItem("Enchanted Cod", Material.COD, SkyblockRarity.UNCOMMON)),
     ENCHANTED_TROPICAL_FISH(new EnchantedItem("Enchanted Tropical Fish", Material.TROPICAL_FISH, SkyblockRarity.RARE)),
-    ENCHANTED_SPONGE(new EnchantedItem("Enchanted Sponge", Material.SPONGE, SkyblockRarity.LEGENDARY)),
+    ENCHANTED_SPONGE(new EnchantedItem("Enchanted Sponge", Material.SPONGE, SkyblockRarity.EPIC)),
     ENCHANTED_PRISMARINE_SHARD(new EnchantedItem("Enchanted Prismarine Shard", Material.PRISMARINE_SHARD, SkyblockRarity.UNCOMMON)),
     ENCHANTED_PRISMARINE_CRYSTALS(new EnchantedItem("Enchanted Prismarine Crystals", Material.PRISMARINE_CRYSTALS, SkyblockRarity.UNCOMMON)),
     ENCHANTED_INK_SAC(new EnchantedItem("Enchanted Ink Sac", Material.INK_SAC, SkyblockRarity.UNCOMMON)),
@@ -131,9 +136,18 @@ public enum SkyblockMaterial {
     ENCHANTED_CLAY_BLOCK(new EnchantedItem("Enchanted Clay Block", Material.CLAY, SkyblockRarity.RARE)),
     ENCHANTED_RED_MUSHROOM_BLOCK(new EnchantedItem("Enchanted Red Mushroom Block", Material.RED_MUSHROOM_BLOCK, SkyblockRarity.RARE)),
     ENCHANTED_BROWN_MUSHROOM_BLOCK(new EnchantedItem("Enchanted Brown Mushroom Block", Material.BROWN_MUSHROOM_BLOCK, SkyblockRarity.RARE)),
+    ENCHANTED_COOKED_SALMON(new EnchantedItem("Enchanted Cooked Salmon", Material.COOKED_SALMON, SkyblockRarity.RARE)),
+    ENCHANTED_COOKED_COD(new EnchantedItem("Enchanted Cooked Cod", Material.COOKED_COD, SkyblockRarity.RARE)),
+    ENCHANTED_DRIED_KELP(new EnchantedItem("Enchanted Dried Kelp", Material.DRIED_KELP, SkyblockRarity.RARE)),
+    ENCHANTED_WET_SPONGE(new EnchantedItem("Enchanted Wet Sponge", Material.WET_SPONGE, SkyblockRarity.LEGENDARY)),
+    ENCHANTED_QUARTZ_BLOCK(new EnchantedItem("Enchanted Quartz Block", Material.QUARTZ_BLOCK, SkyblockRarity.RARE)),
 
     // COMPLEX RECIPE
     ENCHANTED_EYE_OF_ENDER(new EnchantedItem("Enchanted Eye of Ender", Material.ENDER_EYE, SkyblockRarity.EPIC)),
+    ENCHANTED_DARK_PRISMARINE(new EnchantedItem("Enchanted Dark Prismarine", Material.DARK_PRISMARINE, SkyblockRarity.EPIC)),
+
+    RECIPE_GUIDE_1(new EnchantedItemGuide()),
+    RECIPE_GUIDE_2(new CompressedItemGuide()),
 
     SKYBLOCK_MENU(SkyblockD.getItemManager().generated.get("skyblockd:SKYBLOCK_MENU")),
     //#endregion Materials

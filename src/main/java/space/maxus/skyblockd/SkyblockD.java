@@ -4,26 +4,26 @@ import com.google.gson.reflect.TypeToken;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.MemoryNPCDataStore;
 import net.citizensnpcs.api.npc.NPCRegistry;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import space.maxus.skyblockd.commands.*;
-import space.maxus.skyblockd.events.*;
+import org.reflections.Reflections;
+import space.maxus.skyblockd.commands.ChatCommand;
 import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.FileHelper;
 import space.maxus.skyblockd.helpers.JsonHelper;
 import space.maxus.skyblockd.items.ItemManager;
-import space.maxus.skyblockd.items.TestItem;
+import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.ServerStorage;
 import space.maxus.skyblockd.recipes.RecipeRegisterer;
 import space.maxus.skyblockd.recipes.created.*;
-import space.maxus.skyblockd.skyblock.events.handlers.SkyblockBreakListener;
-import space.maxus.skyblockd.skyblock.events.handlers.SkyblockClickListener;
 import space.maxus.skyblockd.skyblock.items.ArmorSet;
 import space.maxus.skyblockd.skyblock.items.SkyblockItemRegisterer;
 import space.maxus.skyblockd.skyblock.items.created.EmeraldSet;
@@ -33,21 +33,22 @@ import space.maxus.skyblockd.skyblock.skills.SimpleSkillMap;
 import space.maxus.skyblockd.skyblock.skills.SkillMapManager;
 import space.maxus.skyblockd.skyblock.skills.SkillResource;
 import space.maxus.skyblockd.skyblock.skills.created.*;
-import space.maxus.skyblockd.utils.Config;
-import space.maxus.skyblockd.utils.Constants;
-import space.maxus.skyblockd.utils.ItemGlint;
+import space.maxus.skyblockd.util.Config;
+import space.maxus.skyblockd.util.Constants;
+import space.maxus.skyblockd.util.ItemGlint;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.logging.Logger;
 
+@SuppressWarnings("unused")
 public class SkyblockD extends JavaPlugin {
 
     private static SkyblockD instance;
-    private static CommandManager commandManager;
     private static ItemManager itemManager;
     private static HashMap<String, Object> rankGroups;
     private static TreeMap<String, ItemStack> citems;
@@ -60,6 +61,7 @@ public class SkyblockD extends JavaPlugin {
     private static NPCRegistry npcRegistry;
 
     public static List<PlayerContainer> players = new ArrayList<>();
+    public static boolean inMaintenace = false;
 
     private static final SkillMapManager mapManager = new SkillMapManager();
     private static final List<String> allowedSbIngredients = Arrays.asList(
@@ -67,21 +69,19 @@ public class SkyblockD extends JavaPlugin {
     );
 
     // version and stuff here:
-    private static final String shortVersion = "v0.5";
-    private static final String longVersion = "V0.5 Pre-Alpha";
-    private static final String versionName = "Dev-test ALPHA";
-    private static final String pluginName = "SkyblockD";
-    private static final String fullShortName = pluginName + " " + shortVersion;
-    private static final String fullLongName = pluginName + " " + longVersion;
-    private static final String namespacedKey = pluginName.toLowerCase(Locale.ENGLISH);
+    private static String shortVersion;
+    private static String longVersion;
+    private static String versionName;
+    private static String pluginName;
+    private static String fullShortName;
+    private static String fullLongName;
+    private static String namespacedKey;
+    private static String motd;
 
     public static Logger logger;
 
     public static SkyblockD getInstance() {
         return instance;
-    }
-    public static CommandManager getCommandManager() {
-        return commandManager;
     }
     public static HashMap<String, Object> getRankGroups() {
         return rankGroups;
@@ -148,6 +148,7 @@ public class SkyblockD extends JavaPlugin {
     public static String getNamespace() {
         return namespacedKey + ":";
     }
+    public static String getMotd() { return motd; }
 
     public static String getNamespace(String name) {
         return namespacedKey + ":" + name.toUpperCase(Locale.ENGLISH);
@@ -156,12 +157,13 @@ public class SkyblockD extends JavaPlugin {
 
     private void initialize() {
         instance = this;
-        commandManager = new CommandManager();
         itemManager = new ItemManager();
         pluginManager = getHost().getPluginManager();
         config = new Config(this, "config.yml");
         logger = getLogger();
         consts = new Constants();
+
+
     }
 
     private void generateFiles() {
@@ -185,86 +187,58 @@ public class SkyblockD extends JavaPlugin {
         new EmeraldChestplateRecipe();
         new EmeraldLeggingsRecipe();
         new EmeraldBootsRecipe();
+        new RecombobulatorRecipe();
+        new SimpleGuideRecipe();
+        new ComplexGuideRecipe();
+        new RockPileRecipe();
 
         RecipeRegisterer.registerEnchantedItems();
     }
 
     private void configureManagers() {
         // register commands
-        commandManager.addContain(new NameCommand());
-        commandManager.addContain(new SBDHelpCommand());
-        if (config.ranksEnabled()) {
-            commandManager.addContain(new RankCommand());
-        }
-        if (config.inDevMode()) {
-            commandManager.addContain(new DevTestCommand());
-            commandManager.addContain(new DeveloperCommand());
-        }
-        commandManager.addContain(new UpdateCommand());
-        commandManager.addContain(new GetItemCommand());
-        if (config.shoutEnabled()) {
-            commandManager.addContain(new ShoutCommand());
-        }
-        commandManager.addContain(new SkyblockMenuCommand());
-        commandManager.addContain(new RecombobulateCommand());
-        commandManager.addContain(new SpawnCommand());
-        commandManager.register();
+        String pkgName = getClass().getPackage().getName() + ".commands";
 
-        PluginCommand getitem = this.getCommand("getitem");
-        PluginCommand spawn = this.getCommand("spawn");
-
-        assert getitem != null && spawn != null;
-
-        getitem.setTabCompleter(new GetItemCompleter());
-        spawn.setTabCompleter(new SpawnCompleter());
+        for(Class<? extends ChatCommand> clazz : new Reflections(pkgName).getSubTypesOf(ChatCommand.class)) {
+            try {
+                clazz.getDeclaredConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                logger.severe("Could not initialize command " + clazz.getName() +"! " + e.getMessage() + "\n " +e.getCause() + Arrays.toString(e.getStackTrace()));
+            }
+        }
 
         // register items
-        if (config.inDevMode()) {
-            itemManager.addContain(new TestItem());
-        }
         itemManager.addContain(new SkyblockMenuItem());
         itemManager.register();
         citems = itemManager.generated;
 
         itemRegisterer = new SkyblockItemRegisterer();
 
-        mapManager.addMap("mining", new MiningSkillMap("Mining", "Speleologist"));
-        mapManager.addMap("foraging", new ForagingSkillMap("Foraging", "Logger"));
-        mapManager.addMap("excavating", new ExcavatingSkillMap("Excavating", "Digger"));
-        mapManager.addMap("crafting", new CraftingSkillMap("Crafting", "Engineer"));
-        mapManager.addMap("farming", new FarmingSkillMap("Farming", "Farmhand"));
-        mapManager.addMap("mysticism", new MysticismSkillMap("Mysticism", "Wizard"));
-        mapManager.addMap("combat", new CombatSkillMap("Combat", "Warrior"));
-
         try {
             serverData = new ServerStorage();
+            motd = serverData.meta.getMotd();
+            pluginName = serverData.meta.pluginName;
+            versionName = serverData.meta.codename;
+            longVersion = serverData.meta.fullVersion;
+            shortVersion = serverData.meta.version;
+            fullShortName = pluginName + " " + shortVersion;
+            fullLongName = pluginName + " " + longVersion;
+            namespacedKey = pluginName.toLowerCase(Locale.ENGLISH);
         } catch (IOException e) {
             SkyblockD.logger.severe(" [FATAL] > Could not read CDN data! Are you in offline mode?");
         }
     }
 
     public void registerEvents(){
-        // normal events
-        new ChatListener();
-        new InventoryListener();
-        new LoginListener();
-        new DamageListener();
-        new ActionListener();
-        new ClickListener();
+        String pkgName = getClass().getPackage().getName() + ".listeners";
 
-        new PickupListener();
-        new EntityListener();
-        new CraftListener();
-        new BlockBreakListener();
-        new KillListener();
-        new EnchantListener();
-        new PotionListener();
-        new MovementListener();
-        new PlayerDeathListener();
-        new ShootListener();
-
-        new SkyblockClickListener();
-        new SkyblockBreakListener();
+        for(Class<? extends BetterListener> clazz : new Reflections(pkgName).getSubTypesOf(BetterListener.class)) {
+            try {
+                clazz.getDeclaredConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                logger.severe("Could not initialize listener! " + e);
+            }
+        }
     }
 
     public void registerEnchantments() {
@@ -282,9 +256,9 @@ public class SkyblockD extends JavaPlugin {
             ItemGlint glow = new ItemGlint(key);
             Enchantment.registerEnchantment(glow);
         } catch (IllegalArgumentException ignored) {
-            SkyblockD.logger.fine("Seems like server was reloaded! Not registering enchantments then");
+            SkyblockD.logger.info("Seems like server was reloaded! Not registering enchantments then");
         } catch (Exception e){
-            logger.severe("Could not register item glint enchantment! An exception "+e.getClass()+": "+ Arrays.toString(e.getStackTrace()));
+            logger.severe("Could not register item glint enchantment! Error: "+e.getClass()+": "+ Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -329,8 +303,6 @@ public class SkyblockD extends JavaPlugin {
 
         SkillResource sk = new SkillResource(ssm);
 
-
-
         try {
             @SuppressWarnings("unchecked")
             JsonHelper<SkillResource> json = new JsonHelper<>((Class<SkillResource>) sk.getClass(), true);
@@ -340,7 +312,6 @@ public class SkyblockD extends JavaPlugin {
         } catch (IOException e) {
             logger.info(e.toString());
         }
-
 
         ///
         configureManagers();
@@ -353,9 +324,6 @@ public class SkyblockD extends JavaPlugin {
 
         registerRecipes();
 
-        // TEST
-        // END TEST
-
         // initialize rank groups
         try {
             processRanks();
@@ -367,8 +335,15 @@ public class SkyblockD extends JavaPlugin {
 
         npcRegistry = CitizensAPI.createAnonymousNPCRegistry(new MemoryNPCDataStore());
 
-        // dispatch a command to make sure actionbar display messsages dont spam OP's chat etc.
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gamerule sendCommandFeedback false");
+        // register maps
+        mapManager.addMap("mining", new MiningSkillMap("Mining", "Speleologist"));
+        mapManager.addMap("foraging", new ForagingSkillMap("Foraging", "Logger"));
+        mapManager.addMap("excavating", new ExcavatingSkillMap("Excavating", "Digger"));
+        mapManager.addMap("crafting", new CraftingSkillMap("Crafting", "Engineer"));
+        mapManager.addMap("farming", new FarmingSkillMap("Farming", "Farmhand"));
+        mapManager.addMap("mysticism", new MysticismSkillMap("Mysticism", "Wizard"));
+        mapManager.addMap("combat", new CombatSkillMap("Combat", "Warrior"));
+        mapManager.addMap("fishing", new FishingSkillMap("Fishing", "Angler"));
 
         // send success message and log
         getSender().sendMessage(ChatColor.BOLD + "[" + ChatColor.GOLD + "SkyblockD" + ChatColor.RESET + "" + ChatColor.BOLD + "]" + ChatColor.RESET + " Plugin initialized!");
@@ -380,13 +355,15 @@ public class SkyblockD extends JavaPlugin {
         // deregister all NPCs so they wont clog memory
         npcRegistry.deregisterAll();
 
+        // clear all recipes cus they break on /reload otherwise
+        getHost().clearRecipes();
+
         // de-instantiate main stuff
         // send message because of disabling
         getSender().sendMessage(ChatColor.BOLD + "[" + ChatColor.GOLD + "SkyblockD" + ChatColor.RESET + "" + ChatColor.BOLD + "]" + ChatColor.RESET + " Plugin disabled!");
         logger.info("Successfully unloaded SkyblockD plugin!");
 
         instance = null;
-        commandManager = null;
         pluginManager = null;
         itemManager = null;
         logger = null;

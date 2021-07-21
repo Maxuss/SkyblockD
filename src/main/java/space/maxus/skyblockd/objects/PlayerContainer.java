@@ -2,7 +2,7 @@ package space.maxus.skyblockd.objects;
 
 import java.util.UUID;
 
-public class PlayerContainer {
+public class PlayerContainer{
     public RankContainer ranks;
     public UUID uuid;
     public PlayerSkills skills;

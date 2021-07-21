@@ -15,6 +15,7 @@ import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.SkillContainer;
+import space.maxus.skyblockd.util.Roman;
 
 import java.util.*;
 
@@ -53,7 +54,7 @@ public abstract class ExtendableSkill extends MappedSkill implements Modificable
             ComplexReward rew = stats.get(j);
             List<String> lore = new ArrayList<>();
             int sa = xp <= 0 ? 1 : xp;
-            lore.add(ChatColor.DARK_GRAY + prof + " " + ChatColor.DARK_AQUA + (j+1));
+            lore.add(ChatColor.DARK_GRAY + prof + " " + ChatColor.DARK_AQUA + new Roman((j+1)));
             lore.add(" ");
             lore.add(ChatColor.GRAY + "Requires " + ChatColor.GREEN + sa + " " + name + ChatColor.GRAY + " Experience");
             if (rew.getStatName() != null) {
@@ -71,7 +72,7 @@ public abstract class ExtendableSkill extends MappedSkill implements Modificable
                     new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
             ItemMeta m = item.getItemMeta();
             assert m != null;
-            m.setDisplayName(ChatColor.AQUA + name + " " + (j+1));
+            m.setDisplayName(ChatColor.AQUA + name + " " + new Roman((j+1)));
             m.setLore(lore);
             m.getPersistentDataContainer().set(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING, "true");
             GuiHelper.setHideAllFlags(m);

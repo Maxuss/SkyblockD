@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 import space.maxus.skyblockd.SkyblockD;
-import space.maxus.skyblockd.events.BlockBreakListener;
+import space.maxus.skyblockd.listeners.BlockBreakListener;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.MaterialHelper;
 import space.maxus.skyblockd.items.CustomItem;
@@ -34,7 +34,7 @@ public class AbilityStorage {
             Material.END_PORTAL, Material.LAVA, Material.WATER,
             Material.COAL_ORE, Material.IRON_ORE, Material.GOLD_ORE,
             Material.EMERALD_ORE, Material.REDSTONE_ORE, Material.DIAMOND_ORE,
-            Material.LAPIS_ORE
+            Material.LAPIS_ORE, Material.OBSIDIAN
     ));
 
     public static void tripleShot(Player p) {
@@ -134,6 +134,7 @@ public class AbilityStorage {
 
     private static void blockBreaker(Block start, int limit, ItemStack axe, int cd, Player p, BreakType t) {
         if(ItemHelper.isOnCooldown(axe, cd, p, false)) return;
+        if(start.getType() == Material.OBSIDIAN) return;
         Material targetMaterial = start.getType();
 
         List<Block> blocks = new ArrayList<>();

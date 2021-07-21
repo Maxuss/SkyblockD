@@ -17,11 +17,12 @@ import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.objects.PlayerSkills;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
-import space.maxus.skyblockd.utils.ItemGlint;
+import space.maxus.skyblockd.util.ItemGlint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ItemHelper {
     private static final List<String> illegals = new ArrayList<>(Arrays.asList(
@@ -42,7 +43,13 @@ public class ItemHelper {
             "ENCHANTED_WISP",
             "ENCHANTED_BLAZE_ROD",
             "ENCHANTED_NETHER_STAR",
-            "ENCHANTED_EYE_OF_ENDER"
+            "ENCHANTED_EYE_OF_ENDER",
+            "ENCHANTED_DRIED_KELP",
+            "ENCHANTED_COOKED_COD",
+            "ENCHANTED_COOKED_SALMON",
+            "ENCHANED_WET_SPONGE",
+            "ENCHANTED_DARK_PRISMARINE",
+            "ENCHANTED_QUARTZ_BLOCK"
             ));
 
     public static ItemMeta applyGlint(ItemMeta in){
@@ -108,6 +115,8 @@ public class ItemHelper {
             case DIAMOND_PICKAXE: return SkyblockRarity.UNCOMMON;
 
             // rare
+            case WET_SPONGE:
+            case SPONGE:
             case HEART_OF_THE_SEA:
             case WITHER_ROSE:
             case YELLOW_SHULKER_BOX:
@@ -150,9 +159,7 @@ public class ItemHelper {
             case CONDUIT:
             case NETHER_STAR:
             case TOTEM_OF_UNDYING:
-            case WET_SPONGE:
             case ELYTRA:
-            case SPONGE:
             case DRAGON_HEAD:
             case WITHER_SKELETON_SKULL:
             case END_CRYSTAL:
@@ -244,7 +251,7 @@ public class ItemHelper {
             int amount = 0;
             for(ItemStack it : p.getInventory().getContents()) {
                 if(it != null && it.getType() != Material.AIR) {
-                    if (it.isSimilar(i) &&!it.getItemMeta().getPersistentDataContainer().has(SkyblockD.getKey("compacted"), PersistentDataType.BYTE))
+                    if (it.isSimilar(i) &&!Objects.requireNonNull(it.getItemMeta()).getPersistentDataContainer().has(SkyblockD.getKey("compacted"), PersistentDataType.BYTE))
                         amount += it.getAmount();
                 }
             }

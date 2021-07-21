@@ -1,7 +1,7 @@
 package space.maxus.skyblockd.items;
 
 import org.bukkit.inventory.ItemStack;
-import space.maxus.skyblockd.utils.ManagerBase;
+import space.maxus.skyblockd.util.ManagerBase;
 
 import java.util.TreeMap;
 

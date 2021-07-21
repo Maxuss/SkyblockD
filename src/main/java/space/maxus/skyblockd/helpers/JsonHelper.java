@@ -21,7 +21,7 @@ public class JsonHelper<T> {
     }
 
     public T deserializeJson(String json, Type t) {
-        String j = "";
+        String j;
         if(!json.startsWith("[") && !json.startsWith("[")){
             j = "{" + json;
         } else j = json;

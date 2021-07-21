@@ -5,7 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.objects.HologramParams;
-import space.maxus.skyblockd.utils.Hologram;
+import space.maxus.skyblockd.util.Hologram;
 
 import java.util.HashMap;
 

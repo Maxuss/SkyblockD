@@ -3,7 +3,7 @@ package space.maxus.skyblockd.skyblock.utility;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
 import space.maxus.skyblockd.objects.HologramParams;
-import space.maxus.skyblockd.utils.Hologram;
+import space.maxus.skyblockd.util.Hologram;
 
 public class SimpleHologram extends Hologram {
 

@@ -8,8 +8,8 @@ description: Plugin that adds multiple features from HySb to vanilla!
 website: https://maxus.space
 softdepend: [ Citizens ]
 commands:
-  myname:
-    description: Gets name of current user.
+  ping:
+    description: Gets your ping.
     usage: /<command>
     permission: skyblockd.default
     permission-message: §6You don't have sufficient permission! Requires <permission>
@@ -62,6 +62,11 @@ commands:
   spawn:
     description: Spawns an entity with provided id if it exists
     usage: /<command> [id]
+    permission: skyblockd.admin
+    permission-message: §6You don't have sufficient permission! Requires <permission>
+  maintenance:
+    description: Puts the server in maintenance mode, kicking all players except for admins.
+    usage: /<command>
     permission: skyblockd.admin
     permission-message: §6You don't have sufficient permission! Requires <permission>
 permissions:

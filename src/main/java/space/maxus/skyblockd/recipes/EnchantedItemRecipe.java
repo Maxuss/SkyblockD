@@ -5,11 +5,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
 public class EnchantedItemRecipe {
     public EnchantedItemRecipe(Material base) {
         try {
+            ItemStack matItem = new ItemStack(base);
+            CustomItem.toSkyblockItem(matItem);
             String enchName = "ENCHANTED_"+base.name();
             SkyblockMaterial result = SkyblockMaterial.valueOf(enchName);
             ItemStack res = result.getItem();
@@ -19,7 +22,7 @@ public class EnchantedItemRecipe {
                     "III",
                     "III"
             );
-            rec.setIngredient('I', base);
+            rec.setIngredient('I', new RecipeChoice.ExactChoice(matItem));
             SkyblockD.getHost().addRecipe(rec);
         } catch (Exception e) {
             SkyblockD.logger.severe("Could not load register enchanted item recipe!");

@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import space.maxus.skyblockd.SkyblockD;
-import space.maxus.skyblockd.utils.ManagerBase;
+import space.maxus.skyblockd.util.ManagerBase;
 
 import java.util.Arrays;
 import java.util.TreeMap;
