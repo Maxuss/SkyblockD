@@ -74,21 +74,27 @@ public class AbilityStorage {
     }
 
     public static void dragonAspectAbility(ItemStack i, Player p) {
-        if(!ItemHelper.isOnCooldown(i, 1, p, true)) {
+        if(!ItemHelper.isOnCooldown(i, 0.7f, p, false)) {
             p.spawnParticle(Particle.EXPLOSION_HUGE, p.getLocation(), 2, 1, 1, 1, 1);
             createHelix(p);
             List<Entity> entities = p.getNearbyEntities(4, 4, 4);
             p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
             int damage = ItemHelper.calcMagicDamage(p, 7.5f);
+            int totalDamage = 0;
+            int entityAmount = 0;
             if (!entities.isEmpty()) {
                 for (Entity en : entities) {
                     if (en instanceof LivingEntity) {
                         LivingEntity le = (LivingEntity) en;
                         le.damage(damage);
                         le.setFireTicks(40);
+                        totalDamage += damage;
+                        entityAmount++;
                     }
                 }
             }
+            if(entityAmount > 0)
+                p.sendMessage(ChatColor.GRAY+"Your Erumdir's Curse hit "+ChatColor.RED+entityAmount+ChatColor.GRAY+" enemies for a total of "+ChatColor.RED+totalDamage+ChatColor.GRAY+" damage!");
         }
     }
 

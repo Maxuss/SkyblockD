@@ -59,7 +59,7 @@ public class OceanSailor extends SkyblockEntity {
 
     @Override
     public void postInit(LivingEntity entity, Entity base) {
-        entity.getPersistentDataContainer().set(SkyblockD.getKey("OCEAN_SAILOR"), PersistentDataType.BYTE, (byte)1);
+        entity.getPersistentDataContainer().set(SkyblockD.getKey("OCEAN_RIDER"), PersistentDataType.BYTE, (byte)1);
         entity.getPersistentDataContainer().set(SkyblockD.getKey("FISHED"), PersistentDataType.BYTE, (byte)1);
     }
 }

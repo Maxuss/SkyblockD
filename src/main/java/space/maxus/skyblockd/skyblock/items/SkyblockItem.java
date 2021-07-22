@@ -50,7 +50,10 @@ public abstract class SkyblockItem implements SkyblockFeature {
         //#region lore
         List<String> lore = new ArrayList<>();
 
-        if(t.isConsumable()) lore.add(ChatColor.DARK_GRAY+"Consumed on use");
+        if(t.isConsumable()) {
+            lore.add(ChatColor.DARK_GRAY+"Consumed on use");
+            lore.add(" ");
+        }
 
         SkyblockItemStats stats = cfg.getStats();
 
@@ -85,16 +88,22 @@ public abstract class SkyblockItem implements SkyblockFeature {
             }
         }
 
-        if(abils != null){
-            lore.add("");
+        if(abils != null) {
+            lore.add(" ");
             for (SkyblockItemAbility a: abils) {
                 lore.addAll(a.generate());
             }
         }
 
-        if(desc != null) lore.addAll(desc);
+        if(desc != null){
+            lore.add(" ");
+            lore.addAll(desc);
+        }
 
-        if(t.isReforgeable()) lore.add(ChatColor.DARK_GRAY+"This item can be reforged!");
+        if(t.isReforgeable()) {
+            lore.add(" ");
+            lore.add(ChatColor.DARK_GRAY+"This item can be reforged!");
+        }
 
         lore.add(rar.displayColor + "" + ChatColor.BOLD + rar.unformattedName+ " " + t.getDisplay());
         //#endregion lore

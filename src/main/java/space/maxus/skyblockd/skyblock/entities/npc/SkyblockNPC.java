@@ -58,7 +58,7 @@ public abstract class SkyblockNPC extends SkyblockEntity {
     public abstract String getSkinSignature();
 
     @Override
-    public void generate(Entity en) {
+    public Entity generate(Entity en) {
 
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, getName());
 
@@ -111,5 +111,7 @@ public abstract class SkyblockNPC extends SkyblockEntity {
 
         // finish initialization by calling postInit
         postInit((LivingEntity) npc.getEntity(), en);
+
+        return npc.getEntity();
     }
 }

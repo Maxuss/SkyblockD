@@ -17,7 +17,7 @@ import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.objects.PlayerSkills;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
-import space.maxus.skyblockd.util.ItemGlint;
+import space.maxus.skyblockd.enchants.ItemGlint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +49,8 @@ public class ItemHelper {
             "ENCHANTED_COOKED_SALMON",
             "ENCHANED_WET_SPONGE",
             "ENCHANTED_DARK_PRISMARINE",
-            "ENCHANTED_QUARTZ_BLOCK"
+            "ENCHANTED_QUARTZ_BLOCK",
+            "ENCHANTED_MELON"
             ));
 
     public static ItemMeta applyGlint(ItemMeta in){

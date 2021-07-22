@@ -1,4 +1,4 @@
-package space.maxus.skyblockd.util;
+package space.maxus.skyblockd.enchants;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;

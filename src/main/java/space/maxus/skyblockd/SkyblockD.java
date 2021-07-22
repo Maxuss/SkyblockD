@@ -15,6 +15,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 import space.maxus.skyblockd.commands.ChatCommand;
+import space.maxus.skyblockd.enchants.ItemGlint;
+import space.maxus.skyblockd.enchants.ReplenishEnchantment;
 import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.FileHelper;
 import space.maxus.skyblockd.helpers.JsonHelper;
@@ -23,7 +25,6 @@ import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.ServerStorage;
 import space.maxus.skyblockd.recipes.RecipeRegisterer;
-import space.maxus.skyblockd.recipes.created.*;
 import space.maxus.skyblockd.skyblock.items.ArmorSet;
 import space.maxus.skyblockd.skyblock.items.SkyblockItemRegisterer;
 import space.maxus.skyblockd.skyblock.items.created.EmeraldSet;
@@ -35,7 +36,6 @@ import space.maxus.skyblockd.skyblock.skills.SkillResource;
 import space.maxus.skyblockd.skyblock.skills.created.*;
 import space.maxus.skyblockd.util.Config;
 import space.maxus.skyblockd.util.Constants;
-import space.maxus.skyblockd.util.ItemGlint;
 
 import java.io.File;
 import java.io.IOException;
@@ -163,7 +163,6 @@ public class SkyblockD extends JavaPlugin {
         logger = getLogger();
         consts = new Constants();
 
-
     }
 
     private void generateFiles() {
@@ -179,19 +178,6 @@ public class SkyblockD extends JavaPlugin {
     }
 
     private void registerRecipes(){
-        new Infusion1Recipe();
-        new Infusion2Recipe();
-        new PowderRecipe();
-        new GrailRecipe();
-        new EmeraldHelmetRecipe();
-        new EmeraldChestplateRecipe();
-        new EmeraldLeggingsRecipe();
-        new EmeraldBootsRecipe();
-        new RecombobulatorRecipe();
-        new SimpleGuideRecipe();
-        new ComplexGuideRecipe();
-        new RockPileRecipe();
-
         RecipeRegisterer.registerEnchantedItems();
     }
 
@@ -254,7 +240,9 @@ public class SkyblockD extends JavaPlugin {
             NamespacedKey key = new NamespacedKey(this, getDescription().getName());
 
             ItemGlint glow = new ItemGlint(key);
+            ReplenishEnchantment replenish = new ReplenishEnchantment(getKey("replenish"));
             Enchantment.registerEnchantment(glow);
+            Enchantment.registerEnchantment(replenish);
         } catch (IllegalArgumentException ignored) {
             SkyblockD.logger.info("Seems like server was reloaded! Not registering enchantments then");
         } catch (Exception e){

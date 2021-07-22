@@ -14,9 +14,7 @@ import space.maxus.skyblockd.skyblock.objects.SkyblockItemStats;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemType;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class CompressedItemGuide extends SkyblockItem {
@@ -48,11 +46,9 @@ public class CompressedItemGuide extends SkyblockItem {
     public ItemStack postInit(ItemStack i) {
         KnowledgeBookMeta meta = (KnowledgeBookMeta) i.getItemMeta();
         assert meta != null;
-        List<SkyblockMaterial> values = new ArrayList<>(RecipeRegisterer.specialEnchanted.keySet());
         for(Map.Entry<SkyblockMaterial, SkyblockMaterial> entry : RecipeRegisterer.specialEnchanted.entrySet()) {
             SkyblockMaterial mat = entry.getValue();
             String recipeName = mat.name()+"_RECIPE";
-            SkyblockD.logger.info(recipeName);
             NamespacedKey key = SkyblockD.getKey(recipeName);
             meta.addRecipe(key);
         }

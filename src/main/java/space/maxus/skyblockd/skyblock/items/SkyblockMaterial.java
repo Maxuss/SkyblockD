@@ -8,43 +8,11 @@ import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
 public enum SkyblockMaterial {
     //#region Materials
-    PURPUR_SWORD(new PurpurSword()),
-    ENDSTONE_SWORD(new EndstoneSword()),
-    ICARUS_WINGS(new IcarusWings()),
-    MADNESS(new Madness()),
-    RECOMBOBULATOR(new Recombobulator()),
-    RECOMBOBULATOR_CORE(new RecombobulatorCore()),
-    SHADOW_FRACTURE_BOOTS(new ShadowFractureBoots()),
-    SHADOW_FRACTURE_CHESTPLATE(new ShadowFractureChestplate()),
-    SHADOW_FRACTURE_LEGGINGS(new ShadowFractureLeggings()),
-    SHADOW_FRACTURE_HELMET(new ShadowFractureHelmet()),
-    THE_STORM(new Storm()),
-    TRANSMUTATION_POWDER(new CrystalPowder()),
-    QUARTZ_INFUSION(new QuartzInfusion()),
-    CRYSTAL_INFUSION(new CrystalInfusion()),
-    GRAIL_1(new GrailPartOne()),
-    GRAIL_2(new GrailPartTwo()),
-    GRAIL_3(new GrailPartThree()),
-    GRAIL_4(new GrailPartFour()),
-    HOLY_GRAIL(new HolyGrail()),
-    WITHER_JAR(new ContaminatedWither()),
-    ETHEREAL_CRUSHER(new EtherealCrusher()),
-    ASPECT_OF_DRAGON(new BreathOfDragon()),
-    JUNGLE_AXE(new JungleAxe()),
-    TREECAPITATOR(new Treecapitator()),
-    TREENIHILATOR(new Treenihilator()),
-    THANATHOS(new Thanathos()),
-    THANATHOPHOBIA(new Thanathophobia()),
-    EMERALD_BOOTS(new EmeraldBoots()),
-    EMERALD_LEGGINGS(new EmeraldLeggings()),
-    EMERALD_CHESTPLATE(new EmeraldChestplate()),
-    EMERALD_HELMET(new EmeraldHelmet()),
-    MAGIC_MAGNET(new MagicMagnet()),
-    WORLD_DIGESTER(new WorldDigester()),
-    PERSONAL_COMPACTOR(new HydraulicPress()),
 
     MOON_STONE(new MoonStone()),
     ENCHANTED_MOON_STONE(new EnchantedMoonStone()),
+
+    ERROR(new ErrorItem()),
 
     // MINING
     ENCHANTED_DIAMOND(new EnchantedItem("Enchanted Diamond", Material.DIAMOND, SkyblockRarity.RARE)),
@@ -80,6 +48,9 @@ public enum SkyblockMaterial {
     ENCHANTED_BEETROOT(new EnchantedItem("Enchanted Beetroots", Material.BEETROOT, SkyblockRarity.UNCOMMON)),
     ENCHANTED_SUGAR_CANE(new EnchantedItem("Enchanted Sugar Cane", Material.SUGAR_CANE, SkyblockRarity.UNCOMMON)),
     ENCHANTED_CACTUS(new EnchantedItem("Enchanted Cactus", Material.CACTUS, SkyblockRarity.UNCOMMON)),
+    ENCHANTED_MELON_SLICE(new EnchantedItem("Enchanted Melon Slice", Material.MELON_SLICE, SkyblockRarity.UNCOMMON)),
+    ENCHANTED_PUMPKIN(new EnchantedItem("Enchanted Pumpkin", Material.PUMPKIN, SkyblockRarity.UNCOMMON)),
+    ENCHANTED_BAMBOO(new EnchantedItem("Enchanted Bamboo", Material.BAMBOO, SkyblockRarity.RARE)),
 
     // COMBAT
     ENCHANTED_ROTTEN_FLESH(new EnchantedItem("Enchanted Rotten Flesh", Material.ROTTEN_FLESH, SkyblockRarity.UNCOMMON)),
@@ -114,6 +85,7 @@ public enum SkyblockMaterial {
     ENCHANTED_PUFFERFISH(new EnchantedItem("Enchanted Pufferfish", Material.PUFFERFISH, SkyblockRarity.RARE)),
     ENCHANTED_SALMON(new EnchantedItem("Enchanted Salmon", Material.SALMON, SkyblockRarity.UNCOMMON)),
     ENCHANTED_KELP(new EnchantedItem("Enchanted Kelp", Material.KELP, SkyblockRarity.UNCOMMON)),
+    ENCHANTED_LILY_PAD(new EnchantedItem("Enchanted Lily Pad", Material.LILY_PAD, SkyblockRarity.UNCOMMON)),
 
     // EXTRA
     ENCHANTED_HAY(new EnchantedItem("Enchanted Hay", Material.HAY_BLOCK, SkyblockRarity.RARE)),
@@ -141,6 +113,7 @@ public enum SkyblockMaterial {
     ENCHANTED_DRIED_KELP(new EnchantedItem("Enchanted Dried Kelp", Material.DRIED_KELP, SkyblockRarity.RARE)),
     ENCHANTED_WET_SPONGE(new EnchantedItem("Enchanted Wet Sponge", Material.WET_SPONGE, SkyblockRarity.LEGENDARY)),
     ENCHANTED_QUARTZ_BLOCK(new EnchantedItem("Enchanted Quartz Block", Material.QUARTZ_BLOCK, SkyblockRarity.RARE)),
+    ENCHANTED_MELON(new EnchantedItem("Enchanted Melon Block", Material.MELON, SkyblockRarity.RARE)),
 
     // COMPLEX RECIPE
     ENCHANTED_EYE_OF_ENDER(new EnchantedItem("Enchanted Eye of Ender", Material.ENDER_EYE, SkyblockRarity.EPIC)),
@@ -150,6 +123,44 @@ public enum SkyblockMaterial {
     RECIPE_GUIDE_2(new CompressedItemGuide()),
 
     SKYBLOCK_MENU(SkyblockD.getItemManager().generated.get("skyblockd:SKYBLOCK_MENU")),
+
+    PURPUR_SWORD(new PurpurSword()),
+    ENDSTONE_SWORD(new EndstoneSword()),
+    ICARUS_WINGS(new IcarusWings()),
+    MADNESS(new Madness()),
+    RECOMBOBULATOR(new Recombobulator()),
+    RECOMBOBULATOR_CORE(new RecombobulatorCore()),
+    SHADOW_FRACTURE_BOOTS(new ShadowFractureBoots()),
+    SHADOW_FRACTURE_CHESTPLATE(new ShadowFractureChestplate()),
+    SHADOW_FRACTURE_LEGGINGS(new ShadowFractureLeggings()),
+    SHADOW_FRACTURE_HELMET(new ShadowFractureHelmet()),
+    THE_STORM(new Storm()),
+    TRANSMUTATION_POWDER(new CrystalPowder()),
+    QUARTZ_INFUSION(new QuartzInfusion()),
+    CRYSTAL_INFUSION(new CrystalInfusion()),
+    GRAIL_1(new GrailPartOne()),
+    GRAIL_2(new GrailPartTwo()),
+    GRAIL_3(new GrailPartThree()),
+    GRAIL_4(new GrailPartFour()),
+    HOLY_GRAIL(new HolyGrail()),
+    WITHER_JAR(new ContaminatedWither()),
+    ETHEREAL_CRUSHER(new EtherealCrusher()),
+    ASPECT_OF_DRAGON(new BreathOfDragon()),
+    JUNGLE_AXE(new JungleAxe()),
+    TREECAPITATOR(new Treecapitator()),
+    TREENIHILATOR(new Treenihilator()),
+    THANATHOS(new Thanathos()),
+    THANATHOPHOBIA(new Thanathophobia()),
+    EMERALD_BOOTS(new EmeraldBoots()),
+    EMERALD_LEGGINGS(new EmeraldLeggings()),
+    EMERALD_CHESTPLATE(new EmeraldChestplate()),
+    EMERALD_HELMET(new EmeraldHelmet()),
+    MAGIC_MAGNET(new MagicMagnet()),
+    WORLD_DIGESTER(new WorldDigester()),
+    PERSONAL_COMPACTOR(new HydraulicPress()),
+    FARMHAND_SOUL(new FarmhandSoul()),
+    FARMHAND_BLESSING(new FarmhandBlessing()),
+    FARMHAND_GLORY(new FarmhandGlory()),
     //#endregion Materials
     ;
 

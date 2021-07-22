@@ -1,14 +1,18 @@
 package space.maxus.skyblockd.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.ItemHelper;
@@ -19,10 +23,12 @@ import space.maxus.skyblockd.nms.NMSColor;
 import space.maxus.skyblockd.nms.PacketUtils;
 import space.maxus.skyblockd.objects.*;
 import space.maxus.skyblockd.skyblock.events.SkyblockBlockBreakEvent;
+import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.skills.SkillMap;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BlockBreakListener extends BetterListener {
     @EventHandler(priority = EventPriority.LOW)
@@ -52,6 +58,49 @@ public class BlockBreakListener extends BetterListener {
             operateSkill("Excavating", p, b, true);
         } else if(isPlant) {
             operateSkill("Farming", p, b, true);
+
+            ItemStack hoe = p.getInventory().getItemInMainHand();
+            if(hoe.getType() == Material.AIR) return;
+
+            PlayerInventory inv = p.getInventory();
+
+            boolean hasBlessing = inv.contains(SkyblockMaterial.FARMHAND_BLESSING.getItem()) || inv.contains(SkyblockMaterial.FARMHAND_GLORY.getItem());
+
+            List<ItemStack> drops = new ArrayList<>(b.getDrops(hoe));
+            Ageable data = (Ageable) b.getBlockData();
+
+            if(hasBlessing && data.getAge() < data.getMaximumAge()) {
+                ItemStack first = drops.get(0);
+                ItemStack second = drops.get(drops.size()-1);
+                Random rand = new Random();
+                ItemStack it1 = new ItemStack(first.getType(), rand.nextInt(3)+1);
+                ItemStack it2 = new ItemStack(second.getType(), rand.nextInt(2)+2);
+
+                if(ItemHelper.hasMagnet(p)) {
+                    p.getInventory().addItem(it1, it2);
+                } else {
+                    b.getWorld().dropItemNaturally(b.getLocation(), it1);
+                    b.getWorld().dropItemNaturally(b.getLocation(), it2);
+                }
+            }
+
+            boolean hasSoul = inv.contains(SkyblockMaterial.FARMHAND_SOUL.getItem()) || inv.contains(SkyblockMaterial.FARMHAND_GLORY.getItem());
+
+            if(hasSoul && !isPumpkin(b.getType())) {
+                List<ItemStack> filtered = drops.stream().filter(i -> i.getType().name().contains("_SEEDS")).collect(Collectors.toList());
+                ItemStack drop;
+                if(filtered.isEmpty()) {
+                    drop = drops.get(0);
+                } else drop = filtered.get(0);
+                CustomItem.toSkyblockItem(drop);
+                if(p.getInventory().contains(drop.getType())) {
+                    ItemStack removed = new ItemStack(drop.getType(), 1);
+                    CustomItem.toSkyblockItem(removed);
+                    p.getInventory().removeItem(removed);
+                    Material type = b.getType();
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> b.setType(type), 1L);
+                }
+            }
         }
     }
 
@@ -74,6 +123,13 @@ public class BlockBreakListener extends BetterListener {
     }
 
     public static void operateSkill(String name, Player p, Block block, boolean spawnExtra){
+        if(name.toLowerCase(Locale.ENGLISH).equals("farming")) {
+            BlockData data = block.getBlockData();
+            Ageable age = (Ageable) data;
+            if(age.getAge() < age.getMaximumAge()) {
+                return;
+            }
+        }
         Material blockMat = block.getType();
         p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
         PlayerContainer cont = getPlayer(p);
@@ -82,11 +138,13 @@ public class BlockBreakListener extends BetterListener {
             Random r = new Random();
             int rand = r.nextInt(30);
             if (rand <= lvl) {
-                if (!ItemHelper.hasMagnet(p)) {
-                    block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(blockMat == Material.STONE ? Material.COBBLESTONE : blockMat, r.nextInt(2) + 1));
-                } else {
-                    p.getInventory().addItem(new ItemStack(blockMat == Material.STONE ? Material.COBBLESTONE : blockMat, r.nextInt(2) + 1));
-                }
+                try {
+                    if (!ItemHelper.hasMagnet(p)) {
+                        block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(blockMat == Material.STONE ? Material.COBBLESTONE : blockMat, r.nextInt(2) + 1));
+                    } else {
+                        p.getInventory().addItem(new ItemStack(blockMat == Material.STONE ? Material.COBBLESTONE : blockMat, r.nextInt(2) + 1));
+                    }
+                } catch (IllegalArgumentException ignored) {}
             }
         }
         int tlvl = lvl == 0 ? 1 : lvl;
@@ -127,5 +185,9 @@ public class BlockBreakListener extends BetterListener {
             return;
         }
         setPlayer(cont, p);
+    }
+
+    private boolean isPumpkin(Material mat) {
+        return mat == Material.PUMPKIN || mat == Material.MELON || mat == Material.BAMBOO || mat == Material.CACTUS;
     }
 }

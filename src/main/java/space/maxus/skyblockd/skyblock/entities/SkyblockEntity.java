@@ -41,7 +41,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
         }
     };
 
-    public void generate(Entity en){
+    public Entity generate(Entity en){
         LivingEntity e = (LivingEntity) en.getWorld().spawnEntity(getLocation(en), getType());
 
         // set equipment
@@ -67,6 +67,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
 
         // finish initialization by calling postInit
         postInit(e, en);
+        return e;
     }
 
     public static void toSkyblockEntity(LivingEntity e){

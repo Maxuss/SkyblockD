@@ -23,11 +23,11 @@ public class BreathOfDragon extends SkyblockItem {
         cfg.setAbilities(Arrays.asList(new SkyblockItemAbility("Dragon Affection", SkyblockAbilityType.PASSIVE,
                 Collections.singletonList(ChatColor.GRAY+"Deal double damage to dragons!")),
                 new SkyblockItemAbility("Erumdir's Curse", SkyblockAbilityType.RIGHT_CLICK,
-                        Arrays.asList(ChatColor.GRAY+"Fire a dragon fireball in",
-                                ChatColor.GRAY+"front of you. After fireball, a cone",
-                                ChatColor.GRAY+"of dragon breath will appear, dealing",
-                                ChatColor.GRAY+"lots of damage in close range!"))));
-        cfg.setDescription(Collections.singletonList(ChatColor.DARK_GRAY+"'I will come back'\n  - Erumdir"));
+                        Arrays.asList(ChatColor.GRAY+"Implode, dealing insane",
+                                ChatColor.GRAY+"damage to enemies around you.",
+                                ChatColor.GRAY+"After the implosion, a soul fire aura will",
+                                ChatColor.GRAY+"set all enemies on fire!"))));
+        cfg.setDescription(Arrays.asList(ChatColor.DARK_GRAY+"'I will come back'",ChatColor.DARK_GRAY+"  - Erumdir"));
         return cfg;
     }
 

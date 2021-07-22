@@ -3,7 +3,7 @@ package space.maxus.skyblockd.skyblock.objects;
 import org.bukkit.ChatColor;
 
 public enum SkyblockRarity {
-    ERROR        (ChatColor.MAGIC+"ERROR", ChatColor.LIGHT_PURPLE, 0),
+    ERROR        (ChatColor.MAGIC+"ERROR", ChatColor.YELLOW, 0),
     COMMON       ("COMMON", ChatColor.WHITE, 1),
     UNCOMMON     ("UNCOMMON", ChatColor.GREEN, 2),
     RARE         ("RARE", ChatColor.BLUE, 3),

@@ -17,9 +17,12 @@ public class ServerStorage {
     public final HashMap<String, Integer> foraging;
     public final HashMap<String, Integer> mining;
     public final HashMap<String, Integer> excavating;
+    public final HashMap<String, Integer> fishing;
     public final BufferedImage onlineIcon;
     public final BufferedImage offlineIcon;
     public final PluginMeta meta;
+    public final FishingData fishingData;
+    public final HashMap<String, String> fishingMessages;
 
     public ServerStorage() throws IOException {
         Type mapType = new TypeToken<HashMap<String, Integer>>(){}.getType();
@@ -28,7 +31,11 @@ public class ServerStorage {
         foraging = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/foraging.json", mapType);
         mining = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/mining.json", mapType);
         excavating = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/excavating.json", mapType);
+        fishing = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/fishing.json", mapType);
         meta = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/versions.json", new TypeToken<PluginMeta>(){}.getType());
+        fishingData = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/fish_chances.json", new TypeToken<FishingData>(){}.getType());
+        fishingMessages = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/fish_messages.json", new TypeToken<HashMap<String, String>>(){}.getType());
+
         URL iconUrl = new URL("https://cdn.maxus.space/files/plugins/online.png");
         onlineIcon = ImageIO.read(iconUrl);
         URL offlineUrl = new URL("https://cdn.maxus.space/files/plugins/offline.png");
