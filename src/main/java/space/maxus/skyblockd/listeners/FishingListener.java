@@ -10,6 +10,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
+import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.nms.NMSColor;
 import space.maxus.skyblockd.nms.PacketUtils;
@@ -41,7 +42,7 @@ public class FishingListener extends BetterListener {
 
         if(!modifyVanilla) return;
 
-        double scc = (Math.abs(Math.round((fishing.currentLevel + 1) * 1.5f / (fishing.currentLevel >= 10 ? (fishing.currentLevel / 6f) : 1.2f)) - 2) / 15f) - 0.1f;
+        double scc = (Math.abs(Math.round((fishing.currentLevel + 1) * 1.5f / (fishing.currentLevel >= 10 ? (fishing.currentLevel / 8f) : 1.2f)) - 2) / 15f) - 0.1f + (ItemHelper.getStatFromItems(p, "scc") / 110f);
         double randScc = r.nextDouble();
 
         boolean isEntity = randScc <= scc;
@@ -76,6 +77,7 @@ public class FishingListener extends BetterListener {
                 p.sendMessage(ChatColor.YELLOW+"You tried to lure out " + ChatColor.MAGIC + formattedName + ChatColor.RESET+""+ChatColor.YELLOW+" but it breaks away! Maybe you need higher "+ChatColor.AQUA+" Fishing "+ChatColor.YELLOW+" level to fish it?");
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1f, 1f);
             }
+
             p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_SPLASH, 1f, 0.5f);
             p.sendMessage(ChatColor.GREEN+SkyblockD.getServerData().fishingMessages.get(name));
             sb.getEntity().generate(caught);

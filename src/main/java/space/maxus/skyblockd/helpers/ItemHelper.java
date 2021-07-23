@@ -9,15 +9,16 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.enchants.ItemGlint;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.objects.PlayerSkills;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
-import space.maxus.skyblockd.enchants.ItemGlint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -266,5 +267,29 @@ public class ItemHelper {
             craft.setAmount(crafted);
             p.getInventory().addItem(craft);
         } catch(IllegalArgumentException ignored) {}
+    }
+
+    public static int getStatFromItems(Player p, String stat) {
+        PlayerInventory inv = p.getInventory();
+        ItemStack mh = inv.getItemInMainHand();
+        ItemStack[] armor = inv.getArmorContents();
+
+        int total = 0;
+        total += getStatItem(mh, stat);
+        for(ItemStack ap : armor) {
+            total += getStatItem(ap, stat);
+        }
+
+        return total;
+    }
+
+    private static Integer getStatItem(ItemStack it, String statName) {
+        ItemMeta meta = it.getItemMeta();
+        if(meta == null) return 0;
+        PersistentDataContainer c = meta.getPersistentDataContainer();
+
+        if(!c.has(SkyblockD.getKey(statName), PersistentDataType.INTEGER)) return 0;
+
+        return c.get(SkyblockD.getKey(statName), PersistentDataType.INTEGER);
     }
 }

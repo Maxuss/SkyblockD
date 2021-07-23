@@ -161,6 +161,14 @@ public enum SkyblockMaterial {
     FARMHAND_SOUL(new FarmhandSoul()),
     FARMHAND_BLESSING(new FarmhandBlessing()),
     FARMHAND_GLORY(new FarmhandGlory()),
+    ROD_OF_SEAS(new RodOfSeas()),
+
+    LILY_BOOTS(new LilyBoots()),
+    LILY_LEGGINGS(new LilyLeggings()),
+    LILY_CHESTPLATE(new LilyChestplate()),
+    LILY_HELMET(new LilyHelmet()),
+    PRISMARINE_DAGGER(new PrismarineDagger()),
+
     //#endregion Materials
     ;
 

@@ -26,7 +26,7 @@ public class RecipeRegisterer {
             Material.JUNGLE_LOG, Material.CRIMSON_STEM, Material.WARPED_STEM, Material.COD, Material.KELP,
             Material.TROPICAL_FISH, Material.SPONGE, Material.PRISMARINE_SHARD, Material.PRISMARINE_CRYSTALS,
             Material.INK_SAC, Material.PUFFERFISH, Material.SALMON, Material.QUARTZ, Material.MELON_SLICE,
-            Material.PUMPKIN, Material.BAMBOO
+            Material.PUMPKIN, Material.BAMBOO, Material.LILY_PAD
     );
 
     public static final HashMap<SkyblockMaterial, SkyblockMaterial> specialEnchanted = new HashMap<>();
@@ -97,5 +97,10 @@ public class RecipeRegisterer {
         new RockPileRecipe();
         new SimpleGuideRecipe();
         new ComplexGuideRecipe();
+        new LilyBootsRecipe();
+        new LilyLeggingsRecipe();
+        new LilyChestplateRecipe();
+        new LilyHelmetRecipe();
+        new PrismarineDaggerRecipe();
     }
 }

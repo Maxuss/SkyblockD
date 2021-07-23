@@ -10,6 +10,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import space.maxus.skyblockd.helpers.GuiHelper;
+import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 
 import java.util.ArrayList;
@@ -109,6 +110,7 @@ public class MainMenuGUI extends InventoryBase {
             int health = 100;
             int speed = 100;
             int attackSpeed = 0;
+            int seaCreatureChance = ItemHelper.getStatFromItems(p, "scc");
             for (ItemStack a : armor) {
                 if (a != null && Objects.requireNonNull(a.getItemMeta()).hasAttributeModifiers()) {
                     ItemMeta m = a.getItemMeta();
@@ -134,9 +136,10 @@ public class MainMenuGUI extends InventoryBase {
             String def = ChatColor.GREEN + SkyblockConstants.DEFENCE + " Defense: " + defense;
             String hp = ChatColor.RED + SkyblockConstants.HEALTH + " Health: " + health;
             String spd = ChatColor.WHITE + SkyblockConstants.SPEED + " Speed: " + speed;
-            String ats = ChatColor.YELLOW + SkyblockConstants.ATTACK_SPEED + " Bonus Attack Speed: " + attackSpeed;
+            String ats = ChatColor.YELLOW + SkyblockConstants.ATTACK_SPEED + " Bonus Attack Speed: " + attackSpeed + "%";
+            String scc = ChatColor.AQUA + SkyblockConstants.SCC + " Sea Creature Chance: " + seaCreatureChance + "%";
 
-            base.setLore(Arrays.asList(str, def, hp, spd, ats));
+            base.setLore(Arrays.asList(str, def, hp, spd, ats, scc, " "));
         } catch (NullPointerException e){
             p.sendMessage(ChatColor.GOLD+"Uh oh! Looks like you are not yet ready to use SkyblockD menu!");
         }
