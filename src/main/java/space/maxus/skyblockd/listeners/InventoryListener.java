@@ -12,6 +12,7 @@ import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.gui.MainMenuGUI;
 import space.maxus.skyblockd.gui.SkillsGui;
+import space.maxus.skyblockd.gui.VaultGuiTemplate;
 import space.maxus.skyblockd.helpers.*;
 import space.maxus.skyblockd.nms.NMSColor;
 import space.maxus.skyblockd.nms.PacketUtils;
@@ -43,8 +44,54 @@ public class InventoryListener extends BetterListener {
             skillClaim(e, p);
         } else if (title.equalsIgnoreCase("Elixir Brewer")) {
             elixirs(e, p);
+        } else if (title.contains("The Vault")) {
+            vault(e, p, title);
+        } else if (title.contains("Vault Get")) {
+            vaultGet(e, p);
         }
     }
+
+    private void vaultGet(InventoryClickEvent e, Player p) {
+        ItemStack item = e.getCurrentItem();
+        if(item == null) return;
+        e.setResult(Result.DENY);
+        if(ChatColor.stripColor(item.getItemMeta().getDisplayName().toLowerCase(Locale.ENGLISH)).equals("previous page")) {
+            p.openInventory(new VaultGuiTemplate().create(0, p));
+            return;
+        }
+        if(item.getType() != Material.GRAY_STAINED_GLASS_PANE && Objects.requireNonNull(e.getClickedInventory()).getSize() == 54) {
+            p.getInventory().addItem(e.getCurrentItem());
+        }
+    }
+
+    private void vault(InventoryClickEvent e, Player p, String title) {
+        int curPage = Integer.parseInt(title.replace("The Vault ", ""));
+
+        if(e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) return;
+        VaultGuiTemplate temp = new VaultGuiTemplate();
+        String itemName = ChatColor.stripColor(Objects.requireNonNull(e.getCurrentItem().getItemMeta()).getDisplayName()).toLowerCase(Locale.ENGLISH);
+        e.setResult(Result.DENY);
+        if(itemName.equals("previous page")) {
+            curPage -= curPage <= 0 ? 0 : 1;
+            Inventory previousPage = temp.create(curPage, p);
+            p.closeInventory();
+            p.openInventory(previousPage);
+            p.updateInventory();
+        } else if(itemName.equals("next page")) {
+            curPage++;
+            Inventory nextPage = temp.create(curPage, p);
+            p.closeInventory();
+            p.openInventory(nextPage);
+            p.updateInventory();
+        } else if(e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE) {
+            p.updateInventory();
+        } else if(Objects.requireNonNull(e.getClickedInventory()).getSize() == 54) {
+            p.updateInventory();
+            p.openInventory(new VaultGuiTemplate.VaultItemTemplate().create(e.getCurrentItem(), p));
+            p.updateInventory();
+        }
+    }
+
 
     private void elixirs(InventoryClickEvent e, Player p) {
         ItemStack is = e.getCurrentItem();

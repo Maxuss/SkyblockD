@@ -3,6 +3,8 @@ package space.maxus.skyblockd.listeners;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -13,12 +15,14 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
+import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
 import space.maxus.skyblockd.skyblock.utility.DamageIndicator;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 
@@ -30,17 +34,41 @@ public class DamageListener extends BetterListener {
     public void onDamage(EntityDamageEvent e) {
         Entity en = e.getEntity();
 
-        if(en.getPersistentDataContainer().has(SkyblockD.getKey("FISHED"), PersistentDataType.BYTE) && e.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+        if(e.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
             EntityDamageByEntityEvent ev = (EntityDamageByEntityEvent) e;
             Entity damager = ev.getDamager();
-            if(damager instanceof Player) {
-                PlayerInventory inv = ((Player) damager).getInventory();
-                ItemStack mainHand = inv.getItemInMainHand();
-                if(!mainHand.getType().isAir() && mainHand.isSimilar(SkyblockMaterial.PRISMARINE_DAGGER.getItem())) {
-                    e.setDamage(e.getDamage()*2);
+
+            if(!(damager instanceof Player)) return;
+
+            PlayerInventory inv = ((Player) damager).getInventory();
+            ItemStack mainHand = inv.getItemInMainHand();
+            if(mainHand.getType().isAir()) return;
+            if(!mainHand.hasItemMeta()) return;
+
+            PersistentDataContainer c = Objects.requireNonNull(mainHand.getItemMeta()).getPersistentDataContainer();
+            if(c.has(SkyblockD.getKey("reforged"), PersistentDataType.BYTE)) {
+                Integer ref = c.get(SkyblockD.getKey("reforgeData"), PersistentDataType.INTEGER);
+                assert ref != null;
+                SkyblockReforge reforge = SkyblockReforge.byIndex(ref);
+
+                if (en.getPersistentDataContainer().has(SkyblockD.getKey("FISHED"), PersistentDataType.BYTE)) {
+                    if (!mainHand.getType().isAir() && mainHand.isSimilar(SkyblockMaterial.PRISMARINE_DAGGER.getItem())) {
+                        e.setDamage(e.getDamage() * 2);
+                    }
+                    if (reforge == SkyblockReforge.TANGLED) {
+                        e.setDamage(e.getDamage() * 2);
+                    }
+                }
+                if (reforge == SkyblockReforge.MAGMATIC && en.getWorld().getEnvironment() == World.Environment.NETHER) {
+                    e.setDamage(e.getDamage() * 1.6f);
+                }
+                if(reforge == SkyblockReforge.WARPED && en.getWorld().getEnvironment() == World.Environment.THE_END) {
+                    e.setDamage(e.getDamage() * 1.7f);
                 }
             }
         }
+
+
 
         if(en.hasMetadata("NPC")) {
             LivingEntity le = (LivingEntity) en;
@@ -100,6 +128,35 @@ public class DamageListener extends BetterListener {
                     );
                 }
             }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDamaged(EntityDamageByEntityEvent e) {
+        if(!(e.getEntity() instanceof Player)) return;
+        Player p = (Player) e.getEntity();
+        Entity damager = e.getDamager();
+
+        if(damager.getPersistentDataContainer().has(SkyblockD.getKey("FISHED"), PersistentDataType.BYTE)) {
+            boolean isTangled = false;
+            ItemStack[] armor = p.getInventory().getArmorContents();
+            for (ItemStack item : armor) {
+                if(item == null || !item.hasItemMeta() || item.getType() == Material.AIR) return;
+
+                ItemMeta meta = item.getItemMeta();
+                assert meta != null;
+                PersistentDataContainer c = meta.getPersistentDataContainer();
+                if(c.has(SkyblockD.getKey("reforged"), PersistentDataType.BYTE)) {
+                    Integer reforge = c.get(SkyblockD.getKey("reforgeData"), PersistentDataType.INTEGER);
+                    assert reforge != null;
+                    SkyblockReforge ref = SkyblockReforge.byIndex(reforge);
+                    if(ref == SkyblockReforge.TANGLED) {
+                        isTangled = true;
+                        break;
+                    }
+                }
+            }
+            if(isTangled) e.setDamage(e.getDamage() / 2d);
         }
     }
 }

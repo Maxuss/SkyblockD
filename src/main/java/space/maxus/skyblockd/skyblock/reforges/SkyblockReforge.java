@@ -1,9 +1,15 @@
 package space.maxus.skyblockd.skyblock.reforges;
 
+import space.maxus.skyblockd.skyblock.reforges.created.MagmaticReforge;
+import space.maxus.skyblockd.skyblock.reforges.created.TangledReforge;
 import space.maxus.skyblockd.skyblock.reforges.created.TestReforge;
+import space.maxus.skyblockd.skyblock.reforges.created.WarpedReforge;
 
 public enum SkyblockReforge {
-    TEST("Testing", new TestReforge(), 0)
+    TEST("Testing", new TestReforge(), 0),
+    MAGMATIC("Magmatic", new MagmaticReforge(), 1),
+    TANGLED("Tangled", new TangledReforge(), 2),
+    WARPED("Warped", new WarpedReforge(), 3),
     ;
 
     private ReforgeBase base;

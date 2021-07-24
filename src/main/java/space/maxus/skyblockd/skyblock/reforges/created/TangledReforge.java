@@ -8,24 +8,28 @@ import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
 import java.util.Arrays;
 import java.util.List;
 
-public class TestReforge extends ReforgeBase {
+public class TangledReforge extends ReforgeBase {
     @Override
     public float getRarityWeight() {
-        return 0.7f;
+        return 0;
     }
 
     @Override
     public SkyblockReforge getReforge() {
-        return SkyblockReforge.TEST;
+        return SkyblockReforge.TANGLED;
     }
 
     @Override
     public List<String> getDisplayStats() {
-        return Arrays.asList(ChatColor.GRAY+"Does some stuff", ChatColor.GRAY+"TEST");
+        return Arrays.asList(ChatColor.GRAY+"If applied on armor, gives ",
+                ChatColor.GRAY+"extra protection against Sea",
+                ChatColor.GRAY+"Creatures. If applied on weapon,",
+                ChatColor.GRAY+"deal "+ChatColor.AQUA+"double"+ChatColor.GRAY+" damage to them.");
     }
 
     @Override
-    public void applyBaseStats(int modifier, ItemStack item) { }
+    public void applyBaseStats(int modifier, ItemStack item) {
+    }
 
     @Override
     public void removeBaseStats(int modifier, ItemStack item) {

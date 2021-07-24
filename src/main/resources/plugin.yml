@@ -69,6 +69,11 @@ commands:
     usage: /<command>
     permission: skyblockd.admin
     permission-message: §6You don't have sufficient permission! Requires <permission>
+  reforge:
+    description: Reforges item you are currently holding
+    usage: /<command> [reforge]
+    permission: skyblockd.admin
+    permission-message: §6You don't have sufficient permission! Requires <permission>
 permissions:
   skyblockd.default:
     description: Allows you basic command access

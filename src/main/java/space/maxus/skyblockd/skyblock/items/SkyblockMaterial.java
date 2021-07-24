@@ -162,6 +162,7 @@ public enum SkyblockMaterial {
     FARMHAND_BLESSING(new FarmhandBlessing()),
     FARMHAND_GLORY(new FarmhandGlory()),
     ROD_OF_SEAS(new RodOfSeas()),
+    VAULT_KEY(new VaultKey()),
 
     LILY_BOOTS(new LilyBoots()),
     LILY_LEGGINGS(new LilyLeggings()),

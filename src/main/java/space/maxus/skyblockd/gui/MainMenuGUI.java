@@ -142,6 +142,7 @@ public class MainMenuGUI extends InventoryBase {
             base.setLore(Arrays.asList(str, def, hp, spd, ats, scc, " "));
         } catch (NullPointerException e){
             p.sendMessage(ChatColor.GOLD+"Uh oh! Looks like you are not yet ready to use SkyblockD menu!");
+            p.closeInventory();
         }
     }
 

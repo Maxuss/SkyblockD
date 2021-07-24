@@ -87,13 +87,9 @@ public class DeveloperCommand extends ChatCommand {
                 break;
             }
             case "nbt":
-                if (!(s instanceof Player)) {
-                    s.sendMessage(ChatColor.RED + "Only for players!");
-                    return true;
-                }
                 Player p = (Player) s;
                 ItemStack item = p.getInventory().getItemInMainHand();
-                if (item.getType() != Material.AIR || !item.hasItemMeta()) {
+                if (item.getType() == Material.AIR || !item.hasItemMeta()) {
                     s.sendMessage(ChatColor.RED + "You dont hold any item!");
                     return true;
                 }
