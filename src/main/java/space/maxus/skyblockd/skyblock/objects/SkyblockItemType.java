@@ -20,6 +20,7 @@ public enum SkyblockItemType {
     PET_ITEM("PET ITEM", false, true),
     ELIXIR("ELIXIR", false, true),
     ELIXIR_INGREDIENT("ELIXIR INGREDIENT", false, true),
+    SHORTBOW("SHORTBOW", true, false),
 
     OTHER_CONSUMABLE("", false, true),
     OTHER_NONCONSUMABLE("", false, false)

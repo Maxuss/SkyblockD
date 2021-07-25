@@ -27,9 +27,7 @@ import space.maxus.skyblockd.objects.ServerStorage;
 import space.maxus.skyblockd.recipes.RecipeRegisterer;
 import space.maxus.skyblockd.skyblock.items.ArmorSet;
 import space.maxus.skyblockd.skyblock.items.SkyblockItemRegisterer;
-import space.maxus.skyblockd.skyblock.items.created.EmeraldSet;
-import space.maxus.skyblockd.skyblock.items.created.ShadowFractureSet;
-import space.maxus.skyblockd.skyblock.items.created.SkyblockMenuItem;
+import space.maxus.skyblockd.skyblock.items.created.*;
 import space.maxus.skyblockd.skyblock.skills.SimpleSkillMap;
 import space.maxus.skyblockd.skyblock.skills.SkillMapManager;
 import space.maxus.skyblockd.skyblock.skills.SkillResource;
@@ -254,6 +252,11 @@ public class SkyblockD extends JavaPlugin {
         armorSets = new HashMap<>();
         armorSets.put("set::SHADOW_FRACTURE", new ShadowFractureSet());
         armorSets.put("set::EMERALD", new EmeraldSet());
+        armorSets.put("set::LILY", new LilySet());
+        armorSets.put("set::KASMIR", new KasmirSet());
+        armorSets.put("set::YOUNG", new YoungSet());
+        armorSets.put("set::STRONG", new StrongSet());
+        armorSets.put("set::SUPERIOR", new SuperiorSet());
     }
 
     public void processRanks(){

@@ -9,10 +9,11 @@ public enum SkyblockRarity {
     RARE         ("RARE", ChatColor.BLUE, 3),
     EPIC         ("EPIC", ChatColor.DARK_PURPLE, 4),
     LEGENDARY    ("LEGENDARY", ChatColor.GOLD, 5),
-    MYTHIC       ("MYTHIC", ChatColor.LIGHT_PURPLE, 6),
-    SUPREME      ("SUPREME", ChatColor.DARK_RED, 7),
-    SPECIAL      ("SPECIAL", ChatColor.RED, 8),
-    VERY_SPECIAL ("VERY SPECIAL", ChatColor.RED, 9)
+    RELIC        ("RELIC", ChatColor.GOLD, 6),
+    MYTHIC       ("MYTHIC", ChatColor.LIGHT_PURPLE, 7),
+    SUPREME      ("SUPREME", ChatColor.DARK_RED, 8),
+    SPECIAL      ("SPECIAL", ChatColor.RED, 9),
+    VERY_SPECIAL ("VERY SPECIAL", ChatColor.RED, 10)
     ;
     private final int index;
 

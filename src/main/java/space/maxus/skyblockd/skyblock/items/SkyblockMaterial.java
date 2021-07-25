@@ -170,6 +170,39 @@ public enum SkyblockMaterial {
     LILY_HELMET(new LilyHelmet()),
     PRISMARINE_DAGGER(new PrismarineDagger()),
 
+    TEST_SHORTBOW(new TestShortbow()),
+    DRACONIC_SHORTBOW(new DraconicShortbow()),
+    KASMIR_FURY(new KasmirFury()),
+    EMERALD_SHORTBOW(new EmeraldShortbow()),
+    GEMSTONE_SHORTBOW(new GemstoneShortbow()),
+    HOLY_SHORTBOW(new HolyShortbow()),
+    OBSIDIAN_SHORTBOW(new ObsidianShortbow()),
+
+    KASMIR_HELMET(new KasmirHelmet()),
+    KASMIR_CHESTPLATE(new KasmirChestplate()),
+    KASMIR_LEGGINGS(new KasmirLeggings()),
+    KASMIR_BOOTS(new KasmirBoots()),
+
+    OBSIDIAN_HELMET(new ObsidianHelmet()),
+    OBSIDIAN_CHESTPLATE(new ObsidianChestplate()),
+    OBSIDIAN_LEGGINGS(new ObsidianLeggings()),
+    OBSIDIAN_BOOTS(new ObsidianBoots()),
+    
+    YOUNG_DRAGON_HELMET(new YoungDragonHelmet()),
+    YOUNG_DRAGON_CHESTPLATE(new YoungDragonChestplate()),
+    YOUNG_DRAGON_LEGGINGS(new YoungDragonLeggings()),
+    YOUNG_DRAGON_BOOTS(new YoungDragonBoots()),
+
+    STRONG_DRAGON_HELMET(new StrongDragonHelmet()),
+    STRONG_DRAGON_CHESTPLATE(new StrongDragonChestplate()),
+    STRONG_DRAGON_LEGGINGS(new StrongDragonLeggings()),
+    STRONG_DRAGON_BOOTS(new StrongDragonBoots()),
+
+    SUPERIOR_DRAGON_HELMET(new SuperiorDragonHelmet()),
+    SUPERIOR_DRAGON_CHESTPLATE(new SuperiorDragonChestplate()),
+    SUPERIOR_DRAGON_LEGGINGS(new SuperiorDragonLeggings()),
+    SUPERIOR_DRAGON_BOOTS(new SuperiorDragonBoots()),
+
     //#endregion Materials
     ;
 

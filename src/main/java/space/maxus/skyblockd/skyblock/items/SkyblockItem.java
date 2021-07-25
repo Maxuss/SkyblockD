@@ -96,12 +96,12 @@ public abstract class SkyblockItem implements SkyblockFeature {
         }
 
         if(desc != null){
-            lore.add(" ");
+            if (abils == null) lore.add(" ");
             lore.addAll(desc);
         }
 
         if(t.isReforgeable()) {
-            if(desc == null || abils == null) lore.add(" ");
+            lore.add(" ");
             lore.add(ChatColor.DARK_GRAY+"This item can be reforged!");
         }
 

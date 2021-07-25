@@ -19,7 +19,7 @@ public class HolyGrail extends SkyblockSkull {
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.PLAYER_HEAD, "The Holy Grail",
-                SkyblockRarity.LEGENDARY, SkyblockItemType.OTHER_NONCONSUMABLE,
+                SkyblockRarity.RELIC, SkyblockItemType.OTHER_NONCONSUMABLE,
                 new SkyblockItemStats().setMagicFind(15).setHealth(100)
         );
         cfg.setDescription(Collections.singletonList(ChatColor.DARK_GRAY+"...you were hidden from everyone..."));

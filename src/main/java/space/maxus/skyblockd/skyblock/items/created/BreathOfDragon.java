@@ -17,7 +17,7 @@ import java.util.Collections;
 public class BreathOfDragon extends SkyblockItem {
     @Override
     public SkyblockItemConfig getConfig() {
-        SkyblockItemConfig cfg = new SkyblockItemConfig(Material.NETHERITE_SWORD, "Breath of Erumdir" , SkyblockRarity.MYTHIC,
+        SkyblockItemConfig cfg = new SkyblockItemConfig(Material.NETHERITE_SWORD, "Breath of Erumdir" , SkyblockRarity.RELIC,
                 SkyblockItemType.SWORD, new SkyblockItemStats()
                 .setHealth(50).setSpeed(50).setDamage(100).setDefense(100));
         cfg.setAbilities(Arrays.asList(new SkyblockItemAbility("Dragon Affection", SkyblockAbilityType.PASSIVE,
