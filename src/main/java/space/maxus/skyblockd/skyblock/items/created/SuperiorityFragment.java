@@ -11,21 +11,25 @@ import space.maxus.skyblockd.skyblock.objects.SkyblockItemStats;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemType;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
-public class EnchantedMoonStone extends SkyblockSkull {
+public class SuperiorityFragment extends SkyblockSkull {
+
     @Override
     public SkyblockItemConfig getConfig() {
-        return new SkyblockItemConfig(Material.PLAYER_HEAD, "Enchanted Moon Stone", SkyblockRarity.EPIC,
-                SkyblockItemType.OTHER_NONCONSUMABLE, new SkyblockItemStats());
+        return new SkyblockItemConfig(Material.PLAYER_HEAD,
+                "Superiority Fragment",
+                SkyblockRarity.EPIC,
+                SkyblockItemType.OTHER_NONCONSUMABLE,
+                new SkyblockItemStats());
     }
 
     @Override
     public boolean hasGlint() {
-        return true;
+        return false;
     }
 
     @Override
     public String getSkyblockId() {
-        return SkyblockD.getNamespace("moonstone");
+        return SkyblockD.getNamespace("superior_fragment");
     }
 
     @Override
@@ -40,6 +44,6 @@ public class EnchantedMoonStone extends SkyblockSkull {
 
     @Override
     public String getSkinHash() {
-        return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzAwYTFhN2JiMDdmZGI0ZTZhODZlMzQxODE2ZTg4NDNkZGFmN2NmMzcxM2EzNjY2ZDc0YjcyZjk4NjE5ZjA2MyJ9fX0==";
+        return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmY4OWIxNTBiZTljNGM1MjQ5ZjM1NWY2OGVhMGM0MzkxMzAwYTliZTFmMjYwZDc1MGZjMzVhMTgxN2FkNzk2ZSJ9fX0=";
     }
 }

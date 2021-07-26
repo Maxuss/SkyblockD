@@ -6,7 +6,7 @@ prefix: SkyblockD
 authors: [ Maxus ]
 description: Plugin that adds multiple features from HySb to vanilla!
 website: https://maxus.space
-softdepend: [ Citizens ]
+depend: [ Citizens, NoteBlockAPI ]
 commands:
   ping:
     description: Gets your ping.
@@ -72,6 +72,11 @@ commands:
   reforge:
     description: Reforges item you are currently holding
     usage: /<command> [reforge]
+    permission: skyblockd.admin
+    permission-message: §6You don't have sufficient permission! Requires <permission>
+  vault:
+    description: Opens vault and lets you take any item from the plugin
+    usage: /<command>
     permission: skyblockd.admin
     permission-message: §6You don't have sufficient permission! Requires <permission>
 permissions:

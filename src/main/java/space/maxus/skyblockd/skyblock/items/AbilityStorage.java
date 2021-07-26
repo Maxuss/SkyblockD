@@ -68,7 +68,7 @@ public class AbilityStorage {
                 }
             }
             if(totalEntities > 0) {
-                p.sendMessage(ChatColor.GRAY+"Your God of Death hit " +ChatColor.RED+ totalEntities + ChatColor.GRAY + (totalEntities == 1 ? " enemy" : " enemies")+" for a total of "+ ChatColor.RED + totalDamage + ChatColor.GRAY + " damage!");
+                p.sendMessage(ChatColor.GRAY+"Your God of Death hit " +ChatColor.RED+ totalEntities + ChatColor.GRAY + (totalEntities == 1 ? " enemy" : " enemies")+" for a total of "+ ChatColor.RED + totalDamage*5 + ChatColor.GRAY + " damage!");
             }
         }
     }
@@ -94,7 +94,7 @@ public class AbilityStorage {
                 }
             }
             if(entityAmount > 0)
-                p.sendMessage(ChatColor.GRAY+"Your Erumdir's Curse hit "+ChatColor.RED+entityAmount+ChatColor.GRAY+" enemies for a total of "+ChatColor.RED+totalDamage+ChatColor.GRAY+" damage!");
+                p.sendMessage(ChatColor.GRAY+"Your Erumdir's Curse hit "+ChatColor.RED+entityAmount+ChatColor.GRAY+" enemies for a total of "+ChatColor.RED+totalDamage*5+ChatColor.GRAY+" damage!");
         }
     }
 

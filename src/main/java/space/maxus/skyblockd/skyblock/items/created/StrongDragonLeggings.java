@@ -22,7 +22,7 @@ public class StrongDragonLeggings extends SkyblockItem {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.LEATHER_LEGGINGS, "Strong Dragon Leggings",
                 SkyblockRarity.LEGENDARY, SkyblockItemType.LEGGINGS,
-                new SkyblockItemStats().setDefense(40).setStrength(250).setHealth(25));
+                new SkyblockItemStats().setDefense(60).setStrength(200).setHealth(25));
         cfg.setAbilities(Collections.singletonList(new SkyblockItemAbility("Strong blood", SkyblockAbilityType.PASSIVE,
                 Arrays.asList(ChatColor.GRAY+"Attack like the strongest of dragons!",
                         ChatColor.GRAY+"Heavily boosts your damage"))));
@@ -45,10 +45,10 @@ public class StrongDragonLeggings extends SkyblockItem {
         assert m != null;
         m.addAttributeModifier(
                 Attribute.GENERIC_ARMOR,
-                new AttributeModifier("generic.armor", 4, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.armor", 6, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_ATTACK_DAMAGE,
-                new AttributeModifier("generic.attackDamage", 25, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.attackDamage", 20, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_MAX_HEALTH,
                 new AttributeModifier("generic.maxHealth", 7, AttributeModifier.Operation.ADD_NUMBER));

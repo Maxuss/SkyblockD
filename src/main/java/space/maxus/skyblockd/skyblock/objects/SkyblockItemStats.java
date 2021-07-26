@@ -122,7 +122,7 @@ public class SkyblockItemStats {
     //#region red
     @StatPosition(0)
     public String getDamage() {
-        return proccessStat("Damage", damage, r, false);
+        return proccessStat("Damage", damage*5, r, false);
     }
     @StatPosition(1)
     public String getStrength() {

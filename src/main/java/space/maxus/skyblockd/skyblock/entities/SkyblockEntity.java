@@ -57,8 +57,8 @@ public abstract class SkyblockEntity implements SkyblockFeature {
         e.setCustomNameVisible(true);
         e.setCustomName(
                 ChatColor.DARK_GRAY + "[" + ChatColor.GRAY+ "Lv " + getLevel() + ChatColor.DARK_GRAY + "]" + " "
-                + getName() + ChatColor.RESET + " " + ChatColor.GREEN + getHealth() + ChatColor.WHITE
-                + "/" + ChatColor.GREEN + (int) getHealth() + ChatColor.RED + " " + SkyblockConstants.HEALTH
+                + getName() + ChatColor.RESET + " " + ChatColor.GREEN + getHealth()*5 + ChatColor.WHITE
+                + "/" + ChatColor.GREEN + (int) getHealth()*5 + ChatColor.RED + " " + SkyblockConstants.HEALTH
         );
 
         addSkyblockTag(e);
@@ -114,9 +114,9 @@ public abstract class SkyblockEntity implements SkyblockFeature {
         e.setCustomNameVisible(true);
         e.setCustomName(
                 ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv " +lvl + ChatColor.DARK_GRAY + "]" + " "
-                        + name + ChatColor.RESET + " " + ChatColor.GREEN + (int) e.getHealth() + ChatColor.WHITE
+                        + name + ChatColor.RESET + " " + ChatColor.GREEN + (int) e.getHealth() * 5 + ChatColor.WHITE
                         + "/" + ChatColor.GREEN +
-                        (int) Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue()
+                        (int) Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue() * 5
                         + ChatColor.RED + "" + SkyblockConstants.HEALTH
         );
         e.getPersistentDataContainer().set(SkyblockD.getKey("entityLevel"), PersistentDataType.INTEGER, lvl);

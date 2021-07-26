@@ -210,6 +210,9 @@ public class SkyblockD extends JavaPlugin {
             namespacedKey = pluginName.toLowerCase(Locale.ENGLISH);
         } catch (IOException e) {
             SkyblockD.logger.severe(" [FATAL] > Could not read CDN data! Are you in offline mode?");
+            SkyblockD.logger.severe(Arrays.toString(e.getStackTrace()));
+            SkyblockD.logger.severe(e.getMessage());
+            SkyblockD.logger.severe(e.getCause()+"");
         }
     }
 

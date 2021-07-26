@@ -13,3 +13,5 @@ skyblockd:
       interceptMessages: true
   commands:
     devmode: true
+  extra:
+    updateServerData: true

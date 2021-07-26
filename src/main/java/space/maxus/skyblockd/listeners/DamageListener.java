@@ -24,13 +24,22 @@ import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
 import space.maxus.skyblockd.skyblock.utility.DamageIndicator;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Random;
+import java.util.UUID;
 
 public class DamageListener extends BetterListener {
+    public static HashMap<UUID, Double> dragonDamagers = new HashMap<>();
+
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent e) {
         Projectile pr = e.getEntity();
+
+        if(e.getHitBlock() != null && pr.getPersistentDataContainer().has(SkyblockD.getKey("despawn"), PersistentDataType.BYTE)) {
+            pr.remove();
+        }
+
         if(e.getHitEntity() == null || !(e.getHitEntity() instanceof LivingEntity) || !(pr.getShooter() instanceof Entity)) return;
 
         if(pr.getPersistentDataContainer().has(SkyblockD.getKey("extraDamage"), PersistentDataType.DOUBLE)) {
@@ -105,7 +114,6 @@ public class DamageListener extends BetterListener {
         EntityDamageByEntityEvent ev = (EntityDamageByEntityEvent) e;
         Entity damager = ev.getDamager();
 
-
         if(damager instanceof Projectile) {
             Projectile pr = (Projectile) damager;
         }
@@ -120,6 +128,16 @@ public class DamageListener extends BetterListener {
         PersistentDataContainer c = Objects.requireNonNull(mainHand.getItemMeta()).getPersistentDataContainer();
         if(c.has(SkyblockD.getKey("reforged"), PersistentDataType.BYTE)) {
             operateReforges(ev, c, en, mainHand);
+        }
+
+        if(ev.getEntity() instanceof EnderDragon) {
+            EnderDragon dragon = (EnderDragon) ev.getEntity();
+            double damage = ev.getDamage();
+            Player p = (Player) ev.getDamager();
+            UUID id = p.getUniqueId();
+            if(dragonDamagers.containsKey(id)) {
+                dragonDamagers.put(id, dragonDamagers.get(id)+damage);
+            } else dragonDamagers.put(id, damage);
         }
     }
 
@@ -181,7 +199,7 @@ public class DamageListener extends BetterListener {
         loc.setY(ny);
         loc.setZ(nz);
 
-        new DamageIndicator(dmg, loc);
+        new DamageIndicator(dmg*5, loc);
 
         if(en instanceof LivingEntity) {
             LivingEntity le = (LivingEntity) en;
@@ -192,13 +210,13 @@ public class DamageListener extends BetterListener {
             } else {
                 String name = c.get(SkyblockD.getKey("entityName"), PersistentDataType.STRING);
                 Integer lvl = c.get(SkyblockD.getKey("entityLevel"), PersistentDataType.INTEGER);
-                int remaining = (int) (le.getHealth()-e.getFinalDamage());
+                int remaining = (int) (le.getHealth()-e.getFinalDamage())*5;
                 int trueRem = Math.max(remaining, 0);
                 le.setCustomName(
                         ChatColor.DARK_GRAY + "[" + ChatColor.GRAY +"Lvl " + lvl + ChatColor.DARK_GRAY + "]" + " "
                                 + name + ChatColor.RESET + " " + ChatColor.GREEN + trueRem + ChatColor.WHITE
                                 + "/" + ChatColor.GREEN +
-                                (int) Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue()
+                                (int) Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue() * 5
                                 + ChatColor.RED + " " + SkyblockConstants.HEALTH
                 );
             }

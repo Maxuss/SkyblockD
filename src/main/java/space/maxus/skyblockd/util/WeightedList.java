@@ -4,15 +4,13 @@ import org.bukkit.Material;
 import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.inventory.ItemStack;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.objects.DragonLoot;
 import space.maxus.skyblockd.objects.FishingDrops;
 import space.maxus.skyblockd.objects.FishingMobs;
 import space.maxus.skyblockd.objects.SeaCreatureContainer;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class WeightedList<E> extends HashMap<E, Double> {
     private int total;
@@ -29,10 +27,8 @@ public class WeightedList<E> extends HashMap<E, Double> {
     public E get(Random rand){
         if (total <= 0) return null;
         int i = rand.nextInt(total);
-        SkyblockD.logger.info("#get Iteration new " + i);
         for(Entry<E, Double> entry: entrySet()){
             i -= (entry.getValue() * 1000);
-            SkyblockD.logger.info("I:" + i);
             if (i < 0) {
                 return entry.getKey();
             }
@@ -85,5 +81,41 @@ public class WeightedList<E> extends HashMap<E, Double> {
         singleton.setFirst(list);
 
         return singleton;
+    }
+
+    public static WeightedList<ItemStack> getDragonDrops(DragonLoot loot, boolean skyblock, float playerWeight) {
+        HashMap<String, Float> operated = loot.getVanilla();
+        if(skyblock) operated = loot.getSkyblock();
+
+        Random r = new Random();
+        WeightedList<ItemStack> list = new WeightedList<>();
+        for (Map.Entry<String, Float> entry: operated.entrySet()) {
+            float v = entry.getValue();
+            String k = entry.getKey();
+
+            if(skyblock) {
+                SkyblockMaterial mat = SkyblockMaterial.valueOf(k);
+                int amount = r.nextInt(1)+1;
+                ItemStack pble = mat.getItem();
+                pble.setAmount(amount);
+                list.put(pble, v+playerWeight);
+                continue;
+            }
+            int amount = r.nextInt(5)+2;
+            ItemStack given = new ItemStack(Material.valueOf(k), amount);
+            list.put(given, v+playerWeight);
+        }
+
+        return list;
+    }
+
+    public static ItemStack getGuaranteedDrop(DragonLoot loot) {
+        List<String> operated = loot.getGuaranteed();
+        Random r = new Random();
+        int amount = r.nextInt(3)+1;
+        int index = r.nextInt(operated.size());
+        ItemStack chosen = SkyblockMaterial.valueOf(operated.get(index)).getItem();
+        chosen.setAmount(amount);
+        return chosen;
     }
 }

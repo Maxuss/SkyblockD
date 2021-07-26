@@ -30,4 +30,6 @@ public class Config extends ConfigurationFile {
     public boolean inDevMode() {
         return getBool("skyblockd.commands.devmode");
     }
+
+    public boolean updateEachTime() { return getBool("skyblockd.extra.updateServerData"); }
 }

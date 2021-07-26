@@ -119,6 +119,8 @@ public enum SkyblockMaterial {
     ENCHANTED_EYE_OF_ENDER(new EnchantedItem("Enchanted Eye of Ender", Material.ENDER_EYE, SkyblockRarity.EPIC)),
     ENCHANTED_DARK_PRISMARINE(new EnchantedItem("Enchanted Dark Prismarine", Material.DARK_PRISMARINE, SkyblockRarity.EPIC)),
 
+    ASCENDED_ESSENCE(new AscendedEssence()),
+
     RECIPE_GUIDE_1(new EnchantedItemGuide()),
     RECIPE_GUIDE_2(new CompressedItemGuide()),
 
@@ -203,6 +205,11 @@ public enum SkyblockMaterial {
     SUPERIOR_DRAGON_LEGGINGS(new SuperiorDragonLeggings()),
     SUPERIOR_DRAGON_BOOTS(new SuperiorDragonBoots()),
 
+    STRONG_FRAGMENT(new StrengthFragment()),
+    YOUNG_FRAGMENT(new SwiftnessFragment()),
+    SUPERIOR_FRAGMENT(new SuperiorityFragment()),
+    DRAGON_SINGULARITY(new DragonSingularity()),
+    SHADED_EYE(new ShadedEye()),
     //#endregion Materials
     ;
 

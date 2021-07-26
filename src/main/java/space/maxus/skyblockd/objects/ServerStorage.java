@@ -23,6 +23,7 @@ public class ServerStorage {
     public final PluginMeta meta;
     public final FishingData fishingData;
     public final HashMap<String, String> fishingMessages;
+    public final DragonLoot dragonLoot;
 
     public ServerStorage() throws IOException {
         Type mapType = new TypeToken<HashMap<String, Integer>>(){}.getType();
@@ -35,6 +36,7 @@ public class ServerStorage {
         meta = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/versions.json", new TypeToken<PluginMeta>(){}.getType());
         fishingData = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/fish_chances.json", new TypeToken<FishingData>(){}.getType());
         fishingMessages = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/fish_messages.json", new TypeToken<HashMap<String, String>>(){}.getType());
+        dragonLoot = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/dragon_loot.json", new TypeToken<DragonLoot>(){}.getType());
 
         URL iconUrl = new URL("https://cdn.maxus.space/files/plugins/online.png");
         onlineIcon = ImageIO.read(iconUrl);

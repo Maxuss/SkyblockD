@@ -51,11 +51,11 @@ public abstract class CustomItem {
     }
 
     public static String capitalize(String str){
-        String[] words =str.split("\\s");
-        StringBuilder cap= new StringBuilder();
-        for(String w:words){
-            String first=w.substring(0,1);
-            String afterfirst=w.substring(1);
+        String[] words = str.split("\\s");
+        StringBuilder cap = new StringBuilder();
+        for(String w: words){
+            String first = w.substring(0,1);
+            String afterfirst = w.substring(1);
             cap.append(first.toUpperCase()).append(afterfirst).append(" ");
         }
         return cap.toString().trim();

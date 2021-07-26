@@ -30,7 +30,7 @@ public class KasmirFury extends Shortbow {
 
     @Override
     public float getShootCooldown() {
-        return 0.4f;
+        return 0.7f;
     }
 
     @Override

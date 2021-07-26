@@ -20,10 +20,9 @@ import space.maxus.skyblockd.objects.PlayerSkills;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.*;
 
 public class ItemHelper {
     private static final List<String> illegals = new ArrayList<>(Arrays.asList(
@@ -283,6 +282,18 @@ public class ItemHelper {
         return total;
     }
 
+    public static void trySendRareDrop(ItemStack drop, int chance, Player p, DropRarity rarity) {
+        Random r = new Random();
+        int m = r.nextInt(chance);
+        if(m <= 1) {
+            String percented = Float.toString(round((1f/chance)*100, 1)).replace(",", ".")+"%";
+            p.sendMessage(rarity +""+ChatColor.AQUA+" ("+percented+") "+ Objects.requireNonNull(drop.getItemMeta()).getDisplayName()+ChatColor.YELLOW+"!");
+            if(p.getInventory().firstEmpty() != -1) {
+                p.getInventory().addItem(drop);
+            } else p.getWorld().dropItem(p.getLocation(), drop);
+        }
+    }
+
     private static Integer getStatItem(ItemStack it, String statName) {
         ItemMeta meta = it.getItemMeta();
         if(meta == null) return 0;
@@ -291,5 +302,35 @@ public class ItemHelper {
         if(!c.has(SkyblockD.getKey(statName), PersistentDataType.INTEGER)) return 0;
 
         return c.get(SkyblockD.getKey(statName), PersistentDataType.INTEGER);
+    }
+
+    private static float round(float value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(Float.toString(value));
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.floatValue();
+    }
+
+    public enum DropRarity {
+        RARE("RARE", ChatColor.AQUA),
+        SCRIPTED_RARE("RARE", ChatColor.GOLD),
+        VERY_RARE("VERY RARE", ChatColor.DARK_PURPLE),
+        SUPER_RARE("SUPER RARE", ChatColor.DARK_PURPLE),
+        RNGESUS("CRAZY RARE", ChatColor.LIGHT_PURPLE),
+        INSANE("INSANE", ChatColor.RED)
+        ;
+        public String name;
+        public ChatColor color;
+
+        DropRarity(String name, ChatColor color) {
+            this.name = name;
+            this.color = color;
+        }
+
+        @Override
+        public String toString() {
+            return color + "" + ChatColor.BOLD + name + " DROP! ";
+        }
     }
 }

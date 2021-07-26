@@ -19,7 +19,7 @@ public class SuperiorDragonHelmet extends SkyblockSkull {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.PLAYER_HEAD, "Superior Dragon Helmet",
                 SkyblockRarity.LEGENDARY, SkyblockItemType.HELMET,
-                new SkyblockItemStats().setDefense(30).setStrength(200).setHealth(50).setSpeed(50));
+                new SkyblockItemStats().setDefense(40).setStrength(250).setHealth(50).setSpeed(50));
         cfg.setAbilities(Collections.singletonList(new SkyblockItemAbility("Superior blood", SkyblockAbilityType.PASSIVE,
                 Arrays.asList(ChatColor.GRAY+"Be the best of dragons!",
                         ChatColor.GRAY+"Slightly boosts all your stats."))));
@@ -42,10 +42,10 @@ public class SuperiorDragonHelmet extends SkyblockSkull {
         assert m != null;
         m.addAttributeModifier(
                 Attribute.GENERIC_ARMOR,
-                new AttributeModifier("generic.armor", 3, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.armor", 4, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_ATTACK_DAMAGE,
-                new AttributeModifier("generic.attackDamage", 20, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.attackDamage", 25, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_MAX_HEALTH,
                 new AttributeModifier("generic.maxHealth", 5, AttributeModifier.Operation.ADD_NUMBER));

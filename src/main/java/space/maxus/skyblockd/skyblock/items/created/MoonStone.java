@@ -2,6 +2,8 @@ package space.maxus.skyblockd.skyblock.items.created;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockSkull;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
@@ -28,6 +30,11 @@ public class MoonStone extends SkyblockSkull {
 
     @Override
     public ItemStack postInit(ItemStack i) {
+        ItemMeta m = i.getItemMeta();
+        assert m != null;
+        m.getPersistentDataContainer().set(SkyblockD.getKey("blockClicks"), PersistentDataType.BYTE, (byte)0);
+        m.getPersistentDataContainer().remove(SkyblockD.getKey("headClicks"));
+        i.setItemMeta(m);
         return i;
     }
 

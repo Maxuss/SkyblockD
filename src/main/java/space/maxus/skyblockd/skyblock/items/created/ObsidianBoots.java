@@ -22,7 +22,7 @@ public class ObsidianBoots extends SkyblockItem {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.LEATHER_BOOTS, "Obsidian Boots",
                 SkyblockRarity.UNCOMMON, SkyblockItemType.BOOTS,
-                new SkyblockItemStats().setHealth(20).setDefense(30)
+                new SkyblockItemStats().setHealth(30).setDefense(30)
         );
         SkyblockItemAbility abil = new SkyblockItemAbility("Slowdown", SkyblockAbilityType.PASSIVE,
                 Arrays.asList(ChatColor.GRAY+"Become very protected by the", ChatColor.GRAY+"cost of your speed."));

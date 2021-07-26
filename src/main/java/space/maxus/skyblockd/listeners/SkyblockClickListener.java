@@ -49,9 +49,11 @@ public class SkyblockClickListener extends BetterListener {
                 pr.setVelocity(pr.getVelocity().add(p.getEyeLocation().getDirection()));
                 if (pr instanceof Arrow) {
                     Arrow arr = (Arrow) pr;
+                    arr.getPersistentDataContainer().set(SkyblockD.getKey("despawn"), PersistentDataType.BYTE, (byte) 0);
                     arr.setPickupStatus(AbstractArrow.PickupStatus.DISALLOWED);
                     arr.setKnockbackStrength(0);
-                    arr.setDamage(bow.getArrowDamage());
+                    arr.setDamage(bow.getArrowDamage() / 1.5f);
+                    arr.setShooter(p);
                     switch(idType) {
                         case "GEMSTONE":
                             PotionEffect eff = getRandomEffect();

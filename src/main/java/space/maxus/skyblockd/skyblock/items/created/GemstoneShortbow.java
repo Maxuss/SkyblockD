@@ -26,19 +26,19 @@ public class GemstoneShortbow extends Shortbow {
 
     @Override
     public float getShootCooldown() {
-        return 0.3f;
+        return 3f;
     }
 
     @Override
     public double getArrowDamage() {
-        return 35;
+        return 15;
     }
 
     @Override
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(Material.BOW,
                 "Gemstone Shortbow", SkyblockRarity.RARE, SkyblockItemType.SHORTBOW,
-                new SkyblockItemStats().setDamage(35));
+                new SkyblockItemStats().setDamage(15));
         cfg.setDescription(Collections.singletonList(ChatColor.GRAY+"Arrows have random effect!"));
         applyAbility(cfg);
         return cfg;

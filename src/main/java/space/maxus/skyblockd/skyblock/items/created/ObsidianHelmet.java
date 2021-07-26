@@ -19,7 +19,7 @@ public class ObsidianHelmet extends SkyblockSkull {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.PLAYER_HEAD, "Obsidian Chestplate",
                 SkyblockRarity.UNCOMMON, SkyblockItemType.HELMET,
-                new SkyblockItemStats().setHealth(20).setDefense(30)
+                new SkyblockItemStats().setHealth(30).setDefense(30)
         );
         SkyblockItemAbility abil = new SkyblockItemAbility("Slowdown", SkyblockAbilityType.PASSIVE,
                 Arrays.asList(ChatColor.GRAY+"Become very protected by the", ChatColor.GRAY+"cost of your speed."));
@@ -43,7 +43,7 @@ public class ObsidianHelmet extends SkyblockSkull {
         assert m != null;
         m.addAttributeModifier(
                 Attribute.GENERIC_MAX_HEALTH,
-                new AttributeModifier("generic.maxHealth", 2, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.maxHealth", 3, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_ARMOR,
                 new AttributeModifier("generic.armor", 3, AttributeModifier.Operation.ADD_NUMBER));

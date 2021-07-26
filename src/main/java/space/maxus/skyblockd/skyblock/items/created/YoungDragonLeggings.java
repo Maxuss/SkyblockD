@@ -22,7 +22,7 @@ public class YoungDragonLeggings extends SkyblockItem {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.LEATHER_LEGGINGS, "Young Dragon Leggings",
                 SkyblockRarity.LEGENDARY, SkyblockItemType.LEGGINGS,
-                new SkyblockItemStats().setDefense(20).setStrength(50).setSpeed(100));
+                new SkyblockItemStats().setDefense(40).setStrength(50).setSpeed(100));
         cfg.setAbilities(Collections.singletonList(new SkyblockItemAbility("Young blood", SkyblockAbilityType.PASSIVE,
                 Arrays.asList(ChatColor.GRAY+"Move like the fastest of dragons!",
                         ChatColor.GRAY+"Increases your speed cap."))));
@@ -45,7 +45,7 @@ public class YoungDragonLeggings extends SkyblockItem {
         assert m != null;
         m.addAttributeModifier(
                 Attribute.GENERIC_ARMOR,
-                new AttributeModifier("generic.armor", 2, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.armor", 4, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_ATTACK_DAMAGE,
                 new AttributeModifier("generic.attackDamage", 5, AttributeModifier.Operation.ADD_NUMBER));

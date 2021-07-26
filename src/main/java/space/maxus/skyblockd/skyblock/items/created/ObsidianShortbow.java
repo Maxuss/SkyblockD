@@ -26,19 +26,19 @@ public class ObsidianShortbow extends Shortbow {
 
     @Override
     public float getShootCooldown() {
-        return 0.5f;
+        return 1f;
     }
 
     @Override
     public double getArrowDamage() {
-        return 40;
+        return 30;
     }
 
     @Override
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(Material.BOW,
                 "Obisidian Shortbow", SkyblockRarity.RARE, SkyblockItemType.SHORTBOW,
-                new SkyblockItemStats().setDamage(40));
+                new SkyblockItemStats().setDamage(30));
         cfg.setDescription(Collections.singletonList(ChatColor.GRAY+"Arrows are slower, but deal more damage!"));
         applyAbility(cfg);
         return cfg;

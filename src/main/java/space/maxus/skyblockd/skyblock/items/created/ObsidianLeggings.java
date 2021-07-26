@@ -22,7 +22,7 @@ public class ObsidianLeggings extends SkyblockItem {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.LEATHER_LEGGINGS, "Obsidian Leggings",
                 SkyblockRarity.UNCOMMON, SkyblockItemType.LEGGINGS,
-                new SkyblockItemStats().setHealth(30).setDefense(40)
+                new SkyblockItemStats().setHealth(30).setDefense(50).setSpeed(-20)
         );
         SkyblockItemAbility abil = new SkyblockItemAbility("Slowdown", SkyblockAbilityType.PASSIVE,
                 Arrays.asList(ChatColor.GRAY+"Become very protected by the", ChatColor.GRAY+"cost of your speed."));
@@ -49,7 +49,10 @@ public class ObsidianLeggings extends SkyblockItem {
                 new AttributeModifier("generic.maxHealth", 3, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_ARMOR,
-                new AttributeModifier("generic.armor", 4, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.armor", 5, AttributeModifier.Operation.ADD_NUMBER));
+        m.addAttributeModifier(
+                Attribute.GENERIC_MOVEMENT_SPEED,
+                new AttributeModifier("generic.movementSpeed", -0.02, AttributeModifier.Operation.ADD_NUMBER));
         LeatherArmorMeta lm = (LeatherArmorMeta) m;
         lm.setColor(Color.fromRGB(18, 7, 18));
         lm.addEnchant(Enchantment.DURABILITY, 7, true);

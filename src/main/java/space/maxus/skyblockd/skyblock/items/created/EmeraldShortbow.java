@@ -31,14 +31,14 @@ public class EmeraldShortbow extends Shortbow {
 
     @Override
     public double getArrowDamage() {
-        return 25;
+        return 5;
     }
 
     @Override
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(Material.BOW,
                 "Emerald Shortbow", SkyblockRarity.RARE, SkyblockItemType.SHORTBOW,
-                new SkyblockItemStats().setDamage(25));
+                new SkyblockItemStats().setDamage(5));
         cfg.setDescription(Collections.singletonList(ChatColor.GRAY+"Arrows are very fast!"));
         applyAbility(cfg);
         return cfg;

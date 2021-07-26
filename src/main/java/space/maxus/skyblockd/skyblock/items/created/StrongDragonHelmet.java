@@ -19,7 +19,7 @@ public class StrongDragonHelmet extends SkyblockSkull {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.PLAYER_HEAD, "Strong Dragon Helmet",
                 SkyblockRarity.LEGENDARY, SkyblockItemType.HELMET,
-                new SkyblockItemStats().setDefense(30).setStrength(250).setHealth(20));
+                new SkyblockItemStats().setDefense(40).setStrength(150).setHealth(20));
         cfg.setAbilities(Collections.singletonList(new SkyblockItemAbility("Strong blood", SkyblockAbilityType.PASSIVE,
                 Arrays.asList(ChatColor.GRAY+"Attack like the strongest of dragons!",
                         ChatColor.GRAY+"Heavily boosts your damage"))));
@@ -42,10 +42,10 @@ public class StrongDragonHelmet extends SkyblockSkull {
         assert m != null;
         m.addAttributeModifier(
                 Attribute.GENERIC_ARMOR,
-                new AttributeModifier("generic.armor", 3, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.armor", 4, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_ATTACK_DAMAGE,
-                new AttributeModifier("generic.attackDamage", 25, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.attackDamage", 15, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_MAX_HEALTH,
                 new AttributeModifier("generic.maxHealth", 5, AttributeModifier.Operation.ADD_NUMBER));

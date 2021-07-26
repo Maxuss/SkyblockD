@@ -56,7 +56,7 @@
 
     <repositories>
         <repository>
-            <id>everything</id>
+            <id>citizens</id>
             <url>https://repo.citizensnpcs.co/</url>
         </repository>
         <repository>
@@ -90,7 +90,7 @@
             <version>3.0.1</version>
             <scope>compile</scope>
         </dependency>
-        <!-- Citizens -->
+        <!---->
         <dependency>
             <groupId>net.citizensnpcs</groupId>
             <artifactId>citizens-main</artifactId>
