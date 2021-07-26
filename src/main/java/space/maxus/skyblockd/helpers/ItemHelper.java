@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
@@ -19,6 +20,7 @@ import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.objects.PlayerSkills;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
+import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -286,8 +288,9 @@ public class ItemHelper {
         Random r = new Random();
         int m = r.nextInt(chance);
         if(m <= 1) {
+            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
             String percented = Float.toString(round((1f/chance)*100, 1)).replace(",", ".")+"%";
-            p.sendMessage(rarity +""+ChatColor.AQUA+" ("+percented+") "+ Objects.requireNonNull(drop.getItemMeta()).getDisplayName()+ChatColor.YELLOW+"!");
+            p.sendMessage(rarity +""+ChatColor.AQUA+" ("+percented+" "+ SkyblockConstants.MAGIC_FIND+" Chance) "+ Objects.requireNonNull(drop.getItemMeta()).getDisplayName()+ChatColor.YELLOW+"!");
             if(p.getInventory().firstEmpty() != -1) {
                 p.getInventory().addItem(drop);
             } else p.getWorld().dropItem(p.getLocation(), drop);
@@ -330,7 +333,7 @@ public class ItemHelper {
 
         @Override
         public String toString() {
-            return color + "" + ChatColor.BOLD + name + " DROP! ";
+            return color + "" + ChatColor.BOLD + name + " DROP!";
         }
     }
 }

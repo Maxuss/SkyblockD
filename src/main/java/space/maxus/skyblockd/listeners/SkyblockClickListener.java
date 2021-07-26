@@ -78,7 +78,6 @@ public class SkyblockClickListener extends BetterListener {
                     fb.getPersistentDataContainer().set(SkyblockD.getKey("extraDamage"), PersistentDataType.DOUBLE, bow.getArrowDamage());
                     if(pr instanceof WitherSkull) {
                         WitherSkull ws = (WitherSkull) fb;
-                        ws.setCharged(true);
                         ws.setIsIncendiary(false);
                         ws.setYield(0);
                     }
@@ -98,6 +97,8 @@ public class SkyblockClickListener extends BetterListener {
                 AbilityStorage.dragonAspectAbility(i, p);
             } else if (c.has(SkyblockD.getKey("THANATHOS"), b)) {
                 AbilityStorage.thanathosAbility(i, p);
+            } else if(c.has(SkyblockD.getKey("AOTE"), b)) {
+                AbilityStorage.aoteAbility(p, i);
             }
         }
     }

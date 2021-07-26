@@ -26,7 +26,7 @@ public class RecipeRegisterer {
             Material.JUNGLE_LOG, Material.CRIMSON_STEM, Material.WARPED_STEM, Material.COD, Material.KELP,
             Material.TROPICAL_FISH, Material.SPONGE, Material.PRISMARINE_SHARD, Material.PRISMARINE_CRYSTALS,
             Material.INK_SAC, Material.PUFFERFISH, Material.SALMON, Material.QUARTZ, Material.MELON_SLICE,
-            Material.PUMPKIN, Material.BAMBOO, Material.LILY_PAD
+            Material.PUMPKIN, Material.BAMBOO, Material.LILY_PAD, Material.HONEYCOMB
     );
 
     public static final HashMap<SkyblockMaterial, SkyblockMaterial> specialEnchanted = new HashMap<>();
@@ -57,6 +57,7 @@ public class RecipeRegisterer {
         specialEnchanted.put(SkyblockMaterial.ENCHANTED_SPONGE, SkyblockMaterial.ENCHANTED_WET_SPONGE);
         specialEnchanted.put(SkyblockMaterial.ENCHANTED_QUARTZ, SkyblockMaterial.ENCHANTED_QUARTZ_BLOCK);
         specialEnchanted.put(SkyblockMaterial.ENCHANTED_MELON_SLICE, SkyblockMaterial.ENCHANTED_MELON);
+        specialEnchanted.put(SkyblockMaterial.ENCHANTED_HONEYCOMB, SkyblockMaterial.ENCHANTED_HONEYCOMB_BLOCK);
     }
 
     public static void registerEnchantedItems() {
@@ -102,5 +103,24 @@ public class RecipeRegisterer {
         new LilyChestplateRecipe();
         new LilyHelmetRecipe();
         new PrismarineDaggerRecipe();
+        new DragonSingularityRecipe();
+        new AspectOfTheEndRecipe();
+        new ThanathosRecipe();
+        new GemstoneRecipe();
+
+        new DragonSetRecipe("YOUNG");
+        new DragonSetRecipe("STRONG");
+        new DragonSetRecipe("SUPERIOR");
+
+        new ShortbowRecipe("EMERALD_SHORTBOW", SkyblockMaterial.ENCHANTED_EMERALD);
+        new ShortbowRecipe("OBSIDIAN_SHORTBOW", SkyblockMaterial.ENCHANTED_OBSIDIAN);
+        new ShortbowRecipe("GEMSTONE_SHORTBOW", SkyblockMaterial.GEMSTONE);
+        new ShortbowRecipe("HOLY_SHORTBOW", SkyblockMaterial.ENCHANTED_HONEYCOMB);
+
+        new SimpleSetRecipe("OBSIDIAN", SkyblockMaterial.ENCHANTED_OBSIDIAN, null);
+
+        new EnergeticHandleRecipe();
+        new HardwoodRecipe();
+        new ShortbowBaseRecipe();
     }
 }

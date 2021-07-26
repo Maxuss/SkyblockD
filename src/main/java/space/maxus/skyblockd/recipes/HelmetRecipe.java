@@ -16,8 +16,7 @@ public abstract class HelmetRecipe extends RecipeBase<ShapedRecipe> implements S
         ShapedRecipe r = new ShapedRecipe(SkyblockD.getKey(getSkyblockId().replace("skyblockd:", "").toLowerCase(Locale.ENGLISH)), getResult());
         r.shape(
                 "BBB",
-                "B B",
-                "   "
+                "B B"
         );
         r.setIngredient('B', getMaterial());
         return r;

@@ -29,7 +29,7 @@ public class DraconicShortbow extends Shortbow {
 
     @Override
     public float getShootCooldown() {
-        return 1.1f;
+        return 1.4f;
     }
 
     @Override

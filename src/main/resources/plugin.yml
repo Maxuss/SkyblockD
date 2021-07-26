@@ -6,7 +6,7 @@ prefix: SkyblockD
 authors: [ Maxus ]
 description: Plugin that adds multiple features from HySb to vanilla!
 website: https://maxus.space
-depend: [ Citizens, NoteBlockAPI ]
+depend: [ Citizens ]
 commands:
   ping:
     description: Gets your ping.

@@ -37,6 +37,15 @@ public class AbilityStorage {
             Material.LAPIS_ORE, Material.OBSIDIAN
     ));
 
+    public static void aoteAbility(Player p, ItemStack i) {
+        if(!ItemHelper.isOnCooldown(i, 0.5f, p, false)) {
+            Location n = raycast(p, 6);
+            p.teleport(n);
+            p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.3f, 1f);
+            p.spawnParticle(Particle.SOUL_FIRE_FLAME, p.getLocation(), 1, 1, 1, 1, 1);
+        }
+    }
+
     public static void tripleShot(Player p) {
         Vector base = p.getLocation().getDirection();
         Vector left = base.rotateAroundZ(-60d);

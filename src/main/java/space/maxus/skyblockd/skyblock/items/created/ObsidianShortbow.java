@@ -26,7 +26,7 @@ public class ObsidianShortbow extends Shortbow {
 
     @Override
     public float getShootCooldown() {
-        return 1f;
+        return 0.8f;
     }
 
     @Override

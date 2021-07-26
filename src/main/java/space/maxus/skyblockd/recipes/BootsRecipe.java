@@ -16,7 +16,6 @@ public abstract class BootsRecipe extends RecipeBase<ShapedRecipe> implements Sk
     public ShapedRecipe getRecipe() {
         ShapedRecipe r = new ShapedRecipe(SkyblockD.getKey(getSkyblockId().replace("skyblockd:", "").toLowerCase(Locale.ENGLISH)), getResult());
         r.shape(
-                "   ",
                 "B B",
                 "B B"
         );

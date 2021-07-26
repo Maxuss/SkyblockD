@@ -92,11 +92,14 @@ public abstract class SkyblockItem implements SkyblockFeature {
             lore.add(" ");
             for (SkyblockItemAbility a: abils) {
                 lore.addAll(a.generate());
+                if(abils.indexOf(a) != (abils.size()-1)) {
+                    lore.add(" ");
+                }
             }
         }
 
         if(desc != null){
-            if (abils == null) lore.add(" ");
+            lore.add(" ");
             lore.addAll(desc);
         }
 

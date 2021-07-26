@@ -351,6 +351,7 @@ public class SkyblockD extends JavaPlugin {
 
         // clear all recipes cus they break on /reload otherwise
         getHost().clearRecipes();
+        getHost().resetRecipes();
 
         // de-instantiate main stuff
         // send message because of disabling

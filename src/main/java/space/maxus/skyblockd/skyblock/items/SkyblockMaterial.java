@@ -88,6 +88,8 @@ public enum SkyblockMaterial {
     ENCHANTED_LILY_PAD(new EnchantedItem("Enchanted Lily Pad", Material.LILY_PAD, SkyblockRarity.UNCOMMON)),
 
     // EXTRA
+    ENCHANTED_HONEYCOMB(new EnchantedItem("Enchanted Honeycomb", Material.HONEYCOMB,SkyblockRarity.UNCOMMON)),
+    ENCHANTED_HONEYCOMB_BLOCK(new EnchantedItem("Enchanted Honeycomb Block", Material.HONEYCOMB_BLOCK,SkyblockRarity.RARE)),
     ENCHANTED_HAY(new EnchantedItem("Enchanted Hay", Material.HAY_BLOCK, SkyblockRarity.RARE)),
     ENCHANTED_NETHERITE(new EnchantedItem("Enchanted Netherite", Material.NETHERITE_INGOT, SkyblockRarity.EPIC)),
     ENCHANTED_NETHERITE_BLOCK(new EnchantedItem("Enchanted Netherite Block", Material.NETHERITE_BLOCK, SkyblockRarity.LEGENDARY)),
@@ -117,6 +119,8 @@ public enum SkyblockMaterial {
 
     // COMPLEX RECIPE
     ENCHANTED_EYE_OF_ENDER(new EnchantedItem("Enchanted Eye of Ender", Material.ENDER_EYE, SkyblockRarity.EPIC)),
+    HARDWOOD(new EnchantedItem("Enchanted Hardwood", Material.ACACIA_LOG, SkyblockRarity.RARE)),
+    GEMSTONE(new EnchantedItem("Gemstone", Material.DIAMOND, SkyblockRarity.RARE)),
     ENCHANTED_DARK_PRISMARINE(new EnchantedItem("Enchanted Dark Prismarine", Material.DARK_PRISMARINE, SkyblockRarity.EPIC)),
 
     ASCENDED_ESSENCE(new AscendedEssence()),
@@ -209,7 +213,10 @@ public enum SkyblockMaterial {
     YOUNG_FRAGMENT(new SwiftnessFragment()),
     SUPERIOR_FRAGMENT(new SuperiorityFragment()),
     DRAGON_SINGULARITY(new DragonSingularity()),
+    ENERGETIC_HANDLE(new EnergeticHandle()),
     SHADED_EYE(new ShadedEye()),
+    ASPECT_OF_THE_END(new AspectOfTheEnd()),
+    SHORTBOW_BASE(new ShortbowBase()),
     //#endregion Materials
     ;
 

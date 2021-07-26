@@ -26,7 +26,7 @@ public class HolyShortbow extends Shortbow {
 
     @Override
     public float getShootCooldown() {
-        return 0.6f;
+        return 1f;
     }
 
     @Override

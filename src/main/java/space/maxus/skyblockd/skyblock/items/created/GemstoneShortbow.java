@@ -26,7 +26,7 @@ public class GemstoneShortbow extends Shortbow {
 
     @Override
     public float getShootCooldown() {
-        return 3f;
+        return 1.2f;
     }
 
     @Override
