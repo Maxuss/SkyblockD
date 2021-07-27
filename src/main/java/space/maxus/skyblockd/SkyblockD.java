@@ -260,6 +260,7 @@ public class SkyblockD extends JavaPlugin {
         armorSets.put("set::YOUNG", new YoungSet());
         armorSets.put("set::STRONG", new StrongSet());
         armorSets.put("set::SUPERIOR", new SuperiorSet());
+        armorSets.put("set::TITAN", new TitanicSet());
     }
 
     public void processRanks(){
@@ -271,8 +272,7 @@ public class SkyblockD extends JavaPlugin {
                 logger.severe("Error: "+ Arrays.toString(e.getStackTrace()));
             }
             try {
-                @SuppressWarnings("unchecked")
-                JsonHelper<List<PlayerContainer>> container = new JsonHelper<>((Class<List<PlayerContainer>>) players.getClass(), true);
+                JsonHelper<List<PlayerContainer>> container = new JsonHelper<>(true);
                 Type t = new TypeToken<List<PlayerContainer>>() {}.getType();
                 players = container.deserializeJson(JsonHelper.readJsonFile(getDataFolder().toPath() + "\\players.json"), t);
                 if(players == null) players = new ArrayList<>();
@@ -298,8 +298,7 @@ public class SkyblockD extends JavaPlugin {
         SkillResource sk = new SkillResource(ssm);
 
         try {
-            @SuppressWarnings("unchecked")
-            JsonHelper<SkillResource> json = new JsonHelper<>((Class<SkillResource>) sk.getClass(), true);
+            JsonHelper<SkillResource> json = new JsonHelper<>(true);
             String j = json.serializeJson(sk);
             FileHelper.writeFile(getDataFolder().toPath()+"\\test.json", j);
             logger.info("Created file!");

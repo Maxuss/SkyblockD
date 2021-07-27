@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class SkyblockClickListener extends BetterListener {
+
     private final static PersistentDataType<Byte, Byte> b = PersistentDataType.BYTE;
 
     @EventHandler
@@ -99,6 +100,8 @@ public class SkyblockClickListener extends BetterListener {
                 AbilityStorage.thanathosAbility(i, p);
             } else if(c.has(SkyblockD.getKey("AOTE"), b)) {
                 AbilityStorage.aoteAbility(p, i);
+            } else if(c.has(SkyblockD.getKey("DEMETER"), b)) {
+                AbilityStorage.demeterAbility(i, p);
             }
         }
     }

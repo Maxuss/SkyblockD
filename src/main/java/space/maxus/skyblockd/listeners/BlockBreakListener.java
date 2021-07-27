@@ -1,9 +1,7 @@
 package space.maxus.skyblockd.listeners;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
@@ -19,12 +17,12 @@ import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.MaterialHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.items.CustomItem;
-import space.maxus.skyblockd.nms.NMSColor;
-import space.maxus.skyblockd.nms.PacketUtils;
-import space.maxus.skyblockd.objects.*;
+import space.maxus.skyblockd.objects.BetterListener;
+import space.maxus.skyblockd.objects.PlayerContainer;
+import space.maxus.skyblockd.objects.PlayerSkills;
+import space.maxus.skyblockd.objects.RankContainer;
 import space.maxus.skyblockd.skyblock.events.SkyblockBlockBreakEvent;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
-import space.maxus.skyblockd.skyblock.skills.SkillMap;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
 
 import java.util.*;
@@ -77,6 +75,8 @@ public class BlockBreakListener extends BetterListener {
                 ItemStack it2 = new ItemStack(second.getType(), rand.nextInt(2)+2);
 
                 if(ItemHelper.hasMagnet(p)) {
+                    CustomItem.toSkyblockItem(it1);
+                    CustomItem.toSkyblockItem(it2);
                     p.getInventory().addItem(it1, it2);
                 } else {
                     b.getWorld().dropItemNaturally(b.getLocation(), it1);
@@ -115,13 +115,6 @@ public class BlockBreakListener extends BetterListener {
         return conts.get(conts.size()-1);
     }
 
-    public static void setPlayer(PlayerContainer p, Player pl){
-        List<PlayerContainer> conts = UniversalHelper.filter(SkyblockD.getPlayers(), c -> c.uuid.equals(pl.getUniqueId()));
-        SkyblockD.players.remove(conts.get(conts.size() - 1));
-        SkyblockD.players.add(p);
-        ContainerHelper.updatePlayers();
-    }
-
     public static void operateSkill(String name, Player p, Block block, boolean spawnExtra){
         if(name.toLowerCase(Locale.ENGLISH).equals("farming")) {
             BlockData data = block.getBlockData();
@@ -131,7 +124,6 @@ public class BlockBreakListener extends BetterListener {
             }
         }
         Material blockMat = block.getType();
-        p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
         PlayerContainer cont = getPlayer(p);
         int lvl = cont.skills.data.get(name.toLowerCase(Locale.ENGLISH)).currentLevel;
         if(spawnExtra) {
@@ -142,49 +134,17 @@ public class BlockBreakListener extends BetterListener {
                     if (!ItemHelper.hasMagnet(p)) {
                         block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(blockMat == Material.STONE ? Material.COBBLESTONE : blockMat, r.nextInt(2) + 1));
                     } else {
-                        p.getInventory().addItem(new ItemStack(blockMat == Material.STONE ? Material.COBBLESTONE : blockMat, r.nextInt(2) + 1));
+                        ItemStack cobble = new ItemStack(blockMat == Material.STONE ? Material.COBBLESTONE : blockMat, r.nextInt(2) + 1);
+                        CustomItem.toSkyblockItem(cobble);
+                        p.getInventory().addItem(cobble);
                     }
                 } catch (IllegalArgumentException ignored) {}
             }
         }
         int tlvl = lvl == 0 ? 1 : lvl;
         float exp = SkillHelper.getExpForSkill(blockMat, name.toLowerCase(Locale.ENGLISH)) * SkillHelper.getModifier(tlvl);
-        String sxp = String.valueOf(Math.round(exp));
 
-        PacketUtils.sendActionbar(p, "+"+sxp+" "+name+" Experience", NMSColor.DARK_AQUA);
-
-        giveExperience(exp, name, getPlayer(p), SkyblockD.getMapManager().getMaps().get(name.toLowerCase(Locale.ENGLISH)), p);
-    }
-
-    public static void giveExperience(float exp, String skill, PlayerContainer cont, SkillMap map, Player p){
-        cont.skills.totalExp += exp;
-        SkillContainer skc = cont.skills.data.get(skill.toLowerCase(Locale.ENGLISH));
-        skc.totalExp += exp;
-        skc.levelExp += exp;
-        int toNext = map.getExperience().table
-                .get(skc.currentLevel + 1);
-        int div = skc.levelExp - toNext;
-        if(div >= 0) {
-            skc.levelExp = div;
-            p.sendMessage(new String[]{
-                    ChatColor.GOLD + "" + ChatColor.BOLD + "-----------------------------",
-                    ChatColor.YELLOW + "" + ChatColor.BOLD + skill.toUpperCase(Locale.ENGLISH) + " LEVEL UP!",
-                    " ",
-                    ChatColor.GREEN + "You are now " + skill.toLowerCase(Locale.ENGLISH) + " level " + (skc.currentLevel + 1) + "!",
-                    ChatColor.GREEN + "Check out new level rewards in Skyblock Menu!",
-                    ChatColor.GOLD + "" + ChatColor.BOLD + "-----------------------------"
-                    }
-            );
-            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 0.5f);
-            int level = skc.currentLevel;
-            skc.currentLevel++;
-            String lvl = "unlocked."+level;
-            skc.collectedRewards.put(lvl, true);
-            ContainerHelper.updatePlayers();
-            setPlayer(cont, p);
-            return;
-        }
-        setPlayer(cont, p);
+        UniversalHelper.giveSkillExperience(p, name, Math.round(exp));
     }
 
     private boolean isPumpkin(Material mat) {

@@ -52,6 +52,12 @@ public enum SkyblockMaterial {
     ENCHANTED_PUMPKIN(new EnchantedItem("Enchanted Pumpkin", Material.PUMPKIN, SkyblockRarity.UNCOMMON)),
     ENCHANTED_BAMBOO(new EnchantedItem("Enchanted Bamboo", Material.BAMBOO, SkyblockRarity.RARE)),
 
+    ENCHANTED_PORKCHOP(new EnchantedItem("Enchanted Pork", Material.PORKCHOP, SkyblockRarity.UNCOMMON)),
+    ENCHANTED_BEEF(new EnchantedItem("Enchanted Beef", Material.BEEF, SkyblockRarity.UNCOMMON)),
+    ENCHANTED_CHICKEN(new EnchantedItem("Enchanted Chicken", Material.CHICKEN, SkyblockRarity.UNCOMMON)),
+    ENCHANTED_RABBIT(new EnchantedItem("Enchanted Rabbit", Material.RABBIT, SkyblockRarity.UNCOMMON)),
+    ENCHANTED_RABBIT_FOOT(new EnchantedItem("Enchanted Rabbit Foot", Material.RABBIT_FOOT, SkyblockRarity.UNCOMMON)),
+
     // COMBAT
     ENCHANTED_ROTTEN_FLESH(new EnchantedItem("Enchanted Rotten Flesh", Material.ROTTEN_FLESH, SkyblockRarity.UNCOMMON)),
     ENCHANTED_ENDER_PEARL(new EnchantedItem("Enchanted Ender Pearl", Material.ENDER_PEARL, SkyblockRarity.RARE)),
@@ -122,11 +128,13 @@ public enum SkyblockMaterial {
     HARDWOOD(new EnchantedItem("Enchanted Hardwood", Material.ACACIA_LOG, SkyblockRarity.RARE)),
     GEMSTONE(new EnchantedItem("Gemstone", Material.DIAMOND, SkyblockRarity.RARE)),
     ENCHANTED_DARK_PRISMARINE(new EnchantedItem("Enchanted Dark Prismarine", Material.DARK_PRISMARINE, SkyblockRarity.EPIC)),
+    SUPREME_STEW(new EnchantedItem("Supreme Stew", Material.RABBIT_STEW, SkyblockRarity.EPIC)),
 
     ASCENDED_ESSENCE(new AscendedEssence()),
 
     RECIPE_GUIDE_1(new EnchantedItemGuide()),
     RECIPE_GUIDE_2(new CompressedItemGuide()),
+    RECIPE_GUIDE_GEO(new GeologistRecipeBook()),
 
     SKYBLOCK_MENU(SkyblockD.getItemManager().generated.get("skyblockd:SKYBLOCK_MENU")),
 
@@ -217,6 +225,13 @@ public enum SkyblockMaterial {
     SHADED_EYE(new ShadedEye()),
     ASPECT_OF_THE_END(new AspectOfTheEnd()),
     SHORTBOW_BASE(new ShortbowBase()),
+
+    TITAN_BOOTS(new TitanicBoots()),
+    TITAN_LEGGINGS(new TitanicLeggings()),
+    TITAN_CHESTPLATE(new TitanicChestplate()),
+    TITAN_HELMET(new TitanicHelmet()),
+
+    DEMETER(new Demeter()),
     //#endregion Materials
     ;
 

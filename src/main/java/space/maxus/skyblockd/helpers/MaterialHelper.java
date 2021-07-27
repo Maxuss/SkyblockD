@@ -1,6 +1,5 @@
 package space.maxus.skyblockd.helpers;
 
-import com.google.gson.reflect.TypeToken;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
@@ -10,35 +9,11 @@ import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.elixirs.ElixirEffect;
 import space.maxus.skyblockd.skyblock.elixirs.created.*;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.Objects;
 
 public class MaterialHelper {
     public static Material fromString(String mat){
         return Material.getMaterial(mat);
-    }
-
-    public static HashMap<String, Integer> getExperienceTable(TableType t) throws IOException {
-        HashMap<String,Integer> map = new HashMap<>();
-        @SuppressWarnings("unchecked")
-        JsonHelper<HashMap<String, Integer>> j = new JsonHelper<>((Class<HashMap<String, Integer>>) map.getClass(), true);
-        Type type = new TypeToken<HashMap<String, Integer>>(){}.getType();
-        return j.deserializeJson(JsonHelper.readJsonResource("skilltables/"+t.filename),type);
-    }
-
-    public static int matchTable(TableType type, String material) throws IOException {
-        HashMap<String, Integer> data = getExperienceTable(type);
-        if(!data.containsKey(material)) return 0;
-        return data.get(material);
-    }
-
-    public static int matchTable(TableType type, Material material) throws IOException {
-        HashMap<String, Integer> data = getExperienceTable(type);
-        String tt = material.name();
-        if(!data.containsKey(tt)) return 0;
-        return data.get(tt);
     }
 
     public static int matchCombat(EntityType t){

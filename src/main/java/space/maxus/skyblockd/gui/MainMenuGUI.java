@@ -1,5 +1,6 @@
 package space.maxus.skyblockd.gui;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -9,8 +10,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
-import space.maxus.skyblockd.helpers.ItemHelper;
+import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 
 import java.util.ArrayList;
@@ -105,22 +108,26 @@ public class MainMenuGUI extends InventoryBase {
         try {
             ItemStack[] armor = p.getInventory().getArmorContents();
             ItemStack heldItem = p.getInventory().getItemInMainHand();
-            int strength = 0;
+            int strength = UniversalHelper.getStrength(p);
             int defense = 0;
             int health = 100;
             int speed = 100;
             int attackSpeed = 0;
-            int seaCreatureChance = ItemHelper.getStatFromItems(p, "scc");
+            int seaCreatureChance = UniversalHelper.getSeaCreatureChance(p);
+            int miningFortune = UniversalHelper.getMiningFortune(p);
+            int farmingFortune = UniversalHelper.getFarmingFortune(p);
+            int excavatingFortune = UniversalHelper.getExcavatingFortune(p);
+            int abilityDamage = UniversalHelper.getAbilityDamage(p);
+
             for (ItemStack a : armor) {
-                if (a != null && Objects.requireNonNull(a.getItemMeta()).hasAttributeModifiers()) {
-                    ItemMeta m = a.getItemMeta();
-                    int[] data = operateStats(m, 0, 0, 0, 100, 100);
-                    defense = data[0];
-                    strength = data[1];
-                    attackSpeed = data[2];
-                    health = data[3];
-                    speed = data[4];
-                }
+                if(a == null || !a.hasItemMeta() || !Objects.requireNonNull(a.getItemMeta()).hasAttributeModifiers()) continue;
+                ItemMeta m = a.getItemMeta();
+                int[] data = operateStats(m, 0, 0, 0, 100, 100);
+                defense = data[0];
+                strength += data[1];
+                attackSpeed = data[2];
+                health = data[3];
+                speed = data[4];
             }
             if (heldItem.hasItemMeta() && Objects.requireNonNull(heldItem.getItemMeta()).hasAttributeModifiers()) {
                 ItemMeta m = heldItem.getItemMeta();
@@ -132,17 +139,22 @@ public class MainMenuGUI extends InventoryBase {
                 speed = data2[4];
             }
 
-            String str = ChatColor.RED + SkyblockConstants.STRENGTH + " Strength: " + strength;
+            String str = ChatColor.RED + SkyblockConstants.STRENGTH + " Strength: " + Math.round(strength/2f);
             String def = ChatColor.GREEN + SkyblockConstants.DEFENCE + " Defense: " + defense;
             String hp = ChatColor.RED + SkyblockConstants.HEALTH + " Health: " + health;
             String spd = ChatColor.WHITE + SkyblockConstants.SPEED + " Speed: " + speed;
             String ats = ChatColor.YELLOW + SkyblockConstants.ATTACK_SPEED + " Bonus Attack Speed: " + attackSpeed + "%";
             String scc = ChatColor.AQUA + SkyblockConstants.SCC + " Sea Creature Chance: " + seaCreatureChance + "%";
+            String mf = ChatColor.GOLD+SkyblockConstants.FORTUNE+" Mining Fortune: " + miningFortune;
+            String ff = ChatColor.GOLD+SkyblockConstants.FORTUNE+" Farming Fortune: " + farmingFortune;
+            String ef = ChatColor.GOLD+SkyblockConstants.FORTUNE+" Excavating Fortune: " + excavatingFortune;
+            String ad = ChatColor.LIGHT_PURPLE+SkyblockConstants.ABILITY_DAMAGE+" Ability Damage: " + abilityDamage + "%";
 
-            base.setLore(Arrays.asList(str, def, hp, spd, ats, scc, " "));
+            base.setLore(Arrays.asList(str, def, hp, spd, ats, scc, ad, mf, ff, ef, " "));
+            base.getPersistentDataContainer().set(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING, "true");
         } catch (NullPointerException e){
             p.sendMessage(ChatColor.GOLD+"Uh oh! Looks like you are not yet ready to use SkyblockD menu!");
-            p.closeInventory();
+            Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), p::closeInventory, 1L);
         }
     }
 

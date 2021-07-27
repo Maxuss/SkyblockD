@@ -1,10 +1,11 @@
 package space.maxus.skyblockd.skyblock.skills.created;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.skills.ComplexReward;
 import space.maxus.skyblockd.skyblock.skills.SkillMap;
+import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,16 +20,29 @@ public class CombatSkillMap extends SkillMap  {
 
     @Override
     public List<ComplexReward> getRewardList() {
-        ComplexReward stat1 = new ComplexReward(ChatColor.RED+"% more Damage", 1, null, 0);
-        ComplexReward stat2 = new ComplexReward(ChatColor.RED+"% more Damage", 2, null, 0);
-        ComplexReward stat3 = new ComplexReward(ChatColor.RED+"% more Damage", 3, null, 0);
-        ComplexReward stat4 = new ComplexReward(ChatColor.RED+"% more Damage", 5, null, 0);
-        ComplexReward item1 = new ComplexReward(ChatColor.RED+"% more Damage", 1, new ItemStack(Material.IRON_INGOT, 32), 32);
-        ComplexReward item2 = new ComplexReward(ChatColor.RED+"% more Damage", 2, new ItemStack(Material.NETHERITE_SCRAP, 64), 32);
-        ComplexReward item3 = new ComplexReward(ChatColor.RED+"% more Damage", 2, new ItemStack(Material.STICK, 128), 128);
-        ComplexReward item4 = new ComplexReward(ChatColor.RED+"% more Damage", 3, new ItemStack(Material.NETHERITE_INGOT, 5), 5);
-        ComplexReward item5 = new ComplexReward(ChatColor.RED+"% more Damage", 5, new ItemStack(Material.NETHERITE_SWORD, 1), 1);
-        ComplexReward item6 = new ComplexReward(ChatColor.RED+"% more Damage", 5, new ItemStack(Material.NETHERITE_BLOCK, 5), 5);
+        ItemStack eflesh = SkyblockMaterial.ENCHANTED_ROTTEN_FLESH.getItem();
+        eflesh.setAmount(32);
+        ItemStack ebone = SkyblockMaterial.ENCHANTED_BONE.getItem();
+        ebone.setAmount(16);
+        ItemStack epowder = SkyblockMaterial.ENCHANTED_GUNPOWDER.getItem();
+        epowder.setAmount(32);
+        ItemStack erod = SkyblockMaterial.ENCHANTED_BLAZE_ROD.getItem();
+        erod.setAmount(5);
+        ItemStack emagma = SkyblockMaterial.ENCHANTED_MAGMA_CREAM.getItem();
+        emagma.setAmount(32);
+        ItemStack epearl = SkyblockMaterial.ENCHANTED_ENDER_PEARL.getItem();
+        epearl.setAmount(32);
+
+        ComplexReward stat1 = new ComplexReward(ChatColor.RED+ SkyblockConstants.STRENGTH+" Strength", 1, null, 0);
+        ComplexReward stat2 = new ComplexReward(ChatColor.RED+ SkyblockConstants.STRENGTH+" Strength", 2, null, 0);
+        ComplexReward stat3 = new ComplexReward(ChatColor.RED+ SkyblockConstants.STRENGTH+" Strength", 3, null, 0);
+        ComplexReward stat4 = new ComplexReward(ChatColor.RED+ SkyblockConstants.STRENGTH+" Strength", 5, null, 0);
+        ComplexReward item1 = new ComplexReward(ChatColor.RED+ SkyblockConstants.STRENGTH+" Strength", 1, eflesh, 32);
+        ComplexReward item2 = new ComplexReward(ChatColor.RED+ SkyblockConstants.STRENGTH+" Strength", 2, ebone, 16);
+        ComplexReward item3 = new ComplexReward(ChatColor.RED+ SkyblockConstants.STRENGTH+" Strength", 2, epowder, 32);
+        ComplexReward item4 = new ComplexReward(ChatColor.RED+ SkyblockConstants.STRENGTH+" Strength", 3, erod, 16);
+        ComplexReward item5 = new ComplexReward(ChatColor.RED+ SkyblockConstants.STRENGTH+" Strength", 5, emagma, 32);
+        ComplexReward item6 = new ComplexReward(ChatColor.RED+ SkyblockConstants.STRENGTH+" Strength", 5, epearl, 5);
 
         List<ComplexReward> rewards = new ArrayList<>(Collections.nCopies(5, stat1));
         rewards.addAll(Arrays.asList(

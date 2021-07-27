@@ -44,18 +44,6 @@ public abstract class Skill implements SkyblockFeature {
     public abstract String getSkillResourceFile();
     public abstract Player getOwner(Player p);
 
-    public Skill(Player p) throws IOException {
-        String res = getSkillResourceFile();
-        JsonHelper<? extends SkillResource> json = new JsonHelper<>(getResource(), true);
-        Type t = new TypeToken<SkillResource>(){}.getType();
-        SkillResource resource = json.deserializeJson(JsonHelper.readJsonResource(res), t);
-        name = resource.getSkillName();
-        prof = resource.getProfession();
-        levelTable = resource.getLevelTable();
-        rewardTable = resource.getStatRewards();
-        owner = getOwner(p);
-    }
-
     public Inventory generateMenu() {
         Inventory i = Bukkit.createInventory(owner, 54, name + " Skill");
         ItemStack gls = GuiHelper.getMenuGlass();

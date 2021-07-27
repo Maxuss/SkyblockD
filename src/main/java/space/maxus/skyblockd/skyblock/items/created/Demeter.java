@@ -14,20 +14,20 @@ import space.maxus.skyblockd.skyblock.objects.*;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class Thanathos extends SkyblockItem {
+public class Demeter extends SkyblockItem {
     @Override
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
-                Material.NETHERITE_SWORD, "Thanathos",
+                Material.GOLDEN_SWORD, "Demeter",
                 SkyblockRarity.LEGENDARY, SkyblockItemType.SWORD,
-                new SkyblockItemStats().setDamage(60).setSpeed(50)
+                new SkyblockItemStats().setSpeed(-10)
         );
-        cfg.setDescription(Collections.singletonList(ChatColor.DARK_GRAY+"Unleash blazes!"));
-        SkyblockItemAbility abil = new SkyblockItemAbility("God of Death", SkyblockAbilityType.RIGHT_CLICK,
-                Arrays.asList(ChatColor.GRAY+"Teleport "+ChatColor.GOLD+"5 blocks"+ChatColor.GRAY+" ahead, and cause",
-                        ChatColor.GRAY+"massive explosion, dealing huge damage to",
-                        ChatColor.GRAY+"mobs around you."));
-        abil.setCooldown(2);
+        cfg.setDescription(Collections.singletonList(ChatColor.DARK_GRAY+"Calm the Fierce!"));
+        SkyblockItemAbility abil = new SkyblockItemAbility("God of Life", SkyblockAbilityType.RIGHT_CLICK,
+                Arrays.asList(ChatColor.GRAY+"Heal yourself and all players",
+                        ChatColor.GRAY+"around you for "+ChatColor.GREEN+"5%"+ChatColor.GRAY+" of your",
+                        ChatColor.GRAY+"maximum Health."));
+        abil.setCooldown(4);
         cfg.setAbilities(Collections.singletonList(abil));
         return cfg;
     }
@@ -39,7 +39,7 @@ public class Thanathos extends SkyblockItem {
 
     @Override
     public String getSkyblockId() {
-        return SkyblockD.getNamespace("thanathos");
+        return SkyblockD.getNamespace("demeter");
     }
 
     @Override
@@ -47,12 +47,9 @@ public class Thanathos extends SkyblockItem {
         ItemMeta m = i.getItemMeta();
         assert m != null;
         m.addAttributeModifier(
-                Attribute.GENERIC_ATTACK_DAMAGE,
-                new AttributeModifier("generic.attackDamage", 60, AttributeModifier.Operation.ADD_NUMBER));
-        m.addAttributeModifier(
                 Attribute.GENERIC_MOVEMENT_SPEED,
-                new AttributeModifier("generic.movementSpeed", 0.05, AttributeModifier.Operation.ADD_NUMBER));
-        m.getPersistentDataContainer().set(SkyblockD.getKey("THANATHOS"), PersistentDataType.BYTE, (byte)0);
+                new AttributeModifier("generic.movementSpeed", -0.01, AttributeModifier.Operation.ADD_NUMBER));
+        m.getPersistentDataContainer().set(SkyblockD.getKey("DEMETER"), PersistentDataType.BYTE, (byte)0);
         i.setItemMeta(m);
         return i;
     }

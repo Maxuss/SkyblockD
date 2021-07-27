@@ -35,8 +35,14 @@ public class RankCommand extends ChatCommand {
             if(players.isEmpty()) {
                 PlayerContainer cont = new PlayerContainer(container, p.getUniqueId(), PlayerSkills.EMPTY, p.hasPermission("skyblockd.admin"));
                 SkyblockD.players.add(cont);
-            } else {
+            } else if(players.size() > 1) {
                 PlayerContainer nc = players.get(players.size()-1);
+                nc.ranks = container;
+                players.remove(nc);
+                SkyblockD.players.removeAll(players);
+                SkyblockD.players.add(nc);
+            } else {
+                PlayerContainer nc = players.get(0);
                 nc.ranks = container;
                 SkyblockD.players.add(nc);
             }

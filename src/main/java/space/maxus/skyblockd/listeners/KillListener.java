@@ -15,8 +15,6 @@ import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.MaterialHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.items.CustomItem;
-import space.maxus.skyblockd.nms.NMSColor;
-import space.maxus.skyblockd.nms.PacketUtils;
 import space.maxus.skyblockd.objects.*;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
@@ -183,39 +181,7 @@ public class KillListener extends BetterListener {
         int lvl = combat.currentLevel;
         int tlvl = lvl == 0 ? 1 : lvl;
         float modifier = SkillHelper.getModifier(tlvl);
-
-        String sxp = String.valueOf(xp).replace(",", ".");
-
-        PacketUtils.sendActionbar(p, "+"+sxp+" "+CustomItem.capitalize(name)+" Experience", NMSColor.DARK_AQUA);
-
-        p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
-
-        pc.skills.totalExp += xp;
-
-        combat.totalExp += xp;
-        combat.levelExp += xp;
-        int toNext = SkyblockD.getMapManager().getMaps().get(name).getExperience().table
-                .get(combat.currentLevel + 1);
-        int div = combat.levelExp - toNext;
-        if(div >= 0) {
-            combat.levelExp = div;
-            p.sendMessage(new String[]{
-                            ChatColor.GOLD + "" + ChatColor.BOLD + "-----------------------------",
-                            ChatColor.YELLOW + "" + ChatColor.BOLD + name.toUpperCase(Locale.ENGLISH)+" LEVEL UP!",
-                            " ",
-                            ChatColor.GREEN + "You are now "+name+" level " + (combat.currentLevel + 1) + "!",
-                            ChatColor.GREEN + "Check out new level rewards in Skyblock Menu!",
-                            ChatColor.GOLD + "" + ChatColor.BOLD + "-----------------------------"
-                    }
-            );
-            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 0.5f);
-            int level = combat.currentLevel;
-            combat.currentLevel++;
-            String levl = "unlocked."+level;
-            combat.collectedRewards.put(levl, true);
-            ContainerHelper.updatePlayers();
-            setPlayer(pc, p);
-        }
+        UniversalHelper.giveSkillExperience(p, name, Math.round(modifier*xp));
     }
 
     private void setPlayer(PlayerContainer p, Player pl){

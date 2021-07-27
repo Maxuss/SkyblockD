@@ -2,7 +2,6 @@ package space.maxus.skyblockd.listeners;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -13,14 +12,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
-import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.items.CustomItem;
-import space.maxus.skyblockd.nms.NMSColor;
-import space.maxus.skyblockd.nms.PacketUtils;
 import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.objects.PlayerContainer;
-import space.maxus.skyblockd.objects.SkillContainer;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
 
 import java.util.ArrayList;
@@ -116,43 +111,6 @@ public class CraftListener extends BetterListener {
 
         float exp = totalExp * SkillHelper.getModifier(tlvl) * 6;
 
-        p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
-        String sxp = String.valueOf(exp).replace(",", ".");
-
-        PacketUtils.sendActionbar(p, "+"+sxp+" Crafting Experience", NMSColor.DARK_AQUA);
-
-        pc.skills.totalExp += exp;
-        SkillContainer skc = pc.skills.data.get("crafting");
-        skc.totalExp += exp;
-        skc.levelExp += exp;
-        int toNext = SkyblockD.getMapManager().getMaps().get("crafting").getExperience().table
-                .get(skc.currentLevel + 1);
-        int div = skc.levelExp - toNext;
-        if(div >= 0) {
-            skc.levelExp = div;
-            p.sendMessage(new String[]{
-                            ChatColor.GOLD + "" + ChatColor.BOLD + "-----------------------------",
-                            ChatColor.YELLOW + "" + ChatColor.BOLD + "CRAFTING LEVEL UP!",
-                            " ",
-                            ChatColor.GREEN + "You are now crafting level " + (skc.currentLevel + 1) + "!",
-                            ChatColor.GREEN + "Check out new level rewards in Skyblock Menu!",
-                            ChatColor.GOLD + "" + ChatColor.BOLD + "-----------------------------"
-                    }
-            );
-            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 0.5f);
-            int level = skc.currentLevel;
-            skc.currentLevel++;
-            String levl = "unlocked."+level;
-            skc.collectedRewards.put(levl, true);
-            ContainerHelper.updatePlayers();
-            setPlayer(pc, p);
-        }
-    }
-
-    private void setPlayer(PlayerContainer p, Player pl){
-        List<PlayerContainer> conts = UniversalHelper.filter(SkyblockD.getPlayers(), c -> c.uuid.equals(pl.getUniqueId()));
-        SkyblockD.players.remove(conts.get(conts.size() - 1));
-        SkyblockD.players.add(p);
-        ContainerHelper.updatePlayers();
+        UniversalHelper.giveSkillExperience(p, "crafting",Math.round(exp));
     }
 }

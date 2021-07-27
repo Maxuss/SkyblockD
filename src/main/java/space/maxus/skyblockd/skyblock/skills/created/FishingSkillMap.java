@@ -36,14 +36,14 @@ public class FishingSkillMap extends SkillMap {
 
         ComplexReward stat1 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 2, null, 0);
         ComplexReward stat2 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 3, null, 0);
-        ComplexReward stat3 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 5, null, 0);
-        ComplexReward stat4 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 6, null, 0);
+        ComplexReward stat3 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 4, null, 0);
+        ComplexReward stat4 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 5, null, 0);
         ComplexReward item1 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 2, ecod, 5);
         ComplexReward item2 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 2, esalm, 5);
         ComplexReward item3 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 3, espong, 5);
         ComplexReward item4 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 3, eccod, 2);
-        ComplexReward item5 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 5, ecsalm, 2);
-        ComplexReward item6 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 6, eprism, 5);
+        ComplexReward item5 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 4, ecsalm, 2);
+        ComplexReward item6 = new ComplexReward(ChatColor.AQUA+SCC + " Sea Creature Chance", 5, eprism, 5);
 
         List<ComplexReward> rewards = new ArrayList<>(Collections.nCopies(5, stat1));
         rewards.addAll(Arrays.asList(

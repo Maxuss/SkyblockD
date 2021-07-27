@@ -26,7 +26,8 @@ public class RecipeRegisterer {
             Material.JUNGLE_LOG, Material.CRIMSON_STEM, Material.WARPED_STEM, Material.COD, Material.KELP,
             Material.TROPICAL_FISH, Material.SPONGE, Material.PRISMARINE_SHARD, Material.PRISMARINE_CRYSTALS,
             Material.INK_SAC, Material.PUFFERFISH, Material.SALMON, Material.QUARTZ, Material.MELON_SLICE,
-            Material.PUMPKIN, Material.BAMBOO, Material.LILY_PAD, Material.HONEYCOMB
+            Material.PUMPKIN, Material.BAMBOO, Material.LILY_PAD, Material.HONEYCOMB, Material.PORKCHOP, Material.BEEF,
+            Material.RABBIT, Material.RABBIT_FOOT, Material.CHICKEN
     );
 
     public static final HashMap<SkyblockMaterial, SkyblockMaterial> specialEnchanted = new HashMap<>();
@@ -118,9 +119,11 @@ public class RecipeRegisterer {
         new ShortbowRecipe("HOLY_SHORTBOW", SkyblockMaterial.ENCHANTED_HONEYCOMB);
 
         new SimpleSetRecipe("OBSIDIAN", SkyblockMaterial.ENCHANTED_OBSIDIAN, null);
+        new SimpleSetRecipe("TITAN", SkyblockMaterial.ENCHANTED_IRON_INGOT, "OBSIDIAN");
 
         new EnergeticHandleRecipe();
         new HardwoodRecipe();
         new ShortbowBaseRecipe();
+        new SupremeStewRecipe();
     }
 }

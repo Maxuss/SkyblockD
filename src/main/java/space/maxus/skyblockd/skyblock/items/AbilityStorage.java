@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.skyblock.items;
 
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
@@ -8,10 +9,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 import space.maxus.skyblockd.SkyblockD;
-import space.maxus.skyblockd.listeners.BlockBreakListener;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.MaterialHelper;
 import space.maxus.skyblockd.items.CustomItem;
+import space.maxus.skyblockd.listeners.BlockBreakListener;
 
 import java.util.*;
 
@@ -37,12 +38,30 @@ public class AbilityStorage {
             Material.LAPIS_ORE, Material.OBSIDIAN
     ));
 
+    public static void demeterAbility(ItemStack i, Player p) {
+        if(ItemHelper.isOnCooldown(i, 5f, p, true)) return;
+        double hp = Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
+        double thp = hp/4d;
+        p.setHealth(Math.min((p.getHealth() + thp), hp));
+        p.playSound(p.getLocation(), Sound.ENTITY_BLAZE_DEATH, 1, 2);
+        for (Entity e: p.getNearbyEntities(9, 9, 9)) {
+            if(e instanceof Player) {
+                Player pl = (Player) e;
+                double max = Objects.requireNonNull(pl.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
+                pl.setHealth(Math.min((pl.getHealth() + thp), max));
+            }
+        }
+    }
+
     public static void aoteAbility(Player p, ItemStack i) {
         if(!ItemHelper.isOnCooldown(i, 0.5f, p, false)) {
             Location n = raycast(p, 6);
             p.teleport(n);
             p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.3f, 1f);
-            p.spawnParticle(Particle.SOUL_FIRE_FLAME, p.getLocation(), 1, 1, 1, 1, 1);
+            Particle.DustOptions dust = new Particle.DustOptions(
+                    Color.fromRGB(158,13,255), 1
+            );
+            p.spawnParticle(Particle.REDSTONE, p.getLocation(), 4, 0.4, 0.4, 0.4, 0.4, dust);
         }
     }
 

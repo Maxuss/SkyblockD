@@ -31,10 +31,6 @@ public class FileHelper {
         return Files.toString(file, Charsets.UTF_8);
     }
 
-    public static String readFromUrl(URL url) throws IOException {
-        return readFromFile(ResourceHelper.getFileFromURL(url));
-    }
-
     public static void writeFile(String path, String contents) throws IOException {
         File f = new File(path);
         if(!f.exists()) {boolean ignored = f.createNewFile();}

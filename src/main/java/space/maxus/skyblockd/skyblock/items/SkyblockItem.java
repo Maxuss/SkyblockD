@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.skyblock.items;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -118,6 +119,14 @@ public abstract class SkyblockItem implements SkyblockFeature {
         // add nbt
         addSkyblockTag(m);
         m.getPersistentDataContainer().set(SkyblockD.getKey("itemRarity"), PersistentDataType.INTEGER, rar.getIndex());
+
+        Material mat = getConfig().getMaterial();
+
+        if(mat != null && mat.name().startsWith("LEATHER_")) {
+            m.getEnchants().forEach(
+                    (k,v) -> m.removeEnchant(k));
+            m.setUnbreakable(true);
+        }
 
         item.setItemMeta(m);
 

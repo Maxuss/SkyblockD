@@ -59,17 +59,21 @@ public abstract class ExtendableSkill extends MappedSkill implements Modificable
             lore.add(ChatColor.GRAY + "Requires " + ChatColor.GREEN + sa + " " + name + ChatColor.GRAY + " Experience");
             if (rew.getStatName() != null) {
                 lore.add(" ");
-                lore.add(ChatColor.GRAY + "Grants +" + rew.getStatValue() +" "+ rew.getStatName().replace("&", "§"));
+                lore.add(ChatColor.GRAY + "Grants +" + rew.getStatValue() +" "+ ChatColor.translateAlternateColorCodes('&', rew.getStatName()));
                 if (rew.getItem() != null) {
                     String dn = Objects.requireNonNull(rew.getItem().getItemMeta()).getDisplayName();
                     String nn = dn.equals("") ? CustomItem.capitalize(rew.getItem().getType().name().toLowerCase(Locale.ENGLISH).replace("_", " ")) : dn;
-                    String na = rew.getItemValue() > 1 ? ChatColor.AQUA + "" + rew.getItemValue() + " " : "a " + ChatColor.AQUA;
-                    lore.add(ChatColor.GRAY + "and " + na + nn.replace("&", "§"));
+                    String an = "eaiouEAIOU".indexOf(nn.charAt(0)) >= 0 ? "an " : "a ";
+                    String na = rew.getItemValue() > 1 ? ChatColor.AQUA + "" + rew.getItemValue() + " " : an + ChatColor.AQUA;
+                    lore.add(ChatColor.GRAY + "and " + na + ChatColor.translateAlternateColorCodes('&', nn));
                 }
             }
+            int skillLevel = ContainerHelper.getPlayer(owner).skills.data.get(name.toLowerCase(Locale.ENGLISH)).currentLevel;
+
             ItemStack item = bytes.contains(j) ? new ItemStack(getSkillItem()) :
-                    rew.getItem() != null ? new ItemStack(rew.getItem().getType(), 1) :
-                    new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE, 1);
+                            j < skillLevel ? new ItemStack(Material.LIME_STAINED_GLASS_PANE) :
+                                    j == skillLevel ? new ItemStack(Material.YELLOW_STAINED_GLASS_PANE) :
+                                            new ItemStack(Material.RED_STAINED_GLASS_PANE);
             ItemMeta m = item.getItemMeta();
             assert m != null;
             m.setDisplayName(ChatColor.AQUA + name + " " + new Roman((j+1)));
@@ -98,7 +102,7 @@ public abstract class ExtendableSkill extends MappedSkill implements Modificable
         }
         if(wasUnlocked) {
             da.put("collected."+reward, true);
-            ItemStack item = ((ComplexReward) getMap().getRewardList().get(reward)).item;
+            ItemStack item = ((ComplexReward) getMap().getRewardList().get(reward)).getItem();
             p.getInventory().addItem(item == null ? new ItemStack(Material.AIR) : item);
             p.sendMessage(ChatColor.GREEN + "Successfully claimed reward for level " + (reward + 1));
             ContainerHelper.updatePlayers();

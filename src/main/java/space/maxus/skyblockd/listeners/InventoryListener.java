@@ -3,6 +3,7 @@ package space.maxus.skyblockd.listeners;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -14,8 +15,6 @@ import space.maxus.skyblockd.gui.MainMenuGUI;
 import space.maxus.skyblockd.gui.SkillsGui;
 import space.maxus.skyblockd.gui.VaultGuiTemplate;
 import space.maxus.skyblockd.helpers.*;
-import space.maxus.skyblockd.nms.NMSColor;
-import space.maxus.skyblockd.nms.PacketUtils;
 import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.SkillContainer;
@@ -55,7 +54,7 @@ public class InventoryListener extends BetterListener {
         ItemStack item = e.getCurrentItem();
         if(item == null) return;
         e.setResult(Result.DENY);
-        if(ChatColor.stripColor(item.getItemMeta().getDisplayName().toLowerCase(Locale.ENGLISH)).equals("previous page")) {
+        if(ChatColor.stripColor(Objects.requireNonNull(item.getItemMeta()).getDisplayName().toLowerCase(Locale.ENGLISH)).equals("previous page")) {
             p.openInventory(new VaultGuiTemplate().create(0, p));
             return;
         }
@@ -87,7 +86,9 @@ public class InventoryListener extends BetterListener {
             p.updateInventory();
         } else if(Objects.requireNonNull(e.getClickedInventory()).getSize() == 54) {
             p.updateInventory();
-            p.openInventory(new VaultGuiTemplate.VaultItemTemplate().create(e.getCurrentItem(), p));
+            if(e.getClick() == ClickType.RIGHT)
+                p.openInventory(new VaultGuiTemplate.VaultItemTemplate().create(e.getCurrentItem(), p));
+            else p.getInventory().addItem(e.getCurrentItem());
             p.updateInventory();
         }
     }
@@ -148,39 +149,7 @@ public class InventoryListener extends BetterListener {
 
                 float exp = modifier * 25.5f * (new Random().nextFloat() + 1);
 
-                double d = Math.floor(exp);
-
-                String sxp = String.valueOf(d).replace(",", ".");
-
-                PacketUtils.sendActionbar(p, "+"+sxp+" Mysticism Experience", NMSColor.DARK_AQUA);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
-
-                pc.skills.totalExp += exp;
-
-                mysticism.totalExp += exp;
-                mysticism.levelExp += exp;
-                int toNext = SkyblockD.getMapManager().getMaps().get("mysticism").getExperience().table
-                        .get(mysticism.currentLevel + 1);
-                int div = mysticism.levelExp - toNext;
-                if(div >= 0) {
-                    mysticism.levelExp = div;
-                    p.sendMessage(new String[]{
-                                    ChatColor.GOLD + "" + ChatColor.BOLD + "-----------------------------",
-                                    ChatColor.YELLOW + "" + ChatColor.BOLD + "MYSTICISM LEVEL UP!",
-                                    " ",
-                                    ChatColor.GREEN + "You are now combat level " + (mysticism.currentLevel + 1) + "!",
-                                    ChatColor.GREEN + "Check out new level rewards in Skyblock Menu!",
-                                    ChatColor.GOLD + "" + ChatColor.BOLD + "-----------------------------"
-                            }
-                    );
-                    p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 0.5f);
-                    int level = mysticism.currentLevel;
-                    mysticism.currentLevel++;
-                    String levl = "unlocked."+level;
-                    mysticism.collectedRewards.put(levl, true);
-                    ContainerHelper.updatePlayers();
-                    setPlayer(pc, p);
-                }
+                UniversalHelper.giveSkillExperience(p, "mysticism", Math.round(exp));
             }
             else {
                 if(is.getType() == Material.LIME_STAINED_GLASS_PANE || is.getType() == Material.GRAY_STAINED_GLASS_PANE) return;

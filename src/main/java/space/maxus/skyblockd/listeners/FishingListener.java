@@ -11,9 +11,8 @@ import org.bukkit.util.Vector;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.ItemHelper;
+import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.items.CustomItem;
-import space.maxus.skyblockd.nms.NMSColor;
-import space.maxus.skyblockd.nms.PacketUtils;
 import space.maxus.skyblockd.objects.*;
 import space.maxus.skyblockd.skyblock.entities.EntitySummon;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
@@ -107,43 +106,12 @@ public class FishingListener extends BetterListener {
 
         PlayerContainer cont = ContainerHelper.getPlayer(p);
 
-        p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 2);
         int lvl = cont.skills.data.get("fishing").currentLevel;
 
         int tlvl = lvl == 0 ? 1 : lvl;
         float exp = (xp + 5) * SkillHelper.getModifier(tlvl);
-        String sxp = String.valueOf(Math.round(exp));
 
-        PacketUtils.sendActionbar(p, "+"+sxp+" Fishing Experience", NMSColor.DARK_AQUA);
-
-        cont.skills.totalExp += exp;
-        SkillContainer skc = cont.skills.data.get("fishing");
-        skc.totalExp += exp;
-        skc.levelExp += exp;
-        int toNext = SkyblockD.getMapManager().getMaps().get("fishing").getExperience().table
-                .get(skc.currentLevel + 1);
-        int div = skc.levelExp - toNext;
-        if(div >= 0) {
-            skc.levelExp = div;
-            p.sendMessage(new String[]{
-                            ChatColor.GOLD + "" + ChatColor.BOLD + "-----------------------------",
-                            ChatColor.YELLOW + "" + ChatColor.BOLD + "FISHING LEVEL UP!",
-                            " ",
-                            ChatColor.GREEN + "You are now fishing level " + (skc.currentLevel + 1) + "!",
-                            ChatColor.GREEN + "Check out new level rewards in Skyblock Menu!",
-                            ChatColor.GOLD + "" + ChatColor.BOLD + "-----------------------------"
-                    }
-            );
-            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 0.5f);
-            int level = skc.currentLevel;
-            skc.currentLevel++;
-            String levl = "unlocked."+level;
-            skc.collectedRewards.put(levl, true);
-            ContainerHelper.updatePlayers();
-            BlockBreakListener.setPlayer(cont, p);
-            return;
-        }
-        BlockBreakListener.setPlayer(cont, p);
+        UniversalHelper.giveSkillExperience(p, "fishing", Math.round(exp));
     }
 
     private int xpFromName(String name) {
