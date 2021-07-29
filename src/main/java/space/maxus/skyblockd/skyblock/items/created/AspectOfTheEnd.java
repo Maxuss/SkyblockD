@@ -2,6 +2,8 @@ package space.maxus.skyblockd.skyblock.items.created;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -41,6 +43,12 @@ public class AspectOfTheEnd extends SkyblockItem {
     public ItemStack postInit(ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
+        m.addAttributeModifier(
+                Attribute.GENERIC_ATTACK_DAMAGE,
+                new AttributeModifier("generic.attackDamage", 40, AttributeModifier.Operation.ADD_NUMBER));
+        m.addAttributeModifier(
+                Attribute.GENERIC_MOVEMENT_SPEED,
+                new AttributeModifier("generic.movementSpeed", 0.025, AttributeModifier.Operation.ADD_NUMBER));
         m.getPersistentDataContainer().set(SkyblockD.getKey("AOTE"), PersistentDataType.BYTE, (byte)0);
         i.setItemMeta(m);
         return i;

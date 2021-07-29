@@ -1,10 +1,7 @@
 package space.maxus.skyblockd.listeners;
 
 import net.citizensnpcs.api.npc.NPC;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -16,7 +13,11 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.helpers.ItemHelper;
+import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
@@ -31,6 +32,7 @@ import java.util.UUID;
 
 public class DamageListener extends BetterListener {
     public static HashMap<UUID, Double> dragonDamagers = new HashMap<>();
+    public static HashMap<UUID, Double> protectorDamagers = new HashMap<>();
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent e) {
@@ -86,39 +88,54 @@ public class DamageListener extends BetterListener {
         if(!(e.getEntity() instanceof Player)) return;
         Player p = (Player) e.getEntity();
         Entity damager = e.getDamager();
+        ItemStack[] armor = p.getInventory().getArmorContents();
+        if(damager.getPersistentDataContainer().has(SkyblockD.getKey("FISHED"), PersistentDataType.BYTE)
+            && getReforgeFromArmor(armor, SkyblockReforge.TANGLED))
+                e.setDamage(e.getDamage() / 2d);
+        if(ItemHelper.isUndead(damager.getType())
+                && getReforgeFromArmor(armor, SkyblockReforge.MUTATED))
+            e.setDamage(e.getDamage() / 1.5d);
+        if(getReforgeFromArmor(armor, SkyblockReforge.ETHEREAL)) {
+            int chance = new Random().nextInt(30);
+            if(chance <= 2) {
+                e.setDamage(0);
+                p.playSound(p.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1, 1);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(),
+                        () -> p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1.5f), 3L);
+                p.sendMessage(ChatColor.GRAY+"You dodged enemy attack thanks to your "+ChatColor.LIGHT_PURPLE+"Ethereal"+ChatColor.GRAY+" reforge!");
+            }
+        }
+    }
 
-        if(damager.getPersistentDataContainer().has(SkyblockD.getKey("FISHED"), PersistentDataType.BYTE)) {
-            boolean isTangled = false;
-            ItemStack[] armor = p.getInventory().getArmorContents();
-            for (ItemStack item : armor) {
-                if(item == null || !item.hasItemMeta() || item.getType() == Material.AIR) return;
+    private static boolean getReforgeFromArmor(ItemStack[] armor, SkyblockReforge ref) {
+        for (ItemStack item : armor) {
+            if(item == null || !item.hasItemMeta() || item.getType() == Material.AIR) continue;
 
-                ItemMeta meta = item.getItemMeta();
-                assert meta != null;
-                PersistentDataContainer c = meta.getPersistentDataContainer();
-                if(c.has(SkyblockD.getKey("reforged"), PersistentDataType.BYTE)) {
-                    Integer reforge = c.get(SkyblockD.getKey("reforgeData"), PersistentDataType.INTEGER);
-                    assert reforge != null;
-                    SkyblockReforge ref = SkyblockReforge.byIndex(reforge);
-                    if(ref == SkyblockReforge.TANGLED) {
-                        isTangled = true;
-                        break;
-                    }
+            ItemMeta meta = item.getItemMeta();
+            assert meta != null;
+            PersistentDataContainer c = meta.getPersistentDataContainer();
+            if(c.has(SkyblockD.getKey("reforged"), PersistentDataType.BYTE)) {
+                Integer reforge = c.get(SkyblockD.getKey("reforgeData"), PersistentDataType.INTEGER);
+                assert reforge != null;
+                SkyblockReforge refr = SkyblockReforge.byIndex(reforge);
+                if(refr == ref) {
+                    return true;
                 }
             }
-            if(isTangled) e.setDamage(e.getDamage() / 2d);
         }
+        return false;
     }
 
     private void operateHitByEntity(EntityDamageEvent e, Entity en) {
         EntityDamageByEntityEvent ev = (EntityDamageByEntityEvent) e;
         Entity damager = ev.getDamager();
 
-        if(damager instanceof Projectile) {
-            Projectile pr = (Projectile) damager;
-        }
-
         if(!(damager instanceof Player)) return;
+
+        int strength = UniversalHelper.getStrength((Player) damager);
+        strength = Math.max(strength, 100);
+
+        e.setDamage(e.getDamage()*Math.round(strength/100d));
 
         PlayerInventory inv = ((Player) damager).getInventory();
         ItemStack mainHand = inv.getItemInMainHand();
@@ -131,13 +148,19 @@ public class DamageListener extends BetterListener {
         }
 
         if(ev.getEntity() instanceof EnderDragon) {
-            EnderDragon dragon = (EnderDragon) ev.getEntity();
             double damage = ev.getDamage();
             Player p = (Player) ev.getDamager();
             UUID id = p.getUniqueId();
             if(dragonDamagers.containsKey(id)) {
                 dragonDamagers.put(id, dragonDamagers.get(id)+damage);
             } else dragonDamagers.put(id, damage);
+        } else if(ev.getEntity().getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)) {
+            double damage = ev.getDamage();
+            Player p = (Player) ev.getDamager();
+            UUID id = p.getUniqueId();
+            if(protectorDamagers.containsKey(id)) {
+                protectorDamagers.put(id, protectorDamagers.get(id)+damage);
+            } else protectorDamagers.put(id, damage);
         }
     }
 
@@ -155,10 +178,34 @@ public class DamageListener extends BetterListener {
             }
         }
         if (reforge == SkyblockReforge.MAGMATIC && en.getWorld().getEnvironment() == World.Environment.NETHER) {
-            e.setDamage(e.getDamage() * 1.6f);
+            e.setDamage(e.getDamage() * 1.6d);
         }
-        if(reforge == SkyblockReforge.WARPED && en.getWorld().getEnvironment() == World.Environment.THE_END) {
-            e.setDamage(e.getDamage() * 1.7f);
+        else if(reforge == SkyblockReforge.WARPED && en.getWorld().getEnvironment() == World.Environment.THE_END) {
+            e.setDamage(e.getDamage() * 1.7d);
+        }
+        else if(reforge == SkyblockReforge.MUTATED && ItemHelper.isUndead(en.getType())) {
+            e.setDamage(e.getDamage() * 1.4d);
+        }
+        else if(reforge == SkyblockReforge.FEROCIOUS) {
+            int chance = new Random().nextInt(8);
+            if(chance <= 2) {
+                Bukkit.getScheduler().runTaskLater(SkyblockD.getInstance(), () -> {
+                    if(!en.isDead() && e.getDamager() instanceof Player && en instanceof LivingEntity) {
+                        Player p = (Player) e.getDamager();
+                        p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1, 2);
+                        LivingEntity le = (LivingEntity) en;
+                        le.damage(e.getDamage()/1.5d);
+                        Particle.DustOptions options = new Particle.DustOptions(Color.RED, 0.8f);
+                        le.getWorld().spawnParticle(Particle.REDSTONE, le.getLocation() ,10, 0.3, 0.3, 0.3, 0.3, options);
+                    }
+                }, 15L);
+            }
+        } else if(reforge == SkyblockReforge.SACRED) {
+            e.setDamage(e.getDamage()*1.5d);
+        } else if(reforge == SkyblockReforge.RUSTY && en instanceof LivingEntity) {
+            LivingEntity le = (LivingEntity) en;
+            PotionEffect eff = new PotionEffect(PotionEffectType.POISON, 200, 3, false, true, true);
+            le.addPotionEffect(eff);
         }
     }
 

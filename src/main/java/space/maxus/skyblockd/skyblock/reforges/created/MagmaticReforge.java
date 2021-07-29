@@ -9,7 +9,6 @@ import space.maxus.skyblockd.skyblock.reforges.ReforgeBase;
 import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +36,9 @@ public class MagmaticReforge extends ReforgeBase {
         assert meta != null;
         double prev = 0.0d;
         if(meta.getAttributeModifiers(Attribute.GENERIC_ARMOR) != null && Objects.requireNonNull(meta.getAttributeModifiers(Attribute.GENERIC_ARMOR)).size() > 0) {
-            prev += new ArrayList<>(Objects.requireNonNull(meta.getAttributeModifiers(Attribute.GENERIC_ARMOR))).get(0).getAmount();
+            for(AttributeModifier mod : Objects.requireNonNull(meta.getAttributeModifiers(Attribute.GENERIC_ARMOR))) {
+                prev += mod.getAmount();
+            }
         }
         meta.removeAttributeModifier(Attribute.GENERIC_ARMOR);
         meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("generic.armor", 1d+prev, AttributeModifier.Operation.ADD_NUMBER));
@@ -50,12 +51,13 @@ public class MagmaticReforge extends ReforgeBase {
         assert meta != null;
         double prev = 0;
         if(meta.getAttributeModifiers(Attribute.GENERIC_ARMOR) != null && Objects.requireNonNull(meta.getAttributeModifiers(Attribute.GENERIC_ARMOR)).size() >= 1) {
-            double amount = new ArrayList<>(Objects.requireNonNull(meta.getAttributeModifiers(Attribute.GENERIC_ARMOR))).get(0).getAmount();
-            prev = amount >= 1 ? amount - 1 : 0;
+            for(AttributeModifier mod : Objects.requireNonNull(meta.getAttributeModifiers(Attribute.GENERIC_ARMOR))) {
+                double amount = mod.getAmount();
+                prev += amount;
+            }
         }
         meta.removeAttributeModifier(Attribute.GENERIC_ARMOR);
-        if(prev > 0)
-            meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("generic.armor", prev, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier("generic.armor", prev-1d, AttributeModifier.Operation.ADD_NUMBER));
         item.setItemMeta(meta);
     }
 }

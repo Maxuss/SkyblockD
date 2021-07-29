@@ -150,7 +150,8 @@ public abstract class SkyblockItem implements SkyblockFeature {
             SkyblockRarity r = SkyblockRarity.byIndex(rarity+1);
             String sname = ChatColor.stripColor(m.getDisplayName());
             String name = ChatColor.RESET+""+r.displayColor+sname;
-            String rdisp = r.displayColor+""+ChatColor.BOLD+""+ChatColor.MAGIC+"a "+ChatColor.RESET+r.displayName+ChatColor.BOLD+""+ChatColor.MAGIC+" a";
+            String type = ItemHelper.getType(item.getType()).getDisplay();
+            String rdisp = r.displayColor+""+ChatColor.BOLD+""+ChatColor.MAGIC+"a "+ChatColor.RESET+r.displayName+" "+type+ChatColor.BOLD+""+ChatColor.MAGIC+" a";
             List<String> lore = m.getLore();
             if (lore != null) {
                 lore.set(lore.size()-1, rdisp);
@@ -158,6 +159,7 @@ public abstract class SkyblockItem implements SkyblockFeature {
             m.setLore(lore);
             m.setDisplayName(name);
             c.set(SkyblockD.getKey("recombobulated"), PersistentDataType.STRING, "true");
+            c.set(SkyblockD.getKey("itemRarity"), PersistentDataType.INTEGER, rarity+1);
             item.setItemMeta(m);
         }
         return item;

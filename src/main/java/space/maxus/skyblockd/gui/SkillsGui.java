@@ -117,6 +117,7 @@ public class SkillsGui extends InventoryBase {
         ItemMeta meta = total.getItemMeta();
         assert meta != null;
         meta.getPersistentDataContainer().set(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING, "true");
+        meta.setDisplayName(ChatColor.YELLOW+"Total stats");
         meta.setLore(Arrays.asList(
                 ChatColor.DARK_GRAY+"Total experience: "+ChatColor.GREEN+pc.skills.totalExp+" EXP",
                 ChatColor.DARK_GRAY+"Global Skills leaderboard: "+ ChatColor.GREEN+position));

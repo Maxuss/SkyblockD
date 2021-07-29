@@ -79,6 +79,11 @@ commands:
     usage: /<command>
     permission: skyblockd.admin
     permission-message: §6You don't have sufficient permission! Requires <permission>
+  skills:
+    description: Adds certain amount of certain skill experience to current player
+    usage: /<command> [skill] [exp]
+    permission: skyblockd.admin
+    permission-message: §6You don't have sufficient permission! Requires <permission>
 permissions:
   skyblockd.default:
     description: Allows you basic command access

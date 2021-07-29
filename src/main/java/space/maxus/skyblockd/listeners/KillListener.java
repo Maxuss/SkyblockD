@@ -2,20 +2,18 @@ package space.maxus.skyblockd.listeners;
 
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
-import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.MaterialHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.objects.*;
+import space.maxus.skyblockd.skyblock.entities.EntitySummon;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
 import space.maxus.skyblockd.util.WeightedList;
@@ -23,6 +21,8 @@ import space.maxus.skyblockd.util.WeightedList;
 import java.util.*;
 
 public class KillListener extends BetterListener {
+    public static int endermanCounter = 0;
+
     @EventHandler
     public void onKill(EntityDeathEvent e) {
         LivingEntity en = e.getEntity();
@@ -33,7 +33,32 @@ public class KillListener extends BetterListener {
         if(en.getType() == EntityType.ENDER_DRAGON) {
             operateDragonLoot(en);
         } else if(en.getType() == EntityType.ENDERMAN && en.getWorld().getEnvironment() == World.Environment.THE_END) {
-            ItemHelper.trySendRareDrop(SkyblockMaterial.SHADED_EYE.getItem(), 60, p, ItemHelper.DropRarity.SCRIPTED_RARE);
+            endermanCounter++;
+            ItemHelper.trySpawnRareMob(EntitySummon.CORRUPTED_FANATIC, 100, p);
+            if(endermanCounter == 30) {
+                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_IRON_GOLEM_DEATH, 10, 0);
+                Bukkit.broadcastMessage(ChatColor.RED+""+ChatColor.BOLD+"You hear distant tremor from beneath the earth");
+            } else if(endermanCounter == 60) {
+                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_IRON_GOLEM_DEATH, 10, 0);
+                Bukkit.broadcastMessage(ChatColor.RED+""+ChatColor.BOLD+"The tremor from the earth is becoming stronger");
+            } else if(endermanCounter == 90) {
+                p.getWorld().playSound(p.getLocation(), Sound.ENTITY_IRON_GOLEM_DEATH, 10, 0);
+                Bukkit.broadcastMessage(ChatColor.RED+""+ChatColor.BOLD+"The ground starts shaking rapidly!");
+            } else if(endermanCounter >= 100) {
+                endermanCounter = 0;
+                Bukkit.broadcastMessage(ChatColor.RED+""+ChatColor.BOLD+"Behold, the endstone protector arises from the earth!");
+                LivingEntity golem = (LivingEntity) EntitySummon.ENDSTONE_PROTECTOR.getEntity().generate(p);
+                golem.damage(0.1d, p);
+                Location loc = new Location(golem.getWorld(), 25, 70, 25);
+                golem.teleport(loc);
+                golem.getWorld().playSound(golem.getLocation(), Sound.ENTITY_IRON_GOLEM_DEATH, 5, 0);
+            }
+        } else if(en.getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)) {
+            operateProtectorLoot();
+        }
+
+        if(en.getPersistentDataContainer().has(SkyblockD.getKey("FANATIC"), PersistentDataType.BYTE)) {
+            ItemHelper.trySendRareDrop(SkyblockMaterial.SHADED_EYE.getItem(), 1, p, ItemHelper.DropRarity.SCRIPTED_RARE);
         }
 
         if(ItemHelper.hasMagnet(p) && !drops.isEmpty()) {
@@ -97,6 +122,73 @@ public class KillListener extends BetterListener {
         int fullExp = (int) ((int) Math.round(Objects.requireNonNull(en.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue() / 6) + exp);
 
         operateSkill("combat", fullExp, p, pc);
+    }
+
+    public static void operateProtectorLoot() {
+        if(DamageListener.protectorDamagers.isEmpty()) {
+            Bukkit.broadcastMessage(ChatColor.GOLD+"Endstone protector was defeated by mysterious force!");
+            return;
+        }
+        HashMap<UUID, Double> damagers = DamageListener.protectorDamagers;
+        LinkedHashMap<UUID, Double> parsed = new LinkedHashMap<>(damagers);
+        int i = 0;
+
+        List<String> displays = new ArrayList<>();
+        displays.add(ChatColor.YELLOW+
+                "-----------------------------------------------------");
+        displays.add(ChatColor.GOLD+""+ChatColor.BOLD+
+                "                  ENDSTONE PROTECTOR DOWN!                ");
+        displays.add(ChatColor.GREEN+
+                "                         Most Damage dealt:");
+        displays.add(" ");
+
+        HashMap<UUID, WeightedList<ItemStack>> drops = new HashMap<>();
+
+        for(Map.Entry<UUID, Double> ent : parsed.entrySet()) {
+            UUID id = ent.getKey();
+            Double dmg = ent.getValue();
+
+            drops.put(id, WeightedList.getProtectorDrops());
+
+            if(i >= 3) break;
+
+            if(Bukkit.getPlayer(id) == null) continue;
+
+            String playerName = Objects.requireNonNull(Bukkit.getPlayer(id)).getDisplayName();
+            displays.add("  "+ChatColor.YELLOW+""+ChatColor.BOLD+(i+1)+". Place: "+ChatColor.RESET+playerName+ChatColor.YELLOW+" "+Math.round(dmg)*5+" Damage");
+            i++;
+        }
+        displays.add(ChatColor.YELLOW+
+                "-----------------------------------------------------");
+
+        displays.add(" ");
+
+        for (Map.Entry<UUID, WeightedList<ItemStack>> entry: drops.entrySet()) {
+            Player p = Bukkit.getPlayer(entry.getKey());
+            if(p == null) continue;
+            WeightedList<ItemStack> items = entry.getValue();
+
+            Random prand = new Random();
+
+            for(int j = 0; j < 1; j++) {
+                ItemStack dropped = items.get(prand);
+                assert dropped.getItemMeta() != null;
+                displays.add(p.getDisplayName()+ChatColor.YELLOW+" has obtained "+dropped.getItemMeta().getDisplayName()+" "+dropped.getAmount()+"x ");
+                if(p.getInventory().firstEmpty() != -1) {
+                    p.getInventory().addItem(dropped);
+                } else p.getWorld().dropItemNaturally(p.getLocation(), dropped);
+            }
+            ItemStack moonstone = SkyblockMaterial.MOON_STONE.getItem().clone();
+            moonstone.setAmount(new Random().nextInt(1)+3);
+            if(p.getInventory().firstEmpty() != -1) {
+                p.getInventory().addItem(moonstone);
+            } else {
+                p.getWorld().dropItemNaturally(p.getLocation(), moonstone);
+            }
+        }
+
+        Bukkit.broadcastMessage(String.join("\n", displays));
+        DamageListener.protectorDamagers.clear();
     }
 
     public static void operateDragonLoot(LivingEntity edrag) {
@@ -167,9 +259,15 @@ public class KillListener extends BetterListener {
                 } else p.getWorld().dropItemNaturally(p.getLocation(), dropped);
             }
             ItemStack guaranteed = WeightedList.getGuaranteedDrop(loot);
+            ItemStack moonstone = SkyblockMaterial.MOON_STONE.getItem().clone();
+            moonstone.setAmount(new Random().nextInt(1)+3);
             if(p.getInventory().firstEmpty() != -1) {
                 p.getInventory().addItem(guaranteed);
-            } else p.getWorld().dropItemNaturally(p.getLocation(), guaranteed);
+                p.getInventory().addItem(moonstone);
+            } else {
+                p.getWorld().dropItemNaturally(p.getLocation(), guaranteed);
+                p.getWorld().dropItemNaturally(p.getLocation(), moonstone);
+            }
         }
 
         Bukkit.broadcastMessage(String.join("\n", displays));
@@ -182,12 +280,5 @@ public class KillListener extends BetterListener {
         int tlvl = lvl == 0 ? 1 : lvl;
         float modifier = SkillHelper.getModifier(tlvl);
         UniversalHelper.giveSkillExperience(p, name, Math.round(modifier*xp));
-    }
-
-    private void setPlayer(PlayerContainer p, Player pl){
-        List<PlayerContainer> conts = UniversalHelper.filter(SkyblockD.getPlayers(), c -> c.uuid.equals(pl.getUniqueId()));
-        SkyblockD.players.remove(conts.get(conts.size() - 1));
-        SkyblockD.players.add(p);
-        ContainerHelper.updatePlayers();
     }
 }

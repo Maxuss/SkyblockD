@@ -9,6 +9,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.reflections.ReflectionUtils;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -104,6 +107,17 @@ public class DeveloperCommand extends ChatCommand {
                     p.sendMessage(ChatColor.GOLD + "Found a Data key! " + ChatColor.GREEN + k.getKey());
                 }
                 return true;
+            case "itemdata":
+                Player pl = (Player) s;
+                ItemStack currentItem = pl.getInventory().getItemInMainHand();
+                if (currentItem.getType() == Material.AIR || !currentItem.hasItemMeta()) {
+                    s.sendMessage(ChatColor.RED + "You dont hold any item!");
+                    return true;
+                }
+                StringSelection selection = new StringSelection(currentItem.toString());
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(selection, selection);
+                pl.sendMessage(ChatColor.GOLD+"Copied item data to clipboard!");
         }
         return true;
     }

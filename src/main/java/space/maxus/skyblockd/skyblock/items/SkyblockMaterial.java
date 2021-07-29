@@ -4,7 +4,9 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.created.*;
+import space.maxus.skyblockd.skyblock.items.created.stones.ReforgeStone;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
+import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
 
 public enum SkyblockMaterial {
     //#region Materials
@@ -232,6 +234,29 @@ public enum SkyblockMaterial {
     TITAN_HELMET(new TitanicHelmet()),
 
     DEMETER(new Demeter()),
+
+    MOLTEN_MAGMA(new ReforgeStone("Molten Magma", SkyblockReforge.MAGMATIC, SkyblockRarity.EPIC,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTlhNWExZTY5YjRmODEwNTYyNTc1MmJjZWUyNTM0MDY2NGIwODlmYTFiMmY1MjdmYTkxNDNkOTA2NmE3YWFkMiJ9fX0=").getItem()),
+    MUTATED_ENDER_PEARL(new ReforgeStone("Mutated Ender Pearl", SkyblockReforge.WARPED, SkyblockRarity.EPIC,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWNiN2MyMWNjNDNkYzE3Njc4ZWU2ZjE2NTkxZmZhYWIxZjYzN2MzN2Y0ZjZiYmQ4Y2VhNDk3NDUxZDc2ZGI2ZCJ9fX0=").getItem()),
+    TANGLED_SEAWEED(new ReforgeStone("Tangled Seaweed", SkyblockReforge.TANGLED, SkyblockRarity.RARE,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQyZTc4MGQwMjI0OTU1OWI1YTUzMWFiMjFlYTA0OWYxM2FiYzk2OWU3ZmRkYzhmZjMwZGM0NTU3YjYzOWU0ZCJ9fX0=").getItem()),
+    MUTATED_FLESH(new ReforgeStone("Mutated Flesh", SkyblockReforge.MUTATED, SkyblockRarity.RARE,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzI1MDI1ODczZTNjNWU3NWY5YWNmYmNkZDA4ZDMxNWU0ODM1OWM1ODdiODdlZDNmY2NhMmNlZWYwYzQ3OTMzMSJ9fX0=").getItem()),
+    HEART_OF_SEA(new ReforgeStone("Heart of the Sea", SkyblockReforge.SALTY, SkyblockRarity.EPIC,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTExM2VlNjEwODQxZGVkMjE1YWNkMmI0Y2FhZWVmODdkZmQ2ZTNkNDc2OGU3YWI0ZTE5ZWI3NmIzZDgxMjFjZiJ9fX0=").getItem()),
+    SACRED_ORB(new ReforgeStone("Sacred Orb", SkyblockReforge.SACRED, SkyblockRarity.LEGENDARY,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzQ5MTU5NDM2ZDIyMTIxNTI0MTg2ZWEzNTVlOWIxNWU3Mjk4YTZlYTcyODEyYTBhMzllYjU5ZTllYWUxMWNiNCJ9fX0=").getItem()),
+    RUSTY_PLATING(new ReforgeStone("Rusty Plating", SkyblockReforge.RUSTY, SkyblockRarity.RARE,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDc1MzA1NmVjYzEyYjY0MWJhNmE1Y2JkZjUwMzlkZWRlYzQ5MmFjNGZiNTgzNTQ1N2QzYTRlNDMyMmJkYjNkIn19fQ==").getItem()),
+    SHADED_ORB(new ReforgeStone("Shaded Orb", SkyblockReforge.SHADY, SkyblockRarity.RARE,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTg3OWVkMmIzOWZhMDQ2MmM3NDI5MmY1Y2EzZDE4ODQyMDEyOGI0YTYzYWM3NWRiOGM5N2EwOTRkMWFjNjNmNCJ9fX0=").getItem()),
+    DARK_MATTER(new ReforgeStone("Dark Matter", SkyblockReforge.ETHEREAL, SkyblockRarity.LEGENDARY,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGI2OTc1YWY3MDcyNGQ2YTQ0ZmQ1OTQ2ZTYwYjI3MTc3MzdkZmRiNTQ1YjRkYWIxODkzMzUxYTljOWRkMTgzYyJ9fX0=").getItem()),
+    CURSED_EYE(new ReforgeStone("Cursed Eye", SkyblockReforge.FEROCIOUS, SkyblockRarity.LEGENDARY,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGNlM2IxZjI2ZjY1MjVhZjgyZjViYTE0ZGJiOTNiNWU3YTU0M2Q0NzdmYThkYTEyM2RiZmFhNmQyMjlmZGE0ZiJ9fX0=").getItem()),
+
+
     //#endregion Materials
     ;
 

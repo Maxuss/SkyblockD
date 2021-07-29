@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.helpers.GuiHelper;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
@@ -29,16 +30,17 @@ public abstract class CustomItem {
     }
 
     public static void toSkyblockItem(ItemStack i){
+        ItemHelper.getExtraStats(i);
         ItemMeta m = i.getItemMeta();
-
         assert m != null;
+        GuiHelper.setHideAllFlags(m);
         List<String> l;
         SkyblockRarity r = ItemHelper.getRarity(i.getType());
         if(m.hasLore()){
             l = m.getLore();
         } else l = new ArrayList<>();
         assert l != null;
-        l.add(r.displayName);
+        l.add(r.displayName+" "+ItemHelper.getType(i.getType()).getDisplay());
         m.setLore(l);
         String tn = i.getType().toString().replace("_", " ").toLowerCase(Locale.ENGLISH);
         String name = r.displayColor + (m.hasDisplayName() ? m.getDisplayName() : capitalize(tn));

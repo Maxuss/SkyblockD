@@ -129,22 +129,35 @@ public class BlockBreakListener extends BetterListener {
         if(spawnExtra) {
             Random r = new Random();
             int rand = r.nextInt(30);
-            if (rand <= lvl) {
-                try {
-                    if (!ItemHelper.hasMagnet(p)) {
-                        block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(blockMat == Material.STONE ? Material.COBBLESTONE : blockMat, r.nextInt(2) + 1));
-                    } else {
-                        ItemStack cobble = new ItemStack(blockMat == Material.STONE ? Material.COBBLESTONE : blockMat, r.nextInt(2) + 1);
-                        CustomItem.toSkyblockItem(cobble);
-                        p.getInventory().addItem(cobble);
-                    }
-                } catch (IllegalArgumentException ignored) {}
-            }
+            int fortuneAmount = getSkillFortune(name, p);
+            int blockAmount = (int) Math.round((fortuneAmount+rand)/100d);
+            try {
+                if (!ItemHelper.hasMagnet(p)) {
+                    block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(blockMat == Material.STONE ? Material.COBBLESTONE : blockMat, blockAmount));
+                } else {
+                    ItemStack cobble = new ItemStack(blockMat == Material.STONE ? Material.COBBLESTONE : blockMat, blockAmount);
+                    CustomItem.toSkyblockItem(cobble);
+                    p.getInventory().addItem(cobble);
+                }
+            } catch (IllegalArgumentException ignored) {}
         }
         int tlvl = lvl == 0 ? 1 : lvl;
         float exp = SkillHelper.getExpForSkill(blockMat, name.toLowerCase(Locale.ENGLISH)) * SkillHelper.getModifier(tlvl);
 
         UniversalHelper.giveSkillExperience(p, name, Math.round(exp));
+    }
+
+    private static int getSkillFortune(String name, Player p) {
+        switch(name.toLowerCase(Locale.ENGLISH)) {
+            case "farming":
+                return UniversalHelper.getFarmingFortune(p);
+            case "mining":
+                return UniversalHelper.getMiningFortune(p);
+            case "excavating":
+                return UniversalHelper.getExcavatingFortune(p);
+            default:
+                return 0;
+        }
     }
 
     private boolean isPumpkin(Material mat) {

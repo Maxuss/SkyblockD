@@ -2,65 +2,70 @@ package space.maxus.skyblockd.skyblock.entities.created;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 
-public class CorruptedFanatic extends SkyblockEntity {
+import java.util.Objects;
+
+public class EndstoneProtector extends SkyblockEntity {
     @Override
-    public Location getLocation(Entity p) {
-        return p.getLocation();
+    public Location getLocation(Entity e) {
+        return e.getLocation();
     }
 
     @Override
     public EntityEquipment getEquipment(EntityEquipment base) {
-        base.setHelmet(new ItemStack(Material.MAGENTA_STAINED_GLASS));
         return base;
     }
 
     @Override
     public EntityType getType() {
-        return EntityType.ENDERMAN;
+        return EntityType.IRON_GOLEM;
     }
 
     @Override
     public String getName() {
-        return ChatColor.LIGHT_PURPLE+"Corrupted Fanatic";
+        return ChatColor.DARK_PURPLE+"Endstone Protector";
     }
 
     @Override
     public double getHealth() {
-        return 350;
+        return 1000;
     }
 
     @Override
     public double getDamage() {
-        return 15;
+        return 35;
     }
 
     @Override
     public double getDefense() {
-        return 5;
+        return 250;
     }
 
     @Override
     public int getLevel() {
-        return 100;
+        return 1000;
     }
 
     @Override
     public String getSkyblockId() {
-        return null;
+        return SkyblockD.getNamespace("endstone_protector");
     }
 
     @Override
     public void postInit(LivingEntity entity, Entity base) {
-        entity.getPersistentDataContainer().set(SkyblockD.getKey("FANATIC"), PersistentDataType.BYTE, (byte)1);
+        PotionEffect regen = new PotionEffect(PotionEffectType.REGENERATION, 1000, 5, false, true);
+        Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(0.3d);
+        entity.addPotionEffect(regen);
+        entity.getPersistentDataContainer().set(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE, (byte)0);
     }
 }

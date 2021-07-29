@@ -22,6 +22,7 @@ public enum EntitySummon {
     LOST_DIVER(new LostDiver()),
     SEA_LEECH(new SeaLeech()),
     ATLANTIS(new Atlantis()),
+    ENDSTONE_PROTECTOR(new EndstoneProtector()),
 
     // PLAYER NPC
     ENDERIAN_ZEALOT(new EnderianZealot())

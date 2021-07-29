@@ -2,6 +2,7 @@ package space.maxus.skyblockd.skyblock.entities;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.block.Biome;
@@ -76,11 +77,10 @@ public abstract class SkyblockEntity implements SkyblockFeature {
             name = ChatColor.RED + capitalize(e.getType().toString().toLowerCase(Locale.ENGLISH).replace("_", " "));
         } else name = e.getCustomName();
 
-        Biome entityBiome = e.getLocation().getBlock().getBiome();
-
         double maxHp = Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
 
-        boolean isEnd = entityBiome.name().contains("END");
+        boolean isEnd = e.getWorld().getEnvironment().equals(World.Environment.THE_END);
+        Biome entityBiome = e.getLocation().getBlock().getBiome();
 
         if(nether.contains(entityBiome) && maxHp <= 20) {
             Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(maxHp * 2);
@@ -91,10 +91,15 @@ public abstract class SkyblockEntity implements SkyblockFeature {
             maxHp = Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
         }
 
+        if(e.getType() == EntityType.ENDER_DRAGON) {
+            AttributeInstance hp = e.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+            assert hp != null;
+            hp.setBaseValue(hp.getBaseValue()*3);
+        }
 
         if(isEnd) {
-            int tx = Math.abs(e.getLocation().getBlockX());
-            float multiplier = tx <= 200 ? 1 : tx <= 4000 ? tx / 1000f : 4;
+            int tx = Math.max(Math.abs(e.getLocation().getBlockX()), Math.abs(e.getLocation().getBlockZ()));
+            float multiplier = tx <= 200 ? 1 : tx <= 6000 ? tx / 1000f : 6;
             int integerMultiplier = Math.round(multiplier);
 
             AttributeInstance damage = e.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);

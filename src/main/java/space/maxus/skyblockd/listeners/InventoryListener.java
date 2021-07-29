@@ -20,6 +20,7 @@ import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.SkillContainer;
 import space.maxus.skyblockd.skyblock.elixirs.ElixirEffect;
 import space.maxus.skyblockd.skyblock.items.SkyblockItem;
+import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
 import space.maxus.skyblockd.skyblock.skills.created.*;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
 
@@ -47,6 +48,50 @@ public class InventoryListener extends BetterListener {
             vault(e, p, title);
         } else if (title.contains("Vault Get")) {
             vaultGet(e, p);
+        } else if (title.equalsIgnoreCase("Reforge Item")) {
+            reforge(e, p);
+        }
+    }
+
+    private void reforge(InventoryClickEvent e, Player p) {
+        if(e.getClickedInventory() == null) return;
+        if(e.getClickedInventory().getSize() == 54) {
+            if(e.getSlot() != 34 && e.getSlot() != 28) e.setResult(Result.DENY);
+            Inventory inv = e.getClickedInventory();
+            ItemStack i = e.getCurrentItem();
+            if(i == null || i.getType() == Material.AIR || !i.hasItemMeta()) return;
+            if(ChatColor.stripColor(Objects.requireNonNull(i.getItemMeta()).getDisplayName()).equalsIgnoreCase("Reforge")) {
+                ItemStack stone = inv.getItem(28);
+                ItemStack tool = inv.getItem(34);
+                if (tool == null || !tool.hasItemMeta() ||
+                        !Objects.requireNonNull(tool.getItemMeta())
+                                .getPersistentDataContainer()
+                                .has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING)) {
+                    p.sendMessage(ChatColor.RED + "Put an item to be reforged on the right!");
+                    return;
+                }
+                if (stone == null || !stone.hasItemMeta() ||
+                        !Objects.requireNonNull(stone.getItemMeta())
+                                .getPersistentDataContainer()
+                                .has(SkyblockD.getKey("reforgeStone"), PersistentDataType.INTEGER)) {
+                    p.sendMessage(ChatColor.RED + "Put reforge stone on the right!");
+                    return;
+                }
+                if (tool.getType().isBlock()) {
+                    p.sendMessage(ChatColor.RED + "You can't reforge blocks!");
+                    return;
+                }
+                Integer refIndex = Objects.requireNonNull(stone.getItemMeta())
+                        .getPersistentDataContainer()
+                        .get(SkyblockD.getKey("reforgeStone"), PersistentDataType.INTEGER);
+                assert refIndex != null;
+                SkyblockReforge ref = SkyblockReforge.byIndex(refIndex);
+                String name = tool.getItemMeta().getDisplayName();
+                ref.getBase().apply(tool);
+                inv.setItem(28, new ItemStack(Material.AIR));
+                p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
+                p.sendMessage(ChatColor.YELLOW+"Successfully applied "+ChatColor.BLUE+ref.getDisplayName()+ChatColor.YELLOW+" reforge to your "+name);
+            }
         }
     }
 
@@ -182,13 +227,6 @@ public class InventoryListener extends BetterListener {
                 return;
             }
         }
-    }
-
-    private void setPlayer(PlayerContainer p, Player pl){
-        List<PlayerContainer> conts = UniversalHelper.filter(SkyblockD.getPlayers(), c -> c.uuid.equals(pl.getUniqueId()));
-        SkyblockD.players.remove(conts.get(conts.size() - 1));
-        SkyblockD.players.add(p);
-        ContainerHelper.updatePlayers();
     }
 
     private void skills(InventoryClickEvent e, Player p){

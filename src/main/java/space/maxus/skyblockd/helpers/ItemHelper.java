@@ -2,12 +2,11 @@ package space.maxus.skyblockd.helpers;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -18,7 +17,9 @@ import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.enchants.ItemGlint;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.objects.PlayerSkills;
+import space.maxus.skyblockd.skyblock.entities.EntitySummon;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
+import space.maxus.skyblockd.skyblock.objects.SkyblockItemType;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 
@@ -60,6 +61,50 @@ public class ItemHelper {
         ItemGlint g = new ItemGlint(key);
         in.addEnchant(g, 1, true);
         return in;
+    }
+
+    public static void getExtraStats(ItemStack base) {
+        if(!base.hasItemMeta()) return;
+        assert base.getItemMeta() != null;
+        if(base.getItemMeta().getPersistentDataContainer().has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING)) return;
+        if(base.getType().isBlock()) return;
+        ItemMeta m = base.getItemMeta();
+        HashMap<String, Integer> statValues = new HashMap<>();
+        if(m.getAttributeModifiers(Attribute.GENERIC_ATTACK_DAMAGE) != null) {
+            int amount = (int) Math.round(new ArrayList<>(Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ATTACK_DAMAGE))).get(0).getAmount());
+            statValues.put(ChatColor.GRAY+"Damage: "+ChatColor.RED, amount);
+        }
+        if(m.getAttributeModifiers(Attribute.GENERIC_ATTACK_SPEED) != null) {
+            int amount = (int) Math.round(new ArrayList<>(Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ATTACK_SPEED))).get(0).getAmount());
+            statValues.put(ChatColor.GRAY+"Bonus Attack Speed: "+ChatColor.RED, amount);
+        }
+        statValues.put(" ",0);
+        if(m.getAttributeModifiers(Attribute.GENERIC_ARMOR) != null) {
+            int amount = (int) Math.round(new ArrayList<>(Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_ARMOR))).get(0).getAmount());
+            statValues.put(ChatColor.GRAY+"Defence: "+ChatColor.GREEN, amount);
+        }
+        if(m.getAttributeModifiers(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+            int amount = (int) Math.round(new ArrayList<>(Objects.requireNonNull(m.getAttributeModifiers(Attribute.GENERIC_MOVEMENT_SPEED))).get(0).getAmount());
+            statValues.put(ChatColor.GRAY+"Speed: "+ChatColor.GREEN, amount);
+        }
+        List<String> lore = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry: statValues.entrySet()) {
+            String val = entry.getValue() <= 0 ? "" : entry.getValue().toString();
+            lore.add(entry.getKey()+val);
+        }
+        m.setLore(lore);
+        base.setItemMeta(m);
+    }
+
+    public static SkyblockItemType getType(Material mat) {
+        String name = mat.name();
+        if(name.endsWith("_SWORD")) return SkyblockItemType.SWORD;
+        else if(name.endsWith("BOW")) return SkyblockItemType.BOW;
+        else if(name.endsWith("CHESTPLATE")) return SkyblockItemType.CHESTPLATE;
+        else if(name.endsWith("LEGGINGS")) return SkyblockItemType.LEGGINGS;
+        else if(name.endsWith("BOOTS")) return SkyblockItemType.BOOTS;
+        else if(name.endsWith("HELMET")) return SkyblockItemType.HELMET;
+        else return SkyblockItemType.OTHER_NONCONSUMABLE;
     }
 
     public static SkyblockRarity getRarity(Material m){
@@ -297,7 +342,29 @@ public class ItemHelper {
         }
     }
 
+    public static void trySpawnRareMob(EntitySummon summon, int chance, Player p) {
+        Random r = new Random();
+        int m = r.nextInt(chance);
+        if(m <= 1) {
+            p.playSound(p.getLocation(), Sound.BLOCK_END_PORTAL_SPAWN, 1, 1);
+            p.sendMessage(ChatColor.GREEN+"A "+summon.getEntity().getName()+ChatColor.GREEN+" has spawned nearby!");
+            int randX = r.nextInt(5);
+            int randZ = r.nextInt(5);
+
+            Location l = new Location(p.getWorld(), randX, p.getLocation().getBlockY()-1, randZ);
+
+            if(l.getBlock().getType().isAir()) {
+                l = p.getLocation();
+            }
+
+            Entity en = summon.getEntity().generate(p);
+            Location loc = en.getLocation();
+            loc = l;
+        }
+    }
+
     private static Integer getStatItem(ItemStack it, String statName) {
+        if(it == null) return 0;
         ItemMeta meta = it.getItemMeta();
         if(meta == null) return 0;
         PersistentDataContainer c = meta.getPersistentDataContainer();
@@ -305,6 +372,24 @@ public class ItemHelper {
         if(!c.has(SkyblockD.getKey(statName), PersistentDataType.INTEGER)) return 0;
 
         return c.get(SkyblockD.getKey(statName), PersistentDataType.INTEGER);
+    }
+
+    public static boolean isUndead(EntityType type) {
+        switch(type){
+            case WITHER:
+            case STRAY:
+            case HUSK:
+            case WITHER_SKULL:
+            case WITHER_SKELETON:
+            case SKELETON_HORSE:
+            case SKELETON:
+            case ZOMBIFIED_PIGLIN:
+            case ZOMBIE_VILLAGER:
+            case ZOMBIE_HORSE:
+            case ZOGLIN:
+            case ZOMBIE: return true;
+            default: return false;
+        }
     }
 
     private static float round(float value, int places) {

@@ -25,9 +25,9 @@ public abstract class ReforgeBase implements SkyblockFeature {
     public abstract void applyBaseStats(int modifier, ItemStack item);
     public abstract void removeBaseStats(int modifier, ItemStack item);
 
-    public ItemStack apply(ItemStack item) {
-        if(item == null) return null;
-        if(!item.hasItemMeta()) return item;
+    public void apply(ItemStack item) {
+        if(item == null) return;
+        if(!item.hasItemMeta()) return;
 
         ItemMeta m = item.getItemMeta();
         assert m != null;
@@ -50,8 +50,7 @@ public abstract class ReforgeBase implements SkyblockFeature {
             List<String> lore = m.getLore();
 
             Integer data = c.get(SkyblockD.getKey("reforgeData"), PersistentDataType.INTEGER);
-            assert data != null;
-            assert lore != null;
+            assert data != null && lore != null;
 
             SkyblockReforge ref = SkyblockReforge.byIndex(data);
 
@@ -59,7 +58,7 @@ public abstract class ReforgeBase implements SkyblockFeature {
             lore.removeAll(ref.getBase().getDisplayStats());
             m.setLore(lore);
 
-            removeBaseStats(Math.round(rar-getRarityWeight()), item);
+            ref.getBase().removeBaseStats(Math.round(rar-getRarityWeight()), item);
         } else {
             String newName = itemRarity.displayColor + getReforge().getDisplayName() + " " + m.getDisplayName();
             m.setDisplayName(newName);
@@ -107,7 +106,6 @@ public abstract class ReforgeBase implements SkyblockFeature {
 
         if(!wasReforged) applyBaseStats(Math.round(rar-getRarityWeight()), item);
 
-        return item;
     }
 
     private static <T> void reverseList(List<T> list)
