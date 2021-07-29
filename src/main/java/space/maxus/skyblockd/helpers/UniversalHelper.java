@@ -88,7 +88,7 @@ public class UniversalHelper {
 
         skc.totalExp += exp;
         skc.levelExp += exp;
-        if(!(skc.currentLevel+1 >= 28)) {
+        if(skc.currentLevel+1 < 28) {
             int toNext = map.getExperience().table.get(skc.currentLevel + 1);
             int div = skc.levelExp - toNext;
             if (div >= 0) {

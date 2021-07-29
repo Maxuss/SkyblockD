@@ -56,14 +56,20 @@ public class MainMenuGUI extends InventoryBase {
         assert pm != null;
         pm.setDisplayName(ChatColor.YELLOW + "Your Skyblock profile");
         getPlayerStats(p, pm);
+        pm.getPersistentDataContainer().set(SkyblockD.getKey("skyblockNative"),PersistentDataType.STRING, "true");
         profile.setItemMeta(GuiHelper.setHideAllFlags(pm));
         base.addItem(profile);
         // Skills
         ItemStack skills = genSimpleMenuItem("Your Skills", Material.DIAMOND_SWORD, zkill);
-        // Collections
-        ItemStack coll = genSimpleMenuItem("Collections", Material.PAINTING, indev);
+        // Anvil
+        ItemStack anvil = genSimpleMenuItem("Reforge Anvil", Material.ANVIL, Arrays.asList(
+                ChatColor.GRAY+"Click this item to open",
+                ChatColor.GRAY+"the Reforge Anvil inventory!"));
         // Recipes
-        ItemStack recipes = genSimpleMenuItem("Recipe Book", Material.BOOK, indev);
+        ItemStack recipes = genSimpleMenuItem("Recipe Book", Material.BOOK, Arrays.asList(
+                ChatColor.GRAY+"Click this item to open",
+                ChatColor.GRAY+"the Recipe Browser!"
+        ));
         // Trades
         ItemStack trades = genSimpleMenuItem("Trades", Material.EMERALD, indev);
         // Events + calendar
@@ -80,7 +86,7 @@ public class MainMenuGUI extends InventoryBase {
         ItemStack[] items = {
                 gls, gls, gls, gls, gls, gls, gls, gls, gls,
                 gls, gls, gls, gls, profile, gls, gls, gls, gls,
-                gls, gls, gls, skills, coll, recipes, gls, gls, gls,
+                gls, gls, gls, skills, anvil, recipes, gls, gls, gls,
                 gls, gls, gls, trades, eve, ec, gls, gls, gls,
                 gls, gls, gls, gls, craft, gls, gls, gls, gls,
                 settings, gls, gls, gls, gls, gls, gls, gls, close

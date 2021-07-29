@@ -47,8 +47,7 @@ public class VaultGuiTemplate {
         });
 
         List<ItemStack> stacks =  Arrays.stream(actualContents).map(SkyblockMaterial::getItem).collect(Collectors.toList());
-        List<ItemStack> mapped = stacks.stream().map(i -> i == null ? i = new ItemStack(Material.OAK_LOG) : i).collect(Collectors.toList());
-        ItemStack[] contents = mapped.toArray(new ItemStack[0]);
+        ItemStack[] contents = stacks.stream().map(i -> i == null ? i = new ItemStack(Material.OAK_LOG) : i).toArray(ItemStack[]::new);
         inv.addItem(contents);
 
         return inv;

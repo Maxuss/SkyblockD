@@ -5,16 +5,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
-import space.maxus.skyblockd.gui.MainMenuGUI;
-import space.maxus.skyblockd.gui.SkillsGui;
-import space.maxus.skyblockd.gui.VaultGuiTemplate;
-import space.maxus.skyblockd.helpers.*;
+import space.maxus.skyblockd.gui.*;
+import space.maxus.skyblockd.helpers.GuiHelper;
+import space.maxus.skyblockd.helpers.ItemHelper;
+import space.maxus.skyblockd.helpers.MaterialHelper;
+import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.SkillContainer;
@@ -25,6 +25,7 @@ import space.maxus.skyblockd.skyblock.skills.created.*;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.bukkit.event.Event.Result;
 
@@ -50,6 +51,61 @@ public class InventoryListener extends BetterListener {
             vaultGet(e, p);
         } else if (title.equalsIgnoreCase("Reforge Item")) {
             reforge(e, p);
+        } else if(title.contains("Recipe Browser")) {
+            recipeBrowser(e, p, title);
+        } else if(title.equalsIgnoreCase("View Recipe")) {
+            itemRecipe(e, p);
+        }
+    }
+
+    private void itemRecipe(InventoryClickEvent e, Player p) {
+        e.setResult(Result.DENY);
+        if(e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE) return;
+        ItemStack cur = e.getCurrentItem();
+        String itemName = ChatColor.stripColor(Objects.requireNonNull(cur.getItemMeta()).getDisplayName()).toLowerCase(Locale.ENGLISH);
+
+        if(itemName.equals("go back")) {
+            p.openInventory(new RecipeGuiTemplate().create(0, p));
+            p.updateInventory();
+            return;
+        }
+
+        List<Recipe> possibleRecipes = SkyblockD.getHost().getRecipesFor(cur).stream().filter(rec -> rec instanceof ShapedRecipe || rec instanceof ShapelessRecipe).collect(Collectors.toList());
+        if(possibleRecipes.isEmpty()) return;
+
+        Recipe recipe = possibleRecipes.get(0);
+        Inventory inv = new RecipeGuiTemplate.ItemRecipeTemplate().create(recipe, p);
+        p.openInventory(inv);
+
+        p.updateInventory();
+    }
+
+    private void recipeBrowser(InventoryClickEvent e, Player p, String title) {
+        if(e.getCurrentItem() == null || e.getCurrentItem().getType().isAir()) return;
+        int curPage = Integer.parseInt(title.replace("Recipe Browser ", ""));
+
+        ItemStack cur = e.getCurrentItem();
+        RecipeGuiTemplate temp = new RecipeGuiTemplate();
+        String itemName = ChatColor.stripColor(Objects.requireNonNull(cur.getItemMeta()).getDisplayName()).toLowerCase(Locale.ENGLISH);
+        e.setResult(Result.DENY);
+        if(itemName.equals("previous page")) {
+            curPage -= curPage <= 0 ? 0 : 1;
+            Inventory previousPage = temp.create(curPage, p);
+            p.closeInventory();
+            p.openInventory(previousPage);
+            p.updateInventory();
+        } else if(itemName.equals("next page")) {
+            curPage++;
+            Inventory nextPage = temp.create(curPage, p);
+            p.closeInventory();
+            p.openInventory(nextPage);
+            p.updateInventory();
+        } else if(e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE) {
+            p.updateInventory();
+        } else if(Objects.requireNonNull(e.getClickedInventory()).getSize() == 54) {
+            p.updateInventory();
+            p.openInventory(new RecipeGuiTemplate.ItemRecipeTemplate().create(e.getCurrentItem(), p));
+            p.updateInventory();
         }
     }
 
@@ -278,12 +334,23 @@ public class InventoryListener extends BetterListener {
 
     private void menu(InventoryClickEvent e, Player p) {
         if(e.getCurrentItem() == null) return;
-        if(Objects.requireNonNull(e.getCurrentItem().getItemMeta())
-                .getDisplayName().equalsIgnoreCase(ChatColor.GREEN+"Your Skills")) {
+        String displayName = ChatColor.stripColor((Objects.requireNonNull(e.getCurrentItem().getItemMeta()).getDisplayName()));
+        if(displayName.equalsIgnoreCase("Your Skills")) {
             SkillsGui ui = new SkillsGui();
             ui.setPlayer(p);
             Inventory inv = Bukkit.createInventory(ui.getHolder(p), ui.getSize(), ui.getName());
             p.openInventory(ui.generateContains(inv));
+            p.updateInventory();
+        } else if(displayName.equalsIgnoreCase("Reforge Anvil")) {
+            ReforgeGui ui = new ReforgeGui();
+            Inventory inv = ui.generateContains(Bukkit.createInventory(ui.getHolder(p), ui.getSize(), ui.getName()));
+            p.openInventory(inv);
+            p.updateInventory();
+        } else if(displayName.equalsIgnoreCase("Recipe Book")) {
+            RecipeGuiTemplate temp = new RecipeGuiTemplate();
+            Inventory inv = temp.create(0, p);
+            p.openInventory(inv);
+            p.updateInventory();
         }
         e.setResult(Result.DENY);
         p.updateInventory();
