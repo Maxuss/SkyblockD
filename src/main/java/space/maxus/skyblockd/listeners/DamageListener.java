@@ -1,6 +1,5 @@
 package space.maxus.skyblockd.listeners;
 
-import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
@@ -8,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -15,6 +15,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
@@ -25,14 +26,12 @@ import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
 import space.maxus.skyblockd.skyblock.utility.DamageIndicator;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class DamageListener extends BetterListener {
     public static HashMap<UUID, Double> dragonDamagers = new HashMap<>();
     public static HashMap<UUID, Double> protectorDamagers = new HashMap<>();
+    public static HashMap<UUID, Double> witherDamagers = new HashMap<>();
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent e) {
@@ -75,9 +74,6 @@ public class DamageListener extends BetterListener {
         if(e.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
             operateHitByEntity(e, en);
         }
-        if(en.hasMetadata("NPC")) {
-            operateNpc(e, en);
-        }
         if (!(en instanceof ArmorStand)) {
             operateDamageIndicators(e, en);
         }
@@ -88,6 +84,28 @@ public class DamageListener extends BetterListener {
         if(!(e.getEntity() instanceof Player)) return;
         Player p = (Player) e.getEntity();
         Entity damager = e.getDamager();
+        if(damager.getCustomName() == null) return;
+        String name = Objects.requireNonNull(ChatColor.stripColor(damager.getCustomName())).toLowerCase(Locale.ENGLISH);
+        if(name.contains("wise dragon")) {
+            int a = new Random().nextInt(5);
+            if(a < 1) {
+                p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 200, 4));
+                p.sendMessage(ChatColor.RED+"Wise Dragon"+ChatColor.GRAY+" applied Wither effect to you!");
+            }
+        } else if(name.contains("strong dragon")) {
+            e.setDamage(e.getDamage()*1.4d);
+            int a = new Random().nextInt(5);
+            if(a < 1) {
+                p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, 2));
+                p.setVelocity(new Vector(0, 90, 0));
+                p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 0);
+                p.sendMessage(ChatColor.RED+"Strong Dragon "+ChatColor.GRAY+"tossed you into air!");
+            }
+        } else if(name.contains("superior dragon")) {
+            e.setDamage(e.getDamage()*1.8d);
+        } else if(name.contains("absolute dragon")) {
+            e.setDamage(e.getDamage()*2.1d);
+        }
         ItemStack[] armor = p.getInventory().getArmorContents();
         if(damager.getPersistentDataContainer().has(SkyblockD.getKey("FISHED"), PersistentDataType.BYTE)
             && getReforgeFromArmor(armor, SkyblockReforge.TANGLED))
@@ -104,6 +122,11 @@ public class DamageListener extends BetterListener {
                         () -> p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 1.5f), 3L);
                 p.sendMessage(ChatColor.GRAY+"You dodged enemy attack thanks to your "+ChatColor.LIGHT_PURPLE+"Ethereal"+ChatColor.GRAY+" reforge!");
             }
+        }
+
+        if(e.getEntity().getType() == EntityType.WITHER
+         && UniversalHelper.setHasKey(SkyblockD.getKey("wither"), PersistentDataType.BYTE, p)) {
+            e.setDamage(e.getDamage()*0.8d);
         }
     }
 
@@ -131,16 +154,18 @@ public class DamageListener extends BetterListener {
         Entity damager = ev.getDamager();
 
         if(!(damager instanceof Player)) return;
-
         int strength = UniversalHelper.getStrength((Player) damager);
-        strength = Math.max(strength, 100);
 
-        e.setDamage(e.getDamage()*Math.round(strength/100d));
+        e.setDamage(e.getDamage()*(1+((strength+50)/100d)));
 
         PlayerInventory inv = ((Player) damager).getInventory();
         ItemStack mainHand = inv.getItemInMainHand();
         if(mainHand.getType().isAir()) return;
         if(!mainHand.hasItemMeta()) return;
+
+        if(UniversalHelper.checkFullSet(Arrays.asList(SkyblockMaterial.UNSTABLE_DRAGON_BOOTS.getItem(), SkyblockMaterial.UNSTABLE_DRAGON_LEGGINGS.getItem(), SkyblockMaterial.UNSTABLE_DRAGON_CHESTPLATE.getItem(), SkyblockMaterial.UNSTABLE_DRAGON_HELMET.getItem()), (Player)damager)) {
+            damager.getWorld().strikeLightning(ev.getEntity().getLocation());
+        }
 
         PersistentDataContainer c = Objects.requireNonNull(mainHand.getItemMeta()).getPersistentDataContainer();
         if(c.has(SkyblockD.getKey("reforged"), PersistentDataType.BYTE)) {
@@ -148,19 +173,47 @@ public class DamageListener extends BetterListener {
         }
 
         if(ev.getEntity() instanceof EnderDragon) {
+            ev.setDamage(ev.getDamage()/1.9d);
             double damage = ev.getDamage();
             Player p = (Player) ev.getDamager();
             UUID id = p.getUniqueId();
             if(dragonDamagers.containsKey(id)) {
                 dragonDamagers.put(id, dragonDamagers.get(id)+damage);
             } else dragonDamagers.put(id, damage);
+            String name = Objects.requireNonNull(ChatColor.stripColor(ev.getEntity().getCustomName())).toLowerCase(Locale.ENGLISH);
+            if(name.contains("unstable dragon")) {
+                p.getWorld().strikeLightning(p.getLocation());
+                if(new Random().nextInt(5)<1) {
+                    p.getWorld().createExplosion(p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ(), 2f, false, false);
+                    p.sendMessage(ChatColor.RED+"Unstable Dragon"+ChatColor.GRAY+"'s aura exploded you!");
+                }
+            } else if(name.contains("absolute dragon")) {
+                Random r = new Random();
+                if(r.nextInt(4)<1) {
+                    double nx = p.getLocation().getX()+r.nextInt(10);
+                    double nz = p.getLocation().getZ()+r.nextInt(10);
+                    double ny = p.getLocation().getY()+5;
+
+                    p.teleport(new Location(p.getWorld(), nx, ny, nz), PlayerTeleportEvent.TeleportCause.UNKNOWN);
+                    p.sendMessage(ChatColor.LIGHT_PURPLE+"Absolute Dragon"+ChatColor.GRAY+" has teleported you with it's "+ChatColor.DARK_PURPLE+"Warped Aura");
+                }
+            }
         } else if(ev.getEntity().getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)) {
+            ev.setDamage(ev.getDamage()/2d);
             double damage = ev.getDamage();
             Player p = (Player) ev.getDamager();
             UUID id = p.getUniqueId();
             if(protectorDamagers.containsKey(id)) {
                 protectorDamagers.put(id, protectorDamagers.get(id)+damage);
             } else protectorDamagers.put(id, damage);
+        } else if(ev.getEntity() instanceof Wither) {
+            ev.setDamage(ev.getDamage()/2.5d);
+            double damage = ev.getDamage();
+            Player p = (Player) ev.getDamager();
+            UUID id = p.getUniqueId();
+            if(witherDamagers.containsKey(id)) {
+                witherDamagers.put(id, witherDamagers.get(id)+damage);
+            } else witherDamagers.put(id, damage);
         }
     }
 
@@ -207,21 +260,6 @@ public class DamageListener extends BetterListener {
             PotionEffect eff = new PotionEffect(PotionEffectType.POISON, 200, 3, false, true, true);
             le.addPotionEffect(eff);
         }
-    }
-
-    private void operateNpc(EntityDamageEvent e, Entity en) {
-        LivingEntity le = (LivingEntity) en;
-        NPC npc = SkyblockD.getNpcRegistry().getNPC(le);
-        int remaining = (int) (le.getHealth()-e.getFinalDamage());
-        int trueRem = Math.max(remaining, 0);
-        int lvl = (int) (Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue() / 2);
-        String n = le.getPersistentDataContainer().get(SkyblockD.getKey("entityName"), PersistentDataType.STRING);
-        String name = ChatColor.DARK_GRAY + "[" + ChatColor.GRAY + "Lv " +lvl + ChatColor.DARK_GRAY + "]" + " "
-                + n + ChatColor.RESET + " " + ChatColor.GREEN + trueRem + ChatColor.WHITE
-                + "/" + ChatColor.GREEN +
-                (int) Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue()
-                + ChatColor.RED + "" + SkyblockConstants.HEALTH;
-        npc.setName(name);
     }
 
     private void operateDamageIndicators(EntityDamageEvent e, Entity en) {

@@ -5,7 +5,6 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -52,9 +51,8 @@ public class StrongDragonChestplate extends SkyblockItem {
         m.addAttributeModifier(
                 Attribute.GENERIC_MAX_HEALTH,
                 new AttributeModifier("generic.maxHealth", 10, AttributeModifier.Operation.ADD_NUMBER));
-        m.addEnchant(Enchantment.DURABILITY, 7, true);
         LeatherArmorMeta lm = (LeatherArmorMeta) m;
-        lm.setColor(Color.fromRGB(250, 80, 22));
+        lm.setColor(Color.fromRGB(217, 30, 65));
         i.setItemMeta(lm);
         return i;
     }

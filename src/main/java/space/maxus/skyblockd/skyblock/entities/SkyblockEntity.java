@@ -1,5 +1,6 @@
 package space.maxus.skyblockd.skyblock.entities;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -18,6 +19,7 @@ import space.maxus.skyblockd.skyblock.utility.SkyblockFeature;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Random;
 
 public abstract class SkyblockEntity implements SkyblockFeature {
 
@@ -91,10 +93,73 @@ public abstract class SkyblockEntity implements SkyblockFeature {
             maxHp = Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
         }
 
+        if(e.getType() == EntityType.WITHER) {
+            Random r = new Random();
+            int it = r.nextInt(WitherType.values().length);
+            WitherType type = WitherType.values()[it];
+            Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR)).setBaseValue(type.def);
+            Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(type.hp);
+            Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS)).setBaseValue(type.def);
+            Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(0.2d);
+            Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE)).setBaseValue(type.dmg);
+            e.getPersistentDataContainer().set(SkyblockD.getKey("witherType"), PersistentDataType.INTEGER, it);
+            e.setHealth(type.hp);
+            Bukkit.broadcastMessage(type.name+" has spawned!");
+        }
+
         if(e.getType() == EntityType.ENDER_DRAGON) {
-            AttributeInstance hp = e.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-            assert hp != null;
-            hp.setBaseValue(hp.getBaseValue()*3);
+            Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(800);
+            Random r = new Random();
+            int rand = r.nextInt(8);
+            if(rand <= 1) {
+                name = ChatColor.GRAY+"Protector Dragon";
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR)).setBaseValue(300);
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS)).setBaseValue(100);
+            } else if(rand == 2) {
+                name = ChatColor.GRAY+"Old Dragon";
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(1000);
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR)).setBaseValue(200);
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS)).setBaseValue(300);
+            } else if(rand == 3) {
+                name = ChatColor.WHITE+"Young Dragon";
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(600);
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR)).setBaseValue(40);
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS)).setBaseValue(50);
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(0.3d);
+            } else if(rand == 4) {
+                name = ChatColor.AQUA+"Wise Dragon";
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(900);
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR)).setBaseValue(40);
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS)).setBaseValue(3000);
+            } else if(rand == 5) {
+                name = ChatColor.DARK_PURPLE+"Unstable Dragon";
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(700);
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR)).setBaseValue(80);
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS)).setBaseValue(60);
+            } else if(rand == 6) {
+                name = ChatColor.RED+"Strong Dragon";
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(700);
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR)).setBaseValue(150);
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS)).setBaseValue(100);
+            } else {
+                int another = r.nextInt(10);
+                if(another <= 1) {
+                    name = ChatColor.LIGHT_PURPLE + "Absolute Dragon";
+                    Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(1024);
+                    Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR)).setBaseValue(300);
+                    Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS)).setBaseValue(300);
+                    Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(0.3d);
+                } else {
+                    name = ChatColor.GOLD + "Superior Dragon";
+                    Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(1000);
+                    Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR)).setBaseValue(250);
+                    Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS)).setBaseValue(250);
+                    Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(0.3d);
+                }
+            }
+            if(!name.equals(ChatColor.LIGHT_PURPLE + "Absolute Dragon")) {
+                Bukkit.broadcastMessage(ChatColor.GOLD + "A " + name + ChatColor.GOLD + " has spawned!");
+            } else Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE+""+ChatColor.BOLD+"Rare Absolute Dragon has spawned in the End!");
         }
 
         if(isEnd) {
@@ -138,5 +203,28 @@ public abstract class SkyblockEntity implements SkyblockFeature {
             cap.append(first.toUpperCase()).append(afterfirst).append(" ");
         }
         return cap.toString().trim();
+    }
+
+    public enum WitherType {
+        KASMIR(4, 3, 3,ChatColor.DARK_RED+"Kasmir", 1300),
+        NECRON(3, 2.5d, 2,ChatColor.RED+"Necron", 1000),
+        GOLDOR(2, 5, 5, ChatColor.GOLD+"Goldor", 1000),
+        STORM(3, 3, 1, ChatColor.AQUA+"Storm", 1000),
+        MAXOR(2, 2, 5, ChatColor.LIGHT_PURPLE+"Maxor", 1000),
+        ;
+        double dmg;
+        double hp;
+        String name;
+        int lvl;
+        double def;
+
+        WitherType(double damageModifier, double healthModifier, double defenseModifier, String name, int level) {
+            dmg = 35 * damageModifier;
+            hp = 400 * healthModifier;
+            hp = hp <= 1024 ? hp : 1024;
+            this.name = name;
+            def = 40 * defenseModifier;
+            lvl = level;
+        }
     }
 }

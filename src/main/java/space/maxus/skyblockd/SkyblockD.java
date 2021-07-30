@@ -1,9 +1,6 @@
 package space.maxus.skyblockd;
 
 import com.google.gson.reflect.TypeToken;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.MemoryNPCDataStore;
-import net.citizensnpcs.api.npc.NPCRegistry;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
@@ -56,7 +53,6 @@ public class SkyblockD extends JavaPlugin {
     private static SkyblockItemRegisterer itemRegisterer;
     private static HashMap<String, ArmorSet> armorSets = new HashMap<>();
     private static ServerStorage serverData;
-    private static NPCRegistry npcRegistry;
 
     public static List<PlayerContainer> players = new ArrayList<>();
     public static boolean inMaintenace = false;
@@ -123,7 +119,6 @@ public class SkyblockD extends JavaPlugin {
     public static SkillMapManager getMapManager() { return mapManager; }
     public static ServerStorage getServerData() { return serverData; }
     public static List<PlayerContainer> getPlayers() { return players; }
-    public static NPCRegistry getNpcRegistry() {return npcRegistry;}
 
     public static String getShortVersion() {
         return shortVersion;
@@ -260,7 +255,13 @@ public class SkyblockD extends JavaPlugin {
         armorSets.put("set::YOUNG", new YoungSet());
         armorSets.put("set::STRONG", new StrongSet());
         armorSets.put("set::SUPERIOR", new SuperiorSet());
+        armorSets.put("set::UNSTABLE", new UnstableSet());
+        armorSets.put("set::OLD", new OldSet());
         armorSets.put("set::TITAN", new TitanicSet());
+        armorSets.put("set::NECRON", new NecronSet());
+        armorSets.put("set::STORM", new StormSet());
+        armorSets.put("set::GOLDOR", new GoldorSet());
+        armorSets.put("set::MAXOR", new MaxorSet());
     }
 
     public void processRanks(){
@@ -278,8 +279,7 @@ public class SkyblockD extends JavaPlugin {
                 if(players == null) players = new ArrayList<>();
                 ContainerHelper.updatePlayers();
             } catch (Exception e) {
-                logger.severe("Could not read player groups!");
-                logger.severe("Error: "+ Arrays.toString(e.getStackTrace()));
+                logger.info("Could not read players data! Not a problem, creating a file then...");
                 ContainerHelper.updatePlayers();
             }
         }
@@ -326,8 +326,6 @@ public class SkyblockD extends JavaPlugin {
             logger.info("Exception info: " + Arrays.toString(e.getStackTrace()));
         }
 
-        npcRegistry = CitizensAPI.createAnonymousNPCRegistry(new MemoryNPCDataStore());
-
         // register maps
         mapManager.addMap("mining", new MiningSkillMap("Mining", "Speleologist"));
         mapManager.addMap("foraging", new ForagingSkillMap("Foraging", "Logger"));
@@ -345,8 +343,6 @@ public class SkyblockD extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // deregister all NPCs so they wont clog memory
-        npcRegistry.deregisterAll();
 
         // clear all recipes cus they break on /reload otherwise
         getHost().clearRecipes();

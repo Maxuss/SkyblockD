@@ -16,7 +16,7 @@ public class DragonSingularity extends SkyblockSkull {
     @Override
     public SkyblockItemConfig getConfig() {
         return new SkyblockItemConfig(Material.PLAYER_HEAD,
-                "Dragon Singulairty",
+                "Dragon Singularity",
                 SkyblockRarity.LEGENDARY,
                 SkyblockItemType.OTHER_NONCONSUMABLE,
                 new SkyblockItemStats());

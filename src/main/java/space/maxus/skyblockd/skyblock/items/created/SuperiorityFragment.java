@@ -17,7 +17,7 @@ public class SuperiorityFragment extends SkyblockSkull {
     public SkyblockItemConfig getConfig() {
         return new SkyblockItemConfig(Material.PLAYER_HEAD,
                 "Superiority Fragment",
-                SkyblockRarity.EPIC,
+                SkyblockRarity.LEGENDARY,
                 SkyblockItemType.OTHER_NONCONSUMABLE,
                 new SkyblockItemStats());
     }

@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-public abstract class SkyblockItem implements SkyblockFeature {
+public abstract class SkyblockItem implements SkyblockFeature, StatContainer {
 
     public abstract SkyblockItemConfig getConfig();
     public abstract boolean hasGlint();
@@ -128,6 +128,10 @@ public abstract class SkyblockItem implements SkyblockFeature {
             m.setUnbreakable(true);
         }
 
+        if(m.getPersistentDataContainer().has(SkyblockD.getKey("WITHER_BLADE"), PersistentDataType.BYTE)) {
+            m.setUnbreakable(true);
+        }
+
         item.setItemMeta(m);
 
         // finish the initialization by calling postInit
@@ -160,8 +164,48 @@ public abstract class SkyblockItem implements SkyblockFeature {
             m.setDisplayName(name);
             c.set(SkyblockD.getKey("recombobulated"), PersistentDataType.STRING, "true");
             c.set(SkyblockD.getKey("itemRarity"), PersistentDataType.INTEGER, rarity+1);
+            String n = ChatColor.stripColor(name).toLowerCase(Locale.ENGLISH);
+            if(n.contains("necron") || n.contains("storm") || n.contains("goldor") || n.contains("maxor")) {
+                c.set(SkyblockD.getKey("wither"), PersistentDataType.BYTE, (byte)0);
+            }
             item.setItemMeta(m);
         }
         return item;
+    }
+
+
+    @Override
+    public void applyStat(String statName, int amount, ItemMeta m)  {
+        m.getPersistentDataContainer().set(SkyblockD.getKey(statName), PersistentDataType.INTEGER, amount);
+    }
+
+    @Override
+    public void addFarmingFortune(int amount, ItemMeta m) {
+        applyStat("farmingFortune", amount, m);
+    }
+
+    @Override
+    public void addMiningFortune(int amount, ItemMeta m) {
+        applyStat("miningFortune", amount, m);
+    }
+
+    @Override
+    public void addExcavatingFortune(int amount, ItemMeta m) {
+        applyStat("excavatingFortune", amount, m);
+    }
+
+    @Override
+    public void addSeaCreatureChance(int amount, ItemMeta m) {
+        applyStat("scc", amount, m);
+    }
+
+    @Override
+    public void addAbilityDamage(int amount, ItemMeta m) {
+        applyStat("abilDamage", amount, m);
+    }
+
+    @Override
+    public void addStrength(int amount, ItemMeta m) {
+        applyStat("strength", amount, m);
     }
 }

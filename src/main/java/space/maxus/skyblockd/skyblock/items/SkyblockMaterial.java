@@ -219,9 +219,22 @@ public enum SkyblockMaterial {
     SUPERIOR_DRAGON_LEGGINGS(new SuperiorDragonLeggings()),
     SUPERIOR_DRAGON_BOOTS(new SuperiorDragonBoots()),
 
+    OLD_DRAGON_HELMET(new OldDragonHelmet()),
+    OLD_DRAGON_CHESTPLATE(new OldDragonChestplate()),
+    OLD_DRAGON_LEGGINGS(new OldDragonLeggings()),
+    OLD_DRAGON_BOOTS(new OldDragonBoots()),
+
+    UNSTABLE_DRAGON_HELMET(new UnstableDragonHelmet()),
+    UNSTABLE_DRAGON_CHESTPLATE(new UnstableDragonChestplate()),
+    UNSTABLE_DRAGON_LEGGINGS(new UnstableDragonLeggings()),
+    UNSTABLE_DRAGON_BOOTS(new UnstableDragonBoots()),
+
     STRONG_FRAGMENT(new StrengthFragment()),
     YOUNG_FRAGMENT(new SwiftnessFragment()),
     SUPERIOR_FRAGMENT(new SuperiorityFragment()),
+    OLD_FRAGMENT(new HealthFragment()),
+    UNSTABLE_FRAGMENT(new ChaoticFragment()),
+
     DRAGON_SINGULARITY(new DragonSingularity()),
     ENERGETIC_HANDLE(new EnergeticHandle()),
     SHADED_EYE(new ShadedEye()),
@@ -235,6 +248,56 @@ public enum SkyblockMaterial {
 
     DEMETER(new Demeter()),
 
+    LOST_CROWN(new LostCrown()),
+    ERUMDIR_SOUL_FRAGMENT(new ErumdirSoulFragment()),
+
+    KASMIR_SOUL_FRAGMENT(new KasmirSoulFragment()),
+    NECRON_SOUL_FRAGMENT(new NecronSoulFragment()),
+    GOLDOR_SOUL_FRAGMENT(new GoldorSoulFragment()),
+    STORM_SOUL_FRAGMENT(new StormSoulFragment()),
+    MAXOR_SOUL_FRAGMENT(new MaxorSoulFragment()),
+
+    NECRON_BOOTS(new NecronBoots()),
+    NECRON_LEGGINGS(new NecronLeggings()),
+    NECRON_CHESTPLATE(new NecronChestplate()),
+    NECRON_HELMET(new NecronHelmet()),
+
+    STORM_BOOTS(new StormBoots()),
+    STORM_LEGGINGS(new StormLeggings()),
+    STORM_CHESTPLATE(new StormChestplate()),
+    STORM_HELMET(new StormHelmet()),
+
+    GOLDOR_BOOTS(new GoldorBoots()),
+    GOLDOR_LEGGINGS(new GoldorLeggings()),
+    GOLDOR_CHESTPLATE(new GoldorChestplate()),
+    GOLDOR_HELMET(new GoldorHelmet()),
+
+    MAXOR_BOOTS(new MaxorBoots()),
+    MAXOR_LEGGINGS(new MaxorLeggings()),
+    MAXOR_CHESTPLATE(new MaxorChestplate()),
+    MAXOR_HELMET(new MaxorHelmet()),
+
+    UNREFINED_BLADE(new UnrefinedBlade()),
+    HYPERION(new Hyperion()),
+    ASTRAEA(new Astraea()),
+    SCYLLA(new Scylla()),
+    VALKYRIE(new Valkyrie()),
+
+    MUDSTONE_BOOTS(new MudstoneBoots()),
+    MUDSTONE_LEGGINGS(new MudstoneLeggings()),
+    MUDSTONE_CHESTPLATE(new MudstoneChestplate()),
+    MUDSTONE_HELMET(new MudstoneHelmet()),
+
+    THE_SEAL(new TheSeal()),
+
+    STRONGHOLD(new ReforgeStone("Stronghold", SkyblockReforge.HARDENED, SkyblockRarity.EPIC,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmRiZDc4ZDY0ZjYwMjhhMjQxNjQxMTIzODk4Nzc4ODA2M2ZhZDY2OTFlODhmZTU1NGZiNWVjZWY0ZmYyNjcifX19").getItem()),
+    CRYSTAL_BALL(new ReforgeStone("Crystal Ball", SkyblockReforge.PRISMATIC, SkyblockRarity.EPIC,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWE1ZjI5YTc2ZDFmOTFjMTY1ZjYzYmFhYzA0ODY3MGU3YjFkMzdjZTc4NWE0ZDljMjFkOGMzYTE3N2I1In19fQ==").getItem()),
+    BLESSED_ORB(new ReforgeStone("Blessed Orb", SkyblockReforge.BLESSED, SkyblockRarity.EPIC,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU4NmY1M2NmZWQ0MTJmMzU2MmVlZDI1NDUwNTBjMzQyMTBhNTY5ZDM0MTQwMjU1ZDM2ODUyMWFjYzFjNjkwOSJ9fX0=").getItem()),
+    FORBIDDEN_BLOOD(new ReforgeStone("Forbidden Blood", SkyblockReforge.WITHERED, SkyblockRarity.EPIC,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA1MmU4NThkNjI3YzBmNDk1YmQyMmE2MjQzZjk5ZWJmYmQyZGRjMjRjNzBjYTE3MjUwN2NhN2Y4MGNmZGZhNCJ9fX0=").getItem()),
     MOLTEN_MAGMA(new ReforgeStone("Molten Magma", SkyblockReforge.MAGMATIC, SkyblockRarity.EPIC,
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTlhNWExZTY5YjRmODEwNTYyNTc1MmJjZWUyNTM0MDY2NGIwODlmYTFiMmY1MjdmYTkxNDNkOTA2NmE3YWFkMiJ9fX0=").getItem()),
     MUTATED_ENDER_PEARL(new ReforgeStone("Mutated Ender Pearl", SkyblockReforge.WARPED, SkyblockRarity.EPIC,

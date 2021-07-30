@@ -6,7 +6,6 @@ prefix: SkyblockD
 authors: [ Maxus ]
 description: Plugin that adds multiple features from HySb to vanilla!
 website: https://maxus.space
-depend: [ Citizens ]
 commands:
   ping:
     description: Gets your ping.
@@ -83,6 +82,11 @@ commands:
     description: Adds certain amount of certain skill experience to current player
     usage: /<command> [skill] [exp]
     permission: skyblockd.admin
+    permission-message: §6You don't have sufficient permission! Requires <permission>
+  playtime:
+    description: Gets your play time on this server
+    usage: /<command>
+    permission: skyblockd.default
     permission-message: §6You don't have sufficient permission! Requires <permission>
 permissions:
   skyblockd.default:

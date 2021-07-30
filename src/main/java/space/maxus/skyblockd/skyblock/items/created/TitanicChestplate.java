@@ -21,7 +21,7 @@ public class TitanicChestplate extends SkyblockItem {
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(Material.IRON_CHESTPLATE,
                 "Titanic Chestplate", SkyblockRarity.RARE,
-                SkyblockItemType.CHESTPLATE, new SkyblockItemStats().setHealth(70).setDefense(70).setSpeed(-40));
+                SkyblockItemType.CHESTPLATE, new SkyblockItemStats().setHealth(70).setDefense(70).setSpeed(-20));
         cfg.setDescription(Collections.singletonList(ChatColor.GRAY + "Become invincible but (almost) immovable!"));
         return cfg;
     }
@@ -48,7 +48,7 @@ public class TitanicChestplate extends SkyblockItem {
                 new AttributeModifier("generic.armor", 7, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_MOVEMENT_SPEED,
-                new AttributeModifier("generic.movementSpeed", -0.04, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.movementSpeed", -0.02, AttributeModifier.Operation.ADD_NUMBER));
         m.addEnchant(Enchantment.DURABILITY, 7, true);
         i.setItemMeta(m);
         return i;

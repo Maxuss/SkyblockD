@@ -95,7 +95,9 @@ public abstract class ReforgeBase implements SkyblockFeature {
         lore.remove(ChatColor.DARK_GRAY+"This item can be reforged!");
         reverseList(lore);
         lore.remove(" ");
+        if(c.has(SkyblockD.getKey("reforgeData"), PersistentDataType.INTEGER)) lore.remove(" ");
         reverseList(lore);
+        lore.add(lore.size()-1, " ");
         lore.add(lore.size()-1, ChatColor.BLUE+getReforge().getDisplayName()+" bonuses:");
         lore.addAll(lore.size()-1, disp);
         lore.add(lore.size()-1, " ");

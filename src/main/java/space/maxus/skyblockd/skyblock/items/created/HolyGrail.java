@@ -29,7 +29,7 @@ public class HolyGrail extends SkyblockSkull {
                                 ChatColor.GRAY+"Blaze away your enemies by",
                                 ChatColor.GRAY+"sending multiple fireballs at them.",
                                 ChatColor.GRAY+"Fireballs deal "+ChatColor.GREEN+"10x"+ChatColor.GRAY+" of your",
-                                ChatColor.AQUA+ SkyblockConstants.MAGIC_FIND+" Magic Find" + ChatColor.GRAY + " as true damage!"
+                                ChatColor.LIGHT_PURPLE+ SkyblockConstants.ABILITY_DAMAGE+" Ability Damage" + ChatColor.GRAY + " as true damage!"
                         ))));
         return cfg;
     }

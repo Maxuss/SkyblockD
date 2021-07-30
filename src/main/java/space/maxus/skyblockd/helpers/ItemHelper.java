@@ -16,7 +16,6 @@ import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.enchants.ItemGlint;
 import space.maxus.skyblockd.items.CustomItem;
-import space.maxus.skyblockd.objects.PlayerSkills;
 import space.maxus.skyblockd.skyblock.entities.EntitySummon;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemType;
@@ -280,11 +279,7 @@ public class ItemHelper {
     }
 
     public static int calcMagicDamage(Player p, float base) {
-        PlayerSkills skills = ContainerHelper.getPlayer(p).skills;
-        int mystMod = skills.data.get("mysticism").currentLevel + 1;
-        int craftMod = skills.data.get("crafting").currentLevel + 1;
-        float dmg = ((craftMod + mystMod) * base) / 2f;
-        return Math.round(dmg);
+        return Math.round(base*(UniversalHelper.getAbilityDamage(p)+50f)/10f);
     }
 
     public static void usePress(Player p, ItemStack i) {

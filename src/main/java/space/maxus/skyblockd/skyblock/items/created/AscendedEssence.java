@@ -21,7 +21,7 @@ public class AscendedEssence extends SkyblockSkull {
                 SkyblockItemType.OTHER_NONCONSUMABLE, new SkyblockItemStats()
         );
         cfg.setDescription(Collections.singletonList(
-                ChatColor.DARK_GRAY + "Powerful matery of unknown origins..."));
+                ChatColor.DARK_GRAY + "Powerful matter of unknown origins..."));
         return cfg;
     }
 

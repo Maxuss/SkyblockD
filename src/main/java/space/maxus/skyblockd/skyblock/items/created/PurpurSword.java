@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import space.maxus.skyblockd.SkyblockD;
@@ -16,6 +17,7 @@ import space.maxus.skyblockd.skyblock.objects.SkyblockItemType;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class PurpurSword extends SkyblockItem {
     @Override
@@ -47,13 +49,13 @@ public class PurpurSword extends SkyblockItem {
         assert m != null;
         m.addAttributeModifier(
                 Attribute.GENERIC_ATTACK_DAMAGE,
-                new AttributeModifier("generic.attackDamage", 75, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier(UUID.randomUUID(),"generic.attackDamage", 75, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
         m.addAttributeModifier(
                 Attribute.GENERIC_MAX_HEALTH,
                 new AttributeModifier("generic.maxHealth", 20, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_ATTACK_SPEED,
-                new AttributeModifier("generic.attackSpeed", 10, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier(UUID.randomUUID(),"generic.attackSpeed", 10, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
         blockVanillaRecipes(m);
         ItemHelper.applyGlint(m);
         i.setItemMeta(m);

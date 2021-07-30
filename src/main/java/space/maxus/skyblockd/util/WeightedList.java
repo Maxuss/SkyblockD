@@ -8,6 +8,7 @@ import space.maxus.skyblockd.objects.DragonLoot;
 import space.maxus.skyblockd.objects.FishingDrops;
 import space.maxus.skyblockd.objects.FishingMobs;
 import space.maxus.skyblockd.objects.SeaCreatureContainer;
+import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
 import java.util.*;
@@ -134,6 +135,19 @@ public class WeightedList<E> extends HashMap<E, Double> {
         list.put(SkyblockMaterial.ENCHANTED_MOON_STONE.getItem(), 0.05d);
         list.put(SkyblockMaterial.SHADED_EYE.getItem(), 0.1d);
         list.put(SkyblockMaterial.STRONG_FRAGMENT.getItem(), 0.05d);
+        return list;
+    }
+
+    public static WeightedList<ItemStack> getWitherDrops(SkyblockEntity.WitherType type) {
+        HashMap<String, HashMap<String, Float>> loot = SkyblockD.getServerData().witherLoot;
+        String name = type.name();
+        WeightedList<ItemStack> list = new WeightedList<>();
+        for (Map.Entry<String, Float> entry: loot.get(name).entrySet()) {
+            list.put(SkyblockMaterial.valueOf(entry.getKey()).getItem(), entry.getValue().doubleValue());
+        }
+        for (Map.Entry<String, Float> entry: loot.get("ALL").entrySet()) {
+            list.put(SkyblockMaterial.valueOf(entry.getKey()).getItem(), entry.getValue().doubleValue());
+        }
         return list;
     }
 }

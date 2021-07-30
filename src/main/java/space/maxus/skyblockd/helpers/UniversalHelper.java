@@ -2,8 +2,11 @@ package space.maxus.skyblockd.helpers;
 
 import com.google.gson.reflect.TypeToken;
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.nms.NMSColor;
@@ -15,9 +18,8 @@ import space.maxus.skyblockd.skyblock.skills.SkillMap;
 import space.maxus.skyblockd.util.Roman;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -163,6 +165,26 @@ public class UniversalHelper {
         total += getStatFromSkill("mysticism", p);
         total += ItemHelper.getStatFromItems(p, "abilDamage");
         return total;
+    }
+
+    public static boolean checkFullSet(List<ItemStack> toTest, Player p) {
+        List<ItemStack> contents = Arrays.asList(p.getInventory().getArmorContents());
+        if(contents.isEmpty()) return false;
+        AtomicInteger i = new AtomicInteger();
+        return contents.stream().allMatch(item -> {
+            i.getAndIncrement();
+            if(item == null || !item.hasItemMeta()) return false;
+            return item.isSimilar(toTest.get(i.get()));
+        });
+    }
+
+    public static boolean setHasKey(NamespacedKey key, PersistentDataType<?, ?> type, Player p) {
+        List<ItemStack> contents = Arrays.asList(p.getInventory().getArmorContents());
+        if(contents.isEmpty()) return false;
+        return contents.stream().allMatch(item -> {
+            if(item == null || !item.hasItemMeta()) return false;
+            return Objects.requireNonNull(item.getItemMeta()).getPersistentDataContainer().has(key, type);
+        });
     }
 
     private static String cap(String s) { return CustomItem.capitalize(s); }

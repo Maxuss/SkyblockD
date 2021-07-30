@@ -6,6 +6,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
 import space.maxus.skyblockd.SkyblockD;
@@ -38,6 +40,37 @@ public class AbilityStorage {
             Material.LAPIS_ORE, Material.OBSIDIAN
     ));
 
+    public static void hyperionAbility(ItemStack i, Player p) {
+        if(ItemHelper.isOnCooldown(i, 0.7f, p, false)) return;
+        PotionEffect absorption = new PotionEffect(PotionEffectType.ABSORPTION, 200, 1);
+        Location newLoc = raycast(p, 10);
+        p.teleport(newLoc);
+        p.playSound(p.getLocation(), Sound.ENTITY_WITHER_SHOOT, 1, 1);
+        p.spawnParticle(Particle.EXPLOSION_HUGE, p.getLocation(), 1);
+        p.spawnParticle(Particle.CRIT_MAGIC, p.getLocation(), 10, 1, 1, 1, 1);
+        int totalDamage = 0;
+        int totalEntities = 0;
+        float dmg = ItemHelper.calcMagicDamage(p, 15);
+        for(Entity e : p.getNearbyEntities(4, 4, 4)) {
+            if(e instanceof LivingEntity) {
+                LivingEntity le = (LivingEntity) e;
+                le.damage(dmg);
+                totalDamage += dmg;
+                totalEntities++;
+            }
+        }
+        if(totalEntities > 0) {
+            p.sendMessage(ChatColor.GRAY+"Your Wither Impact hit " +ChatColor.RED+ totalEntities + ChatColor.GRAY + (totalEntities == 1 ? " enemy" : " enemies")+" for a total of "+ ChatColor.RED + totalDamage*5 + ChatColor.GRAY + " damage!");
+        }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
+            double hp = Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
+            double thp = hp/10d;
+            p.setHealth(Math.min((p.getHealth() + thp), hp));
+            p.addPotionEffect(absorption);
+            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 2);
+        }, 4L);
+    }
+
     public static void demeterAbility(ItemStack i, Player p) {
         if(ItemHelper.isOnCooldown(i, 5f, p, true)) return;
         double hp = Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
@@ -66,7 +99,7 @@ public class AbilityStorage {
     }
 
     public static void tripleShot(Player p) {
-        Vector base = p.getLocation().getDirection();
+        Vector base = p.getEyeLocation().getDirection();
         Vector left = base.rotateAroundZ(-60d);
         Vector right = base.rotateAroundZ(60d);
         Arrow arr1 = p.launchProjectile(Arrow.class, left);

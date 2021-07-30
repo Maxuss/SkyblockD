@@ -1,17 +1,26 @@
 package space.maxus.skyblockd.listeners;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
+import space.maxus.skyblockd.helpers.ScoreboardHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.PlayerSkills;
 import space.maxus.skyblockd.objects.RankContainer;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,7 +60,7 @@ public class LoginListener extends BetterListener {
         }
 
         PlayerContainer pc = ps.get(ps.size()-1);
-
+        pc.lastJoin = System.currentTimeMillis();
         RankContainer pr = pc.ranks;
 
         String rank = pr.rankGroup;
@@ -66,5 +75,44 @@ public class LoginListener extends BetterListener {
         p.setCustomName(name.replace(stripped, "").replace(" ", ""));
 
         p.setCustomNameVisible(true);
+
+        ContainerHelper.updatePlayers();
+
+        Scoreboard sb;
+        Objective obj;
+        if(ScoreboardHelper.playerBoards.containsKey(p.getUniqueId())) {
+            sb = ScoreboardHelper.playerBoards.get(p.getUniqueId());
+            obj = sb.getObjective("main");
+        } else {
+            sb = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
+            obj = sb.registerNewObjective("main", "dummy", ChatColor.YELLOW+""+ChatColor.BOLD+"SkyblockD");
+            ScoreboardHelper.playerBoards.put(p.getUniqueId(), sb);
+        }
+        assert obj != null;
+
+        Date date = new Date();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
+        String strDate = sdf.format(date);
+
+        Score sbdate = obj.getScore(ChatColor.GRAY+strDate);
+        sbdate.setScore(0);
+        Score empty = obj.getScore(" ");
+        empty.setScore(1);
+        Biome pb = p.getLocation().getBlock().getBiome();
+        HashMap<Biome, String> a = MovementListener.importantBiomes;
+        String loc = ChatColor.DARK_GRAY+"???";
+        if(a.containsKey(pb)) {
+            loc = a.get(pb);
+        }
+        Score location = obj.getScore(ChatColor.GRAY+"Location: "+loc);
+        location.setScore(2);
+        Score ee = obj.getScore("  ");
+        ee.setScore(3);
+        Score bottom = obj.getScore(ChatColor.AQUA+""+ChatColor.BOLD+SkyblockD.getServerIp());
+        bottom.setScore(4);
+
+        p.setScoreboard(sb);
+
     }
 }

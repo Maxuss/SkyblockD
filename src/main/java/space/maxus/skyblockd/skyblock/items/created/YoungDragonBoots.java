@@ -5,7 +5,6 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -54,7 +53,6 @@ public class YoungDragonBoots extends SkyblockItem {
                 new AttributeModifier("generic.movementSpeed", 0.08, AttributeModifier.Operation.ADD_NUMBER));
         LeatherArmorMeta lm = (LeatherArmorMeta) m;
         lm.setColor(Color.fromRGB(213, 255, 207));
-        lm.addEnchant(Enchantment.DURABILITY, 7, true);
         i.setItemMeta(lm);
         return i;
     }

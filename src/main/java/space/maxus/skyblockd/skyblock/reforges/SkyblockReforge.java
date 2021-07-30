@@ -14,6 +14,10 @@ public enum SkyblockReforge {
     SHADY("Shady", new ShadyReforge(), 8),
     ETHEREAL("Ethereal", new EtherealReforge(), 9),
     FEROCIOUS("Ferocious", new FerociousReforge(), 10),
+    BLESSED("Blessed", new BlessedReforge(), 11),
+    WITHERED("Withered", new WitheredReforge(), 12),
+    PRISMATIC("Prismatic", new PrismaticReforge(), 13),
+    HARDENED("Hardened", new HardenedReforge(), 14),
     ;
 
     private ReforgeBase base;

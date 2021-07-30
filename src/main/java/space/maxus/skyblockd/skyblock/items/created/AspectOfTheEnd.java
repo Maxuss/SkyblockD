@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -13,6 +14,7 @@ import space.maxus.skyblockd.skyblock.objects.*;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.UUID;
 
 public class AspectOfTheEnd extends SkyblockItem {
     @Override
@@ -45,7 +47,7 @@ public class AspectOfTheEnd extends SkyblockItem {
         assert m != null;
         m.addAttributeModifier(
                 Attribute.GENERIC_ATTACK_DAMAGE,
-                new AttributeModifier("generic.attackDamage", 40, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", 40, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
         m.addAttributeModifier(
                 Attribute.GENERIC_MOVEMENT_SPEED,
                 new AttributeModifier("generic.movementSpeed", 0.025, AttributeModifier.Operation.ADD_NUMBER));

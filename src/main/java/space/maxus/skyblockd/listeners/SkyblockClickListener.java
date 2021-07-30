@@ -102,6 +102,8 @@ public class SkyblockClickListener extends BetterListener {
                 AbilityStorage.aoteAbility(p, i);
             } else if(c.has(SkyblockD.getKey("DEMETER"), b)) {
                 AbilityStorage.demeterAbility(i, p);
+            } else if(c.has(SkyblockD.getKey("WITHER_BLADE"), b)) {
+                AbilityStorage.hyperionAbility(i, p);
             }
         }
     }

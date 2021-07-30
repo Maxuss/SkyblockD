@@ -10,7 +10,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
-import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.objects.*;
@@ -35,13 +34,13 @@ public class FishingListener extends BetterListener {
         SkillContainer fishing = pc.skills.data.get("fishing");
 
         double randModifier = r.nextDouble() - 0.3d;
-        float modifier = 0.3f + ((fishing.currentLevel + 1) / (fishing.currentLevel >= 10 ? 25f : 10f));
+        float modifier = 0.5f+(fishing.currentLevel/10f);
 
         boolean modifyVanilla = randModifier <= modifier;
 
         if(!modifyVanilla) return;
 
-        double scc = (Math.abs(Math.round((fishing.currentLevel + 1) * 1.5f / (fishing.currentLevel >= 10 ? (fishing.currentLevel / 8f) : 1.2f)) - 2) / 15f) - 0.1f + (ItemHelper.getStatFromItems(p, "scc") / 110f);
+        double scc = UniversalHelper.getSeaCreatureChance(p)/100d;
         double randScc = r.nextDouble();
 
         boolean isEntity = randScc <= scc;

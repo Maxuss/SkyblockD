@@ -7,6 +7,7 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.WitherSkull;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import space.maxus.skyblockd.skyblock.items.Shortbow;
@@ -16,6 +17,7 @@ import space.maxus.skyblockd.skyblock.objects.SkyblockItemType;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class KasmirFury extends Shortbow {
     @Override
@@ -57,7 +59,7 @@ public class KasmirFury extends Shortbow {
     public ItemStack postInit(ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
-        m.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier("generic.attackDamage", 150, AttributeModifier.Operation.ADD_NUMBER));
+        m.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(),"generic.attackDamage", 150, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
         m.addAttributeModifier(Attribute.GENERIC_MAX_HEALTH, new AttributeModifier("generic.maxHealth", 20, AttributeModifier.Operation.ADD_NUMBER));
         m.addEnchant(Enchantment.ARROW_DAMAGE, 25, true);
         m.addEnchant(Enchantment.ARROW_KNOCKBACK, 3, true);

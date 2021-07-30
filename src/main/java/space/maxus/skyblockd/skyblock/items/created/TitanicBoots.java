@@ -21,7 +21,7 @@ public class TitanicBoots extends SkyblockItem {
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(Material.IRON_BOOTS,
                 "Titanic Boots", SkyblockRarity.RARE,
-                SkyblockItemType.BOOTS, new SkyblockItemStats().setHealth(50).setDefense(60).setSpeed(-10));
+                SkyblockItemType.BOOTS, new SkyblockItemStats().setHealth(50).setDefense(60));
         cfg.setDescription(Collections.singletonList(ChatColor.GRAY + "Become invincible but (almost) immovable!"));
         return cfg;
     }
@@ -46,9 +46,6 @@ public class TitanicBoots extends SkyblockItem {
         m.addAttributeModifier(
                 Attribute.GENERIC_ARMOR,
                 new AttributeModifier("generic.armor", 6, AttributeModifier.Operation.ADD_NUMBER));
-        m.addAttributeModifier(
-                Attribute.GENERIC_MOVEMENT_SPEED,
-                new AttributeModifier("generic.movementSpeed", -0.01, AttributeModifier.Operation.ADD_NUMBER));
         m.addEnchant(Enchantment.DURABILITY, 7, true);
         i.setItemMeta(m);
         return i;

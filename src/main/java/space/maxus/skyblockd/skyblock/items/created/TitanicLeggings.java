@@ -21,7 +21,7 @@ public class TitanicLeggings extends SkyblockItem {
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(Material.IRON_LEGGINGS,
                 "Titanic Leggings", SkyblockRarity.RARE,
-                SkyblockItemType.LEGGINGS, new SkyblockItemStats().setHealth(50).setDefense(70).setSpeed(-20));
+                SkyblockItemType.LEGGINGS, new SkyblockItemStats().setHealth(50).setDefense(70).setSpeed(-10));
         cfg.setDescription(Collections.singletonList(ChatColor.GRAY + "Become invincible but (almost) immovable!"));
         return cfg;
     }
@@ -48,7 +48,7 @@ public class TitanicLeggings extends SkyblockItem {
                 new AttributeModifier("generic.armor", 7, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_MOVEMENT_SPEED,
-                new AttributeModifier("generic.movementSpeed", -0.02, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.movementSpeed", -0.01, AttributeModifier.Operation.ADD_NUMBER));
         m.addEnchant(Enchantment.DURABILITY, 7, true);
         i.setItemMeta(m);
         return i;

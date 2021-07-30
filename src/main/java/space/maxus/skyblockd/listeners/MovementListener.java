@@ -12,7 +12,7 @@ import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 import java.util.HashMap;
 
 public class MovementListener extends BetterListener {
-    private static final HashMap<Biome, String> importantBiomes = new HashMap<Biome, String>() {
+        public static final HashMap<Biome, String> importantBiomes = new HashMap<Biome, String>() {
         {
             put(Biome.SAVANNA, ChatColor.GOLD+""+ChatColor.BOLD+"ᖲ Savanna ᖲ");
             put(Biome.SHATTERED_SAVANNA, ChatColor.GOLD+""+ChatColor.BOLD+"ᴥ Shattered Savanna ᴥ");

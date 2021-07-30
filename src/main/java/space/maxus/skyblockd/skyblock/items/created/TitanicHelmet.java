@@ -20,7 +20,7 @@ public class TitanicHelmet extends SkyblockSkull {
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(null,
                 "Titanic Helmet", SkyblockRarity.RARE,
-                SkyblockItemType.BOOTS, new SkyblockItemStats().setHealth(50).setDefense(50).setSpeed(-10));
+                SkyblockItemType.BOOTS, new SkyblockItemStats().setHealth(50).setDefense(50));
         cfg.setDescription(Collections.singletonList(ChatColor.GRAY + "Become invincible but (almost) immovable!"));
         return cfg;
     }
@@ -45,9 +45,6 @@ public class TitanicHelmet extends SkyblockSkull {
         m.addAttributeModifier(
                 Attribute.GENERIC_ARMOR,
                 new AttributeModifier("generic.armor", 5, AttributeModifier.Operation.ADD_NUMBER));
-        m.addAttributeModifier(
-                Attribute.GENERIC_MOVEMENT_SPEED,
-                new AttributeModifier("generic.movementSpeed", -0.01, AttributeModifier.Operation.ADD_NUMBER));
         m.addEnchant(Enchantment.DURABILITY, 7, true);
         i.setItemMeta(m);
         return i;

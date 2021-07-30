@@ -2,7 +2,9 @@ package space.maxus.skyblockd.listeners;
 
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
@@ -14,6 +16,7 @@ import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.objects.*;
 import space.maxus.skyblockd.skyblock.entities.EntitySummon;
+import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
 import space.maxus.skyblockd.util.WeightedList;
@@ -55,6 +58,8 @@ public class KillListener extends BetterListener {
             }
         } else if(en.getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)) {
             operateProtectorLoot();
+        } else if(en.getType().equals(EntityType.WITHER)) {
+            operateWitherLoot(SkyblockEntity.WitherType.values()[en.getPersistentDataContainer().get(SkyblockD.getKey("witherType"), PersistentDataType.INTEGER)]);
         }
 
         if(en.getPersistentDataContainer().has(SkyblockD.getKey("FANATIC"), PersistentDataType.BYTE)) {
@@ -122,6 +127,74 @@ public class KillListener extends BetterListener {
         int fullExp = (int) ((int) Math.round(Objects.requireNonNull(en.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue() / 6) + exp);
 
         operateSkill("combat", fullExp, p, pc);
+    }
+
+    public static void operateWitherLoot(SkyblockEntity.WitherType witherType) {
+        if(DamageListener.witherDamagers.isEmpty()) {
+            Bukkit.broadcastMessage(ChatColor.RED+"Wither was defeated by mysterious force! It's spirit seeks for revenge!");
+            return;
+        }
+        HashMap<UUID, Double> damagers = DamageListener.witherDamagers;
+        LinkedHashMap<UUID, Double> parsed = new LinkedHashMap<>(damagers);
+        int i = 0;
+
+        List<String> displays = new ArrayList<>();
+        displays.add(ChatColor.RED+
+                "-----------------------------------------------------");
+        displays.add(ChatColor.DARK_RED+""+ChatColor.BOLD+
+                "                      "+ChatColor.stripColor(witherType.name())+" DOWN!                ");
+        displays.add(ChatColor.GOLD+
+                "                         Most Damage dealt:");
+        displays.add(" ");
+
+        HashMap<UUID, WeightedList<ItemStack>> drops = new HashMap<>();
+
+        for(Map.Entry<UUID, Double> ent : parsed.entrySet()) {
+            UUID id = ent.getKey();
+            Double dmg = ent.getValue();
+            drops.put(id, WeightedList.getWitherDrops(witherType));
+
+            if(i >= 3) break;
+
+            if(Bukkit.getPlayer(id) == null) continue;
+
+            String playerName = Objects.requireNonNull(Bukkit.getPlayer(id)).getDisplayName();
+            displays.add("  "+ChatColor.YELLOW+""+ChatColor.BOLD+(i+1)+". Place: "+ChatColor.RESET+playerName+ChatColor.YELLOW+" "+Math.round(dmg)*5+" Damage");
+            i++;
+        }
+        displays.add(ChatColor.RED+
+                "-----------------------------------------------------");
+
+        displays.add(" ");
+
+        for (Map.Entry<UUID, WeightedList<ItemStack>> entry: drops.entrySet()) {
+            Player p = Bukkit.getPlayer(entry.getKey());
+            if(p == null) continue;
+            WeightedList<ItemStack> items = entry.getValue();
+
+            Random prand = new Random();
+
+            ItemHelper.trySendRareDrop(SkyblockMaterial.THE_SEAL.getItem(), 500, p, ItemHelper.DropRarity.INSANE);
+
+            for(int j = 0; j < 1; j++) {
+                ItemStack dropped = items.get(prand);
+                assert dropped.getItemMeta() != null;
+                displays.add(p.getDisplayName()+ChatColor.RED+" has obtained "+dropped.getItemMeta().getDisplayName()+" "+dropped.getAmount()+"x ");
+                if(p.getInventory().firstEmpty() != -1) {
+                    p.getInventory().addItem(dropped);
+                } else p.getWorld().dropItemNaturally(p.getLocation(), dropped);
+            }
+            ItemStack ecoal = SkyblockMaterial.ENCHANTED_COAL.getItem().clone();
+            ecoal.setAmount(new Random().nextInt(1)+2);
+            if(p.getInventory().firstEmpty() != -1) {
+                p.getInventory().addItem(ecoal);
+            } else {
+                p.getWorld().dropItemNaturally(p.getLocation(), ecoal);
+            }
+        }
+
+        Bukkit.broadcastMessage(String.join("\n", displays));
+        DamageListener.protectorDamagers.clear();
     }
 
     public static void operateProtectorLoot() {

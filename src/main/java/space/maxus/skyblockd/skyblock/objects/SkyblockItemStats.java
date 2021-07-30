@@ -11,7 +11,7 @@ public class SkyblockItemStats {
     private int strength = 0;
     private int defense = 0;
     private int health = 0;
-    private int intelligence = 0;
+    private int abilityDamage = 0;
     private int critChance = 0;
     private int critDamage = 0;
     private int attackSpeed = 0;
@@ -57,8 +57,8 @@ public class SkyblockItemStats {
         return this;
     }
 
-    public SkyblockItemStats setIntelligence(int intelligence) {
-        this.intelligence = intelligence;
+    public SkyblockItemStats setAbilityDamage(int intelligence) {
+        this.abilityDamage = intelligence;
         return this;
     }
 
@@ -114,7 +114,7 @@ public class SkyblockItemStats {
 
     public boolean hasGreenStats() {
         List<Integer> stats = Arrays.asList(
-                health, defense, speed, intelligence,
+                health, defense, speed, abilityDamage,
                 magicFind, petLuck, trueDefense, ferocity, soulflow
         );
         return stats.stream().anyMatch(i -> i != 0);
@@ -162,7 +162,7 @@ public class SkyblockItemStats {
         return proccessStat("Speed", speed, g, false);
     }
     @StatPosition(10)
-    public String getIntelligence() { return proccessStat("Intelligence", intelligence, g, false); }
+    public String getIntelligence() { return proccessStat("Ability Damage", abilityDamage, g, true); }
     @StatPosition(11)
     public String getMagicFind() {
         return proccessStat("Magic Find", magicFind, g, false);

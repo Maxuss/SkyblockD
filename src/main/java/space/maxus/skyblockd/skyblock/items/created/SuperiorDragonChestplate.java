@@ -5,7 +5,6 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -56,8 +55,7 @@ public class SuperiorDragonChestplate extends SkyblockItem {
                 Attribute.GENERIC_MOVEMENT_SPEED,
                 new AttributeModifier("generic.movementSpeed", 0.05, AttributeModifier.Operation.ADD_NUMBER));
         LeatherArmorMeta lm = (LeatherArmorMeta) m;
-        lm.setColor(Color.fromRGB(240, 190, 43));
-        lm.addEnchant(Enchantment.DURABILITY, 7, true);
+        lm.setColor(Color.fromRGB(242, 223, 17));
         i.setItemMeta(lm);
         return i;
     }

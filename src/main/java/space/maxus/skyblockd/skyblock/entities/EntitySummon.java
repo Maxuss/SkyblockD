@@ -2,7 +2,6 @@ package space.maxus.skyblockd.skyblock.entities;
 
 import org.bukkit.entity.Entity;
 import space.maxus.skyblockd.skyblock.entities.created.*;
-import space.maxus.skyblockd.skyblock.entities.npc.created.EnderianZealot;
 
 public enum EntitySummon {
     // NORMAL
@@ -23,9 +22,6 @@ public enum EntitySummon {
     SEA_LEECH(new SeaLeech()),
     ATLANTIS(new Atlantis()),
     ENDSTONE_PROTECTOR(new EndstoneProtector()),
-
-    // PLAYER NPC
-    ENDERIAN_ZEALOT(new EnderianZealot())
 
     ;
 
