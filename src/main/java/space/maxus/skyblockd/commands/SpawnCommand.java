@@ -3,6 +3,7 @@ package space.maxus.skyblockd.commands;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.entities.EntitySummon;
 
 import java.util.Arrays;
@@ -10,12 +11,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-@CommandInfo(name = "spawn", permission = "skyblockd.admin", playerOnly = true, configReq = "")
+@CommandInfo(name = "spawn", permission = "skyblockd.admin", playerOnly = true)
 public class SpawnCommand extends ChatCommand {
     private final List<String> entities = Arrays.stream(EntitySummon.values()).map(Enum::name).collect(Collectors.toList());
 
     @Override
-    public boolean execute(CommandSender sender, String[] args) {
+    public boolean execute(CommandSender sender, String @NotNull [] args) {
         if (args.length < 1) return false;
         Player p = (Player) sender;
         String id = args[0];

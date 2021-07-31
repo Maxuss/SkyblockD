@@ -2,6 +2,7 @@ package space.maxus.skyblockd.skyblock.skills.created;
 
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.skills.ComplexReward;
 import space.maxus.skyblockd.skyblock.skills.SkillMap;
@@ -18,7 +19,7 @@ public class MiningSkillMap extends SkillMap {
     }
 
     @Override
-    public List<ComplexReward> getRewardList() {
+    public @NotNull List<ComplexReward> getRewardList() {
         ItemStack ecobble = SkyblockMaterial.ENCHANTED_COBBLESTONE.getItem();
         ecobble.setAmount(16);
         ItemStack rockPile = SkyblockMaterial.ENCHANTED_ROCK_PILE.getItem();

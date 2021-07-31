@@ -6,10 +6,12 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.BlockIterator;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.MaterialHelper;
@@ -40,7 +42,7 @@ public class AbilityStorage {
             Material.LAPIS_ORE, Material.OBSIDIAN
     ));
 
-    public static void hyperionAbility(ItemStack i, Player p) {
+    public static void hyperionAbility(ItemStack i, @NotNull Player p) {
         if(ItemHelper.isOnCooldown(i, 0.7f, p, false)) return;
         PotionEffect absorption = new PotionEffect(PotionEffectType.ABSORPTION, 200, 1);
         Location newLoc = raycast(p, 10);
@@ -53,10 +55,13 @@ public class AbilityStorage {
         float dmg = ItemHelper.calcMagicDamage(p, 15);
         for(Entity e : p.getNearbyEntities(4, 4, 4)) {
             if(e instanceof LivingEntity) {
-                LivingEntity le = (LivingEntity) e;
-                le.damage(dmg);
-                totalDamage += dmg;
-                totalEntities++;
+                if(!e.getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)
+                && !e.getType().equals(EntityType.WITHER)) {
+                    LivingEntity le = (LivingEntity) e;
+                    le.damage(dmg);
+                    totalDamage += dmg;
+                    totalEntities++;
+                }
             }
         }
         if(totalEntities > 0) {
@@ -71,7 +76,7 @@ public class AbilityStorage {
         }, 4L);
     }
 
-    public static void demeterAbility(ItemStack i, Player p) {
+    public static void demeterAbility(ItemStack i, @NotNull Player p) {
         if(ItemHelper.isOnCooldown(i, 5f, p, true)) return;
         double hp = Objects.requireNonNull(p.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue();
         double thp = hp/4d;
@@ -86,7 +91,7 @@ public class AbilityStorage {
         }
     }
 
-    public static void aoteAbility(Player p, ItemStack i) {
+    public static void aoteAbility(@NotNull Player p, ItemStack i) {
         if(!ItemHelper.isOnCooldown(i, 0.5f, p, false)) {
             Location n = raycast(p, 6);
             p.teleport(n);
@@ -98,7 +103,7 @@ public class AbilityStorage {
         }
     }
 
-    public static void tripleShot(Player p) {
+    public static void tripleShot(@NotNull Player p) {
         Vector base = p.getEyeLocation().getDirection();
         Vector left = base.rotateAroundZ(-60d);
         Vector right = base.rotateAroundZ(60d);
@@ -108,7 +113,7 @@ public class AbilityStorage {
         arr2.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
     }
 
-    public static void thanathosAbility(ItemStack i, Player p) {
+    public static void thanathosAbility(ItemStack i, @NotNull Player p) {
         if(!ItemHelper.isOnCooldown(i, 0.75f, p, false)) {
             Location n = raycast(p, 5);
             p.teleport(n);
@@ -134,7 +139,7 @@ public class AbilityStorage {
         }
     }
 
-    public static void dragonAspectAbility(ItemStack i, Player p) {
+    public static void dragonAspectAbility(ItemStack i, @NotNull Player p) {
         if(!ItemHelper.isOnCooldown(i, 0.7f, p, false)) {
             p.spawnParticle(Particle.EXPLOSION_HUGE, p.getLocation(), 2, 1, 1, 1, 1);
             createHelix(p);
@@ -159,7 +164,7 @@ public class AbilityStorage {
         }
     }
 
-    public static void crusherAbility(ItemStack i, Player p) {
+    public static void crusherAbility(ItemStack i, @NotNull Player p) {
         if (!ItemHelper.isOnCooldown(i, 3, p, true)) {
             Location l = p.getLocation();
             int range = 5;
@@ -187,19 +192,19 @@ public class AbilityStorage {
         }
     }
 
-    public static void dirtBlockBreaker(Block start, int limit, ItemStack shovel, int cooldown, Player p) {
+    public static void dirtBlockBreaker(@NotNull Block start, int limit, ItemStack shovel, int cooldown, @NotNull Player p) {
         blockBreaker(start, limit, shovel, cooldown, p, BreakType.DIRT);
     }
 
-    public static void woodenBlockBreaker(Block start, int limit, ItemStack axe, int cooldown, Player p) {
+    public static void woodenBlockBreaker(@NotNull Block start, int limit, ItemStack axe, int cooldown, @NotNull Player p) {
         blockBreaker(start, limit, axe, cooldown, p, BreakType.WOOD);
     }
 
-    public static void stoneBlockBreaker(Block start, int limit, ItemStack pickaxe, int cooldown, Player p) {
+    public static void stoneBlockBreaker(@NotNull Block start, int limit, ItemStack pickaxe, int cooldown, @NotNull Player p) {
         blockBreaker(start, limit, pickaxe, cooldown, p, BreakType.ROCK);
     }
 
-    private static void blockBreaker(Block start, int limit, ItemStack axe, int cd, Player p, BreakType t) {
+    private static void blockBreaker(@NotNull Block start, int limit, ItemStack axe, int cd, @NotNull Player p, @NotNull BreakType t) {
         if(ItemHelper.isOnCooldown(axe, cd, p, false)) return;
         if(start.getType() == Material.OBSIDIAN) return;
         Material targetMaterial = start.getType();
@@ -247,7 +252,7 @@ public class AbilityStorage {
         }
     }
 
-    private static void createHelix(Player p) {
+    private static void createHelix(@NotNull Player p) {
         Location loc = p.getLocation();
         int radius = 1;
         Random r = new Random(p.getWorld().getSeed());
@@ -266,7 +271,7 @@ public class AbilityStorage {
         ROCK(Sound.BLOCK_STONE_BREAK, "Mining"),
         DIRT(Sound.BLOCK_GRAVEL_BREAK, "Excavating")
         ;
-        boolean isRequired(Material mat) {
+        boolean isRequired(@NotNull Material mat) {
             switch(this) {
                 case WOOD: return MaterialHelper.isMaterialLog(mat);
                 case ROCK: return MaterialHelper.isMaterialStone(mat);
@@ -285,7 +290,7 @@ public class AbilityStorage {
     }
 
     // gets the position of last non-solid block in provided distance
-    private static Location raycast(LivingEntity from, int distance) {
+    private static @NotNull Location raycast(@NotNull LivingEntity from, int distance) {
         try {
             Location eyes = from.getEyeLocation();
             BlockIterator iterator = new BlockIterator(from.getLocation(), 1, distance);

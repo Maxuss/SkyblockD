@@ -5,6 +5,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.reforges.ReforgeBase;
 import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
@@ -20,17 +21,17 @@ public class WarpedReforge extends ReforgeBase {
     }
 
     @Override
-    public SkyblockReforge getReforge() {
+    public @NotNull SkyblockReforge getReforge() {
         return SkyblockReforge.WARPED;
     }
 
     @Override
-    public List<String> getDisplayStats() {
+    public @NotNull List<String> getDisplayStats() {
         return Arrays.asList(ChatColor.GRAY+"Heavily increases your damage", ChatColor.GRAY+"while in "+ChatColor.LIGHT_PURPLE+"The End",ChatColor.GREEN+"+ 10 " + SkyblockConstants.DEFENCE+ " Defense");
     }
 
     @Override
-    public void applyBaseStats(int modifier, ItemStack item) {
+    public void applyBaseStats(int modifier, @NotNull ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         double prev = 0.0d;
@@ -45,7 +46,7 @@ public class WarpedReforge extends ReforgeBase {
     }
 
     @Override
-    public void removeBaseStats(int modifier, ItemStack item) {
+    public void removeBaseStats(int modifier, @NotNull ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         double prev = 0;

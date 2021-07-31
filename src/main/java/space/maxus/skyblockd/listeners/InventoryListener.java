@@ -9,6 +9,7 @@ import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.gui.*;
 import space.maxus.skyblockd.helpers.GuiHelper;
@@ -32,7 +33,7 @@ import static org.bukkit.event.Event.Result;
 public class InventoryListener extends BetterListener {
 
     @EventHandler
-    public void onClick(InventoryClickEvent e) {
+    public void onClick(@NotNull InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
         String title = e.getView().getTitle();
         if (title.equalsIgnoreCase(ChatColor.DARK_GRAY + "SkyblockD Menu")) {
@@ -58,7 +59,7 @@ public class InventoryListener extends BetterListener {
         }
     }
 
-    private void itemRecipe(InventoryClickEvent e, Player p) {
+    private void itemRecipe(@NotNull InventoryClickEvent e, @NotNull Player p) {
         e.setResult(Result.DENY);
         if(e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE) return;
         ItemStack cur = e.getCurrentItem();
@@ -80,7 +81,7 @@ public class InventoryListener extends BetterListener {
         p.updateInventory();
     }
 
-    private void recipeBrowser(InventoryClickEvent e, Player p, String title) {
+    private void recipeBrowser(@NotNull InventoryClickEvent e, @NotNull Player p, @NotNull String title) {
         if(e.getCurrentItem() == null || e.getCurrentItem().getType().isAir()) return;
         int curPage = Integer.parseInt(title.replace("Recipe Browser ", ""));
 
@@ -109,7 +110,7 @@ public class InventoryListener extends BetterListener {
         }
     }
 
-    private void reforge(InventoryClickEvent e, Player p) {
+    private void reforge(@NotNull InventoryClickEvent e, @NotNull Player p) {
         if(e.getClickedInventory() == null) return;
         if(e.getClickedInventory().getSize() == 54) {
             if(e.getSlot() != 34 && e.getSlot() != 28) e.setResult(Result.DENY);
@@ -151,7 +152,7 @@ public class InventoryListener extends BetterListener {
         }
     }
 
-    private void vaultGet(InventoryClickEvent e, Player p) {
+    private void vaultGet(@NotNull InventoryClickEvent e, @NotNull Player p) {
         ItemStack item = e.getCurrentItem();
         if(item == null) return;
         e.setResult(Result.DENY);
@@ -164,7 +165,7 @@ public class InventoryListener extends BetterListener {
         }
     }
 
-    private void vault(InventoryClickEvent e, Player p, String title) {
+    private void vault(@NotNull InventoryClickEvent e, @NotNull Player p, @NotNull String title) {
         int curPage = Integer.parseInt(title.replace("The Vault ", ""));
 
         if(e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) return;
@@ -195,7 +196,7 @@ public class InventoryListener extends BetterListener {
     }
 
 
-    private void elixirs(InventoryClickEvent e, Player p) {
+    private void elixirs(@NotNull InventoryClickEvent e, @NotNull Player p) {
         ItemStack is = e.getCurrentItem();
         e.setResult(Result.DENY);
         if(is != null) {
@@ -275,7 +276,7 @@ public class InventoryListener extends BetterListener {
         }
     }
 
-    private void removeItem(ItemStack item, Inventory i, int amount) {
+    private void removeItem(ItemStack item, @NotNull Inventory i, int amount) {
         for(ItemStack it : i.getContents()) {
             if(it != null && it.getType() != Material.AIR && it.isSimilar(item)) {
                 it.setAmount(it.getAmount()-amount);
@@ -285,7 +286,7 @@ public class InventoryListener extends BetterListener {
         }
     }
 
-    private void skills(InventoryClickEvent e, Player p){
+    private void skills(@NotNull InventoryClickEvent e, @NotNull Player p){
         if(e.getCurrentItem() == null) return;
         e.setCancelled(true);
         switch(ChatColor.stripColor(Objects.requireNonNull(e.getCurrentItem().getItemMeta()).getDisplayName())) {
@@ -332,7 +333,7 @@ public class InventoryListener extends BetterListener {
         }
     }
 
-    private void menu(InventoryClickEvent e, Player p) {
+    private void menu(@NotNull InventoryClickEvent e, @NotNull Player p) {
         if(e.getCurrentItem() == null) return;
         String displayName = ChatColor.stripColor((Objects.requireNonNull(e.getCurrentItem().getItemMeta()).getDisplayName()));
         if(displayName.equalsIgnoreCase("Your Skills")) {
@@ -356,7 +357,7 @@ public class InventoryListener extends BetterListener {
         p.updateInventory();
     }
 
-    private void recombobulator(InventoryClickEvent e, Player p) {
+    private void recombobulator(@NotNull InventoryClickEvent e, @NotNull Player p) {
         ItemStack i = e.getCurrentItem();
         if (i != null) {
             PersistentDataContainer c = Objects.requireNonNull(i.getItemMeta()).getPersistentDataContainer();
@@ -396,7 +397,7 @@ public class InventoryListener extends BetterListener {
         }
     }
 
-    private void skillClaim(InventoryClickEvent e, Player p) {
+    private void skillClaim(@NotNull InventoryClickEvent e, @NotNull Player p) {
         e.setResult(Result.DENY);
         p.updateInventory();
         if(e.getCurrentItem() != null && ChatColor.stripColor(Objects.requireNonNull(e.getCurrentItem().getItemMeta()).getDisplayName()).equals("Go back")) {

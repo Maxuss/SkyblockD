@@ -7,6 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.elixirs.ElixirEffect;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
@@ -19,7 +20,7 @@ public class YetiEffect extends ElixirEffect {
     }
 
     @Override
-    public void applyEffect(Player p) {
+    public void applyEffect(@NotNull Player p) {
         PotionEffect e1 = new PotionEffect(PotionEffectType.SLOW, 800, 1);
         PotionEffect e2 = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 800, 1);
         PotionEffect e3 = new PotionEffect(PotionEffectType.ABSORPTION, 800, 3);
@@ -27,12 +28,12 @@ public class YetiEffect extends ElixirEffect {
     }
 
     @Override
-    public String getEffectName() {
+    public @NotNull String getEffectName() {
         return ChatColor.AQUA+"Yeti " + SkyblockConstants.MAGIC_FIND;
     }
 
     @Override
-    public ItemStack addTag(ItemStack item) {
+    public @NotNull ItemStack addTag(@NotNull ItemStack item) {
         ItemMeta m = item.getItemMeta();
         assert m != null;
         m.getPersistentDataContainer().set(SkyblockD.getKey("elixirEffect"), PersistentDataType.STRING, "yeti");

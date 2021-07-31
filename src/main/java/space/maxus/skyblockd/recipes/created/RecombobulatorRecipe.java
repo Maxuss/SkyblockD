@@ -2,6 +2,7 @@ package space.maxus.skyblockd.recipes.created;
 
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.recipes.RecipeBase;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
@@ -9,7 +10,7 @@ import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 public class RecombobulatorRecipe extends RecipeBase<ShapedRecipe> {
 
     @Override
-    public ShapedRecipe getRecipe() {
+    public @NotNull ShapedRecipe getRecipe() {
         ShapedRecipe r = new ShapedRecipe(SkyblockD.getKey("recombobulator_recipe"), SkyblockMaterial.RECOMBOBULATOR.getItem());
         r.shape(
                 "OOO",

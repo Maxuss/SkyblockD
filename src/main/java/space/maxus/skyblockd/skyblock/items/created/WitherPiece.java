@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.skyblock.items.created;
 
 import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.objects.SkyblockAbilityType;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemAbility;
 
@@ -9,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 public interface WitherPiece {
-    default List<SkyblockItemAbility> getAbility() {
+    default @NotNull List<SkyblockItemAbility> getAbility() {
         return Collections.singletonList(new SkyblockItemAbility("Withering Hate",
                 SkyblockAbilityType.FULL_SET_BONUS,
                 Arrays.asList(

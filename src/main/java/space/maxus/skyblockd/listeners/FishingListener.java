@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
@@ -23,7 +24,7 @@ import java.util.Random;
 
 public class FishingListener extends BetterListener {
     @EventHandler
-    public void onFish(PlayerFishEvent e) {
+    public void onFish(@NotNull PlayerFishEvent e) {
         if(e.getState() != PlayerFishEvent.State.CAUGHT_FISH || e.getCaught() == null) return;
 
         Entity caught = e.getCaught();
@@ -54,13 +55,19 @@ public class FishingListener extends BetterListener {
             Singleton<WeightedList<ItemStack>, Boolean> items = WeightedList.fromFishingData(drops);
             Item i = (Item) caught;
             ItemStack item = items.getFirst().get(r);
-            String name = items.getSecond() ? "ENCHANTED_"+item.getType().name() : item.getType().name();
+            String name;
+            if (items.getSecond()) {
+                assert item != null;
+                name = "ENCHANTED_"+item.getType().name();
+            } else {
+                name = item.getType().name();
+            }
             i.setItemStack(item);
             operateFishingSkill(p, name);
         }
     }
 
-    private void operateEntity(SkillContainer fishing, FishingData fish, Random r, Player p, Entity caught) {
+    private void operateEntity(@NotNull SkillContainer fishing, @NotNull FishingData fish, @NotNull Random r, @NotNull Player p, @NotNull Entity caught) {
         Singleton<WeightedList<String>, Boolean> singleton = WeightedList.getFishingSummons(fish.mobs);
         WeightedList<String> entities = singleton.getFirst();
         boolean isSb = singleton.getSecond();
@@ -83,6 +90,7 @@ public class FishingListener extends BetterListener {
             SeaCreatureContainer sc = fish.mobs.vanilla.get(name);
             EntityType type = EntityType.valueOf(name);
             int reqLvl = sc.level;
+            assert name != null;
             String formattedName = ChatColor.GREEN + CustomItem.capitalize(name.toLowerCase(Locale.ENGLISH).replace("_", " "));
 
             if(fishing.currentLevel + 1 < reqLvl) {
@@ -100,7 +108,7 @@ public class FishingListener extends BetterListener {
         }
     }
 
-    private void operateFishingSkill(Player p, String itemName) {
+    private void operateFishingSkill(@NotNull Player p, @NotNull String itemName) {
         int xp = xpFromName(itemName);
 
         PlayerContainer cont = ContainerHelper.getPlayer(p);
@@ -113,7 +121,7 @@ public class FishingListener extends BetterListener {
         UniversalHelper.giveSkillExperience(p, "fishing", Math.round(exp));
     }
 
-    private int xpFromName(String name) {
+    private int xpFromName(@NotNull String name) {
         switch(name) {
             case "ENCHANTED_DIRT": return 20;
 
@@ -139,7 +147,7 @@ public class FishingListener extends BetterListener {
                     Integer exp = SkyblockD.getServerData().fishing.get(name);
                     assert exp != null;
                     return exp;
-                } catch(NullPointerException | AssertionError e) {
+                } catch(@NotNull NullPointerException | AssertionError e) {
                     return 10;
                 }
         }

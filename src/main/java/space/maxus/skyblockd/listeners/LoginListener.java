@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.ScoreboardHelper;
@@ -26,7 +27,7 @@ import java.util.Objects;
 
 public class LoginListener extends BetterListener {
     @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
+    public void onJoin(@NotNull PlayerJoinEvent e) {
         Player p = e.getPlayer();
         if(SkyblockD.inMaintenace) {
             if (p.hasPermission("skyblockd.admin")) {
@@ -47,7 +48,7 @@ public class LoginListener extends BetterListener {
         }
     }
 
-    private void processPlayer(Player p){
+    private void processPlayer(@NotNull Player p){
         List<PlayerContainer> ps = UniversalHelper.filter(SkyblockD.getPlayers(), c -> c.uuid.equals(p.getUniqueId()));
 
         if(ps.isEmpty()){

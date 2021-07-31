@@ -3,6 +3,7 @@ package space.maxus.skyblockd.skyblock.items.created;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockItem;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 
 public class RecombobulatorCore extends SkyblockItem {
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.CHORUS_FRUIT,
                 "Recombobulator Core",
@@ -37,7 +38,7 @@ public class RecombobulatorCore extends SkyblockItem {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("recombobulator_core");
     }
 

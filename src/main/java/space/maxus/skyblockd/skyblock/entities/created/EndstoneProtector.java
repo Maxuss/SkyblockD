@@ -10,6 +10,7 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 
@@ -17,7 +18,7 @@ import java.util.Objects;
 
 public class EndstoneProtector extends SkyblockEntity {
     @Override
-    public Location getLocation(Entity e) {
+    public @NotNull Location getLocation(@NotNull Entity e) {
         return e.getLocation();
     }
 
@@ -27,12 +28,12 @@ public class EndstoneProtector extends SkyblockEntity {
     }
 
     @Override
-    public EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.IRON_GOLEM;
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return ChatColor.DARK_PURPLE+"Endstone Protector";
     }
 
@@ -57,12 +58,12 @@ public class EndstoneProtector extends SkyblockEntity {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("endstone_protector");
     }
 
     @Override
-    public void postInit(LivingEntity entity, Entity base) {
+    public void postInit(@NotNull LivingEntity entity, Entity base) {
         PotionEffect regen = new PotionEffect(PotionEffectType.REGENERATION, 1000, 5, false, true);
         Objects.requireNonNull(entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(0.3d);
         entity.addPotionEffect(regen);

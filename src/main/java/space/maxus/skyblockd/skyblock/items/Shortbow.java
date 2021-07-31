@@ -5,6 +5,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.created.*;
 import space.maxus.skyblockd.skyblock.objects.SkyblockAbilityType;
@@ -15,16 +16,17 @@ import java.util.Collections;
 
 public abstract class Shortbow extends SkyblockItem {
 
-    public abstract Class<? extends Projectile> getProjectileType();
-    public abstract String getId();
+    public abstract @NotNull Class<? extends Projectile> getProjectileType();
+    public abstract @NotNull String getId();
     public abstract float getShootCooldown();
     public abstract double getArrowDamage();
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace(getId()+"_shortbow");
     }
 
+    @SuppressWarnings("all")
     @Override
     public ItemStack generate() {
 
@@ -39,7 +41,7 @@ public abstract class Shortbow extends SkyblockItem {
         return gend;
     }
 
-    public static Shortbow getByID(String id) {
+    public static Shortbow getByID(@NotNull String id) {
         switch (id) {
             case "TEST":
                 return new TestShortbow();
@@ -60,7 +62,7 @@ public abstract class Shortbow extends SkyblockItem {
         }
     }
 
-    protected void applyAbility(SkyblockItemConfig cfg) {
+    protected void applyAbility(@NotNull SkyblockItemConfig cfg) {
         SkyblockItemAbility sb = new SkyblockItemAbility("Shortbow", SkyblockAbilityType.PASSIVE, Collections.singletonList(ChatColor.GRAY+"Instantly shoots!"));
         if(cfg.getAbilities() != null) {
             cfg.getAbilities().add(sb);

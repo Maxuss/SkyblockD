@@ -2,13 +2,14 @@ package space.maxus.skyblockd.recipes.created;
 
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.recipes.RecipeBase;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
 public class ComplexGuideRecipe extends RecipeBase<ShapedRecipe> {
     @Override
-    public ShapedRecipe getRecipe() {
+    public @NotNull ShapedRecipe getRecipe() {
         ShapedRecipe r = new ShapedRecipe(SkyblockD.getKey("guide_recipe_2"), SkyblockMaterial.RECIPE_GUIDE_2.getItem());
         r.shape(
                 "QLQ",

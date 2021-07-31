@@ -6,6 +6,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
 import space.maxus.skyblockd.helpers.ItemHelper;
@@ -24,12 +25,12 @@ public abstract class CustomItem {
 
     public abstract String getId();
 
-    public static void toSkyblockItem(Item it) {
+    public static void toSkyblockItem(@NotNull Item it) {
         ItemStack i = it.getItemStack();
         toSkyblockItem(i);
     }
 
-    public static void toSkyblockItem(ItemStack i){
+    public static void toSkyblockItem(@NotNull ItemStack i){
         ItemHelper.getExtraStats(i);
         ItemMeta m = i.getItemMeta();
         assert m != null;
@@ -52,7 +53,7 @@ public abstract class CustomItem {
         i.setItemMeta(m);
     }
 
-    public static String capitalize(String str){
+    public static @NotNull String capitalize(@NotNull String str){
         String[] words = str.split("\\s");
         StringBuilder cap = new StringBuilder();
         for(String w: words){

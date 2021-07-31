@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockSkull;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 
 public class FarmhandGlory extends SkyblockSkull {
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.PLAYER_HEAD, "Farmhand's Glory", SkyblockRarity.LEGENDARY,
                 SkyblockItemType.ACCESSORY, new SkyblockItemStats()
@@ -35,12 +36,12 @@ public class FarmhandGlory extends SkyblockSkull {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("farmhand_glory");
     }
 
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta meta = i.getItemMeta();
         assert meta != null;
         meta.getPersistentDataContainer().set(SkyblockD.getKey("blockClicks"), PersistentDataType.BYTE, (byte)1);
@@ -50,7 +51,7 @@ public class FarmhandGlory extends SkyblockSkull {
     }
 
     @Override
-    public String getSkinHash() {
+    public @NotNull String getSkinHash() {
         return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjY1ODQ5YWY0ZmMxYTc0ODQ3YmJlMmU3ZmVkZDJlYWIyY2RhMjU0NjUxZTViNmM0YWJhNzk0OTNhODMxN2FkNSJ9fX0=";
     }
 }

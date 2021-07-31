@@ -8,6 +8,7 @@ import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.items.Shortbow;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemStats;
@@ -18,12 +19,12 @@ import java.util.Arrays;
 
 public class DraconicShortbow extends Shortbow {
     @Override
-    public Class<? extends Projectile> getProjectileType() {
+    public @NotNull Class<? extends Projectile> getProjectileType() {
         return Fireball.class;
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return "DRAGON";
     }
 
@@ -38,7 +39,7 @@ public class DraconicShortbow extends Shortbow {
     }
 
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(Material.BOW,
                 "Draconic Shortbow", SkyblockRarity.EPIC, SkyblockItemType.SHORTBOW,
                 new SkyblockItemStats().setDamage(50).setSpeed(-50));
@@ -53,7 +54,7 @@ public class DraconicShortbow extends Shortbow {
     }
 
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
         m.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier("generic.attackDamage", 75, AttributeModifier.Operation.ADD_NUMBER));

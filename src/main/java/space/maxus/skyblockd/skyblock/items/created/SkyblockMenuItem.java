@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
 import space.maxus.skyblockd.items.CustomItem;
@@ -15,7 +16,7 @@ import java.util.List;
 public class SkyblockMenuItem extends CustomItem implements SkyblockFeature {
 
     @Override
-    public Material getMaterial() {
+    public @NotNull Material getMaterial() {
         return Material.NETHER_STAR;
     }
 
@@ -25,7 +26,7 @@ public class SkyblockMenuItem extends CustomItem implements SkyblockFeature {
     }
 
     @Override
-    public ItemMeta generateMeta(ItemMeta m) {
+    public @NotNull ItemMeta generateMeta(@NotNull ItemMeta m) {
         m.setDisplayName(ChatColor.YELLOW + "Skyblock Menu");
         List<String> lore = Arrays.asList(
                 ChatColor.GRAY + "Right click this item to open", ChatColor.GRAY + "Skyblock menu!"
@@ -39,12 +40,12 @@ public class SkyblockMenuItem extends CustomItem implements SkyblockFeature {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return SkyblockD.getNamespace("skyblock_menu");
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return getId();
     }
 }

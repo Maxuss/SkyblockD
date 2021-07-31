@@ -5,6 +5,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.reforges.ReforgeBase;
 import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
@@ -21,12 +22,12 @@ public class WitheredReforge extends ReforgeBase {
     }
 
     @Override
-    public SkyblockReforge getReforge() {
+    public @NotNull SkyblockReforge getReforge() {
         return SkyblockReforge.WITHERED;
     }
 
     @Override
-    public List<String> getDisplayStats() {
+    public @NotNull List<String> getDisplayStats() {
         return Arrays.asList(
                 ChatColor.RED+"+7 "+ SkyblockConstants.STRENGTH + " Strength",
                 ChatColor.GRAY+"per rarity tier!"
@@ -34,7 +35,7 @@ public class WitheredReforge extends ReforgeBase {
     }
 
     @Override
-    public void applyBaseStats(int modifier, ItemStack item) {
+    public void applyBaseStats(int modifier, @NotNull ItemStack item) {
         ItemMeta m = item.getItemMeta();
         assert m != null;
         PersistentDataContainer c = m.getPersistentDataContainer();
@@ -47,7 +48,7 @@ public class WitheredReforge extends ReforgeBase {
     }
 
     @Override
-    public void removeBaseStats(int modifier, ItemStack item) {
+    public void removeBaseStats(int modifier, @NotNull ItemStack item) {
         ItemMeta m = item.getItemMeta();
         assert m != null;
         PersistentDataContainer c = m.getPersistentDataContainer();

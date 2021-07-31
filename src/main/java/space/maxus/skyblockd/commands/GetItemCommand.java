@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.ArmorSet;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
@@ -16,10 +17,10 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-@CommandInfo(name = "getitem", permission = "skyblockd.admin", playerOnly = true, configReq = "")
+@CommandInfo(name = "getitem", permission = "skyblockd.admin", playerOnly = true)
 public class GetItemCommand extends ChatCommand {
 
-    private void give(Player p, ItemStack it){
+    private void give(@NotNull Player p, ItemStack it){
         int free = p.getInventory().firstEmpty();
         if (free == -1) {
             p.sendMessage(ChatColor.RED + "You do not have enough inventory space!");
@@ -30,7 +31,7 @@ public class GetItemCommand extends ChatCommand {
     }
 
     @Override
-    public boolean execute(CommandSender sender, String[] args) {
+    public boolean execute(CommandSender sender, String @NotNull [] args) {
         if (args.length < 1) return false;
         Player p = (Player) sender;
         String id = args[0];

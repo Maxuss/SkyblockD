@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockItem;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 
 public class ErrorItem extends SkyblockItem {
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(Material.EGG,
                 "Error?", SkyblockRarity.ERROR,
                 SkyblockItemType.OTHER_NONCONSUMABLE, new SkyblockItemStats());
@@ -35,12 +36,12 @@ public class ErrorItem extends SkyblockItem {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("error_item");
     }
 
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta meta = i.getItemMeta();
         assert meta != null;
         meta.getPersistentDataContainer().set(SkyblockD.getKey("blockClicks"), PersistentDataType.BYTE, (byte)1);

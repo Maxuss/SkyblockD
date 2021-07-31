@@ -20,9 +20,9 @@ public enum SkyblockReforge {
     HARDENED("Hardened", new HardenedReforge(), 14),
     ;
 
-    private ReforgeBase base;
-    private String display;
-    private int index;
+    private final ReforgeBase base;
+    private final String display;
+    private final int index;
 
     public ReforgeBase getBase() {
         return this.base;

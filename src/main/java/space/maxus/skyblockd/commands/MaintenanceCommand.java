@@ -4,12 +4,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 
 @CommandInfo(name = "maintenance", permission = "skyblockd.admin", playerOnly = false)
 public class MaintenanceCommand extends ChatCommand {
     @Override
-    public boolean execute(CommandSender sender, String[] args) {
+    public boolean execute(@NotNull CommandSender sender, String[] args) {
         if(SkyblockD.inMaintenace) {
             SkyblockD.inMaintenace = false;
             sender.sendMessage(ChatColor.GREEN+"Server is now back in normal mode!");

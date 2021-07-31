@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.skyblock.items.created;
 
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.ArmorSet;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
@@ -8,7 +9,7 @@ import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 public class StrongSet extends ArmorSet {
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("strong_set");
     }
 

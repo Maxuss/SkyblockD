@@ -6,6 +6,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockSkull;
 import space.maxus.skyblockd.skyblock.objects.*;
@@ -16,7 +17,7 @@ import java.util.Collections;
 
 public class HolyGrail extends SkyblockSkull {
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.PLAYER_HEAD, "The Holy Grail",
                 SkyblockRarity.RELIC, SkyblockItemType.OTHER_NONCONSUMABLE,
@@ -40,12 +41,12 @@ public class HolyGrail extends SkyblockSkull {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("holy_grail");
     }
 
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
         m.addAttributeModifier(
@@ -56,7 +57,7 @@ public class HolyGrail extends SkyblockSkull {
     }
 
     @Override
-    public String getSkinHash() {
+    public @NotNull String getSkinHash() {
         // https://minecraft-heads.com/custom-heads/decoration/3018-golden-chalice-with-gem-light-blue
         return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzc1NGVlZDhkMDVhMTk2YzNmYzJkMjUxMTQxN2ViNTYyNjI2MjE0MTRjZTNiM2RmYjM1NzFhZWE0ZGRkYzQ3MCJ9fX0=";
     }

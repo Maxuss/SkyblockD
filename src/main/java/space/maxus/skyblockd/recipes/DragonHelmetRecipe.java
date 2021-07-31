@@ -2,11 +2,12 @@ package space.maxus.skyblockd.recipes;
 
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
 public class DragonHelmetRecipe {
-    public DragonHelmetRecipe(SkyblockMaterial base, SkyblockMaterial result, String name) {
+    public DragonHelmetRecipe(@NotNull SkyblockMaterial base, @NotNull SkyblockMaterial result, String name) {
         ShapedRecipe rec = new ShapedRecipe(SkyblockD.getKey(name), result.getItem());
         rec.shape(
                 "PFP",

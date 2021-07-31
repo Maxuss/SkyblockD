@@ -1,5 +1,7 @@
 package space.maxus.skyblockd.nms;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Locale;
 
 public enum NMSColor {
@@ -22,16 +24,16 @@ public enum NMSColor {
 
     ;
 
-    private final String jsonColor;
+    private final @NotNull String jsonColor;
 
-    public String getJson() { return jsonColor; }
+    public @NotNull String getJson() { return jsonColor; }
 
     NMSColor() {
         jsonColor = this.name().toLowerCase(Locale.ENGLISH);
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "\"color\": \""+jsonColor+"\"";
     }
 }

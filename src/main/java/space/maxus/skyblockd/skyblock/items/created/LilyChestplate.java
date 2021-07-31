@@ -9,6 +9,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockItem;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 
 public class LilyChestplate extends SkyblockItem {
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(Material.LEATHER_CHESTPLATE,
                 "Lily Chestplate", SkyblockRarity.RARE, SkyblockItemType.CHESTPLATE,
                 new SkyblockItemStats().setHealth(25).setSeaCreatureChance(3));
@@ -34,12 +35,12 @@ public class LilyChestplate extends SkyblockItem {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("lily_chestplate");
     }
 
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         LeatherArmorMeta m = (LeatherArmorMeta) i.getItemMeta();
         assert m != null;
         m.addEnchant(Enchantment.THORNS, 3, true);

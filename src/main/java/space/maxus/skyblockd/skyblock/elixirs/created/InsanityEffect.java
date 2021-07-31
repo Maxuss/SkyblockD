@@ -7,6 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.elixirs.ElixirEffect;
 
@@ -18,19 +19,19 @@ public class InsanityEffect extends ElixirEffect {
     }
 
     @Override
-    public void applyEffect(Player p) {
+    public void applyEffect(@NotNull Player p) {
         PotionEffect e1 = new PotionEffect(PotionEffectType.BLINDNESS, 200, 1);
         PotionEffect e2 = new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 3);
         p.addPotionEffects(Arrays.asList(e1, e2));
     }
 
     @Override
-    public String getEffectName() {
+    public @NotNull String getEffectName() {
         return ChatColor.RED+"Insanity ۩";
     }
 
     @Override
-    public ItemStack addTag(ItemStack item) {
+    public @NotNull ItemStack addTag(@NotNull ItemStack item) {
         ItemMeta m = item.getItemMeta();
         assert m != null;
         m.getPersistentDataContainer().set(SkyblockD.getKey("elixirEffect"), PersistentDataType.STRING, "insanity");

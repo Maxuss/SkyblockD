@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockItem;
 import space.maxus.skyblockd.skyblock.objects.*;
@@ -14,7 +15,7 @@ import java.util.Collections;
 
 public class CrystalPowder extends SkyblockItem {
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.GUNPOWDER, "Crystal Powder", SkyblockRarity.EPIC,
                 SkyblockItemType.OTHER_CONSUMABLE, new SkyblockItemStats());
@@ -34,12 +35,12 @@ public class CrystalPowder extends SkyblockItem {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("crystal_powder");
     }
 
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
         m.getPersistentDataContainer().set(SkyblockD.getKey("itemType"), PersistentDataType.STRING, "crystal_powder");

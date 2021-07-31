@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.items.Shortbow;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemStats;
@@ -12,7 +13,7 @@ import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
 public class TestShortbow extends Shortbow {
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         return new SkyblockItemConfig(Material.BOW, "Test Shortbow", SkyblockRarity.EPIC,
                 SkyblockItemType.SHORTBOW, new SkyblockItemStats().setDamage(50));
     }
@@ -23,12 +24,12 @@ public class TestShortbow extends Shortbow {
     }
 
     @Override
-    public Class<? extends Projectile> getProjectileType() {
+    public @NotNull Class<? extends Projectile> getProjectileType() {
         return Arrow.class;
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return "TEST";
     }
 

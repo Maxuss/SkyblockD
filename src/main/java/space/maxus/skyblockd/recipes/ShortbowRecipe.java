@@ -2,11 +2,12 @@ package space.maxus.skyblockd.recipes;
 
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
 public class ShortbowRecipe {
-    public ShortbowRecipe(String name, SkyblockMaterial base) {
+    public ShortbowRecipe(String name, @NotNull SkyblockMaterial base) {
         ShapedRecipe rec = new ShapedRecipe(SkyblockD.getKey(name+"_recipe"), SkyblockMaterial.valueOf(name).getItem());
         rec.shape(
                 "IEG",

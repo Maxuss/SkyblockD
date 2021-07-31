@@ -2,6 +2,7 @@ package space.maxus.skyblockd.skyblock.reforges.created;
 
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.reforges.ReforgeBase;
 import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
 
@@ -15,12 +16,12 @@ public class RustyReforge extends ReforgeBase {
     }
 
     @Override
-    public SkyblockReforge getReforge() {
+    public @NotNull SkyblockReforge getReforge() {
         return SkyblockReforge.RUSTY;
     }
 
     @Override
-    public List<String> getDisplayStats() {
+    public @NotNull List<String> getDisplayStats() {
         return Arrays.asList(
                 ChatColor.GREEN+"Poison"+ChatColor.GRAY+" all enemies you attack",
                 ChatColor.GRAY+"Dealing "+ChatColor.RED+"10 dmg/s"+ChatColor.GRAY+" for 5 seconds!"

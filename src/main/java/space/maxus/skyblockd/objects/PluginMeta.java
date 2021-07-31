@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.objects;
 
 import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -15,12 +16,12 @@ public class PluginMeta {
     public List<String> offlineMotd;
     public String pluginName;
 
-    public String getMotd() {
+    public @NotNull String getMotd() {
         return ChatColor.translateAlternateColorCodes('&', String.join("\n", motd));
     }
-    public String getOfflineMotd() { return ChatColor.translateAlternateColorCodes('&', String.join("\n", offlineMotd)); }
+    public @NotNull String getOfflineMotd() { return ChatColor.translateAlternateColorCodes('&', String.join("\n", offlineMotd)); }
 
-    public class PluginVersion {
+    public static class PluginVersion {
         public String nmsVer;
         public String mcVer;
     }

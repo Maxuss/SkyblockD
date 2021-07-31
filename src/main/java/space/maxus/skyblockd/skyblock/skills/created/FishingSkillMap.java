@@ -2,6 +2,7 @@ package space.maxus.skyblockd.skyblock.skills.created;
 
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.skills.ComplexReward;
 import space.maxus.skyblockd.skyblock.skills.SkillMap;
@@ -20,7 +21,7 @@ public class FishingSkillMap extends SkillMap {
     }
 
     @Override
-    public List<? extends SkillReward> getRewardList() {
+    public @NotNull List<? extends SkillReward> getRewardList() {
         ItemStack ecod = SkyblockMaterial.ENCHANTED_COD.getItem();
         ecod.setAmount(5);
         ItemStack eccod = SkyblockMaterial.ENCHANTED_COOKED_COD.getItem();

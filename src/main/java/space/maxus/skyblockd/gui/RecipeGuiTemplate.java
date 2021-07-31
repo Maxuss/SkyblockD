@@ -1,10 +1,15 @@
 package space.maxus.skyblockd.gui;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
 
@@ -12,7 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class RecipeGuiTemplate {
-    public Inventory create(int page, Player p) {
+    public @NotNull Inventory create(int page, Player p) {
         Iterator<Recipe> recipeIterator = SkyblockD.getHost().recipeIterator();
 
         List<Recipe> recipes = new ArrayList<>();
@@ -30,7 +35,7 @@ public class RecipeGuiTemplate {
             }
         }
 
-        Recipe[][] pages = splitInto(recipes.toArray(new Recipe[0]), 28);
+        Recipe[][] pages = splitInto(recipes.toArray(new Recipe[0]));
 
         Recipe[] actualContents;
         if(page > pages.length) actualContents = pages[pages.length-1];
@@ -82,7 +87,7 @@ public class RecipeGuiTemplate {
     }
 
     public static class ItemRecipeTemplate {
-        public Inventory create(Recipe rec, Player p) {
+        public @NotNull Inventory create(@Nullable Recipe rec, Player p) {
             Inventory inv = Bukkit.createInventory(p, 54, "View Recipe");
             ItemStack gls = GuiHelper.getMenuGlass();
             ItemStack bck = GuiHelper.genSimpleMenuItem(ChatColor.RED+"Go back", Material.ARROW, Collections.emptyList());
@@ -137,7 +142,7 @@ public class RecipeGuiTemplate {
             return inv;
         }
 
-        public Inventory create(ItemStack clicked, Player p) {
+        public @NotNull Inventory create(@NotNull ItemStack clicked, Player p) {
             String recipeKey = Objects.requireNonNull(clicked.getItemMeta()).getPersistentDataContainer().get(SkyblockD.getKey("recipe"), PersistentDataType.STRING);
             assert recipeKey != null;
             NamespacedKey rkey = SkyblockD.getKey(recipeKey.replace("skyblockd:", "").toUpperCase(Locale.ENGLISH));
@@ -147,7 +152,7 @@ public class RecipeGuiTemplate {
             return create(rec, p);
         }
 
-        private ItemStack[] getMatrix(ShapelessRecipe recipe) {
+        private ItemStack @NotNull [] getMatrix(@NotNull ShapelessRecipe recipe) {
             ItemStack[] items = new ItemStack[9];
             List<ItemStack> list = recipe.getIngredientList();
             for (int i = 0; i < list.size(); i++) {
@@ -156,7 +161,7 @@ public class RecipeGuiTemplate {
             return items;
         }
 
-        private String nineChars(String[] shape) {
+        private @NotNull String nineChars(String @NotNull [] shape) {
             StringBuilder f = new StringBuilder();
             if (shape.length == 1) {
                 f.append("      ");
@@ -179,7 +184,7 @@ public class RecipeGuiTemplate {
             return f.toString();
         }
 
-        private ItemStack[] getMatrix(ShapedRecipe recipe) {
+        private ItemStack @NotNull [] getMatrix(@NotNull ShapedRecipe recipe) {
             ItemStack[] items = new ItemStack[9];
             String chars = nineChars(recipe.getShape());
             for (int i = 0; i < 9; i++) {
@@ -189,15 +194,15 @@ public class RecipeGuiTemplate {
         }
     }
 
-    private Recipe[][] splitInto(Recipe[] chunk, final int chunkSize) {
+    private Recipe[] @NotNull [] splitInto(Recipe @NotNull [] chunk) {
         final int length = chunk.length;
-        final Recipe[][] dest = new Recipe[(length + chunkSize - 1)/chunkSize][];
+        final Recipe[][] dest = new Recipe[(length + 28 - 1)/ 28][];
         int destIndex = 0;
         int stopIndex = 0;
 
-        for (int startIndex = 0; startIndex + chunkSize <= length; startIndex += chunkSize)
+        for (int startIndex = 0; startIndex + 28 <= length; startIndex += 28)
         {
-            stopIndex += chunkSize;
+            stopIndex += 28;
             dest[destIndex++] = Arrays.copyOfRange(chunk, startIndex, stopIndex);
         }
 

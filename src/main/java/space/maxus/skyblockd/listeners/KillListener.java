@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.MaterialHelper;
@@ -27,7 +28,7 @@ public class KillListener extends BetterListener {
     public static int endermanCounter = 0;
 
     @EventHandler
-    public void onKill(EntityDeathEvent e) {
+    public void onKill(@NotNull EntityDeathEvent e) {
         LivingEntity en = e.getEntity();
         Player p = en.getKiller();
         if(p == null || p.hasMetadata("NPC")) return;
@@ -59,7 +60,9 @@ public class KillListener extends BetterListener {
         } else if(en.getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)) {
             operateProtectorLoot();
         } else if(en.getType().equals(EntityType.WITHER)) {
-            operateWitherLoot(SkyblockEntity.WitherType.values()[en.getPersistentDataContainer().get(SkyblockD.getKey("witherType"), PersistentDataType.INTEGER)]);
+            Integer type = en.getPersistentDataContainer().get(SkyblockD.getKey("witherType"), PersistentDataType.INTEGER);
+            assert type != null;
+            operateWitherLoot(SkyblockEntity.WitherType.values()[type]);
         }
 
         if(en.getPersistentDataContainer().has(SkyblockD.getKey("FANATIC"), PersistentDataType.BYTE)) {
@@ -129,7 +132,7 @@ public class KillListener extends BetterListener {
         operateSkill("combat", fullExp, p, pc);
     }
 
-    public static void operateWitherLoot(SkyblockEntity.WitherType witherType) {
+    public static void operateWitherLoot(SkyblockEntity.@NotNull WitherType witherType) {
         if(DamageListener.witherDamagers.isEmpty()) {
             Bukkit.broadcastMessage(ChatColor.RED+"Wither was defeated by mysterious force! It's spirit seeks for revenge!");
             return;
@@ -178,8 +181,8 @@ public class KillListener extends BetterListener {
 
             for(int j = 0; j < 1; j++) {
                 ItemStack dropped = items.get(prand);
-                assert dropped.getItemMeta() != null;
-                displays.add(p.getDisplayName()+ChatColor.RED+" has obtained "+dropped.getItemMeta().getDisplayName()+" "+dropped.getAmount()+"x ");
+                assert Objects.requireNonNull(dropped).getItemMeta() != null;
+                displays.add(p.getDisplayName()+ChatColor.RED+" has obtained "+ Objects.requireNonNull(dropped.getItemMeta()).getDisplayName()+" "+dropped.getAmount()+"x ");
                 if(p.getInventory().firstEmpty() != -1) {
                     p.getInventory().addItem(dropped);
                 } else p.getWorld().dropItemNaturally(p.getLocation(), dropped);
@@ -347,7 +350,7 @@ public class KillListener extends BetterListener {
         DamageListener.dragonDamagers.clear();
     }
 
-    private void operateSkill(String name, int xp, Player p, PlayerContainer pc) {
+    private void operateSkill(@NotNull String name, int xp, @NotNull Player p, @NotNull PlayerContainer pc) {
         SkillContainer combat = pc.skills.data.get(name);
         int lvl = combat.currentLevel;
         int tlvl = lvl == 0 ? 1 : lvl;

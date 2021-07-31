@@ -3,6 +3,7 @@ package space.maxus.skyblockd.skyblock.skills.created;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.skills.ComplexReward;
@@ -21,7 +22,7 @@ public class FarmingSkillMap extends SkillMap {
     }
 
     @Override
-    public List<ComplexReward> getRewardList() {
+    public @NotNull List<ComplexReward> getRewardList() {
         ItemStack epork = SkyblockMaterial.ENCHANTED_PORKCHOP.getItem();
         epork.setAmount(8);
         ItemStack ebeef = SkyblockMaterial.ENCHANTED_BEEF.getItem();

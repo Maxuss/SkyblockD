@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.GuiHelper;
@@ -21,13 +22,13 @@ import java.util.*;
 
 public abstract class ExtendableSkill extends MappedSkill implements ModificableSkill {
 
-    public abstract String getSkyblockId();
-    public abstract Material getSkillItem();
+    public abstract @NotNull String getSkyblockId();
+    public abstract @NotNull Material getSkillItem();
     public abstract Player getOwner(Player p);
     public abstract SkillMap getMap();
 
     @Override
-    public Inventory generateMenu(){
+    public @NotNull Inventory generateMenu(){
         Inventory i = Bukkit.createInventory(owner, 54, name + " Skill");
         ItemStack gls = GuiHelper.getMenuGlass();
         List<Integer> levels = levelTable.table;
@@ -86,7 +87,7 @@ public abstract class ExtendableSkill extends MappedSkill implements Modificable
         return i;
     }
 
-    public void claimReward(int reward, Player p){
+    public void claimReward(int reward, @NotNull Player p){
         ContainerHelper.updatePlayers();
         List<PlayerContainer> pl = UniversalHelper.filter(SkyblockD.players, c -> c.uuid.equals(p.getUniqueId()));
         PlayerContainer cont = pl.get(pl.size()-1);

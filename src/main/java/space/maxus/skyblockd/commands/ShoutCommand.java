@@ -4,10 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 
 import java.util.HashMap;
-@CommandInfo(name = "shout", permission = "", playerOnly = true, configReq = "skyblockd.chat.shout.enabled")
+@CommandInfo(name = "shout", playerOnly = true, configReq = "skyblockd.chat.shout.enabled")
 public class ShoutCommand extends ChatCommand {
 
     private final static HashMap<String, Long> lastCommands = new HashMap<>();
@@ -15,7 +16,7 @@ public class ShoutCommand extends ChatCommand {
             ? SkyblockD.getCfg().shoutCooldown() * 1000L
             : 0;
 
-    private static String formatTime(long time) {
+    private static @NotNull String formatTime(long time) {
         String r = "";
         if (time >= 60000) {
             r += Math.floor(time / 60000f) + " minutes and ";
@@ -25,7 +26,7 @@ public class ShoutCommand extends ChatCommand {
     }
 
     @Override
-    public boolean execute(CommandSender sender, String[] args) {
+    public boolean execute(@NotNull CommandSender sender, String @NotNull [] args) {
         if (args.length < 1) return false;
         Long lastCommand = lastCommands.get(sender.getName());
         if (lastCommand == null || lastCommand + cd < System.currentTimeMillis()) {

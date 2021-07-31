@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockSkull;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 
 public class Recombobulator extends SkyblockSkull {
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.PLAYER_HEAD,
                 "Recombobulator 4000",
@@ -36,12 +37,12 @@ public class Recombobulator extends SkyblockSkull {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("recombobulator");
     }
 
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
         m.getPersistentDataContainer().set(SkyblockD.getKey("skyblockType"), PersistentDataType.STRING, "RECOMB");
@@ -51,7 +52,7 @@ public class Recombobulator extends SkyblockSkull {
         return i;
     }
     @Override
-    public String getSkinHash() {
+    public @NotNull String getSkinHash() {
         return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzBhMzU5NTdmY2UyMzQ0YWE4NTU3YmE2YjM2MTg3YWI0MTUyNDk5MzQ2MDdiYmJlZDJhMDUzYzNhODZjYWZjMCJ9fX0=";
     }
 }

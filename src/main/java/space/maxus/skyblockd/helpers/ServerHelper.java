@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.helpers;
 
 import com.google.gson.Gson;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 
 import java.io.BufferedReader;
@@ -11,7 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ServerHelper {
-    public static String makeRequest(String url) throws IOException {
+    public static @NotNull String makeRequest(@NotNull String url) throws IOException {
         StringBuilder result = new StringBuilder();
         URL _url = new URL(url);
         HttpURLConnection conn = (HttpURLConnection) _url.openConnection();
@@ -24,11 +25,11 @@ public class ServerHelper {
             }
         }
         SkyblockD.logger.info("Successfully read HTTP data from " + url);
-        SkyblockD.logger.info("Data: "+result.toString());
+        SkyblockD.logger.info("Data: "+ result);
         return result.toString();
     }
 
-    public static <T> T makeJsonRequest(String url, Type t) throws IOException {
+    public static <T> T makeJsonRequest(@NotNull String url, Type t) throws IOException {
         String data = makeRequest(url);
         return new Gson().fromJson(data, t);
     }

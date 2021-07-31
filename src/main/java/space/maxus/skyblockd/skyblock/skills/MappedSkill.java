@@ -2,6 +2,7 @@ package space.maxus.skyblockd.skyblock.skills;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class MappedSkill extends Skill{
 
@@ -21,12 +22,12 @@ public abstract class MappedSkill extends Skill{
 
 
     @Override
-    public Class<? extends SkillResource> getResource() {return null;}
+    public @Nullable Class<? extends SkillResource> getResource() {return null;}
 
     public abstract Material getSkillItem();
 
     @Override
-    public String getSkillResourceFile() {return null;}
+    public @Nullable String getSkillResourceFile() {return null;}
 
     public abstract Player getOwner(Player p);
 }

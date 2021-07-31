@@ -6,12 +6,13 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 
 public class Dummy extends SkyblockEntity {
     @Override
-    public Location getLocation(Entity p) {
+    public @NotNull Location getLocation(@NotNull Entity p) {
         return p.getLocation();
     }
 
@@ -21,12 +22,12 @@ public class Dummy extends SkyblockEntity {
     }
 
     @Override
-    public EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.IRON_GOLEM;
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return ChatColor.RED+"Training Dummy";
     }
 
@@ -51,12 +52,12 @@ public class Dummy extends SkyblockEntity {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("training_dummy");
     }
 
     @Override
-    public void postInit(LivingEntity entity, Entity p) {
+    public void postInit(@NotNull LivingEntity entity, @NotNull Entity p) {
         entity.setAI(false);
         entity.setInvulnerable(true);
         p.sendMessage(ChatColor.GOLD+"Successfully generated training dummy!");

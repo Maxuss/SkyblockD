@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.helpers.GuiHelper;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
@@ -16,10 +17,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class VaultGuiTemplate {
-    public Inventory create(int page, Player p) {
+    public @NotNull Inventory create(int page, Player p) {
         SkyblockMaterial[] mats = SkyblockMaterial.values();
 
-        SkyblockMaterial[][] pages = splitInto(mats, 28);
+        SkyblockMaterial[][] pages = splitInto(mats);
 
         SkyblockMaterial[] actualContents;
         if(page > pages.length) actualContents = pages[pages.length-1];
@@ -54,7 +55,7 @@ public class VaultGuiTemplate {
     }
 
     public static class VaultItemTemplate {
-        public Inventory create(ItemStack theItem, Player p) {
+        public @NotNull Inventory create(@NotNull ItemStack theItem, Player p) {
             Inventory inv = Bukkit.createInventory(p, 54, "Vault Get " + ChatColor.stripColor(Objects.requireNonNull(theItem.getItemMeta()).getDisplayName()));
             ItemStack gls = GuiHelper.getMenuGlass();
             ItemStack bck = GuiHelper.genSimpleMenuItem(ChatColor.RED+"Previous Page", Material.ARROW, Collections.emptyList());
@@ -93,15 +94,15 @@ public class VaultGuiTemplate {
         }
     }
 
-    private SkyblockMaterial[][] splitInto(SkyblockMaterial[] chunk, final int chunkSize) {
+    private SkyblockMaterial[] @NotNull [] splitInto(SkyblockMaterial @NotNull [] chunk) {
         final int length = chunk.length;
-        final SkyblockMaterial[][] dest = new SkyblockMaterial[(length + chunkSize - 1)/chunkSize][];
+        final SkyblockMaterial[][] dest = new SkyblockMaterial[(length + 28 - 1)/ 28][];
         int destIndex = 0;
         int stopIndex = 0;
 
-        for (int startIndex = 0; startIndex + chunkSize <= length; startIndex += chunkSize)
+        for (int startIndex = 0; startIndex + 28 <= length; startIndex += 28)
         {
-            stopIndex += chunkSize;
+            stopIndex += 28;
             dest[destIndex++] = Arrays.copyOfRange(chunk, startIndex, stopIndex);
         }
 

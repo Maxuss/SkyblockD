@@ -10,6 +10,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.gui.MainMenuGUI;
 import space.maxus.skyblockd.gui.RecombobulatorInventory;
@@ -20,7 +21,7 @@ import java.util.Objects;
 public class ActionListener extends BetterListener {
 
     @EventHandler
-    public void onAction(PlayerInteractEvent e) {
+    public void onAction(@NotNull PlayerInteractEvent e) {
         Action a = e.getAction();
         Player p = e.getPlayer();
         ItemStack i = e.getItem();

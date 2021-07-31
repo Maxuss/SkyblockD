@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.KnowledgeBookMeta;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.recipes.RecipeRegisterer;
 import space.maxus.skyblockd.skyblock.items.SkyblockItem;
@@ -17,7 +18,7 @@ import java.util.Arrays;
 
 public class EnchantedItemGuide extends SkyblockItem {
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(Material.KNOWLEDGE_BOOK,
                 "Starter Compressing Guide", SkyblockRarity.RARE,
                 SkyblockItemType.OTHER_NONCONSUMABLE, new SkyblockItemStats());
@@ -36,12 +37,12 @@ public class EnchantedItemGuide extends SkyblockItem {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("info_book_1");
     }
 
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         KnowledgeBookMeta meta = (KnowledgeBookMeta) i.getItemMeta();
         assert meta != null;
         meta.addRecipe(RecipeRegisterer.normalEnchanted.stream().map(mat -> SkyblockD.getKey("ENCHANTED_" + mat.name() + "_RECIPE")).toArray(NamespacedKey[]::new));

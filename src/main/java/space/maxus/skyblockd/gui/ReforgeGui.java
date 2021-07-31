@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
 
@@ -11,7 +12,7 @@ import java.util.Arrays;
 
 public class ReforgeGui extends InventoryBase {
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Reforge Item";
     }
 
@@ -21,7 +22,7 @@ public class ReforgeGui extends InventoryBase {
     }
 
     @Override
-    public Inventory generateContains(Inventory base) {
+    public @NotNull Inventory generateContains(@NotNull Inventory base) {
         ItemStack ref = GuiHelper.genSimpleMenuItem(
                 ChatColor.GREEN+"Reforge", Material.ANVIL,
                 Arrays.asList(ChatColor.GRAY+"Put item to be reforged on",
@@ -46,7 +47,7 @@ public class ReforgeGui extends InventoryBase {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return SkyblockD.getNamespace("reforge_gui");
     }
 }

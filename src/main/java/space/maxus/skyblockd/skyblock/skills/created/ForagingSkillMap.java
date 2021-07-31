@@ -2,6 +2,7 @@ package space.maxus.skyblockd.skyblock.skills.created;
 
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.skills.ComplexReward;
 import space.maxus.skyblockd.skyblock.skills.SkillMap;
@@ -18,7 +19,7 @@ public class ForagingSkillMap extends SkillMap {
     }
 
     @Override
-    public List<ComplexReward> getRewardList() {
+    public @NotNull List<ComplexReward> getRewardList() {
         ItemStack eoak = SkyblockMaterial.ENCHANTED_OAK_LOG.getItem();
         eoak.setAmount(8);
         ItemStack ebirch = SkyblockMaterial.ENCHANTED_BIRCH_LOG.getItem();

@@ -3,6 +3,7 @@ package space.maxus.skyblockd.listeners;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.objects.BetterListener;
 
@@ -10,7 +11,7 @@ import java.util.Arrays;
 
 public class PingListener extends BetterListener {
     @EventHandler
-    public void onPing(ServerListPingEvent e) {
+    public void onPing(@NotNull ServerListPingEvent e) {
         if(SkyblockD.inMaintenace) {
             e.setMotd(SkyblockD.getServerData().meta.getOfflineMotd());
             e.setMaxPlayers(0);

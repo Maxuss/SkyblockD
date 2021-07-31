@@ -11,6 +11,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.objects.BetterListener;
@@ -26,7 +27,7 @@ public class SkyblockClickListener extends BetterListener {
     private final static PersistentDataType<Byte, Byte> b = PersistentDataType.BYTE;
 
     @EventHandler
-    public void onClick(SkyblockItemClickEvent ev) {
+    public void onClick(@NotNull SkyblockItemClickEvent ev) {
         PlayerInteractEvent e = ev.getPredcessor();
         Player p = e.getPlayer();
         ItemStack i = e.getItem();
@@ -108,7 +109,7 @@ public class SkyblockClickListener extends BetterListener {
         }
     }
 
-    private PotionEffect getRandomEffect() {
+    private @NotNull PotionEffect getRandomEffect() {
         Random r = new Random();
         int type = r.nextInt(PotionEffectType.values().length);
         PotionEffectType effectType = PotionEffectType.values()[type];

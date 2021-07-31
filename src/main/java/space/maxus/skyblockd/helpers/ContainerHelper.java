@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.PlayerSkills;
@@ -15,8 +16,7 @@ import java.util.List;
 
 public class ContainerHelper {
     public static HashMap<String, Object> getGroups() throws IOException {
-        HashMap<String, Object> dat = ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/rgroups.json", new TypeToken<HashMap<String, Object>>(){}.getType());
-        return dat;
+        return ServerHelper.makeJsonRequest("https://cdn.maxus.space/files/plugins/rgroups.json", new TypeToken<HashMap<String, Object>>(){}.getType());
     }
 
     public static void updatePlayers() {
@@ -29,7 +29,7 @@ public class ContainerHelper {
         }
     }
 
-    public static PlayerContainer getPlayer(Player player) {
+    public static PlayerContainer getPlayer(@NotNull Player player) {
         List<PlayerContainer> filtered = UniversalHelper.filter(SkyblockD.players, c -> c.uuid.equals(player.getUniqueId()));
         if(!filtered.isEmpty()) {
             return filtered.get(filtered.size()-1);

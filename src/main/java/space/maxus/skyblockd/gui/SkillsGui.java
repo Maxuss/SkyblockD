@@ -8,6 +8,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
@@ -25,7 +26,7 @@ public class SkillsGui extends InventoryBase {
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Your Skills";
     }
 
@@ -38,7 +39,7 @@ public class SkillsGui extends InventoryBase {
     public InventoryHolder getHolder(Player p) {return p;}
 
     @Override
-    public Inventory generateContains(Inventory base) {
+    public @NotNull Inventory generateContains(@NotNull Inventory base) {
         List<PlayerContainer> pcs = UniversalHelper.filter(SkyblockD.players, c -> c.uuid.equals(player.getUniqueId()));
 
         PlayerContainer pc = pcs.get(pcs.size()-1);
@@ -138,11 +139,11 @@ public class SkillsGui extends InventoryBase {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return SkyblockD.getNamespace("inventory_skills");
     }
 
-    private String isMax(int level, List<Integer> ints, String name, HashMap<String, SkillContainer> sd) {
+    private @NotNull String isMax(int level, @NotNull List<Integer> ints, String name, @NotNull HashMap<String, SkillContainer> sd) {
         return level+1 >= 28 ? "MAX" : (ints.get(level+1)-sd.get(name).levelExp)+ " EXP";
     }
 }

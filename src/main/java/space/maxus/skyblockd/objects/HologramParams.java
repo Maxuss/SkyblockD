@@ -3,8 +3,8 @@ package space.maxus.skyblockd.objects;
 import org.bukkit.Location;
 
 public class HologramParams {
-    private String displayText;
-    private Location location;
+    private final String displayText;
+    private final Location location;
 
     public String getDisplayText() {
         return displayText;

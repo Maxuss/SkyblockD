@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
 
@@ -13,7 +14,7 @@ import java.util.Arrays;
 
 public class ElixirGui extends InventoryBase {
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Elixir Brewer";
     }
 
@@ -23,7 +24,7 @@ public class ElixirGui extends InventoryBase {
     }
 
     @Override
-    public Inventory generateContains(Inventory base) {
+    public @NotNull Inventory generateContains(@NotNull Inventory base) {
         ItemStack gls = GuiHelper.getMenuGlass();
         ItemStack grn = GuiHelper.getMenuGlass();
         grn.setType(Material.LIME_STAINED_GLASS_PANE);
@@ -48,7 +49,7 @@ public class ElixirGui extends InventoryBase {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return SkyblockD.getNamespace("elixir_brewer");
     }
 

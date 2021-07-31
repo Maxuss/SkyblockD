@@ -13,6 +13,8 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.enchants.ItemGlint;
 import space.maxus.skyblockd.items.CustomItem;
@@ -55,14 +57,14 @@ public class ItemHelper {
             "ENCHANTED_MELON"
             ));
 
-    public static ItemMeta applyGlint(ItemMeta in){
+    public static @NotNull ItemMeta applyGlint(@NotNull ItemMeta in){
         NamespacedKey key = new NamespacedKey(SkyblockD.getInstance(), SkyblockD.getInstance().getDescription().getName());
         ItemGlint g = new ItemGlint(key);
         in.addEnchant(g, 1, true);
         return in;
     }
 
-    public static void getExtraStats(ItemStack base) {
+    public static void getExtraStats(@NotNull ItemStack base) {
         if(!base.hasItemMeta()) return;
         assert base.getItemMeta() != null;
         if(base.getItemMeta().getPersistentDataContainer().has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING)) return;
@@ -95,7 +97,7 @@ public class ItemHelper {
         base.setItemMeta(m);
     }
 
-    public static SkyblockItemType getType(Material mat) {
+    public static @NotNull SkyblockItemType getType(@NotNull Material mat) {
         String name = mat.name();
         if(name.endsWith("_SWORD")) return SkyblockItemType.SWORD;
         else if(name.endsWith("BOW")) return SkyblockItemType.BOW;
@@ -106,7 +108,7 @@ public class ItemHelper {
         else return SkyblockItemType.OTHER_NONCONSUMABLE;
     }
 
-    public static SkyblockRarity getRarity(Material m){
+    public static @NotNull SkyblockRarity getRarity(@NotNull Material m){
         // i am sorry for this switch
         if(m.name().startsWith("WARPED_") || m.name().startsWith("CRIMSON_")) return SkyblockRarity.UNCOMMON;
         switch(m){
@@ -234,13 +236,13 @@ public class ItemHelper {
         }
     }
 
-    public static Multimap<Attribute, AttributeModifier> generateAttributes(Attribute attribute, AttributeModifier modifier){
+    public static @NotNull Multimap<Attribute, AttributeModifier> generateAttributes(Attribute attribute, AttributeModifier modifier){
         Multimap<Attribute, AttributeModifier> mm = ArrayListMultimap.create();
         mm.put(attribute, modifier);
         return mm;
     }
 
-    public static boolean isOnCooldown(ItemStack item, float cd, Player p, boolean displayMessage) {
+    public static boolean isOnCooldown(@Nullable ItemStack item, float cd, @NotNull Player p, boolean displayMessage) {
         if(item == null || !item.hasItemMeta()) return false;
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
@@ -270,11 +272,11 @@ public class ItemHelper {
         return true;
     }
 
-    public static boolean hasMagnet(Player player) {
+    public static boolean hasMagnet(@NotNull Player player) {
         return player.getInventory().contains(SkyblockMaterial.MAGIC_MAGNET.getItem());
     }
 
-    public static boolean hasPress(Player player) {
+    public static boolean hasPress(@NotNull Player player) {
         return player.getInventory().contains(SkyblockMaterial.PERSONAL_COMPACTOR.getItem());
     }
 
@@ -282,7 +284,7 @@ public class ItemHelper {
         return Math.round(base*(UniversalHelper.getAbilityDamage(p)+50f)/10f);
     }
 
-    public static void usePress(Player p, ItemStack i) {
+    public static void usePress(@NotNull Player p, @NotNull ItemStack i) {
         if(!hasPress(p)) return;
 
         String name = i.getType().name();
@@ -310,7 +312,7 @@ public class ItemHelper {
         } catch(IllegalArgumentException ignored) {}
     }
 
-    public static int getStatFromItems(Player p, String stat) {
+    public static int getStatFromItems(@NotNull Player p, String stat) {
         PlayerInventory inv = p.getInventory();
         ItemStack mh = inv.getItemInMainHand();
         ItemStack[] armor = inv.getArmorContents();
@@ -324,12 +326,12 @@ public class ItemHelper {
         return total;
     }
 
-    public static void trySendRareDrop(ItemStack drop, int chance, Player p, DropRarity rarity) {
+    public static void trySendRareDrop(@NotNull ItemStack drop, int chance, @NotNull Player p, DropRarity rarity) {
         Random r = new Random();
         int m = r.nextInt(chance);
         if(m <= 1) {
             p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
-            String percented = Float.toString(round((1f/chance)*100, 1)).replace(",", ".")+"%";
+            String percented = Float.toString(round((1f/chance)*100)).replace(",", ".")+"%";
             p.sendMessage(rarity +""+ChatColor.AQUA+" ("+percented+" "+ SkyblockConstants.MAGIC_FIND+" Chance) "+ Objects.requireNonNull(drop.getItemMeta()).getDisplayName()+ChatColor.YELLOW+"!");
             if(p.getInventory().firstEmpty() != -1) {
                 p.getInventory().addItem(drop);
@@ -337,7 +339,7 @@ public class ItemHelper {
         }
     }
 
-    public static void trySpawnRareMob(EntitySummon summon, int chance, Player p) {
+    public static void trySpawnRareMob(@NotNull EntitySummon summon, int chance, @NotNull Player p) {
         Random r = new Random();
         int m = r.nextInt(chance);
         if(m <= 1) {
@@ -354,11 +356,11 @@ public class ItemHelper {
 
             Entity en = summon.getEntity().generate(p);
             Location loc = en.getLocation();
-            loc = l;
+            en.teleport(l);
         }
     }
 
-    private static Integer getStatItem(ItemStack it, String statName) {
+    private static Integer getStatItem(@Nullable ItemStack it, String statName) {
         if(it == null) return 0;
         ItemMeta meta = it.getItemMeta();
         if(meta == null) return 0;
@@ -369,7 +371,7 @@ public class ItemHelper {
         return c.get(SkyblockD.getKey(statName), PersistentDataType.INTEGER);
     }
 
-    public static boolean isUndead(EntityType type) {
+    public static boolean isUndead(@NotNull EntityType type) {
         switch(type){
             case WITHER:
             case STRAY:
@@ -387,11 +389,9 @@ public class ItemHelper {
         }
     }
 
-    private static float round(float value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
+    private static float round(float value) {
         BigDecimal bd = new BigDecimal(Float.toString(value));
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        bd = bd.setScale(1, RoundingMode.HALF_UP);
         return bd.floatValue();
     }
 
@@ -412,7 +412,7 @@ public class ItemHelper {
         }
 
         @Override
-        public String toString() {
+        public @NotNull String toString() {
             return color + "" + ChatColor.BOLD + name + " DROP!";
         }
     }

@@ -2,6 +2,7 @@ package space.maxus.skyblockd.skyblock.reforges.created;
 
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.reforges.ReforgeBase;
 import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
 
@@ -15,12 +16,12 @@ public class SacredReforge extends ReforgeBase {
     }
 
     @Override
-    public SkyblockReforge getReforge() {
+    public @NotNull SkyblockReforge getReforge() {
         return SkyblockReforge.SACRED;
     }
 
     @Override
-    public List<String> getDisplayStats() {
+    public @NotNull List<String> getDisplayStats() {
         return Arrays.asList(
                 ChatColor.GRAY+"Deal "+ ChatColor.RED+"1.5x"+ChatColor.GRAY+" to all enemies",
                 ChatColor.GRAY+"when applied to weapons"

@@ -1,19 +1,20 @@
 package space.maxus.skyblockd.util;
 
 import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.objects.SkillContainer;
 
 import java.util.HashMap;
 
 public class Constants {
-    private final HashMap<Integer, ChatColor> damageMap;
-    private final HashMap<String, SkillContainer> baseSkillMap;
+    private final @NotNull HashMap<Integer, ChatColor> damageMap;
+    private final @NotNull HashMap<String, SkillContainer> baseSkillMap;
 
-    public HashMap<Integer, ChatColor> getDamageMap() {
+    public @NotNull HashMap<Integer, ChatColor> getDamageMap() {
         return damageMap;
     }
 
-    public HashMap<String, SkillContainer> getBaseSkillMap() { return baseSkillMap; }
+    public @NotNull HashMap<String, SkillContainer> getBaseSkillMap() { return baseSkillMap; }
 
     public Constants() {
         damageMap = new HashMap<Integer, ChatColor>() {

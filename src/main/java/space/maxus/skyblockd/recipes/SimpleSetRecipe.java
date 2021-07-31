@@ -2,13 +2,14 @@ package space.maxus.skyblockd.recipes;
 
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
 import javax.annotation.Nullable;
 
 public class SimpleSetRecipe {
-    public SimpleSetRecipe(String name, SkyblockMaterial base, @Nullable String pre) {
+    public SimpleSetRecipe(String name, @NotNull SkyblockMaterial base, @Nullable String pre) {
         ShapedRecipe h, c, l, b;
         if(pre == null) {
             h = new ShapedRecipe(SkyblockD.getKey(name+"_helmet_recipe"), SkyblockMaterial.valueOf(name+"_HELMET").getItem());

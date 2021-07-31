@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 import org.reflections.ReflectionUtils;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ public class DeveloperCommand extends ChatCommand {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean execute(CommandSender s, String[] args) {
+    public boolean execute(@NotNull CommandSender s, String @NotNull [] args) {
         if(args.length < 1) {
             s.sendMessage(ChatColor.RED+"Wrong syntax!");
             return true;
@@ -51,7 +52,7 @@ public class DeveloperCommand extends ChatCommand {
                     Object val;
                     try {
                         val = f.get(null);
-                    } catch (IllegalAccessException | NullPointerException e) {
+                    } catch (@NotNull IllegalAccessException | NullPointerException e) {
                         val = ChatColor.RED + "non-static!";
                     }
                     s.sendMessage(ChatColor.GOLD + "Found a field property by name '" + f.getName() + "'!\n" +
@@ -122,7 +123,7 @@ public class DeveloperCommand extends ChatCommand {
         return true;
     }
 
-    public List<String> onTabComplete(CommandSender s, String[] args) {
+    public @NotNull List<String> onTabComplete(CommandSender s, String[] args) {
         return Arrays.asList("fields", "methods", "nbt");
     }
 }

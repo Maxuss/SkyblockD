@@ -12,17 +12,18 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 
 public class Atlantis extends SkyblockEntity {
     @Override
-    public Location getLocation(Entity e) {
+    public @NotNull Location getLocation(@NotNull Entity e) {
         return e.getLocation();
     }
 
     @Override
-    public EntityEquipment getEquipment(EntityEquipment base) {
+    public @NotNull EntityEquipment getEquipment(@NotNull EntityEquipment base) {
         base.setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
         base.setBoots(new ItemStack(Material.DIAMOND_BOOTS));
         ItemStack leather = new ItemStack(Material.LEATHER_CHESTPLATE);
@@ -36,12 +37,12 @@ public class Atlantis extends SkyblockEntity {
     }
 
     @Override
-    public EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.ZOMBIE;
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return ChatColor.GOLD+"Atlantis";
     }
 
@@ -66,12 +67,12 @@ public class Atlantis extends SkyblockEntity {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("atlantis");
     }
 
     @Override
-    public void postInit(LivingEntity entity, Entity base) {
+    public void postInit(@NotNull LivingEntity entity, Entity base) {
         entity.getPersistentDataContainer().set(SkyblockD.getKey("ATLANTIS"), PersistentDataType.BYTE, (byte)1);
         entity.getPersistentDataContainer().set(SkyblockD.getKey("FISHED"), PersistentDataType.BYTE, (byte)1);
     }

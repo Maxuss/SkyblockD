@@ -8,6 +8,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
 
@@ -15,7 +16,7 @@ import java.util.Arrays;
 
 public class RecombobulatorInventory extends InventoryBase {
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Recombobulate an item";
     }
 
@@ -25,7 +26,7 @@ public class RecombobulatorInventory extends InventoryBase {
     }
 
     @Override
-    public Inventory generateContains(Inventory base) {
+    public @NotNull Inventory generateContains(@NotNull Inventory base) {
         ItemStack gls = GuiHelper.getMenuGlass();
         ItemStack rec = new ItemStack(Material.ANVIL);
         ItemMeta m = rec.getItemMeta();
@@ -49,7 +50,7 @@ public class RecombobulatorInventory extends InventoryBase {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return SkyblockD.getNamespace("recombobulator_inventory");
     }
 

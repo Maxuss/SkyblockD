@@ -5,6 +5,7 @@ import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
@@ -17,7 +18,7 @@ public class SimpleItem extends SkyblockItem {
 
     @Nullable
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @org.jetbrains.annotations.Nullable SkyblockItemConfig getConfig() {
         return null;
     }
 
@@ -29,27 +30,27 @@ public class SimpleItem extends SkyblockItem {
 
     @Nullable
     @Override
-    public String getSkyblockId() {
+    public @org.jetbrains.annotations.Nullable String getSkyblockId() {
         return null;
     }
 
     @Nullable
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @org.jetbrains.annotations.Nullable ItemStack postInit(ItemStack i) {
         return null;
     }
 
     @Nullable
     @Override
-    public ItemStack generate() {
+    public @org.jetbrains.annotations.Nullable ItemStack generate() {
         return null;
     }
 
     public SimpleItem(
             String name,
-            List<String> description,
-            SkyblockRarity rarity,
-            Material item,
+            @NotNull List<String> description,
+            @NotNull SkyblockRarity rarity,
+            @NotNull Material item,
             boolean hasGlint
             ) {
         ItemStack i = new ItemStack(item);
@@ -65,8 +66,8 @@ public class SimpleItem extends SkyblockItem {
 
     public SimpleItem(
             String name,
-            SkyblockRarity rarity,
-            Material item,
+            @NotNull SkyblockRarity rarity,
+            @NotNull Material item,
             boolean hasGlint
     ) {
         ItemStack i = new ItemStack(item);
@@ -80,7 +81,7 @@ public class SimpleItem extends SkyblockItem {
         gen(i, description, hasGlint, meta);
     }
 
-    private void gen(ItemStack base, List<String> lore, boolean hasGlint, ItemMeta m) {
+    private void gen(@NotNull ItemStack base, List<String> lore, boolean hasGlint, @NotNull ItemMeta m) {
         m.setLore(lore);
         if(hasGlint) ItemHelper.applyGlint(m);
         base.setItemMeta(m);

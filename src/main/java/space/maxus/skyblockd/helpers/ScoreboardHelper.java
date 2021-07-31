@@ -4,21 +4,22 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
 public class ScoreboardHelper {
-    private static final Scoreboard mainScoreboard;
-    private static final Objective skyblockObjective;
-    public static final HashMap<UUID, Scoreboard> playerBoards;
+    private static final @NotNull Scoreboard mainScoreboard;
+    private static final @NotNull Objective skyblockObjective;
+    public static final @NotNull HashMap<UUID, Scoreboard> playerBoards;
 
-    public static Scoreboard getMainScoreboard() {
+    public static @NotNull Scoreboard getMainScoreboard() {
         return mainScoreboard;
     }
 
-    public static Objective getSkyblockObjective() {
+    public static @NotNull Objective getSkyblockObjective() {
         return skyblockObjective;
     }
 

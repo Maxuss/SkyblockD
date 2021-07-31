@@ -5,6 +5,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
@@ -15,17 +17,17 @@ import java.util.List;
 import java.util.Locale;
 
 public abstract class ReforgeBase implements SkyblockFeature {
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace(getReforge().getDisplayName()).toLowerCase(Locale.ENGLISH).replace(" ", "_");
     }
 
     public abstract float getRarityWeight();
-    public abstract SkyblockReforge getReforge();
-    public abstract List<String> getDisplayStats();
+    public abstract @NotNull SkyblockReforge getReforge();
+    public abstract @NotNull List<String> getDisplayStats();
     public abstract void applyBaseStats(int modifier, ItemStack item);
     public abstract void removeBaseStats(int modifier, ItemStack item);
 
-    public void apply(ItemStack item) {
+    public void apply(@Nullable ItemStack item) {
         if(item == null) return;
         if(!item.hasItemMeta()) return;
 
@@ -69,6 +71,7 @@ public abstract class ReforgeBase implements SkyblockFeature {
         boolean wasReforged = false;
         if(c.has(SkyblockD.getKey("previous"), PersistentDataType.INTEGER_ARRAY)) {
             int[] previous = c.get(SkyblockD.getKey("previous"), PersistentDataType.INTEGER_ARRAY);
+            assert previous != null;
             Integer[] nprev = new Integer[previous.length+1];
             for(int i = 0; i < previous.length; i++) {
                 nprev[i] = previous[i];
@@ -110,7 +113,7 @@ public abstract class ReforgeBase implements SkyblockFeature {
 
     }
 
-    private static <T> void reverseList(List<T> list)
+    private static <T> void reverseList(@NotNull List<T> list)
     {
         if (list.size() <= 1) return;
         T value = list.remove(0);

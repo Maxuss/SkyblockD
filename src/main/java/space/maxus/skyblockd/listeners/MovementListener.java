@@ -6,6 +6,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 
@@ -46,7 +47,7 @@ public class MovementListener extends BetterListener {
     };
 
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent e) {
+    public void onPlayerMove(@NotNull PlayerMoveEvent e) {
         Location from = e.getFrom();
         Location to = e.getTo();
         if(to != null) {

@@ -4,6 +4,8 @@ package space.maxus.skyblockd.util;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,13 +14,13 @@ import java.util.List;
 
 public abstract class ConfigurationFile {
 
-    private final Path file;
+    private final @NotNull Path file;
 
-    private final Path dir;
+    private final @NotNull Path dir;
 
-    private final YamlConfiguration yaml;
+    private final @NotNull YamlConfiguration yaml;
 
-    public ConfigurationFile(JavaPlugin plugin, String name) {
+    public ConfigurationFile(@NotNull JavaPlugin plugin, @NotNull String name) {
 
         dir = plugin.getDataFolder().toPath();
 
@@ -35,7 +37,7 @@ public abstract class ConfigurationFile {
         yaml = new YamlConfiguration();
         try {
             yaml.load(file.toString());
-        } catch (IOException | InvalidConfigurationException e) {
+        } catch (@NotNull IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
     }
@@ -48,35 +50,35 @@ public abstract class ConfigurationFile {
         }
     }
 
-    public YamlConfiguration getYaml() {
+    public @NotNull YamlConfiguration getYaml() {
         return yaml;
     }
 
-    public Path getDataPath() {
+    public @NotNull Path getDataPath() {
         return dir;
     }
 
-    public boolean getBool(String path) {
+    public boolean getBool(@NotNull String path) {
         return getYaml().getBoolean(path);
     }
 
-    public int getInt(String path) {
+    public int getInt(@NotNull String path) {
         return getYaml().getInt(path);
     }
 
-    public String getStr(String path) {
+    public @Nullable String getStr(@NotNull String path) {
         return getYaml().getString(path);
     }
 
-    public List<String> getStrList(String path) {
+    public @NotNull List<String> getStrList(@NotNull String path) {
         return getYaml().getStringList(path);
     }
 
-    public List<Boolean> getBoolList(String path) {
+    public @NotNull List<Boolean> getBoolList(@NotNull String path) {
         return getYaml().getBooleanList(path);
     }
 
-    public Object getObject(String path, Class<Object> classof) {
+    public @Nullable Object getObject(@NotNull String path, @NotNull Class<Object> classof) {
         return getYaml().getObject(path, classof);
     }
 }

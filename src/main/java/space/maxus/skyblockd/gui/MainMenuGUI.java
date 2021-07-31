@@ -11,6 +11,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
@@ -32,7 +33,7 @@ public class MainMenuGUI extends InventoryBase {
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return ChatColor.DARK_GRAY + "SkyblockD Menu";
     }
 
@@ -43,7 +44,7 @@ public class MainMenuGUI extends InventoryBase {
 
     // fixed indexation
     @Override
-    public Inventory generateContains(Inventory base) {
+    public @NotNull Inventory generateContains(@NotNull Inventory base) {
         List<String> indev = new ArrayList<>();
         indev.add(ChatColor.RED + "In development!");
         List<String> zkill = Arrays.asList(ChatColor.GRAY+"Click this item to view", ChatColor.GRAY+"your skill information.");
@@ -98,7 +99,7 @@ public class MainMenuGUI extends InventoryBase {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return "sbd.menus.main";
     }
 
@@ -110,7 +111,7 @@ public class MainMenuGUI extends InventoryBase {
 
 
 
-    private void getPlayerStats(Player p, ItemMeta base){
+    private void getPlayerStats(@NotNull Player p, @NotNull ItemMeta base){
         try {
             ItemStack[] armor = p.getInventory().getArmorContents();
             ItemStack heldItem = p.getInventory().getItemInMainHand();
@@ -164,7 +165,7 @@ public class MainMenuGUI extends InventoryBase {
         }
     }
 
-    private int[] operateStats(ItemMeta m, int defense, int strength, int attackSpeed, int health, int speed){
+    private int @NotNull [] operateStats(@NotNull ItemMeta m, int defense, int strength, int attackSpeed, int health, int speed){
         int[] data = {defense, strength, attackSpeed, health, speed};
         Attribute[] atts = {Attribute.GENERIC_ARMOR, Attribute.GENERIC_ATTACK_DAMAGE, Attribute.GENERIC_ATTACK_SPEED, Attribute.GENERIC_MAX_HEALTH, Attribute.GENERIC_MOVEMENT_SPEED};
         int[] modifiers = {10, 10, 25, 10, 1000};

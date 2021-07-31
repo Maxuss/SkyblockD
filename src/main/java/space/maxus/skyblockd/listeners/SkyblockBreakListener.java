@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.skyblock.items.AbilityStorage;
@@ -17,7 +18,7 @@ public class SkyblockBreakListener extends BetterListener {
 
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onBlockBreak(BlockBreakEvent e) {
+    public void onBlockBreak(@NotNull BlockBreakEvent e) {
         Player p = e.getPlayer();
         ItemStack item = p.getInventory().getItemInMainHand();
         if(item.getType() != Material.AIR) {

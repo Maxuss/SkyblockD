@@ -4,6 +4,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockSkull;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
@@ -13,7 +14,7 @@ import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
 public class NecronHelmet extends SkyblockSkull implements WitherPiece {
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 null, "Necron's Helmet",
                 SkyblockRarity.RELIC, SkyblockItemType.HELMET,
@@ -28,12 +29,12 @@ public class NecronHelmet extends SkyblockSkull implements WitherPiece {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("necron_helmet");
     }
 
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
         m.addAttributeModifier(
@@ -50,7 +51,7 @@ public class NecronHelmet extends SkyblockSkull implements WitherPiece {
     }
 
     @Override
-    public String getSkinHash() {
+    public @NotNull String getSkinHash() {
         return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2VkZTk1NDliZTczZDlhOWIyMzExYjQ1ZmY4ODcxNjFmMTFiYzU2MzYxYjk4MGNmN2M3MzczN2IyMjgwNDAwNCJ9fX0=";
     }
 }

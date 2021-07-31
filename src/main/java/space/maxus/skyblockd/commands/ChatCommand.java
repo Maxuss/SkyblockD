@@ -3,6 +3,7 @@ package space.maxus.skyblockd.commands;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 
 import java.util.Arrays;
@@ -18,7 +19,7 @@ public abstract class ChatCommand implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String info, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, Command cmd, String info, String[] args) {
         if(!cinfo.permission().isEmpty() && !sender.hasPermission(cinfo.permission())) {
             sender.sendMessage(ChatColor.RED+"You are missing permissions to execute this command!");
             return true;

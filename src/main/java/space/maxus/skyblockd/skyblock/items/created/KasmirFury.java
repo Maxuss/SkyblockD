@@ -10,6 +10,7 @@ import org.bukkit.entity.WitherSkull;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.items.Shortbow;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemStats;
@@ -21,12 +22,12 @@ import java.util.UUID;
 
 public class KasmirFury extends Shortbow {
     @Override
-    public Class<? extends Projectile> getProjectileType() {
+    public @NotNull Class<? extends Projectile> getProjectileType() {
         return WitherSkull.class;
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return "KASMIR";
     }
 
@@ -41,7 +42,7 @@ public class KasmirFury extends Shortbow {
     }
 
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(Material.BOW,
                 "Kasmir's Fury", SkyblockRarity.RELIC, SkyblockItemType.SHORTBOW,
                 new SkyblockItemStats().setDamage(150).setHealth(100));
@@ -56,7 +57,7 @@ public class KasmirFury extends Shortbow {
     }
 
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
         m.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(),"generic.attackDamage", 150, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));

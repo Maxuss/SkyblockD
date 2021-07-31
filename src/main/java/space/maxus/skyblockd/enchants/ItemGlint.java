@@ -4,16 +4,17 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class ItemGlint extends Enchantment {
 
-    public ItemGlint(NamespacedKey key) {
+    public ItemGlint(@NotNull NamespacedKey key) {
         super(key);
     }
 
     @Override
     public String getName() {
-        return null;
+        return "";
     }
 
     @Override
@@ -26,9 +27,10 @@ public class ItemGlint extends Enchantment {
         return 0;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public EnchantmentTarget getItemTarget() {
-        return null;
+        return EnchantmentTarget.ALL;
     }
 
     @Override

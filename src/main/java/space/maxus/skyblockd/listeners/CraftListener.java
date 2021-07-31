@@ -11,6 +11,7 @@ import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.items.CustomItem;
@@ -26,7 +27,7 @@ import java.util.Objects;
 public class CraftListener extends BetterListener {
 
     @EventHandler
-    public void onPlayerCraft(PrepareItemCraftEvent e) {
+    public void onPlayerCraft(@NotNull PrepareItemCraftEvent e) {
         if (e.getView().getPlayer() instanceof Player) {
             Player player = (Player)e.getView().getPlayer();
             CraftingInventory craftingInventory = e.getInventory();
@@ -53,7 +54,7 @@ public class CraftListener extends BetterListener {
     }
 
     @EventHandler
-    public void onCraftFinish(CraftItemEvent e){
+    public void onCraftFinish(@NotNull CraftItemEvent e){
         Recipe r = e.getRecipe();
         if(r instanceof ShapedRecipe) {
             ShapedRecipe sr = (ShapedRecipe) r;
@@ -86,7 +87,7 @@ public class CraftListener extends BetterListener {
         }
     }
 
-    private void operateItems(CraftItemEvent e, List<ItemStack> iterable) {
+    private void operateItems(@NotNull CraftItemEvent e, @NotNull List<ItemStack> iterable) {
         int totalExp = 0;
         for(ItemStack i : iterable) {
             if(i != null) {

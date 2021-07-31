@@ -1,11 +1,12 @@
 package space.maxus.skyblockd.skyblock.items.created;
 
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.items.ArmorSet;
 
 public class ShadowFractureSet extends ArmorSet {
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return "set::SHADOW_FRACTURE";
     }
 

@@ -11,6 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.gui.ElixirGui;
 import space.maxus.skyblockd.objects.BetterListener;
@@ -20,7 +21,7 @@ import java.util.Objects;
 
 public class ClickListener extends BetterListener {
     @EventHandler
-    public void onClick(PlayerInteractEvent e){
+    public void onClick(@NotNull PlayerInteractEvent e){
         ItemStack i = e.getItem();
         if(i == null) return;
         ItemMeta m = i.getItemMeta();

@@ -3,6 +3,7 @@ package space.maxus.skyblockd.listeners;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.objects.BetterListener;
@@ -15,7 +16,7 @@ import java.util.Random;
 
 public class EnchantListener extends BetterListener {
     @EventHandler
-    public void onEnchant(EnchantItemEvent e) {
+    public void onEnchant(@NotNull EnchantItemEvent e) {
         int cost = e.getExpLevelCost();
         Player p = e.getEnchanter();
 

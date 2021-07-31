@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.skyblock.utility;
 
 import org.bukkit.Material;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.objects.SkillModifier;
 
@@ -19,7 +20,7 @@ public class SkillHelper {
         return mods.get(level-1);
     }
 
-    public static int getExpForSkill(Material item, String skill) {
+    public static int getExpForSkill(@NotNull Material item, @NotNull String skill) {
         HashMap<String, HashMap<String, Integer>> datas = new HashMap<String, HashMap<String, Integer>>() {
             {
                 put("mining", SkyblockD.getServerData().mining);

@@ -11,6 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.ItemHelper;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 
 public class BlockBreakListener extends BetterListener {
     @EventHandler(priority = EventPriority.LOW)
-    public void onBlockBreak(BlockBreakEvent e) {
+    public void onBlockBreak(@NotNull BlockBreakEvent e) {
         Block b = e.getBlock();
         Player p = e.getPlayer();
         Material blockMat = b.getType();
@@ -104,7 +105,7 @@ public class BlockBreakListener extends BetterListener {
         }
     }
 
-    public static PlayerContainer getPlayer(Player p){
+    public static PlayerContainer getPlayer(@NotNull Player p){
         List<PlayerContainer> conts = UniversalHelper.filter(SkyblockD.getPlayers(), c -> c.uuid.equals(p.getUniqueId()));
         if(conts.isEmpty()){
             PlayerContainer epc = new PlayerContainer(new RankContainer(p.getUniqueId().toString(), p.getName()), p.getUniqueId(), PlayerSkills.EMPTY, p.hasPermission("skyblockd.admin"));
@@ -115,7 +116,7 @@ public class BlockBreakListener extends BetterListener {
         return conts.get(conts.size()-1);
     }
 
-    public static void operateSkill(String name, Player p, Block block, boolean spawnExtra){
+    public static void operateSkill(@NotNull String name, @NotNull Player p, @NotNull Block block, boolean spawnExtra){
         if(name.toLowerCase(Locale.ENGLISH).equals("farming")) {
             BlockData data = block.getBlockData();
             Ageable age = (Ageable) data;
@@ -147,7 +148,7 @@ public class BlockBreakListener extends BetterListener {
         UniversalHelper.giveSkillExperience(p, name, Math.round(exp));
     }
 
-    private static int getSkillFortune(String name, Player p) {
+    private static int getSkillFortune(@NotNull String name, @NotNull Player p) {
         switch(name.toLowerCase(Locale.ENGLISH)) {
             case "farming":
                 return UniversalHelper.getFarmingFortune(p);

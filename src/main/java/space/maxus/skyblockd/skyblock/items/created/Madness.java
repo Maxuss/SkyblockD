@@ -7,6 +7,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockSkull;
 import space.maxus.skyblockd.skyblock.objects.*;
@@ -18,7 +20,7 @@ import java.util.UUID;
 
 public class Madness extends SkyblockSkull {
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 null, "The Madness", SkyblockRarity.LEGENDARY,
                 SkyblockItemType.HELMET, new SkyblockItemStats().setHealth(-200)
@@ -40,12 +42,12 @@ public class Madness extends SkyblockSkull {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("madness_item");
     }
 
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @Nullable ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
         m.addAttributeModifier(
@@ -60,7 +62,7 @@ public class Madness extends SkyblockSkull {
     }
 
     @Override
-    public String getSkinHash() {
+    public @NotNull String getSkinHash() {
         // see https://minecraft-heads.com/custom-heads/humanoid/35924-demon-king
         return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjIxMDJiMzgyZmFmMTc4M2E5Zjk4NWYyYzlhMzhkNWE4MzM3MzA0MGQ1ZDAxN2NhMTUzNTRhNWMzNzA0OGE5MiJ9fX0=";
     }

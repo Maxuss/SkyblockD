@@ -5,16 +5,20 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @CommandInfo(name = "reforge", permission="skyblockd.admin", playerOnly=true)
 public class ReforgeCommand extends ChatCommand {
 
     @Override
-    public boolean execute(CommandSender sender, String[] args) {
+    public boolean execute(CommandSender sender, String @NotNull [] args) {
         Player p = (Player) sender;
         ItemStack mh = p.getInventory().getItemInMainHand();
         if(mh.getType() == Material.AIR || !mh.hasItemMeta()) {
@@ -40,6 +44,6 @@ public class ReforgeCommand extends ChatCommand {
 
     @Override
     public List<String> onTab(CommandSender sender, String[] args) {
-        return Arrays.stream(SkyblockReforge.values()).map(ref -> ref.name()).collect(Collectors.toList());
+        return Arrays.stream(SkyblockReforge.values()).map(Enum::name).collect(Collectors.toList());
     }
 }

@@ -1,18 +1,20 @@
 package space.maxus.skyblockd.skyblock.skills;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.List;
 
 public abstract class SkillMap {
-    private final StatTable rewards;
-    private final SkillTable levels;
+    private final @NotNull StatTable rewards;
+    private final @NotNull SkillTable levels;
     private final String name;
     private final String prof;
 
     public abstract List<? extends SkillReward> getRewardList();
 
-    public StatTable getRewards() {return rewards;}
-    public SkillTable getExperience() {return levels;}
+    public @NotNull StatTable getRewards() {return rewards;}
+    public @NotNull SkillTable getExperience() {return levels;}
     public String getSkillName() {return name; }
     public String getProfession() {return prof; }
 

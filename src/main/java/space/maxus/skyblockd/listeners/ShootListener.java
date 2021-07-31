@@ -8,13 +8,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.skyblock.items.AbilityStorage;
 
 public class ShootListener extends BetterListener {
     @EventHandler
-    public void onShoot(EntityShootBowEvent e) {
+    public void onShoot(@NotNull EntityShootBowEvent e) {
         LivingEntity ent = e.getEntity();
         if(!(ent instanceof Player)) return;
         Player p = (Player) ent;

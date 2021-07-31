@@ -7,6 +7,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.nms.NMSColor;
@@ -24,7 +25,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class UniversalHelper {
-    public static <T> List<T> filter(List<T> input, Predicate<? super T> filter){
+    public static <T> List<T> filter(@NotNull List<T> input, Predicate<? super T> filter){
         return input.stream().filter(filter).collect(Collectors.toList());
     }
 
@@ -32,7 +33,7 @@ public class UniversalHelper {
         return new TypeToken<T>(){}.getType();
     }
 
-    public static void skillLevelupMessage(int newLevel, String skillName, SkillMap rewardMap, Player p) {
+    public static void skillLevelupMessage(int newLevel, @NotNull String skillName, @NotNull SkillMap rewardMap, @NotNull Player p) {
         ArrayList<String> messages = new ArrayList<>();
         String upMsg = ChatColor.AQUA+""+ChatColor.BOLD+" SKILL LEVEL UP "+ChatColor.RESET+ChatColor.DARK_AQUA+cap(skillName)+" "+(newLevel>1 ? ChatColor.DARK_GRAY+""+new Roman(newLevel-1) + " -> "+ChatColor.DARK_AQUA+new Roman(newLevel) : ChatColor.DARK_AQUA+""+new Roman(newLevel));
         messages.add(ChatColor.DARK_AQUA+"----------------------------------------------");
@@ -74,7 +75,7 @@ public class UniversalHelper {
         p.sendMessage(array);
     }
 
-    public static void giveSkillExperience(Player p, String skill, int exp) {
+    public static void giveSkillExperience(@NotNull Player p, @NotNull String skill, int exp) {
         SkillMap map = SkyblockD.getMapManager().getMaps().get(skill.toLowerCase(Locale.ENGLISH));
         PlayerContainer pc = ContainerHelper.getPlayer(p);
         SkillContainer skc = pc.skills.data.get(skill.toLowerCase(Locale.ENGLISH));
@@ -107,14 +108,14 @@ public class UniversalHelper {
         }
     }
 
-    public static void setPlayer(PlayerContainer p, Player pl){
+    public static void setPlayer(PlayerContainer p, @NotNull Player pl){
         List<PlayerContainer> conts = UniversalHelper.filter(SkyblockD.getPlayers(), c -> c.uuid.equals(pl.getUniqueId()));
         SkyblockD.players.remove(conts.get(conts.size() - 1));
         SkyblockD.players.add(p);
         ContainerHelper.updatePlayers();
     }
 
-    public static int getStatFromSkill(String skill, Player p) {
+    public static int getStatFromSkill(String skill, @NotNull Player p) {
         PlayerContainer c = ContainerHelper.getPlayer(p);
         SkillContainer skc = c.skills.data.get(skill);
         int level = skc.currentLevel;
@@ -129,45 +130,45 @@ public class UniversalHelper {
         return total;
     }
 
-    public static int getMiningFortune(Player p) {
+    public static int getMiningFortune(@NotNull Player p) {
         int total = getStatFromSkill("mining", p);
         total += ItemHelper.getStatFromItems(p, "miningFortune");
         return total;
     }
 
-    public static int getFarmingFortune(Player p) {
+    public static int getFarmingFortune(@NotNull Player p) {
         int total = getStatFromSkill("farming", p);
         total += ItemHelper.getStatFromItems(p, "farmingFortune");
         return total;
     }
 
-    public static int getExcavatingFortune(Player p) {
+    public static int getExcavatingFortune(@NotNull Player p) {
         int total = getStatFromSkill("excavating", p);
         total += ItemHelper.getStatFromItems(p, "excavatingFortune");
         return total;
     }
 
-    public static int getStrength(Player p) {
+    public static int getStrength(@NotNull Player p) {
         int total = getStatFromSkill("foraging", p);
         total += getStatFromSkill("combat", p);
         total += ItemHelper.getStatFromItems(p, "strength");
         return total;
     }
 
-    public static int getSeaCreatureChance(Player p) {
+    public static int getSeaCreatureChance(@NotNull Player p) {
         int total = getStatFromSkill("fishing", p);
         total += ItemHelper.getStatFromItems(p, "scc");
         return total;
     }
 
-    public static int getAbilityDamage(Player p) {
+    public static int getAbilityDamage(@NotNull Player p) {
         int total = getStatFromSkill("crafting", p);
         total += getStatFromSkill("mysticism", p);
         total += ItemHelper.getStatFromItems(p, "abilDamage");
         return total;
     }
 
-    public static boolean checkFullSet(List<ItemStack> toTest, Player p) {
+    public static boolean checkFullSet(@NotNull List<ItemStack> toTest, @NotNull Player p) {
         List<ItemStack> contents = Arrays.asList(p.getInventory().getArmorContents());
         if(contents.isEmpty()) return false;
         AtomicInteger i = new AtomicInteger();
@@ -178,7 +179,7 @@ public class UniversalHelper {
         });
     }
 
-    public static boolean setHasKey(NamespacedKey key, PersistentDataType<?, ?> type, Player p) {
+    public static boolean setHasKey(@NotNull NamespacedKey key, @NotNull PersistentDataType<?, ?> type, @NotNull Player p) {
         List<ItemStack> contents = Arrays.asList(p.getInventory().getArmorContents());
         if(contents.isEmpty()) return false;
         return contents.stream().allMatch(item -> {
@@ -187,5 +188,5 @@ public class UniversalHelper {
         });
     }
 
-    private static String cap(String s) { return CustomItem.capitalize(s); }
+    private static @NotNull String cap(@NotNull String s) { return CustomItem.capitalize(s); }
 }

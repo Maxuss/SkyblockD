@@ -3,13 +3,14 @@ package space.maxus.skyblockd.recipes.created;
 import org.bukkit.Material;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.recipes.RecipeBase;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
 public class Infusion2Recipe extends RecipeBase<ShapedRecipe> {
     @Override
-    public ShapedRecipe getRecipe() {
+    public @NotNull ShapedRecipe getRecipe() {
         ShapedRecipe r = new ShapedRecipe(SkyblockD.getKey("recipe_infusion_2"), SkyblockMaterial.CRYSTAL_INFUSION.getItem());
         r.shape(
                 "DED",

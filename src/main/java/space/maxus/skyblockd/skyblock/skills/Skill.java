@@ -1,6 +1,5 @@
 package space.maxus.skyblockd.skyblock.skills;
 
-import com.google.gson.reflect.TypeToken;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,12 +11,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
-import space.maxus.skyblockd.helpers.JsonHelper;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.skyblock.utility.SkyblockFeature;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

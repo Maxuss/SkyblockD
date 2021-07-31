@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.skyblock.objects;
 
 import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class SkyblockItemAbility {
         description = descr;
     }
 
-    public List<String> generate(){
+    public @NotNull List<String> generate(){
         List<String> f = new ArrayList<>();
         f.add(getType().shown.replace("%NAME%", getName()));
         f.addAll(getDescription());

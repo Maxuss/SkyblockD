@@ -9,28 +9,29 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 
 public class BubblingPillager extends SkyblockEntity {
     @Override
-    public Location getLocation(Entity e) {
+    public @NotNull Location getLocation(@NotNull Entity e) {
         return e.getLocation();
     }
 
     @Override
-    public EntityEquipment getEquipment(EntityEquipment base) {
+    public @NotNull EntityEquipment getEquipment(@NotNull EntityEquipment base) {
         base.setItemInMainHand(new ItemStack(Material.DIAMOND_AXE));
         return base;
     }
 
     @Override
-    public EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.VINDICATOR;
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return ChatColor.RED+"Bubbling Pillager";
     }
 
@@ -55,12 +56,12 @@ public class BubblingPillager extends SkyblockEntity {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("BUBBLING_PILLAGER");
     }
 
     @Override
-    public void postInit(LivingEntity entity, Entity base) {
+    public void postInit(@NotNull LivingEntity entity, Entity base) {
         entity.getPersistentDataContainer().set(SkyblockD.getKey("BUBBLING_PILLAGER"), PersistentDataType.BYTE, (byte)1);
         entity.getPersistentDataContainer().set(SkyblockD.getKey("FISHED"), PersistentDataType.BYTE, (byte)1);
     }

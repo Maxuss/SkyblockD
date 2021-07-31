@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.skyblock.items.created;
 
 import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.objects.SkyblockAbilityType;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemAbility;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public interface WitherBlade {
-    default SkyblockItemAbility getAbility() {
+    default @NotNull SkyblockItemAbility getAbility() {
         List<String> unformatted = Arrays.asList(
                 "&7Teleports &a10 blocks&7 ahead of you.",
                 "&7Then implode, dealing &ctons&7 of damage",

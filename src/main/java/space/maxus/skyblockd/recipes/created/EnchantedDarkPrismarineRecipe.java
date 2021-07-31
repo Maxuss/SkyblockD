@@ -3,13 +3,14 @@ package space.maxus.skyblockd.recipes.created;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.recipes.RecipeBase;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
 public class EnchantedDarkPrismarineRecipe extends RecipeBase<ShapedRecipe> {
     @Override
-    public ShapedRecipe getRecipe() {
+    public @NotNull ShapedRecipe getRecipe() {
         ItemStack eink = SkyblockMaterial.ENCHANTED_INK_SAC.getItem();
         ItemStack eprism = SkyblockMaterial.ENCHANTED_PRISMARINE_SHARD.getItem();
         ItemStack ecryst = SkyblockMaterial.ENCHANTED_PRISMARINE_CRYSTALS.getItem();

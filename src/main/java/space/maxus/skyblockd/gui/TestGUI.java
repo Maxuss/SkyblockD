@@ -5,10 +5,11 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 public class TestGUI extends InventoryBase {
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return ChatColor.DARK_GRAY + "Testing";
     }
 
@@ -18,7 +19,7 @@ public class TestGUI extends InventoryBase {
     }
 
     @Override
-    public Inventory generateContains(Inventory inv) {
+    public @NotNull Inventory generateContains(@NotNull Inventory inv) {
         ItemStack stack = new ItemStack(Material.DIAMOND);
         stack.setAmount(14);
         ItemMeta meta = stack.getItemMeta();
@@ -32,7 +33,7 @@ public class TestGUI extends InventoryBase {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return "test";
     }
 }

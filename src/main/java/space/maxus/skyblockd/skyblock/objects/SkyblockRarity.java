@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.skyblock.objects;
 
 import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 
 public enum SkyblockRarity {
     ERROR        (ChatColor.MAGIC+"ERROR", ChatColor.YELLOW, 0),
@@ -17,7 +18,7 @@ public enum SkyblockRarity {
     ;
     private final int index;
 
-    public final String displayName;
+    public final @NotNull String displayName;
     public final String unformattedName;
     public final ChatColor displayColor;
 

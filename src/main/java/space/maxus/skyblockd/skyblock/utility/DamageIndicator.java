@@ -3,6 +3,7 @@ package space.maxus.skyblockd.skyblock.utility;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.objects.HologramParams;
 import space.maxus.skyblockd.util.Hologram;
@@ -16,7 +17,7 @@ public class DamageIndicator extends Hologram {
     }
 
     @Override
-    public HologramParams preInit(HologramParams in) {
+    public @NotNull HologramParams preInit(@NotNull HologramParams in) {
         char[] arr = in.getDisplayText().toCharArray();
         StringBuilder sb = new StringBuilder();
         HashMap<Integer, ChatColor> m = SkyblockD.getConsts().getDamageMap();
@@ -31,7 +32,7 @@ public class DamageIndicator extends Hologram {
     }
 
     @Override
-    public void postInit(HologramParams in, ArmorStand holo) {
+    public void postInit(HologramParams in, @NotNull ArmorStand holo) {
         // schedule task for hologram to disappear in ~2 seconds
         SkyblockD.getHost().getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), holo::remove, 20);
     }

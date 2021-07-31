@@ -5,6 +5,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.elixirs.ElixirEffect;
 import space.maxus.skyblockd.skyblock.elixirs.created.*;
@@ -12,11 +14,11 @@ import space.maxus.skyblockd.skyblock.elixirs.created.*;
 import java.util.Objects;
 
 public class MaterialHelper {
-    public static Material fromString(String mat){
+    public static @Nullable Material fromString(@NotNull String mat){
         return Material.getMaterial(mat);
     }
 
-    public static int matchCombat(EntityType t){
+    public static int matchCombat(@NotNull EntityType t){
         switch(t){
             case ENDER_DRAGON:
             case WITHER: return 900;
@@ -93,11 +95,11 @@ public class MaterialHelper {
         }
     }
 
-    public static boolean isMaterialLog(Material mat) {
+    public static boolean isMaterialLog(@NotNull Material mat) {
         return mat.name().endsWith("_LOG") || mat.name().endsWith("_STEM");
     }
 
-    public static boolean isMaterialStone(Material mat) {
+    public static boolean isMaterialStone(@NotNull Material mat) {
         switch(mat){
             case GRANITE:
             case ANDESITE:
@@ -112,7 +114,7 @@ public class MaterialHelper {
         }
     }
 
-    public static boolean isMaterialDirt(Material mat) {
+    public static boolean isMaterialDirt(@NotNull Material mat) {
         switch(mat){
             case CLAY:
             case SOUL_SOIL:
@@ -125,7 +127,7 @@ public class MaterialHelper {
         }
     }
 
-    public static boolean isMaterialPlant(Material mat) {
+    public static boolean isMaterialPlant(@NotNull Material mat) {
         switch(mat) {
             case BEETROOTS:
             case NETHER_WART:
@@ -142,7 +144,7 @@ public class MaterialHelper {
         }
     }
 
-    public static ElixirEffect getEffect(ItemStack i, ItemStack potion) {
+    public static @NotNull ElixirEffect getEffect(@NotNull ItemStack i, ItemStack potion) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
         if(m.getPersistentDataContainer().has(SkyblockD.getKey("elixirEffect"), PersistentDataType.STRING)) {

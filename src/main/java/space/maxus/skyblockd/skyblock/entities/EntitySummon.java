@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.skyblock.entities;
 
 import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.skyblock.entities.created.*;
 
 public enum EntitySummon {
@@ -28,7 +29,7 @@ public enum EntitySummon {
     private final SkyblockEntity entity;
 
     public SkyblockEntity getEntity() { return entity; }
-    public void summon(Entity base) { entity.generate(base); }
+    public void summon(@NotNull Entity base) { entity.generate(base); }
 
     EntitySummon(SkyblockEntity ent) {
         entity = ent;

@@ -4,12 +4,13 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
 public class EnchantedItemRecipe {
-    public EnchantedItemRecipe(Material base) {
+    public EnchantedItemRecipe(@NotNull Material base) {
         try {
             ItemStack matItem = new ItemStack(base);
             CustomItem.toSkyblockItem(matItem);
@@ -30,7 +31,7 @@ public class EnchantedItemRecipe {
         }
     }
 
-    public EnchantedItemRecipe(ItemStack base, SkyblockMaterial result) {
+    public EnchantedItemRecipe(@NotNull ItemStack base, @NotNull SkyblockMaterial result) {
         try {
             ItemStack res = result.getItem();
             ShapedRecipe rec = new ShapedRecipe(SkyblockD.getKey(result.name()+"_RECIPE"), res);

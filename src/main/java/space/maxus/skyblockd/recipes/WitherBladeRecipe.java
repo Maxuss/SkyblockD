@@ -2,13 +2,14 @@ package space.maxus.skyblockd.recipes;
 
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
 import java.util.Locale;
 
 public class WitherBladeRecipe {
-    public WitherBladeRecipe(String witherName, String swordName) {
+    public WitherBladeRecipe(String witherName, @NotNull String swordName) {
         String upper = swordName.toUpperCase(Locale.ENGLISH);
 
         ShapedRecipe rec = new ShapedRecipe(SkyblockD.getKey(upper+"_recipe"), SkyblockMaterial.valueOf(upper).getItem());

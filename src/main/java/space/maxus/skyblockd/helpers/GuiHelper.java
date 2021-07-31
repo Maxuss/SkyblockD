@@ -8,12 +8,13 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 
 import java.util.List;
 
 public class GuiHelper {
-    public static ItemStack getMenuGlass() {
+    public static @NotNull ItemStack getMenuGlass() {
         ItemStack s = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta m = s.getItemMeta();
         assert m != null;
@@ -24,7 +25,7 @@ public class GuiHelper {
         return s;
     }
 
-    public static ItemMeta setHideAllFlags(ItemMeta m) {
+    public static @NotNull ItemMeta setHideAllFlags(@NotNull ItemMeta m) {
         m.addItemFlags(
                 ItemFlag.HIDE_ATTRIBUTES,
                 ItemFlag.HIDE_DESTROYS,
@@ -36,11 +37,11 @@ public class GuiHelper {
         return m;
     }
 
-    public static ItemStack getPlayerHead(Player player) {
+    public static ItemStack getPlayerHead(@NotNull Player player) {
         return SkullCreator.itemFromUuid(player.getUniqueId());
     }
 
-    public static ItemStack genSimpleMenuItem(String name, Material material, List<String> lore) {
+    public static @NotNull ItemStack genSimpleMenuItem(String name, @NotNull Material material, List<String> lore) {
         ItemStack i = new ItemStack(material);
         ItemMeta sm = i.getItemMeta();
         assert sm != null;

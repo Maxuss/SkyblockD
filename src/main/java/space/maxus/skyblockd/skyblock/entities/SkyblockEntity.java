@@ -12,6 +12,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 import space.maxus.skyblockd.skyblock.utility.SkyblockFeature;
@@ -23,15 +25,15 @@ import java.util.Random;
 
 public abstract class SkyblockEntity implements SkyblockFeature {
 
-    public abstract Location getLocation(Entity e);
+    public abstract @NotNull Location getLocation(Entity e);
     public abstract EntityEquipment getEquipment(EntityEquipment base);
-    public abstract EntityType getType();
-    public abstract String getName();
+    public abstract @NotNull EntityType getType();
+    public abstract @NotNull String getName();
     public abstract double getHealth();
     public abstract double getDamage();
     public abstract double getDefense();
     public abstract int getLevel();
-    public abstract String getSkyblockId();
+    public abstract @Nullable String getSkyblockId();
     public abstract void postInit(LivingEntity entity, Entity base);
 
     private static final HashSet<Biome> nether = new HashSet<Biome>() {
@@ -44,7 +46,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
         }
     };
 
-    public Entity generate(Entity en){
+    public @NotNull Entity generate(@NotNull Entity en){
         LivingEntity e = (LivingEntity) en.getWorld().spawnEntity(getLocation(en), getType());
 
         // set equipment
@@ -73,7 +75,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
         return e;
     }
 
-    public static void toSkyblockEntity(LivingEntity e){
+    public static void toSkyblockEntity(@NotNull LivingEntity e){
         String name;
         if(e.getCustomName() == null){
             name = ChatColor.RED + capitalize(e.getType().toString().toLowerCase(Locale.ENGLISH).replace("_", " "));
@@ -194,7 +196,7 @@ public abstract class SkyblockEntity implements SkyblockFeature {
         e.getPersistentDataContainer().set(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING, "true");
     }
 
-    public static String capitalize(String str){
+    public static @NotNull String capitalize(@NotNull String str){
         String[] words =str.split("\\s");
         StringBuilder cap= new StringBuilder();
         for(String w:words){

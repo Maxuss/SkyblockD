@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
@@ -14,15 +15,15 @@ import java.util.Arrays;
 public abstract class ElixirEffect {
     public abstract void applyEffect(Player p);
 
-    public abstract String getEffectName();
+    public abstract @NotNull String getEffectName();
 
-    public abstract ItemStack addTag(ItemStack item);
+    public abstract @NotNull ItemStack addTag(ItemStack item);
 
     protected ItemStack i;
 
     public ItemStack getItem() { return i; }
 
-    public ElixirEffect(ItemStack item) {
+    public ElixirEffect(@NotNull ItemStack item) {
         addTag(item);
 
         ItemMeta m = item.getItemMeta();

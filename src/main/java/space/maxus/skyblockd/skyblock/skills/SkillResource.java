@@ -1,5 +1,7 @@
 package space.maxus.skyblockd.skyblock.skills;
 
+import org.jetbrains.annotations.NotNull;
+
 public class SkillResource {
     public String skillName;
     public String profession;
@@ -13,7 +15,7 @@ public class SkillResource {
         statRewards = stats;
     }
 
-    public SkillResource(SkillMap map){
+    public SkillResource(@NotNull SkillMap map){
         skillName = map.getSkillName();
         profession = map.getProfession();
         levelTable = map.getExperience();

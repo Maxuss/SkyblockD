@@ -2,11 +2,12 @@ package space.maxus.skyblockd.recipes;
 
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 
 public class DragonBootsRecipe {
-    public DragonBootsRecipe(SkyblockMaterial base, SkyblockMaterial result, String name) {
+    public DragonBootsRecipe(@NotNull SkyblockMaterial base, @NotNull SkyblockMaterial result, String name) {
         ShapedRecipe rec = new ShapedRecipe(SkyblockD.getKey(name), result.getItem());
         rec.shape(
                 "   ",

@@ -9,17 +9,18 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 
 public class TestEntity extends SkyblockEntity {
     @Override
-    public Location getLocation(Entity p) {
+    public @NotNull Location getLocation(@NotNull Entity p) {
         return p.getLocation();
     }
 
     @Override
-    public EntityEquipment getEquipment(EntityEquipment base) {
+    public @NotNull EntityEquipment getEquipment(@NotNull EntityEquipment base) {
         base.setHelmet(new ItemStack(Material.DIAMOND_HELMET));
         base.setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
         base.setLeggings(new ItemStack(Material.DIAMOND_LEGGINGS));
@@ -30,12 +31,12 @@ public class TestEntity extends SkyblockEntity {
     }
 
     @Override
-    public EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.ZOMBIE;
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return ChatColor.RED+"Buffed Zombie";
     }
 
@@ -60,7 +61,7 @@ public class TestEntity extends SkyblockEntity {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("test_entity");
     }
 
@@ -69,7 +70,7 @@ public class TestEntity extends SkyblockEntity {
         SkyblockD.getSender().sendMessage(ChatColor.GRAY+"Generated entity!");
     }
 
-    public TestEntity(Player p) {
+    public TestEntity(@NotNull Player p) {
         super.generate(p);
     }
 }

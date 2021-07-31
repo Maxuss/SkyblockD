@@ -2,6 +2,7 @@ package space.maxus.skyblockd.skyblock.items;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.created.*;
 import space.maxus.skyblockd.skyblock.items.created.stones.ReforgeStone;
@@ -327,7 +328,7 @@ public enum SkyblockMaterial {
 
     public ItemStack getItem() { return item; }
 
-    SkyblockMaterial(SkyblockItem item) {
+    SkyblockMaterial(@NotNull SkyblockItem item) {
         this.item = item.generate();
     }
 
@@ -335,7 +336,7 @@ public enum SkyblockMaterial {
         this.item = item;
     }
 
-    SkyblockMaterial(EnchantedItem item) {
+    SkyblockMaterial(@NotNull EnchantedItem item) {
         this.item = item.get();
     }
 }

@@ -4,14 +4,15 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class ReplenishEnchantment extends Enchantment {
-    public ReplenishEnchantment(NamespacedKey key) {
+    public ReplenishEnchantment(@NotNull NamespacedKey key) {
         super(key);
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Replenish";
     }
 
@@ -26,7 +27,7 @@ public class ReplenishEnchantment extends Enchantment {
     }
 
     @Override
-    public EnchantmentTarget getItemTarget() {
+    public @NotNull EnchantmentTarget getItemTarget() {
         return EnchantmentTarget.TOOL;
     }
 

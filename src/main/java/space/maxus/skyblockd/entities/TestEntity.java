@@ -8,27 +8,28 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 
 public class TestEntity extends ExpandedEntity<LivingEntity> {
 
     @Override
-    public Location getPosition(Player p) {
+    public @NotNull Location getPosition(@NotNull Player p) {
         return p.getLocation();
     }
 
     @Override
-    public EntityType getType() {
+    public @NotNull EntityType getType() {
         return EntityType.ZOMBIE;
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return SkyblockD.getNamespace("entity_test");
     }
 
     @Override
-    public void initializationLogic(LivingEntity e) {
+    public void initializationLogic(@NotNull LivingEntity e) {
         e.setCustomName(ChatColor.RED + "Sus Imposter!");
         e.setCustomNameVisible(true);
         EntityEquipment q = e.getEquipment();

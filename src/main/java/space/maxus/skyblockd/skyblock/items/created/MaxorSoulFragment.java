@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockSkull;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 
 public class MaxorSoulFragment extends SkyblockSkull {
     @Override
-    public SkyblockItemConfig getConfig() {
+    public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(Material.PLAYER_HEAD,
                 "Maxor's Soul Fragment",
                 SkyblockRarity.LEGENDARY,
@@ -35,12 +36,12 @@ public class MaxorSoulFragment extends SkyblockSkull {
     }
 
     @Override
-    public String getSkyblockId() {
+    public @NotNull String getSkyblockId() {
         return SkyblockD.getNamespace("maxor_soul");
     }
 
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
         m.getPersistentDataContainer().set(SkyblockD.getKey("blockClicks"), PersistentDataType.BYTE, (byte)0);
@@ -50,7 +51,7 @@ public class MaxorSoulFragment extends SkyblockSkull {
     }
 
     @Override
-    public String getSkinHash() {
+    public @NotNull String getSkinHash() {
         return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTlmMDI1ZjNmOWYxNDljYjZkMjkwOGM2ODcyMWZmNjYyMmE2Zjk0NTk1NmYwNzRlYTRmZGU0NDNjNWI1ZDdjNyJ9fX0=";
     }
 }

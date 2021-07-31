@@ -10,6 +10,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import space.maxus.skyblockd.commands.ChatCommand;
 import space.maxus.skyblockd.enchants.ItemGlint;
@@ -51,7 +52,7 @@ public class SkyblockD extends JavaPlugin {
     private static Config config;
     private static Constants consts;
     private static SkyblockItemRegisterer itemRegisterer;
-    private static HashMap<String, ArmorSet> armorSets = new HashMap<>();
+    private static @NotNull HashMap<String, ArmorSet> armorSets = new HashMap<>();
     private static ServerStorage serverData;
 
     public static List<PlayerContainer> players = new ArrayList<>();
@@ -80,16 +81,16 @@ public class SkyblockD extends JavaPlugin {
     public static HashMap<String, Object> getRankGroups() {
         return rankGroups;
     }
-    public static Server getHost() {
+    public static @NotNull Server getHost() {
         return instance.getServer();
     }
-    public static ConsoleCommandSender getSender() {
+    public static @NotNull ConsoleCommandSender getSender() {
         return getHost().getConsoleSender();
     }
-    public static String getServerName() {
+    public static @NotNull String getServerName() {
         return getHost().getName();
     }
-    public static String getServerIp() {
+    public static @NotNull String getServerIp() {
         return getHost().getIp();
     }
     public static PluginManager getPluginManager() {
@@ -114,9 +115,9 @@ public class SkyblockD extends JavaPlugin {
         return getHost().getWorlds().get(0);
     }
     public static SkyblockItemRegisterer getItemRegisterer() { return itemRegisterer; }
-    public static HashMap<String, ArmorSet> getArmorSets() {return armorSets;}
-    public static List<String> getAllowedIngredients() {return allowedSbIngredients;}
-    public static SkillMapManager getMapManager() { return mapManager; }
+    public static @NotNull HashMap<String, ArmorSet> getArmorSets() {return armorSets;}
+    public static @NotNull List<String> getAllowedIngredients() {return allowedSbIngredients;}
+    public static @NotNull SkillMapManager getMapManager() { return mapManager; }
     public static ServerStorage getServerData() { return serverData; }
     public static List<PlayerContainer> getPlayers() { return players; }
 
@@ -138,15 +139,15 @@ public class SkyblockD extends JavaPlugin {
     public static String getFullLongName() {
         return fullLongName;
     }
-    public static String getNamespace() {
+    public static @NotNull String getNamespace() {
         return namespacedKey + ":";
     }
     public static String getMotd() { return motd; }
 
-    public static String getNamespace(String name) {
+    public static @NotNull String getNamespace(@NotNull String name) {
         return namespacedKey + ":" + name.toUpperCase(Locale.ENGLISH);
     }
-    public static NamespacedKey getKey(String name) { return new NamespacedKey(SkyblockD.getInstance(), name); }
+    public static @NotNull NamespacedKey getKey(@NotNull String name) { return new NamespacedKey(SkyblockD.getInstance(), name); }
 
     private void initialize() {
         instance = this;
@@ -181,7 +182,7 @@ public class SkyblockD extends JavaPlugin {
         for(Class<? extends ChatCommand> clazz : new Reflections(pkgName).getSubTypesOf(ChatCommand.class)) {
             try {
                 clazz.getDeclaredConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (@NotNull InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 logger.severe("Could not initialize command " + clazz.getName() +"! " + e.getMessage() + "\n " +e.getCause() + Arrays.toString(e.getStackTrace()));
             }
         }
@@ -217,7 +218,7 @@ public class SkyblockD extends JavaPlugin {
         for(Class<? extends BetterListener> clazz : new Reflections(pkgName).getSubTypesOf(BetterListener.class)) {
             try {
                 clazz.getDeclaredConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (@NotNull InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 logger.severe("Could not initialize listener! " + e);
             }
         }

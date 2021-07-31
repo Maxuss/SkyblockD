@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
@@ -18,7 +19,7 @@ import java.util.List;
 public class ChatListener extends BetterListener {
 
     @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent e) {
+    public void onPlayerChat(@NotNull AsyncPlayerChatEvent e) {
         if (SkyblockD.getCfg().ranksFancy() && SkyblockD.getCfg().ranksEnabled()) {
             Player p = e.getPlayer();
             RankContainer c = new RankContainer(p.getUniqueId().toString(), p.getName());

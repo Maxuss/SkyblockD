@@ -1,11 +1,13 @@
 package space.maxus.skyblockd.skyblock.skills;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 
 public class SkillMapManager {
-    private final HashMap<String, SkillMap> maps;
+    private final @NotNull HashMap<String, SkillMap> maps;
 
-    public HashMap<String, SkillMap> getMaps() {return maps;}
+    public @NotNull HashMap<String, SkillMap> getMaps() {return maps;}
 
     public void addMap(String skillName, SkillMap map){
         maps.put(skillName, map);

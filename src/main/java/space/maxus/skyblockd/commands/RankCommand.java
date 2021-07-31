@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 @CommandInfo(name = "sbrank", permission = "skyblockd.admin", playerOnly = false, configReq = "skyblockd.chat.ranks.enabled")
 public class RankCommand extends ChatCommand {
     @Override
-    public boolean execute(CommandSender sender, String[] args) {
+    public boolean execute(CommandSender sender, String @NotNull [] args) {
         if (args.length > 0) {
             String name = args[0];
             Player p = SkyblockD.getHost().getPlayer(name);
@@ -65,7 +66,7 @@ public class RankCommand extends ChatCommand {
     }
 
     @Override
-    public List<String> onTab(CommandSender sender, String[] args) {
+    public List<String> onTab(CommandSender sender, String @NotNull [] args) {
         if(args.length >= 1) {
             return new ArrayList<>(SkyblockD.getRankGroups().keySet());
         }

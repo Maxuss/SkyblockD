@@ -1,5 +1,7 @@
 package space.maxus.skyblockd.objects;
 
+import org.jetbrains.annotations.NotNull;
+
 public class SeaCreatureContainer {
     public double chance;
     public int level;
@@ -12,7 +14,7 @@ public class SeaCreatureContainer {
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return "SeaCreatureContainer{" +
                 "chance=" + chance +
                 ", level=" + level +

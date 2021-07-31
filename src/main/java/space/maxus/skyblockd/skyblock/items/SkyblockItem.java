@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import org.reflections.ReflectionUtils;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
@@ -30,13 +31,13 @@ public abstract class SkyblockItem implements SkyblockFeature, StatContainer {
 
     public ItemStack getItem() { return item; }
 
-    public ItemStack generate(){
+    public @NotNull ItemStack generate(){
         item = new ItemStack(getConfig().getMaterial(), 1);
         return inheritanceGeneration(item);
     }
 
     @SuppressWarnings("unchecked")
-    protected ItemStack inheritanceGeneration(ItemStack item){
+    protected @NotNull ItemStack inheritanceGeneration(@NotNull ItemStack item){
         SkyblockItemConfig cfg = getConfig();
 
         List<SkyblockItemAbility> abils = cfg.getAbilities();
@@ -84,7 +85,7 @@ public abstract class SkyblockItem implements SkyblockFeature, StatContainer {
                         lore.add(stat);
                     }
                 }
-            } catch (IllegalAccessException | InvocationTargetException e) {
+            } catch (@NotNull IllegalAccessException | InvocationTargetException e) {
                 SkyblockD.logger.severe("Could not set stats to object! " + Arrays.toString(e.getStackTrace()));
             }
         }
@@ -142,7 +143,7 @@ public abstract class SkyblockItem implements SkyblockFeature, StatContainer {
         return item;
     }
 
-    public static ItemStack recombobulate(ItemStack item){
+    public static @NotNull ItemStack recombobulate(@NotNull ItemStack item){
         ItemMeta m = item.getItemMeta();
         assert m != null;
         PersistentDataContainer c = m.getPersistentDataContainer();
@@ -175,37 +176,37 @@ public abstract class SkyblockItem implements SkyblockFeature, StatContainer {
 
 
     @Override
-    public void applyStat(String statName, int amount, ItemMeta m)  {
+    public void applyStat(String statName, int amount, @NotNull ItemMeta m)  {
         m.getPersistentDataContainer().set(SkyblockD.getKey(statName), PersistentDataType.INTEGER, amount);
     }
 
     @Override
-    public void addFarmingFortune(int amount, ItemMeta m) {
+    public void addFarmingFortune(int amount, @NotNull ItemMeta m) {
         applyStat("farmingFortune", amount, m);
     }
 
     @Override
-    public void addMiningFortune(int amount, ItemMeta m) {
+    public void addMiningFortune(int amount, @NotNull ItemMeta m) {
         applyStat("miningFortune", amount, m);
     }
 
     @Override
-    public void addExcavatingFortune(int amount, ItemMeta m) {
+    public void addExcavatingFortune(int amount, @NotNull ItemMeta m) {
         applyStat("excavatingFortune", amount, m);
     }
 
     @Override
-    public void addSeaCreatureChance(int amount, ItemMeta m) {
+    public void addSeaCreatureChance(int amount, @NotNull ItemMeta m) {
         applyStat("scc", amount, m);
     }
 
     @Override
-    public void addAbilityDamage(int amount, ItemMeta m) {
+    public void addAbilityDamage(int amount, @NotNull ItemMeta m) {
         applyStat("abilDamage", amount, m);
     }
 
     @Override
-    public void addStrength(int amount, ItemMeta m) {
+    public void addStrength(int amount, @NotNull ItemMeta m) {
         applyStat("strength", amount, m);
     }
 }

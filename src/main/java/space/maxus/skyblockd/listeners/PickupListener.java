@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.items.CustomItem;
@@ -17,7 +18,7 @@ import java.util.Objects;
 
 public class PickupListener extends BetterListener {
     @EventHandler
-    public void onPickup(EntityPickupItemEvent e){
+    public void onPickup(@NotNull EntityPickupItemEvent e){
         // save a lot of memory by checking if entity is player
         // if it isnt, simply dont update item until player picks it up
         if(e.getEntity() instanceof Player) {
@@ -33,7 +34,7 @@ public class PickupListener extends BetterListener {
     }
 
     @EventHandler
-    public void onInventoryUpdate(InventoryOpenEvent e){
+    public void onInventoryUpdate(@NotNull InventoryOpenEvent e){
         Inventory i = e.getInventory();
         ItemStack[] items = i.getContents();
         for (ItemStack item : items) {

@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.skyblock.elixirs.ElixirEffect;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 
 public class PotionListener extends BetterListener {
     @EventHandler
-    public void onDrink(PlayerItemConsumeEvent e) {
+    public void onDrink(@NotNull PlayerItemConsumeEvent e) {
         Player p = e.getPlayer();
         ItemStack i = e.getItem();
         ItemMeta m = i.getItemMeta();

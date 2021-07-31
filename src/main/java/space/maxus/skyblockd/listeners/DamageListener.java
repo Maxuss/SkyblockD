@@ -16,6 +16,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
@@ -29,12 +30,12 @@ import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 import java.util.*;
 
 public class DamageListener extends BetterListener {
-    public static HashMap<UUID, Double> dragonDamagers = new HashMap<>();
-    public static HashMap<UUID, Double> protectorDamagers = new HashMap<>();
-    public static HashMap<UUID, Double> witherDamagers = new HashMap<>();
+    public static @NotNull HashMap<UUID, Double> dragonDamagers = new HashMap<>();
+    public static @NotNull HashMap<UUID, Double> protectorDamagers = new HashMap<>();
+    public static @NotNull HashMap<UUID, Double> witherDamagers = new HashMap<>();
 
     @EventHandler
-    public void onProjectileHit(ProjectileHitEvent e) {
+    public void onProjectileHit(@NotNull ProjectileHitEvent e) {
         Projectile pr = e.getEntity();
 
         if(e.getHitBlock() != null && pr.getPersistentDataContainer().has(SkyblockD.getKey("despawn"), PersistentDataType.BYTE)) {
@@ -68,7 +69,7 @@ public class DamageListener extends BetterListener {
     }
 
     @EventHandler
-    public void onDamage(EntityDamageEvent e) {
+    public void onDamage(@NotNull EntityDamageEvent e) {
         Entity en = e.getEntity();
 
         if(e.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
@@ -80,7 +81,7 @@ public class DamageListener extends BetterListener {
     }
 
     @EventHandler
-    public void onPlayerDamaged(EntityDamageByEntityEvent e) {
+    public void onPlayerDamaged(@NotNull EntityDamageByEntityEvent e) {
         if(!(e.getEntity() instanceof Player)) return;
         Player p = (Player) e.getEntity();
         Entity damager = e.getDamager();
@@ -130,7 +131,7 @@ public class DamageListener extends BetterListener {
         }
     }
 
-    private static boolean getReforgeFromArmor(ItemStack[] armor, SkyblockReforge ref) {
+    private static boolean getReforgeFromArmor(ItemStack @NotNull [] armor, SkyblockReforge ref) {
         for (ItemStack item : armor) {
             if(item == null || !item.hasItemMeta() || item.getType() == Material.AIR) continue;
 
@@ -149,7 +150,7 @@ public class DamageListener extends BetterListener {
         return false;
     }
 
-    private void operateHitByEntity(EntityDamageEvent e, Entity en) {
+    private void operateHitByEntity(@NotNull EntityDamageEvent e, @NotNull Entity en) {
         EntityDamageByEntityEvent ev = (EntityDamageByEntityEvent) e;
         Entity damager = ev.getDamager();
 
@@ -217,7 +218,7 @@ public class DamageListener extends BetterListener {
         }
     }
 
-    private void operateReforges(EntityDamageByEntityEvent e, PersistentDataContainer c, Entity en, ItemStack mainHand) {
+    private void operateReforges(@NotNull EntityDamageByEntityEvent e, @NotNull PersistentDataContainer c, @NotNull Entity en, @NotNull ItemStack mainHand) {
         Integer ref = c.get(SkyblockD.getKey("reforgeData"), PersistentDataType.INTEGER);
         assert ref != null;
         SkyblockReforge reforge = SkyblockReforge.byIndex(ref);
@@ -262,7 +263,7 @@ public class DamageListener extends BetterListener {
         }
     }
 
-    private void operateDamageIndicators(EntityDamageEvent e, Entity en) {
+    private void operateDamageIndicators(@NotNull EntityDamageEvent e, @NotNull Entity en) {
         int dmg = (int) e.getFinalDamage();
         Location loc = en.getLocation();
 

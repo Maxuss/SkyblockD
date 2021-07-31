@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
@@ -18,7 +19,7 @@ public class ReforgeStone {
         return item;
     }
 
-    public ReforgeStone(String name, SkyblockReforge stored, SkyblockRarity rarity, String hash) {
+    public ReforgeStone(String name, @NotNull SkyblockReforge stored, @NotNull SkyblockRarity rarity, @NotNull String hash) {
         ItemStack skull = SkullCreator.itemFromBase64(hash);
         ItemMeta m = skull.getItemMeta();
         assert m != null;

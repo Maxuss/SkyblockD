@@ -1,9 +1,10 @@
 package space.maxus.skyblockd.util;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class Config extends ConfigurationFile {
-    public Config(JavaPlugin plugin, String name) {
+    public Config(@NotNull JavaPlugin plugin, String name) {
         super(plugin, name);
     }
 
