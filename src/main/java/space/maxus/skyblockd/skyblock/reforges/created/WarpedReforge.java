@@ -27,7 +27,7 @@ public class WarpedReforge extends ReforgeBase {
 
     @Override
     public @NotNull List<String> getDisplayStats() {
-        return Arrays.asList(ChatColor.GRAY+"Heavily increases your damage", ChatColor.GRAY+"while in "+ChatColor.LIGHT_PURPLE+"The End",ChatColor.GREEN+"+ 10 " + SkyblockConstants.DEFENCE+ " Defense");
+        return Arrays.asList(ChatColor.GRAY+"Heavily increases your damage", ChatColor.GRAY+"while in "+ChatColor.LIGHT_PURPLE+"The End",ChatColor.GREEN+"+10 " + SkyblockConstants.DEFENCE+ " Defense");
     }
 
     @Override

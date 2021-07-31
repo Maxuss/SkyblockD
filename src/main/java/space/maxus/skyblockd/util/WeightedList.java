@@ -1,6 +1,8 @@
 package space.maxus.skyblockd.util;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.EnderDragon;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
@@ -82,17 +84,25 @@ public class WeightedList<E> extends HashMap<E, Double> {
         return singleton;
     }
 
-    public static @NotNull WeightedList<ItemStack> getDragonDrops(@NotNull DragonLoot loot, boolean skyblock, float playerWeight) {
+    public static @NotNull WeightedList<ItemStack> getDragonDrops(@NotNull DragonLoot loot, boolean skyblock, float playerWeight, EnderDragon drag) {
         HashMap<String, Float> operated = loot.getVanilla();
         if(skyblock) operated = loot.getSkyblock();
 
+
         Random r = new Random();
         WeightedList<ItemStack> list = new WeightedList<>();
+        if(Objects.requireNonNull(ChatColor.stripColor(drag.getCustomName())).contains("Absolute Dragon")) {
+            SkyblockMaterial mat = SkyblockMaterial.FRONTIER;
+            SkyblockMaterial ball = SkyblockMaterial.CRYSTAL_BALL;
+            list.put(mat.getItem(), 0.3);
+            list.put(ball.getItem(), 0.3);
+        }
         for (Map.Entry<String, Float> entry: operated.entrySet()) {
             float v = entry.getValue();
             String k = entry.getKey();
 
             if(skyblock) {
+
                 SkyblockMaterial mat = SkyblockMaterial.valueOf(k);
                 int amount = r.nextInt(1)+1;
                 ItemStack pble = mat.getItem().clone();

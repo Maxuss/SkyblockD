@@ -2,6 +2,7 @@ package space.maxus.skyblockd.listeners;
 
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -179,7 +180,7 @@ public class KillListener extends BetterListener {
 
             ItemHelper.trySendRareDrop(SkyblockMaterial.THE_SEAL.getItem(), 500, p, ItemHelper.DropRarity.INSANE);
 
-            for(int j = 0; j < 1; j++) {
+            for(int j = 0; j < 2; j++) {
                 ItemStack dropped = items.get(prand);
                 assert Objects.requireNonNull(dropped).getItemMeta() != null;
                 displays.add(p.getDisplayName()+ChatColor.RED+" has obtained "+ Objects.requireNonNull(dropped.getItemMeta()).getDisplayName()+" "+dropped.getAmount()+"x ");
@@ -197,7 +198,7 @@ public class KillListener extends BetterListener {
         }
 
         Bukkit.broadcastMessage(String.join("\n", displays));
-        DamageListener.protectorDamagers.clear();
+        DamageListener.witherDamagers.clear();
     }
 
     public static void operateProtectorLoot() {
@@ -293,8 +294,8 @@ public class KillListener extends BetterListener {
             float weight = (float) (dmg / 1600f);
 
             List<WeightedList<ItemStack>> l = new ArrayList<>();
-            l.add(WeightedList.getDragonDrops(loot, false, weight));
-            l.add(WeightedList.getDragonDrops(loot, true, weight));
+            l.add(WeightedList.getDragonDrops(loot, false, weight, (EnderDragon) edrag));
+            l.add(WeightedList.getDragonDrops(loot, true, weight, (EnderDragon) edrag));
             drops.put(id, l);
 
             if(i >= 3) break;

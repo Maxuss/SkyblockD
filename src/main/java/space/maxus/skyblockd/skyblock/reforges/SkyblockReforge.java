@@ -18,6 +18,10 @@ public enum SkyblockReforge {
     WITHERED("Withered", new WitheredReforge(), 12),
     PRISMATIC("Prismatic", new PrismaticReforge(), 13),
     HARDENED("Hardened", new HardenedReforge(), 14),
+    FRUITFUL("Fruitful", new FruitfulReforge(), 15),
+    MUDDY("Muddy", new MuddyReforge(), 16),
+    BURIED("Buried", new BuriedReforge(), 17),
+    SUBMERGED("Submerged", new SubmergedReforge(), 18),
     ;
 
     private final ReforgeBase base;

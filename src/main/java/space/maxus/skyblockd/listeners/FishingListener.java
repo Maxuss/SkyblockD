@@ -81,6 +81,7 @@ public class FishingListener extends BetterListener {
             if(fishing.currentLevel + 1 < reqLvl) {
                 p.sendMessage(ChatColor.YELLOW+"You tried to lure out " + ChatColor.MAGIC + formattedName + ChatColor.RESET+""+ChatColor.YELLOW+" but it breaks away! Maybe you need higher "+ChatColor.AQUA+" Fishing "+ChatColor.YELLOW+" level to fish it?");
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1f, 1f);
+                return;
             }
 
             p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_SPLASH, 1f, 0.5f);

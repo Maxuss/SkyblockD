@@ -136,6 +136,35 @@ public class RecipeRegisterer {
         new SimpleSetRecipe("TITAN", SkyblockMaterial.ENCHANTED_IRON_INGOT, "OBSIDIAN");
         new SimpleSetRecipe("MUDSTONE", SkyblockMaterial.ENCHANTED_DIRT, null);
 
+        new ConduitRecipe();
+        new DeepslateRecipe();
+        new HeartOfSeaRecipe();
+        new MoltenMagmaRecipe();
+        new MudBallRecipe();
+        new MutatedEnderPearlRecipe();
+        new MutatedFleshRecipe();
+        new RustyPlatingRecipe();
+        new SacredOrbRecipe();
+        new SweetBerryRecipe();
+        new TangledSeaweedRecipe();
+
+        new SimpleHoeBlueprintRecipe();
+        new AdvancedHoeBlueprintRecipe();
+
+        new WitherSingularityRecipe();
+        new GalacticaSingularityRecipe();
+
+        new DraconicShortbowRecipe();
+        new KasmirFuryRecipe();
+
+        new HoeRecipe("ROOKY", "SIMPLE", "ENCHANTED_COBBLESTONE");
+        new HoeRecipe("HARDWOOD", "SIMPLE", "HARDWOOD");
+        new HoeRecipe("STEEL", "ADVANCED", "ENCHANTED_IRON_INGOT");
+        new HoeRecipe("FORGED", "ADVANCED", "ENCHANTED_NETHERITE");
+        new HoeRecipe("ENDSTONE", "SIMPLE", "ENCHANTED_END_STONE");
+        new HoeRecipe("MOONSTONE", "ADVANCED", "ENCHANTED_MOON_STONE");
+        new HoeRecipe("GALAXY", "ADVANCED", "GALACTICA_SINGULARITY");
+
         new EnergeticHandleRecipe();
         new HardwoodRecipe();
         new ShortbowBaseRecipe();

@@ -7,7 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
-import space.maxus.skyblockd.skyblock.items.SkyblockSkull;
+import space.maxus.skyblockd.skyblock.items.SkyblockItem;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemStats;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemType;
@@ -15,16 +15,16 @@ import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
 import java.util.Collections;
 
-public class DragonSingularity extends SkyblockSkull {
+public class Frontier extends SkyblockItem {
     @Override
     public @NotNull SkyblockItemConfig getConfig() {
-        SkyblockItemConfig cfg = new SkyblockItemConfig(Material.PLAYER_HEAD,
-                "Dragon Singularity",
+        SkyblockItemConfig cfg = new SkyblockItemConfig(Material.STICK,
+                "The Frontier",
                 SkyblockRarity.LEGENDARY,
                 SkyblockItemType.OTHER_NONCONSUMABLE,
                 new SkyblockItemStats());
         cfg.setDescription(Collections.singletonList(
-                ChatColor.DARK_GRAY+"It is pulsating with otherworldly energy"
+                ChatColor.DARK_GRAY+"A connection between worlds"
         ));
         return cfg;
     }
@@ -36,7 +36,7 @@ public class DragonSingularity extends SkyblockSkull {
 
     @Override
     public @NotNull String getSkyblockId() {
-        return SkyblockD.getNamespace("dragon_singularity");
+        return SkyblockD.getNamespace("frontier_item");
     }
 
     @Override
@@ -47,10 +47,5 @@ public class DragonSingularity extends SkyblockSkull {
         m.getPersistentDataContainer().remove(SkyblockD.getKey("headClicks"));
         i.setItemMeta(m);
         return i;
-    }
-
-    @Override
-    public @NotNull String getSkinHash() {
-        return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDJlODcwODlmOTMyOWI1NGM5YTU5NjU2MjUzNTQxMDdjN2Y5NmIzMDU0ZjFkZWY4Y2VlYTJiOTBjZTZmOGQifX19=";
     }
 }

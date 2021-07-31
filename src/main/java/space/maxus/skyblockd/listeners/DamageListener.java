@@ -18,9 +18,11 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.helpers.ContainerHelper;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.objects.BetterListener;
+import space.maxus.skyblockd.objects.PlayerSkills;
 import space.maxus.skyblockd.skyblock.entities.SkyblockEntity;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
@@ -108,11 +110,13 @@ public class DamageListener extends BetterListener {
             e.setDamage(e.getDamage()*2.1d);
         }
         ItemStack[] armor = p.getInventory().getArmorContents();
-        if(damager.getPersistentDataContainer().has(SkyblockD.getKey("FISHED"), PersistentDataType.BYTE)
-            && getReforgeFromArmor(armor, SkyblockReforge.TANGLED))
+        if(damager.getPersistentDataContainer().has(SkyblockD.getKey("FISHED"), PersistentDataType.BYTE)) {
+            if(getReforgeFromArmor(armor, SkyblockReforge.TANGLED))
                 e.setDamage(e.getDamage() / 2d);
-        if(ItemHelper.isUndead(damager.getType())
-                && getReforgeFromArmor(armor, SkyblockReforge.MUTATED))
+            if(UniversalHelper.checkFullSet(SkyblockD.getArmorSets().get("set::NAUTILUS"), p))
+                e.setDamage(e.getDamage() * 0.8d);
+        }
+        if(ItemHelper.isUndead(damager.getType()) && getReforgeFromArmor(armor, SkyblockReforge.MUTATED))
             e.setDamage(e.getDamage() / 1.5d);
         if(getReforgeFromArmor(armor, SkyblockReforge.ETHEREAL)) {
             int chance = new Random().nextInt(30);
@@ -127,7 +131,7 @@ public class DamageListener extends BetterListener {
 
         if(e.getEntity().getType() == EntityType.WITHER
          && UniversalHelper.setHasKey(SkyblockD.getKey("wither"), PersistentDataType.BYTE, p)) {
-            e.setDamage(e.getDamage()*0.8d);
+            e.setDamage(e.getDamage()*1.4d);
         }
     }
 
@@ -149,13 +153,14 @@ public class DamageListener extends BetterListener {
         }
         return false;
     }
-
+    @SuppressWarnings("deprecation")
     private void operateHitByEntity(@NotNull EntityDamageEvent e, @NotNull Entity en) {
         EntityDamageByEntityEvent ev = (EntityDamageByEntityEvent) e;
         Entity damager = ev.getDamager();
 
         if(!(damager instanceof Player)) return;
         int strength = UniversalHelper.getStrength((Player) damager);
+        Player p = (Player) ev.getDamager();
 
         e.setDamage(e.getDamage()*(1+((strength+50)/100d)));
 
@@ -164,7 +169,7 @@ public class DamageListener extends BetterListener {
         if(mainHand.getType().isAir()) return;
         if(!mainHand.hasItemMeta()) return;
 
-        if(UniversalHelper.checkFullSet(Arrays.asList(SkyblockMaterial.UNSTABLE_DRAGON_BOOTS.getItem(), SkyblockMaterial.UNSTABLE_DRAGON_LEGGINGS.getItem(), SkyblockMaterial.UNSTABLE_DRAGON_CHESTPLATE.getItem(), SkyblockMaterial.UNSTABLE_DRAGON_HELMET.getItem()), (Player)damager)) {
+        if(UniversalHelper.checkFullSet(SkyblockD.getArmorSets().get("set::UNSTABLE"), (Player)damager)) {
             damager.getWorld().strikeLightning(ev.getEntity().getLocation());
         }
 
@@ -172,11 +177,24 @@ public class DamageListener extends BetterListener {
         if(c.has(SkyblockD.getKey("reforged"), PersistentDataType.BYTE)) {
             operateReforges(ev, c, en, mainHand);
         }
+        PlayerSkills skills = ContainerHelper.getPlayer(p).skills;
+        if(c.has(SkyblockD.getKey("ASTRAEA"), PersistentDataType.BYTE)) {
+            int lvl = skills.data.get("mining").currentLevel+1;
+            ev.setDamage(ev.getDamage()*(1+(0.05d*lvl)));
+        } else if(c.has(SkyblockD.getKey("SCYLLA"), PersistentDataType.BYTE)) {
+            int lvl = skills.data.get("combat").currentLevel+1;
+            ev.setDamage(ev.getDamage()*(1+(0.05d*lvl)));
+        } else if(c.has(SkyblockD.getKey("VALKYRIE"), PersistentDataType.BYTE)) {
+            int lvl = skills.data.get("foraging").currentLevel+1;
+            ev.setDamage(ev.getDamage()*(1+(0.05d*lvl)));
+        } else if(c.has(SkyblockD.getKey("HYPERION"), PersistentDataType.BYTE)) {
+            int lvl = skills.data.get("mysticism").currentLevel + 1;
+            ev.setDamage(ev.getDamage() * (1+(0.05d * lvl)));
+        }
 
         if(ev.getEntity() instanceof EnderDragon) {
             ev.setDamage(ev.getDamage()/1.9d);
             double damage = ev.getDamage();
-            Player p = (Player) ev.getDamager();
             UUID id = p.getUniqueId();
             if(dragonDamagers.containsKey(id)) {
                 dragonDamagers.put(id, dragonDamagers.get(id)+damage);
@@ -202,19 +220,52 @@ public class DamageListener extends BetterListener {
         } else if(ev.getEntity().getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)) {
             ev.setDamage(ev.getDamage()/2d);
             double damage = ev.getDamage();
-            Player p = (Player) ev.getDamager();
             UUID id = p.getUniqueId();
             if(protectorDamagers.containsKey(id)) {
                 protectorDamagers.put(id, protectorDamagers.get(id)+damage);
             } else protectorDamagers.put(id, damage);
         } else if(ev.getEntity() instanceof Wither) {
-            ev.setDamage(ev.getDamage()/2.5d);
+            ev.setDamage(ev.getDamage()/5d);
             double damage = ev.getDamage();
-            Player p = (Player) ev.getDamager();
             UUID id = p.getUniqueId();
             if(witherDamagers.containsKey(id)) {
                 witherDamagers.put(id, witherDamagers.get(id)+damage);
             } else witherDamagers.put(id, damage);
+            Integer t = ev.getEntity().getPersistentDataContainer().get(SkyblockD.getKey("witherType"), PersistentDataType.INTEGER);
+            assert t != null;
+            SkyblockEntity.WitherType type = SkyblockEntity.WitherType.values()[t];
+            Wither w = (Wither) ev.getEntity();
+            if(w.getHealth() <= (w.getMaxHealth()*0.8)) {
+                w.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 2));
+                Location witherLoc = w.getLocation();
+                for(int i = 0; i < 30; i++) {
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
+                        w.teleport(witherLoc);
+                        WitherSkull projectile = w.launchProjectile(WitherSkull.class);
+                        projectile.setIsIncendiary(false);
+                        projectile.setYield(0);
+                        projectile.setVelocity(Vector.getRandom());
+                        projectile.getPersistentDataContainer().set(SkyblockD.getKey("extraDamage"), PersistentDataType.DOUBLE, 33d);
+                    }, i);
+                }
+            } else if(w.getHealth() <= (w.getMaxHealth()*0.5)) {
+                w.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 2));
+            } else if(w.getHealth() <= (w.getMaxHealth()*0.3)) {
+                w.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 200, 2));
+                w.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 10000, 9));
+                w.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10000, 2));
+                Location witherLoc = w.getLocation();
+                for(int i = 0; i < 30; i++) {
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
+                        w.teleport(witherLoc);
+                        WitherSkull projectile = w.launchProjectile(WitherSkull.class);
+                        projectile.setIsIncendiary(false);
+                        projectile.setYield(0);
+                        projectile.setVelocity(Vector.getRandom());
+                        projectile.getPersistentDataContainer().set(SkyblockD.getKey("extraDamage"), PersistentDataType.DOUBLE, 100d);
+                    }, i);
+                }
+            }
         }
     }
 

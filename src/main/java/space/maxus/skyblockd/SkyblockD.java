@@ -252,6 +252,7 @@ public class SkyblockD extends JavaPlugin {
         armorSets.put("set::SHADOW_FRACTURE", new ShadowFractureSet());
         armorSets.put("set::EMERALD", new EmeraldSet());
         armorSets.put("set::LILY", new LilySet());
+        armorSets.put("set::NAUTILUS", new NautilusSet());
         armorSets.put("set::KASMIR", new KasmirSet());
         armorSets.put("set::YOUNG", new YoungSet());
         armorSets.put("set::STRONG", new StrongSet());

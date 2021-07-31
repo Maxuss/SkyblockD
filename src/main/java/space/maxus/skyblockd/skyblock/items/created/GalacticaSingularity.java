@@ -15,16 +15,16 @@ import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
 import java.util.Collections;
 
-public class DragonSingularity extends SkyblockSkull {
+public class GalacticaSingularity extends SkyblockSkull {
     @Override
     public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(Material.PLAYER_HEAD,
-                "Dragon Singularity",
+                "Galactica Singularity",
                 SkyblockRarity.LEGENDARY,
                 SkyblockItemType.OTHER_NONCONSUMABLE,
                 new SkyblockItemStats());
         cfg.setDescription(Collections.singletonList(
-                ChatColor.DARK_GRAY+"It is pulsating with otherworldly energy"
+                ChatColor.DARK_GRAY+"It is pulsating with World's energy"
         ));
         return cfg;
     }
@@ -36,7 +36,7 @@ public class DragonSingularity extends SkyblockSkull {
 
     @Override
     public @NotNull String getSkyblockId() {
-        return SkyblockD.getNamespace("dragon_singularity");
+        return SkyblockD.getNamespace("galactica_singularity");
     }
 
     @Override
@@ -49,8 +49,7 @@ public class DragonSingularity extends SkyblockSkull {
         return i;
     }
 
-    @Override
     public @NotNull String getSkinHash() {
-        return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDJlODcwODlmOTMyOWI1NGM5YTU5NjU2MjUzNTQxMDdjN2Y5NmIzMDU0ZjFkZWY4Y2VlYTJiOTBjZTZmOGQifX19=";
+        return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWQzZDI1MGUyNWJiY2EzYTYyYmU1YjNlZjAyY2ZjYWI2ZGNkYzQyNDg4NGM5YTdkNWNjOTVjOWQwIn19fQ==";
     }
 }

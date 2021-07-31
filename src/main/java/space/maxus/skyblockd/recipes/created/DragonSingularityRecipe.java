@@ -14,13 +14,15 @@ public class DragonSingularityRecipe extends RecipeBase<ShapedRecipe> {
         rec.shape(
                 " S ",
                 "UEY",
-                " M "
+                "OMC"
         );
         rec.setIngredient('S', new RecipeChoice.ExactChoice(SkyblockMaterial.STRONG_FRAGMENT.getItem()));
         rec.setIngredient('U', new RecipeChoice.ExactChoice(SkyblockMaterial.SUPERIOR_FRAGMENT.getItem()));
         rec.setIngredient('Y', new RecipeChoice.ExactChoice(SkyblockMaterial.YOUNG_FRAGMENT.getItem()));
         rec.setIngredient('M', new RecipeChoice.ExactChoice(SkyblockMaterial.ENCHANTED_MOON_STONE.getItem()));
         rec.setIngredient('E', new RecipeChoice.ExactChoice(SkyblockMaterial.ASCENDED_ESSENCE.getItem()));
+        rec.setIngredient('O', new RecipeChoice.ExactChoice(SkyblockMaterial.OLD_FRAGMENT.getItem()));
+        rec.setIngredient('C', new RecipeChoice.ExactChoice(SkyblockMaterial.UNSTABLE_FRAGMENT.getItem()));
         return rec;
     }
 }

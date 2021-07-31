@@ -33,7 +33,7 @@ public class Valkyrie extends SkyblockItem implements WitherBlade {
                 Arrays.asList(
                         ChatColor.GRAY+"Deals "+ChatColor.RED+"+50%"+ChatColor.GRAY+" damage to withers.",
                         ChatColor.GRAY+"This item becomes stronger the",
-                        ChatColor.GRAY+"higher your "+ChatColor.RED+"Combat"+ChatColor.GRAY+" level is."
+                        ChatColor.GRAY+"higher your "+ChatColor.GREEN+"Foraging"+ChatColor.GRAY+" level is."
                 ));
         cfg.setAbilities(Collections.singletonList(getAbility()));
         return cfg;

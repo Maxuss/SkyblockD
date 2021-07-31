@@ -23,7 +23,7 @@ import java.util.*;
 
 public abstract class SkyblockItem implements SkyblockFeature, StatContainer {
 
-    public abstract SkyblockItemConfig getConfig();
+    public abstract @NotNull SkyblockItemConfig getConfig();
     public abstract boolean hasGlint();
     public abstract String getSkyblockId();
     public abstract ItemStack postInit(ItemStack i);

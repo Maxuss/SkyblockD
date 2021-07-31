@@ -284,6 +284,26 @@ public enum SkyblockMaterial {
     SCYLLA(new Scylla()),
     VALKYRIE(new Valkyrie()),
 
+    WITHER_SINGULARITY(new WitherSingularity()),
+    GALACTICA_SINGULARITY(new GalacticaSingularity()),
+    FRONTIER(new Frontier()),
+
+    SIMPLE_HOE_BLUEPRINT(new SimpleHoeBlueprint()),
+    ADVANCED_HOE_BLUEPRINT(new AdvancedHoeBlueprint()),
+
+    ROOKY_HOE(new RookyHoe()),
+    HARDWOOD_HOE(new HardwoodHoe()),
+    STEEL_HOE(new SteelHoe()),
+    FORGED_HOE(new ForgedHoe()),
+    ENDSTONE_HOE(new EndstoneHoe()),
+    MOONSTONE_HOE(new MoonstoneHoe()),
+    GALAXY_HOE(new GalaxyHoe()),
+
+    NAUTILUS_BOOTS(new NautilusBoots()),
+    NAUTILUS_LEGGINGS(new NautilusLeggings()),
+    NAUTILUS_CHESTPLATE(new NautilusChestplate()),
+    NAUTILUS_HELMET(new NautilusHelmet()),
+
     MUDSTONE_BOOTS(new MudstoneBoots()),
     MUDSTONE_LEGGINGS(new MudstoneLeggings()),
     MUDSTONE_CHESTPLATE(new MudstoneChestplate()),
@@ -291,13 +311,21 @@ public enum SkyblockMaterial {
 
     THE_SEAL(new TheSeal()),
 
+    SWEET_BERRY(new ReforgeStone("Sweet Berry", SkyblockReforge.FRUITFUL, SkyblockRarity.RARE,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODI2MmM0NDViYzJkZDFjNWJiYzhiOTNmMjQ4MmY5ZmRiZWY0OGE3MjQ1ZTFiZGIzNjFkNGE1NjgxOTBkOWI1In19fQ==").getItem()),
+    MUD_BALL(new ReforgeStone("Mud Ball", SkyblockReforge.MUDDY, SkyblockRarity.RARE,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmZhNzY0YjNjMWQ0NjJmODEyNDQ3OGZmNTQzYzc2MzNmYTE5YmFmOTkxM2VlMjI4NTEzZTgxYTM2MzNkIn19fQ==").getItem()),
+    DEEPSLATE(new ReforgeStone("Deepslate", SkyblockReforge.BURIED, SkyblockRarity.RARE,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWIyMWFlOTM2MTNiZjAwMWY5NDA3NTJjNTlkNTc4OGExZDgwZjRjNTI1NThhNDI1YzNiYjY2MzI4MzU4OWVkOCJ9fX0=").getItem()),
+    THE_CONDUIT(new ReforgeStone("The Conduit", SkyblockReforge.SUBMERGED, SkyblockRarity.LEGENDARY,
+            "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTI5NWExMWVlNjE5ZWQ1NzYxYmY3YTdlYTE5MGM3NWQyYmVlYjdkZWYxYjE1NWRlNjAzZmYyMTdhNmM4NzEyNyJ9fX0=").getItem()),
     STRONGHOLD(new ReforgeStone("Stronghold", SkyblockReforge.HARDENED, SkyblockRarity.EPIC,
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmRiZDc4ZDY0ZjYwMjhhMjQxNjQxMTIzODk4Nzc4ODA2M2ZhZDY2OTFlODhmZTU1NGZiNWVjZWY0ZmYyNjcifX19").getItem()),
     CRYSTAL_BALL(new ReforgeStone("Crystal Ball", SkyblockReforge.PRISMATIC, SkyblockRarity.EPIC,
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWE1ZjI5YTc2ZDFmOTFjMTY1ZjYzYmFhYzA0ODY3MGU3YjFkMzdjZTc4NWE0ZDljMjFkOGMzYTE3N2I1In19fQ==").getItem()),
     BLESSED_ORB(new ReforgeStone("Blessed Orb", SkyblockReforge.BLESSED, SkyblockRarity.EPIC,
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU4NmY1M2NmZWQ0MTJmMzU2MmVlZDI1NDUwNTBjMzQyMTBhNTY5ZDM0MTQwMjU1ZDM2ODUyMWFjYzFjNjkwOSJ9fX0=").getItem()),
-    FORBIDDEN_BLOOD(new ReforgeStone("Forbidden Blood", SkyblockReforge.WITHERED, SkyblockRarity.EPIC,
+    FORBIDDEN_BLOOD(new ReforgeStone("Forbidden Blood", SkyblockReforge.WITHERED, SkyblockRarity.LEGENDARY,
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzA1MmU4NThkNjI3YzBmNDk1YmQyMmE2MjQzZjk5ZWJmYmQyZGRjMjRjNzBjYTE3MjUwN2NhN2Y4MGNmZGZhNCJ9fX0=").getItem()),
     MOLTEN_MAGMA(new ReforgeStone("Molten Magma", SkyblockReforge.MAGMATIC, SkyblockRarity.EPIC,
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTlhNWExZTY5YjRmODEwNTYyNTc1MmJjZWUyNTM0MDY2NGIwODlmYTFiMmY1MjdmYTkxNDNkOTA2NmE3YWFkMiJ9fX0=").getItem()),
@@ -320,13 +348,12 @@ public enum SkyblockMaterial {
     CURSED_EYE(new ReforgeStone("Cursed Eye", SkyblockReforge.FEROCIOUS, SkyblockRarity.LEGENDARY,
             "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGNlM2IxZjI2ZjY1MjVhZjgyZjViYTE0ZGJiOTNiNWU3YTU0M2Q0NzdmYThkYTEyM2RiZmFhNmQyMjlmZGE0ZiJ9fX0=").getItem()),
 
-
     //#endregion Materials
     ;
 
     private final ItemStack item;
 
-    public ItemStack getItem() { return item; }
+    public ItemStack getItem() { return item.clone(); }
 
     SkyblockMaterial(@NotNull SkyblockItem item) {
         this.item = item.generate();

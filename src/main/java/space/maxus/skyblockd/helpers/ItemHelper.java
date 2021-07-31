@@ -105,6 +105,8 @@ public class ItemHelper {
         else if(name.endsWith("LEGGINGS")) return SkyblockItemType.LEGGINGS;
         else if(name.endsWith("BOOTS")) return SkyblockItemType.BOOTS;
         else if(name.endsWith("HELMET")) return SkyblockItemType.HELMET;
+        else if(name.endsWith("_HOE")) return SkyblockItemType.HOE;
+        else if(name.endsWith("FISHING_ROD")) return SkyblockItemType.FISHING_ROD;
         else return SkyblockItemType.OTHER_NONCONSUMABLE;
     }
 

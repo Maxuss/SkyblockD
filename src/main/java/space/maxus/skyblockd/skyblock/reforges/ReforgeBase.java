@@ -69,7 +69,8 @@ public abstract class ReforgeBase implements SkyblockFeature {
         c.set(SkyblockD.getKey("reforged"), PersistentDataType.BYTE, (byte)1);
         c.set(SkyblockD.getKey("reforgeData"), PersistentDataType.INTEGER, getReforge().getIndex());
         boolean wasReforged = false;
-        if(c.has(SkyblockD.getKey("previous"), PersistentDataType.INTEGER_ARRAY)) {
+        boolean anyReforge = c.has(SkyblockD.getKey("previous"), PersistentDataType.INTEGER_ARRAY);
+        if(anyReforge) {
             int[] previous = c.get(SkyblockD.getKey("previous"), PersistentDataType.INTEGER_ARRAY);
             assert previous != null;
             Integer[] nprev = new Integer[previous.length+1];
@@ -98,7 +99,7 @@ public abstract class ReforgeBase implements SkyblockFeature {
         lore.remove(ChatColor.DARK_GRAY+"This item can be reforged!");
         reverseList(lore);
         lore.remove(" ");
-        if(c.has(SkyblockD.getKey("reforgeData"), PersistentDataType.INTEGER)) lore.remove(" ");
+        if(anyReforge) lore.remove(" ");
         reverseList(lore);
         lore.add(lore.size()-1, " ");
         lore.add(lore.size()-1, ChatColor.BLUE+getReforge().getDisplayName()+" bonuses:");

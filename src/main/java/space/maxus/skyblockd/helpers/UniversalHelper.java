@@ -6,6 +6,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
@@ -14,13 +15,13 @@ import space.maxus.skyblockd.nms.NMSColor;
 import space.maxus.skyblockd.nms.PacketUtils;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.SkillContainer;
+import space.maxus.skyblockd.skyblock.items.ArmorSet;
 import space.maxus.skyblockd.skyblock.skills.ComplexReward;
 import space.maxus.skyblockd.skyblock.skills.SkillMap;
 import space.maxus.skyblockd.util.Roman;
 
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -169,14 +170,21 @@ public class UniversalHelper {
     }
 
     public static boolean checkFullSet(@NotNull List<ItemStack> toTest, @NotNull Player p) {
-        List<ItemStack> contents = Arrays.asList(p.getInventory().getArmorContents());
-        if(contents.isEmpty()) return false;
-        AtomicInteger i = new AtomicInteger();
-        return contents.stream().allMatch(item -> {
-            i.getAndIncrement();
-            if(item == null || !item.hasItemMeta()) return false;
-            return item.isSimilar(toTest.get(i.get()));
-        });
+        PlayerInventory inv = p.getInventory();
+        boolean a = toTest.get(0).isSimilar(inv.getBoots());
+        boolean b = toTest.get(1).isSimilar(inv.getLeggings());
+        boolean c = toTest.get(2).isSimilar(inv.getChestplate());
+        boolean d = toTest.get(3).isSimilar(inv.getHelmet());
+        return a && b && c && d;
+    }
+
+    public static boolean checkFullSet(@NotNull ArmorSet set, Player p) {
+        PlayerInventory inv = p.getInventory();
+        boolean a = set.getBoots().isSimilar(inv.getBoots());
+        boolean b = set.getLeggings().isSimilar(inv.getLeggings());
+        boolean c = set.getChestplate().isSimilar(inv.getChestplate());
+        boolean d = set.getHelmet().isSimilar(inv.getHelmet());
+        return a && b && c && d;
     }
 
     public static boolean setHasKey(@NotNull NamespacedKey key, @NotNull PersistentDataType<?, ?> type, @NotNull Player p) {

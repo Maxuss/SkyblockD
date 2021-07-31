@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.recipes;
 
 import org.bukkit.inventory.Recipe;
+import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 
 import java.util.Arrays;
@@ -8,7 +9,7 @@ import java.util.Objects;
 
 public abstract class RecipeBase<R extends Recipe> {
 
-    public abstract R getRecipe();
+    public abstract @NotNull R getRecipe();
 
     public RecipeBase(){
         try {
