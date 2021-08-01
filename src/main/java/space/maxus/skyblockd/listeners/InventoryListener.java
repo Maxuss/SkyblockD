@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -12,13 +14,12 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.gui.*;
-import space.maxus.skyblockd.helpers.GuiHelper;
-import space.maxus.skyblockd.helpers.ItemHelper;
-import space.maxus.skyblockd.helpers.MaterialHelper;
-import space.maxus.skyblockd.helpers.UniversalHelper;
+import space.maxus.skyblockd.helpers.*;
+import space.maxus.skyblockd.nms.BaseByteUtils;
 import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.SkillContainer;
+import space.maxus.skyblockd.objects.WardrobeSlot;
 import space.maxus.skyblockd.skyblock.elixirs.ElixirEffect;
 import space.maxus.skyblockd.skyblock.items.SkyblockItem;
 import space.maxus.skyblockd.skyblock.reforges.SkyblockReforge;
@@ -29,8 +30,38 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.bukkit.event.Event.Result;
-
+@SuppressWarnings("deprecation")
 public class InventoryListener extends BetterListener {
+
+    @EventHandler
+    public void onClose(@NotNull final InventoryCloseEvent e) {
+        Inventory inv = e.getInventory();
+        String title = ChatColor.stripColor(e.getView().getTitle());
+        if(title.equalsIgnoreCase("Wardrobe")) {
+            if(!(e.getPlayer() instanceof Player)) return;
+            Player p = (Player) e.getPlayer();
+            PlayerContainer pc = ContainerHelper.getPlayer(p);
+            List<WardrobeSlot> wardrobe = pc.wardrobe;
+
+            for(int i = 0; i < 7; i++) {
+                ItemStack he = inv.getItem(10+i);
+                ItemStack ch = inv.getItem(19+i);
+                ItemStack le = inv.getItem(28+i);
+                ItemStack bo = inv.getItem(37+i);
+                WardrobeSlot cur = wardrobe.get(i);
+                ItemStack trueHelm = he == null || he.getType().equals(Material.LIME_STAINED_GLASS_PANE) ? null : he;
+                ItemStack trueChest = ch == null || ch.getType().equals(Material.LIME_STAINED_GLASS_PANE) ? null : ch;
+                ItemStack trueLeg = le == null || le.getType().equals(Material.LIME_STAINED_GLASS_PANE) ? null : le;
+                ItemStack trueBoots = bo == null || bo.getType().equals(Material.LIME_STAINED_GLASS_PANE) ? null : bo;
+                String data = BaseByteUtils.itemStackArrayToBase64(new ItemStack[] {trueHelm, trueChest, trueLeg, trueBoots});
+                cur.setContents(data);
+            }
+
+            ContainerHelper.updatePlayers();
+            UniversalHelper.setPlayer(pc, p);
+            ContainerHelper.updatePlayers();
+        }
+    }
 
     @EventHandler
     public void onClick(@NotNull InventoryClickEvent e) {
@@ -56,6 +87,56 @@ public class InventoryListener extends BetterListener {
             recipeBrowser(e, p, title);
         } else if(title.equalsIgnoreCase("View Recipe")) {
             itemRecipe(e, p);
+        } else if(title.equalsIgnoreCase("Wardrobe")) {
+            wardrobe(e, p);
+        }
+    }
+
+    private void wardrobe(InventoryClickEvent e, Player p) {
+        ItemStack held = p.getItemOnCursor();
+        ItemStack cur = e.getCurrentItem();
+        Inventory inv = e.getInventory();
+        if(cur == null) return;
+        e.setResult(Result.DENY);
+        if(held.getType().isEmpty() || !held.hasItemMeta()) {
+            String name = ChatColor.stripColor(cur.getItemMeta().getDisplayName());
+            ItemStack put = GuiHelper.genSimpleMenuItem(
+                    " ", Material.LIME_STAINED_GLASS_PANE, Collections.emptyList());
+            if(name.equalsIgnoreCase("Select this set")) {
+                int index = e.getSlot();
+                PlayerInventory pi = p.getInventory();
+                ItemStack boot = inv.getItem(index-9);
+                ItemStack leggings = inv.getItem(index-18);
+                ItemStack chest = inv.getItem(index-27);
+                ItemStack helm = inv.getItem(index-36);
+                ItemStack pboot = pi.getBoots();
+                ItemStack pleg = pi.getLeggings();
+                ItemStack pchest = pi.getChestplate();
+                ItemStack phelm = pi.getHelmet();
+
+                ItemStack newBoot = boot == null || boot.getType().equals(Material.LIME_STAINED_GLASS_PANE) ? new ItemStack(Material.AIR) : boot;
+                ItemStack newLeg = leggings == null || leggings.getType().equals(Material.LIME_STAINED_GLASS_PANE) ? new ItemStack(Material.AIR) : leggings;
+                ItemStack newChest = chest == null || chest.getType().equals(Material.LIME_STAINED_GLASS_PANE) ? new ItemStack(Material.AIR) : chest;
+                ItemStack newHelm = helm == null || helm.getType().equals(Material.LIME_STAINED_GLASS_PANE) ? new ItemStack(Material.AIR) : helm;
+
+                ItemStack repBoot = pboot == null || pboot.getType().isAir() ? put.clone() : pboot;
+                ItemStack repLeg = pleg == null || pleg.getType().isAir() ? put.clone() : pleg;
+                ItemStack repChest = pchest == null || pchest.getType().isAir() ? put.clone() : pchest;
+                ItemStack repHelm = phelm == null || phelm.getType().isAir() ? put.clone() : phelm;
+
+                inv.setItem(index-9, repBoot);
+                inv.setItem(index-18, repLeg);
+                inv.setItem(index-27, repChest);
+                inv.setItem(index-36, repHelm);
+
+                pi.setBoots(newBoot);
+                pi.setLeggings(newLeg);
+                pi.setChestplate(newChest);
+                pi.setHelmet(newHelm);
+
+                p.playSound(p.getLocation(), Sound.ITEM_ARMOR_EQUIP_GENERIC, 0.5f, 1);
+
+            }
         }
     }
 
@@ -350,6 +431,15 @@ public class InventoryListener extends BetterListener {
         } else if(displayName.equalsIgnoreCase("Recipe Book")) {
             RecipeGuiTemplate temp = new RecipeGuiTemplate();
             Inventory inv = temp.create(0, p);
+            p.openInventory(inv);
+            p.updateInventory();
+        } else if(displayName.equalsIgnoreCase("Wardrobe")) {
+            WardrobeGui ui = new WardrobeGui();
+            Inventory inv = ui.generateContains(Bukkit.createInventory(ui.getHolder(p), ui.getSize(), ui.getName()));
+            p.openInventory(inv);
+            p.updateInventory();
+        } else if(displayName.equalsIgnoreCase("Crafting Table")) {
+            Inventory inv = Bukkit.createInventory(p, InventoryType.CRAFTING);
             p.openInventory(inv);
             p.updateInventory();
         }

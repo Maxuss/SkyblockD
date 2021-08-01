@@ -76,9 +76,16 @@ public class MainMenuGUI extends InventoryBase {
         // Events + calendar
         ItemStack eve = genSimpleMenuItem("Upcoming Events", Material.CLOCK, indev);
         // EC
-        ItemStack ec = genSimpleMenuItem("Ender Chest", Material.ENDER_CHEST, indev);
+        ItemStack ward = genSimpleMenuItem("Wardrobe", Material.ENDER_CHEST, Arrays.asList(
+                ChatColor.GRAY+"Store your armor inside",
+                ChatColor.GRAY+"Wardrobe and be able to",
+                ChatColor.GRAY+"switch to it easily!"
+        ));
         // Crafts
-        ItemStack craft = genSimpleMenuItem("Crafting Table", Material.CRAFTING_TABLE, indev);
+        ItemStack craft = genSimpleMenuItem("Crafting Table", Material.CRAFTING_TABLE, Arrays.asList(
+                ChatColor.GRAY+"Access your crafting",
+                ChatColor.GRAY+"table easily!"
+        ));
         // Plugin settings
         ItemStack settings = genSimpleMenuItem("Settings", Material.NAME_TAG, indev);
         // Exit GUI
@@ -88,7 +95,7 @@ public class MainMenuGUI extends InventoryBase {
                 gls, gls, gls, gls, gls, gls, gls, gls, gls,
                 gls, gls, gls, gls, profile, gls, gls, gls, gls,
                 gls, gls, gls, skills, anvil, recipes, gls, gls, gls,
-                gls, gls, gls, trades, eve, ec, gls, gls, gls,
+                gls, gls, gls, trades, eve, ward, gls, gls, gls,
                 gls, gls, gls, gls, craft, gls, gls, gls, gls,
                 settings, gls, gls, gls, gls, gls, gls, gls, close
         };

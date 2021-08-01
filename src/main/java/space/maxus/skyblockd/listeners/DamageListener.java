@@ -228,6 +228,7 @@ public class DamageListener extends BetterListener {
             ev.setDamage(ev.getDamage()/5d);
             double damage = ev.getDamage();
             UUID id = p.getUniqueId();
+
             if(witherDamagers.containsKey(id)) {
                 witherDamagers.put(id, witherDamagers.get(id)+damage);
             } else witherDamagers.put(id, damage);

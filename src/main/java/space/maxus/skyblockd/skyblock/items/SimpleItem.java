@@ -1,11 +1,11 @@
 package space.maxus.skyblockd.skyblock.items;
 
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.skyblock.objects.SkyblockItemConfig;
@@ -18,7 +18,7 @@ public class SimpleItem extends SkyblockItem {
 
     @Nullable
     @Override
-    public @org.jetbrains.annotations.Nullable SkyblockItemConfig getConfig() {
+    public SkyblockItemConfig getConfig() {
         return null;
     }
 
@@ -30,19 +30,19 @@ public class SimpleItem extends SkyblockItem {
 
     @Nullable
     @Override
-    public @org.jetbrains.annotations.Nullable String getSkyblockId() {
+    public String getSkyblockId() {
         return null;
     }
 
     @Nullable
     @Override
-    public @org.jetbrains.annotations.Nullable ItemStack postInit(ItemStack i) {
+    public ItemStack postInit(ItemStack i) {
         return null;
     }
 
     @Nullable
     @Override
-    public @org.jetbrains.annotations.Nullable ItemStack generate() {
+    public ItemStack generate() {
         return null;
     }
 
