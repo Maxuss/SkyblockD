@@ -187,9 +187,11 @@ public class UniversalHelper {
         return a && b && c && d;
     }
 
+    @SuppressWarnings("all")
     public static boolean fullSetOfName(String name, Player p) {
         PlayerInventory inv = p.getInventory();
         return Arrays.stream(inv.getArmorContents()).allMatch(n ->
+                n != null &&
                 ChatColor.stripColor(n.getItemMeta().getDisplayName()).contains(name));
     }
 

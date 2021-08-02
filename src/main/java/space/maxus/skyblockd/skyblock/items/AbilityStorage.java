@@ -5,11 +5,14 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.BlockIterator;
+import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
@@ -42,6 +45,41 @@ public class AbilityStorage {
             Material.LAPIS_ORE, Material.OBSIDIAN
     ));
 
+    public static void giantSwordAbility(ItemStack i, @NotNull Player p) {
+        if(ItemHelper.isOnCooldown(i, 5, p, true)) return;
+        Giant g = (Giant) p.getWorld().spawnEntity(p.getLocation(), EntityType.GIANT, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        g.setInvisible(true);
+        BoundingBox bb = g.getBoundingBox();
+        bb.expand(0.1d-bb.getMaxX(), 0.1d-bb.getMaxY(), 0.1d-bb.getMaxZ());
+        g.setInvulnerable(true);
+        g.getPersistentDataContainer().set(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING, "true");
+        g.setCustomName("Dinnerbone");
+        g.setAI(false);
+        g.setCanPickupItems(false);
+        EntityEquipment eq = g.getEquipment();
+        assert eq != null;
+        eq.setItemInMainHand(SkyblockMaterial.GIANT_SWORD.getItem());
+        p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_FALL, 1, 0);
+        int totalDamage = 0;
+        int totalEntities = 0;
+        float dmg = ItemHelper.calcMagicDamage(p, 40);
+        for(Entity e : p.getNearbyEntities(6, 6, 6)) {
+            if(e instanceof LivingEntity) {
+                if(!e.getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)
+                        && !e.getType().equals(EntityType.WITHER) && !e.getType().equals(EntityType.GIANT)) {
+                    LivingEntity le = (LivingEntity) e;
+                    le.damage(dmg, p);
+                    totalDamage += dmg;
+                    totalEntities++;
+                }
+            }
+        }
+        if(totalEntities > 0) {
+            p.sendMessage(ChatColor.GRAY+"Your Giant Slam hit " +ChatColor.RED+ totalEntities + ChatColor.GRAY + (totalEntities == 1 ? " enemy" : " enemies")+" for a total of "+ ChatColor.RED + totalDamage*5 + ChatColor.GRAY + " damage!");
+        }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), g::remove, 20L);
+    }
+
     public static void hyperionAbility(ItemStack i, @NotNull Player p) {
         if(ItemHelper.isOnCooldown(i, 0.7f, p, false)) return;
         PotionEffect absorption = new PotionEffect(PotionEffectType.ABSORPTION, 200, 1);
@@ -58,7 +96,7 @@ public class AbilityStorage {
                 if(!e.getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)
                 && !e.getType().equals(EntityType.WITHER)) {
                     LivingEntity le = (LivingEntity) e;
-                    le.damage(dmg);
+                    le.damage(dmg, p);
                     totalDamage += dmg;
                     totalEntities++;
                 }
@@ -127,7 +165,7 @@ public class AbilityStorage {
                 for (Entity en : entities) {
                     if (en instanceof LivingEntity && !(en instanceof Wither)) {
                         LivingEntity le = (LivingEntity) en;
-                        le.damage(damage);
+                        le.damage(damage, p);
                         totalDamage += damage;
                         totalEntities++;
                     }

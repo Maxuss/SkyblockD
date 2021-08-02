@@ -13,7 +13,7 @@ public class EntityListener extends BetterListener {
     @EventHandler
     public void onCreatureSpawn(@NotNull CreatureSpawnEvent e){
         LivingEntity le = e.getEntity();
-        if(!le.getPersistentDataContainer()
+        if(!e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CUSTOM) && !le.getPersistentDataContainer()
                 .has(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING)) {
             SkyblockEntity.toSkyblockEntity(le);
         }

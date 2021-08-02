@@ -270,7 +270,7 @@ public class ItemHelper {
         }
         float timeLeft = (float) time - lastTime;
         timeLeft = cd - timeLeft;
-        if(displayMessage) p.sendMessage(ChatColor.RED+"Please wait " + timeLeft + "s before using this again!");
+        if(displayMessage) p.sendMessage(ChatColor.RED+"Please wait " + Math.round(timeLeft) + "s before using this again!");
         return true;
     }
 

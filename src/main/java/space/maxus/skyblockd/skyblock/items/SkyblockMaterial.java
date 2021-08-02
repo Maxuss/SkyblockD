@@ -296,6 +296,8 @@ public enum SkyblockMaterial {
     SCYLLA(new Scylla()),
     VALKYRIE(new Valkyrie()),
 
+    GIANT_SWORD(new GiantSword()),
+
     WITHER_SINGULARITY(new WitherSingularity()),
     GALACTICA_SINGULARITY(new GalacticaSingularity()),
     FRONTIER(new Frontier()),

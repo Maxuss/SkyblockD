@@ -315,6 +315,10 @@ public class DamageListener extends BetterListener {
         if(!(damager instanceof Player)) return;
         int strength = UniversalHelper.getStrength((Player) damager);
         Player p = (Player) ev.getDamager();
+        ItemStack crtmp = p.getInventory().getItemInMainHand();
+        if(!crtmp.getType().isEmpty() && ItemHelper.isOnCooldown(crtmp, 0.5f, p, false)) {
+            return;
+        }
 
         e.setDamage(e.getDamage()*(1+((strength+50)/100d)));
 
