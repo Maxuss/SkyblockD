@@ -183,6 +183,10 @@ public class KillListener extends BetterListener {
             for(int j = 0; j < 2; j++) {
                 ItemStack dropped = items.get(prand);
                 assert Objects.requireNonNull(dropped).getItemMeta() != null;
+                String n = ChatColor.stripColor(dropped.getItemMeta().getDisplayName());
+                if(n.contains("Fragment") && !n.contains("Erumdir"))
+                    dropped.setAmount(prand.nextInt(1)+2);
+
                 displays.add(p.getDisplayName()+ChatColor.RED+" has obtained "+ Objects.requireNonNull(dropped.getItemMeta()).getDisplayName()+" "+dropped.getAmount()+"x ");
                 if(p.getInventory().firstEmpty() != -1) {
                     p.getInventory().addItem(dropped);
@@ -190,6 +194,15 @@ public class KillListener extends BetterListener {
             }
             ItemStack ecoal = SkyblockMaterial.ENCHANTED_COAL.getItem().clone();
             ecoal.setAmount(new Random().nextInt(1)+2);
+            ItemStack rare = prand.nextInt(3) <= 1 ? WeightedList.getRareWitherDrop() : null;
+            if(rare != null) {
+                if(p.getInventory().firstEmpty() != -1) {
+                    p.getInventory().addItem(rare);
+                } else {
+                    p.getWorld().dropItemNaturally(p.getLocation(), rare);
+                }
+                displays.add(p.getDisplayName()+ChatColor.RED+" has obtained "+ Objects.requireNonNull(rare.getItemMeta()).getDisplayName()+" "+rare.getAmount()+"x ");
+            }
             if(p.getInventory().firstEmpty() != -1) {
                 p.getInventory().addItem(ecoal);
             } else {

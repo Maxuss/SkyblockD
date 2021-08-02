@@ -115,11 +115,16 @@ public class RecipeRegisterer {
         new DragonSetRecipe("UNSTABLE");
         new DragonSetRecipe("OLD");
 
-        new WitherSetRecipe("MAXOR", "YOUNG");
-        new WitherSetRecipe("NECRON", "STRONG");
-        new WitherSetRecipe("KASMIR", "SUPERIOR");
-        new WitherSetRecipe("STORM", "UNSTABLE");
-        new WitherSetRecipe("GOLDOR", "OLD");
+        new WitherSetRecipe("MAXOR");
+        new WitherSetRecipe("NECRON");
+        new WitherSetRecipe("KASMIR");
+        new WitherSetRecipe("STORM");
+        new WitherSetRecipe("GOLDOR");
+
+        new ErumdirBootsRecipe();
+        new ErumdirLeggingsRecipe();
+        new ErumdirChestplateRecipe();
+        new ErumdirHelmetRecipe();
 
         new UnrefinedBladeRecipe();
         new WitherBladeRecipe("MAXOR", "SCYLLA");
@@ -135,6 +140,7 @@ public class RecipeRegisterer {
         new SimpleSetRecipe("OBSIDIAN", SkyblockMaterial.ENCHANTED_OBSIDIAN, null);
         new SimpleSetRecipe("TITAN", SkyblockMaterial.ENCHANTED_IRON_INGOT, "OBSIDIAN");
         new SimpleSetRecipe("MUDSTONE", SkyblockMaterial.ENCHANTED_DIRT, null);
+        new SimpleSetRecipe("NAUTILUS", SkyblockMaterial.ENCHANTED_COD, "LILY");
 
         new ConduitRecipe();
         new DeepslateRecipe();

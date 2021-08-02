@@ -100,7 +100,7 @@ public class DamageListener extends BetterListener {
             int a = new Random().nextInt(5);
             if(a < 1) {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, 2));
-                p.setVelocity(new Vector(0, 90, 0));
+                p.setVelocity(p.getVelocity().add(new Vector(0, 120, 0)));
                 p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 0);
                 p.sendMessage(ChatColor.RED+"Strong Dragon "+ChatColor.GRAY+"tossed you into air!");
             }
@@ -119,7 +119,7 @@ public class DamageListener extends BetterListener {
         if(ItemHelper.isUndead(damager.getType()) && getReforgeFromArmor(armor, SkyblockReforge.MUTATED))
             e.setDamage(e.getDamage() / 1.5d);
         if(getReforgeFromArmor(armor, SkyblockReforge.ETHEREAL)) {
-            int chance = new Random().nextInt(30);
+            int chance = new Random().nextInt(40);
             if(chance <= 2) {
                 e.setDamage(0);
                 p.playSound(p.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 1, 1);
@@ -129,9 +129,163 @@ public class DamageListener extends BetterListener {
             }
         }
 
-        if(e.getEntity().getType() == EntityType.WITHER
-         && UniversalHelper.setHasKey(SkyblockD.getKey("wither"), PersistentDataType.BYTE, p)) {
-            e.setDamage(e.getDamage()*1.4d);
+        if(e.getEntity().getType() == EntityType.WITHER) {
+            Integer dat = damager.getPersistentDataContainer().get(SkyblockD.getKey("witherType"), PersistentDataType.INTEGER);
+            assert dat != null;
+            SkyblockEntity.WitherType t = SkyblockEntity.WitherType.values()[dat];
+
+            operateWitherAbilities(t, damager, p, e, true);
+
+            if(UniversalHelper.setHasKey(SkyblockD.getKey("wither"), PersistentDataType.BYTE, p))
+                e.setDamage(e.getDamage()*0.8d);
+        }
+
+        if(p.getWorld().getEnvironment().equals(World.Environment.THE_END) && UniversalHelper.fullSetOfName("Erumdir", p)) {
+            e.setDamage(e.getDamage()*0.8d);
+        }
+    }
+
+    private void operateWitherAbilities(SkyblockEntity.WitherType t, Entity damager, Player p, EntityDamageByEntityEvent e, boolean playerHit) {
+        Random r = new Random();
+        LivingEntity le = (LivingEntity) damager;
+        switch (t) {
+            case NECRON:
+                if (r.nextInt(7) <= 2 && playerHit) {
+                    e.setDamage(e.getDamage() * 2);
+                    p.playSound(p.getLocation(), Sound.ENTITY_BLAZE_HURT, 1, 1);
+                    p.sendMessage(ChatColor.RED + "Necron" + ChatColor.GRAY + " dealt you double damage with his Withering Skills!");
+                }
+                if (r.nextInt(15) <= 2) {
+                    e.setDamage(e.getDamage() * 1.5);
+                    p.setVelocity(p.getVelocity().add(new Vector(50, 60, 50)));
+                    p.playSound(p.getLocation(), Sound.ENTITY_IRON_GOLEM_HURT, 1, 0);
+                    p.sendMessage(ChatColor.RED + "Necron" + ChatColor.GRAY + " has thrown you away with his Powerful Knockdown!");
+                }
+                if (r.nextInt(25) <= 2) {
+                    PotionEffect blind = new PotionEffect(PotionEffectType.BLINDNESS, 100, 1);
+                    PotionEffect slowness = new PotionEffect(PotionEffectType.SLOW, 100, 10);
+                    p.addPotionEffects(Arrays.asList(blind, slowness));
+                    p.playSound(p.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 5, 1);
+                    p.sendMessage(ChatColor.RED + "Necron" + ChatColor.GRAY + " has frozen you to the ground using his Mallet of Fire!");
+                }
+                break;
+            case STORM:
+                int next = r.nextInt(10);
+                if (next <= 1) {
+                    PotionEffect lev = new PotionEffect(PotionEffectType.LEVITATION, 50, 5);
+                    e.setDamage(e.getDamage() * 0.8d);
+                    p.addPotionEffect(lev);
+                    p.sendMessage(ChatColor.DARK_AQUA + "Storm" + ChatColor.GRAY + " has made you fly away using his Magical Aura!");
+                }
+                if (r.nextInt(15) <= 1) {
+                    p.getWorld().createExplosion(p.getLocation(), 5);
+                    p.sendMessage(ChatColor.DARK_AQUA + "Storm" + ChatColor.GRAY + " exploded you using his Magical Aura!");
+                }
+                if (r.nextInt(20) <= 1) {
+                    Bukkit.broadcastMessage(ChatColor.DARK_AQUA + "Storm" + ChatColor.GRAY + " is summoning Wither Storm!");
+                    for (int i = 0; i < 10; i++) {
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () ->
+                                p.getWorld().playSound(
+                                        p.getLocation(),
+                                        Sound.ENTITY_ARROW_HIT_PLAYER,
+                                        5, 0), i + 2L);
+                    }
+                    for (int i = 0; i < 25; i++) {
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
+                            WitherSkull skull = le.launchProjectile(WitherSkull.class, p.getLocation().toVector());
+                            skull.setYield(1.5f);
+                        }, i + 1L);
+                    }
+                }
+                break;
+            case GOLDOR:
+                if (r.nextInt(25) <= 1) {
+                    double max = Objects.requireNonNull(le.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
+                    le.setHealth(Math.min(le.getHealth() + 100, max));
+                    p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 0);
+                    p.sendMessage(ChatColor.GOLD + "Goldor" + ChatColor.GRAY + " stole life from you and healed!");
+                }
+                if (r.nextInt(15) <= 1) {
+                    PotionEffect res = new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 60, 10);
+                    le.addPotionEffect(res);
+                    p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 0);
+                    p.sendMessage(ChatColor.GOLD + "Goldor" + ChatColor.GRAY + " became resistant to all damage for next 3 seconds!");
+                }
+                if (r.nextInt(3) <= 1) {
+                    Fireball ball = le.launchProjectile(Fireball.class, p.getLocation().toVector());
+                    ball.setYield(2f);
+                    p.sendMessage(ChatColor.GOLD + "Goldor" + ChatColor.GRAY + " shot you with powerful fireball!");
+                }
+                break;
+            case MAXOR:
+                if (r.nextInt(10) <= 1) {
+                    PotionEffect spd = new PotionEffect(PotionEffectType.SPEED, 200, 3);
+                    le.addPotionEffect(spd);
+                    p.sendMessage(ChatColor.LIGHT_PURPLE + "Maxor" + ChatColor.GRAY + " is speeding up!");
+                }
+                if (r.nextInt(20) <= 1) {
+                    for (int i = 0; i < 15; i++) {
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
+                            Arrow arr = le.launchProjectile(Arrow.class, p.getLocation().toVector());
+                            arr.setDamage(20);
+                            arr.setColor(Color.fromRGB(156, 49, 232));
+                            arr.addCustomEffect(new PotionEffect(PotionEffectType.POISON, 200, 2), true);
+                        }, 2 + i);
+                    }
+                    p.sendMessage(ChatColor.LIGHT_PURPLE + "Maxor" + ChatColor.GRAY + " is shooting you with barrage of arrows!");
+                }
+                if (r.nextInt(10) <= 1) {
+                    PotionEffect weak = new PotionEffect(PotionEffectType.WEAKNESS, 100, 2);
+                    p.addPotionEffect(weak);
+                    p.sendMessage(ChatColor.LIGHT_PURPLE + "Maxor" + ChatColor.GRAY + " has weakened you!");
+                }
+                break;
+            case KASMIR:
+                if (r.nextInt(15) <= 1) {
+                    Bukkit.broadcastMessage(ChatColor.DARK_RED + "Kasmir" + ChatColor.GRAY + " is summoning help!");
+                    for (int i = 0; i < 10; i++) {
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () ->
+                                p.getWorld().playSound(
+                                        p.getLocation(),
+                                        Sound.ENTITY_ARROW_HIT_PLAYER,
+                                        5, 0), i + 2L);
+                    }
+                    for (int i = 0; i < 15; i++) {
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
+                            WitherSkeleton skel = (WitherSkeleton) le.getWorld().spawnEntity(p.getLocation(), EntityType.WITHER_SKELETON);
+                            skel.setTarget(p);
+                        });
+                    }
+                }
+                if (r.nextInt(10) <= 1) {
+                    p.sendMessage(ChatColor.DARK_RED + "Kasmir" + ChatColor.GRAY + " is consuming your resistance!");
+                    PotionEffect hunger = new PotionEffect(PotionEffectType.HUNGER, 200, 3);
+                    p.addPotionEffect(hunger);
+                }
+                if (r.nextInt(20) <= 1) {
+                    Bukkit.broadcastMessage(ChatColor.DARK_RED + "Kasmir" + ChatColor.GRAY + " is using his Crack The Sky!");
+                    for (int i = 0; i < 10; i++) {
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () ->
+                                p.getWorld().playSound(
+                                        p.getLocation(),
+                                        Sound.ENTITY_ARROW_HIT_PLAYER,
+                                        5, 0), i + 2L);
+                    }
+
+                    int x = p.getLocation().getBlockX();
+                    int py = p.getLocation().getBlockY();
+                    int y = Math.min(py + 20, 256);
+                    int z = p.getLocation().getBlockZ();
+                    World w = p.getWorld();
+
+                    for (int i = 0; i < 20; i++) {
+                        int finalI = i;
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
+                            p.getWorld().createExplosion(new Location(w, x, y - finalI, z), 3f);
+                        }, i + 3L);
+                    }
+                }
+                break;
         }
     }
 
@@ -225,7 +379,9 @@ public class DamageListener extends BetterListener {
                 protectorDamagers.put(id, protectorDamagers.get(id)+damage);
             } else protectorDamagers.put(id, damage);
         } else if(ev.getEntity() instanceof Wither) {
-            ev.setDamage(ev.getDamage()/5d);
+            Wither w = (Wither) ev.getEntity();
+            double newDmg = ev.getDamage()/5d;
+            ev.setDamage(newDmg < 150 ? newDmg : 150);
             double damage = ev.getDamage();
             UUID id = p.getUniqueId();
 
@@ -235,7 +391,9 @@ public class DamageListener extends BetterListener {
             Integer t = ev.getEntity().getPersistentDataContainer().get(SkyblockD.getKey("witherType"), PersistentDataType.INTEGER);
             assert t != null;
             SkyblockEntity.WitherType type = SkyblockEntity.WitherType.values()[t];
-            Wither w = (Wither) ev.getEntity();
+
+            operateWitherAbilities(type, w, p, ev, false);
+
             if(w.getHealth() <= (w.getMaxHealth()*0.8)) {
                 w.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 2));
                 Location witherLoc = w.getLocation();

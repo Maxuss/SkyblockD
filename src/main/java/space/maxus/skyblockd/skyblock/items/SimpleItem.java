@@ -46,6 +46,7 @@ public class SimpleItem extends SkyblockItem {
         return null;
     }
 
+    @SuppressWarnings("unused")
     public SimpleItem(
             String name,
             @NotNull List<String> description,

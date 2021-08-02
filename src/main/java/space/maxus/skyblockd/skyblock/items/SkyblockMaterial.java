@@ -3,6 +3,7 @@ package space.maxus.skyblockd.skyblock.items;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnknownNullability;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.created.*;
 import space.maxus.skyblockd.skyblock.items.created.stones.ReforgeStone;
@@ -258,6 +259,11 @@ public enum SkyblockMaterial {
     STORM_SOUL_FRAGMENT(new StormSoulFragment()),
     MAXOR_SOUL_FRAGMENT(new MaxorSoulFragment()),
 
+    WITHER_BOOTS(new WitherBoots()),
+    WITHER_LEGGINGS(new WitherLeggings()),
+    WITHER_CHESTPLATE(new WitherChestplate()),
+    WITHER_HELMET(new WitherHelmet()),
+
     NECRON_BOOTS(new NecronBoots()),
     NECRON_LEGGINGS(new NecronLeggings()),
     NECRON_CHESTPLATE(new NecronChestplate()),
@@ -278,6 +284,12 @@ public enum SkyblockMaterial {
     MAXOR_CHESTPLATE(new MaxorChestplate()),
     MAXOR_HELMET(new MaxorHelmet()),
 
+    ERUMDIR_BOOTS(new ErumdirBoots()),
+    ERUMDIR_LEGGINGS(new ErumdirLeggings()),
+    ERUMDIR_CHESTPLATE(new ErumdirChestplate()),
+    ERUMDIR_HELMET(new ErumdirHelmet()),
+
+    NECRON_HANDLE(new NecronHandle()),
     UNREFINED_BLADE(new UnrefinedBlade()),
     HYPERION(new Hyperion()),
     ASTRAEA(new Astraea()),
@@ -353,7 +365,8 @@ public enum SkyblockMaterial {
 
     private final ItemStack item;
 
-    public ItemStack getItem() { return item.clone(); }
+    @UnknownNullability
+    public ItemStack getItem() { return item == null ? null : item.clone(); }
 
     SkyblockMaterial(@NotNull SkyblockItem item) {
         this.item = item.generate();

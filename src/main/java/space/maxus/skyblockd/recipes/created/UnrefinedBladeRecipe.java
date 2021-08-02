@@ -19,7 +19,7 @@ public class UnrefinedBladeRecipe extends RecipeBase<ShapedRecipe> {
         );
         rec.setIngredient('D', new RecipeChoice.ExactChoice(SkyblockMaterial.DEMETER.getItem()));
         rec.setIngredient('A', new RecipeChoice.ExactChoice(SkyblockMaterial.ASPECT_OF_DRAGON.getItem()));
-        rec.setIngredient('H', new RecipeChoice.ExactChoice(SkyblockMaterial.ENERGETIC_HANDLE.getItem()));
+        rec.setIngredient('H', new RecipeChoice.ExactChoice(SkyblockMaterial.NECRON_HANDLE.getItem()));
         rec.setIngredient('W', new RecipeChoice.ExactChoice(SkyblockMaterial.WITHER_JAR.getItem()));
         rec.setIngredient('N', new RecipeChoice.ExactChoice(SkyblockMaterial.ENCHANTED_NETHERITE.getItem()));
         rec.setIngredient('S', new RecipeChoice.ExactChoice(SkyblockMaterial.ENCHANTED_NETHER_STAR.getItem()));

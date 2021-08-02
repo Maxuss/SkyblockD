@@ -19,8 +19,8 @@ public class UnrefinedBlade extends SkyblockItem {
     @Override
     public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
-                Material.STONE_SWORD,
-                "Unrefined Blade",
+                Material.IRON_SWORD,
+                "Necron's Blade",
                 SkyblockRarity.LEGENDARY,
                 SkyblockItemType.OTHER_NONCONSUMABLE,
                 new SkyblockItemStats());

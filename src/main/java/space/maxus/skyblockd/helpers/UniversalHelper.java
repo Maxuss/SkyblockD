@@ -134,39 +134,39 @@ public class UniversalHelper {
     public static int getMiningFortune(@NotNull Player p) {
         int total = getStatFromSkill("mining", p);
         total += ItemHelper.getStatFromItems(p, "miningFortune");
-        return total;
+        return (int) Math.round(total * (fullSetOfName("Erumdir", p) ? 1.15d : 1));
     }
 
     public static int getFarmingFortune(@NotNull Player p) {
         int total = getStatFromSkill("farming", p);
         total += ItemHelper.getStatFromItems(p, "farmingFortune");
-        return total;
+        return (int) Math.round(total * (fullSetOfName("Erumdir", p) ? 1.15d : 1));
     }
 
     public static int getExcavatingFortune(@NotNull Player p) {
         int total = getStatFromSkill("excavating", p);
         total += ItemHelper.getStatFromItems(p, "excavatingFortune");
-        return total;
+        return (int) Math.round(total * (fullSetOfName("Erumdir", p) ? 1.15d : 1));
     }
 
     public static int getStrength(@NotNull Player p) {
         int total = getStatFromSkill("foraging", p);
         total += getStatFromSkill("combat", p);
         total += ItemHelper.getStatFromItems(p, "strength");
-        return total;
+        return (int) Math.round(total * (fullSetOfName("Erumdir", p) ? 1.15d : 1));
     }
 
     public static int getSeaCreatureChance(@NotNull Player p) {
         int total = getStatFromSkill("fishing", p);
         total += ItemHelper.getStatFromItems(p, "scc");
-        return total;
+        return (int) Math.round(total * (fullSetOfName("Erumdir", p) ? 1.15d : 1));
     }
 
     public static int getAbilityDamage(@NotNull Player p) {
         int total = getStatFromSkill("crafting", p);
         total += getStatFromSkill("mysticism", p);
         total += ItemHelper.getStatFromItems(p, "abilDamage");
-        return total;
+        return (int) Math.round(total * (fullSetOfName("Erumdir", p) ? 1.15d : 1));
     }
 
     public static boolean checkFullSet(@NotNull List<ItemStack> toTest, @NotNull Player p) {
@@ -185,6 +185,12 @@ public class UniversalHelper {
         boolean c = set.getChestplate().isSimilar(inv.getChestplate());
         boolean d = set.getHelmet().isSimilar(inv.getHelmet());
         return a && b && c && d;
+    }
+
+    public static boolean fullSetOfName(String name, Player p) {
+        PlayerInventory inv = p.getInventory();
+        return Arrays.stream(inv.getArmorContents()).allMatch(n ->
+                ChatColor.stripColor(n.getItemMeta().getDisplayName()).contains(name));
     }
 
     public static boolean setHasKey(@NotNull NamespacedKey key, @NotNull PersistentDataType<?, ?> type, @NotNull Player p) {

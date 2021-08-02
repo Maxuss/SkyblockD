@@ -125,7 +125,7 @@ public class AbilityStorage {
             int totalEntities = 0;
             if (!entities.isEmpty()) {
                 for (Entity en : entities) {
-                    if (en instanceof LivingEntity) {
+                    if (en instanceof LivingEntity && !(en instanceof Wither)) {
                         LivingEntity le = (LivingEntity) en;
                         le.damage(damage);
                         totalDamage += damage;
@@ -150,7 +150,7 @@ public class AbilityStorage {
             int entityAmount = 0;
             if (!entities.isEmpty()) {
                 for (Entity en : entities) {
-                    if (en instanceof LivingEntity) {
+                    if (en instanceof LivingEntity && !(en instanceof Wither)) {
                         LivingEntity le = (LivingEntity) en;
                         le.damage(damage);
                         le.setFireTicks(40);

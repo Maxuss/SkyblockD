@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.objects.DragonLoot;
 import space.maxus.skyblockd.objects.FishingDrops;
@@ -157,5 +158,16 @@ public class WeightedList<E> extends HashMap<E, Double> {
             list.put(SkyblockMaterial.valueOf(entry.getKey()).getItem(), entry.getValue().doubleValue());
         }
         return list;
+    }
+
+    public static @Nullable ItemStack getRareWitherDrop() {
+        HashMap<String, HashMap<String, Float>> loot = SkyblockD.getServerData().witherLoot;
+        HashMap<String, Float> loots = loot.get("EXTRA");
+        WeightedList<String> pseudo = new WeightedList<>();
+        for(Map.Entry<String, Float> entry : loots.entrySet()) {
+            pseudo.put(entry.getKey(), entry.getValue());
+        }
+        String gend = pseudo.get(new Random());
+        return gend == null ? null : SkyblockMaterial.valueOf(gend).getItem();
     }
 }

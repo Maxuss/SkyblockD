@@ -50,14 +50,12 @@ public class MovementListener extends BetterListener {
     public void onPlayerMove(@NotNull PlayerMoveEvent e) {
         Location from = e.getFrom();
         Location to = e.getTo();
-        if(to != null) {
-            Biome prev = from.getBlock().getBiome();
-            Biome cur = to.getBlock().getBiome();
-            if(cur.equals(prev) || !importantBiomes.containsKey(cur)) return;
+        Biome prev = from.getBlock().getBiome();
+        Biome cur = to.getBlock().getBiome();
+        if(cur.equals(prev) || !importantBiomes.containsKey(cur)) return;
 
-            Player p = e.getPlayer();
-            String name = importantBiomes.get(cur);
-            p.sendTitle(name, ChatColor.GREEN+"Now entering...", 10, 30, 10);
-        }
+        Player p = e.getPlayer();
+        String name = importantBiomes.get(cur);
+        p.sendTitle(name, ChatColor.GREEN+"Now entering...", 10, 30, 10);
     }
 }

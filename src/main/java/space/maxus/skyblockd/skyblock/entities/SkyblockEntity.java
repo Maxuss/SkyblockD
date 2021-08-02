@@ -150,14 +150,13 @@ public abstract class SkyblockEntity implements SkyblockFeature {
                     Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(1024);
                     Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR)).setBaseValue(300);
                     Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS)).setBaseValue(300);
-                    Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(0.3d);
                 } else {
                     name = ChatColor.GOLD + "Superior Dragon";
                     Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(1000);
                     Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR)).setBaseValue(250);
                     Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS)).setBaseValue(250);
-                    Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(0.3d);
                 }
+                Objects.requireNonNull(e.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(0.3d);
             }
             if(!name.equals(ChatColor.LIGHT_PURPLE + "Absolute Dragon")) {
                 Bukkit.broadcastMessage(ChatColor.GOLD + "A " + name + ChatColor.GOLD + " has spawned!");
