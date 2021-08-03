@@ -36,6 +36,10 @@ public abstract class SkyblockEntity implements SkyblockFeature {
     public abstract @Nullable String getSkyblockId();
     public abstract void postInit(LivingEntity entity, Entity base);
 
+    public boolean dropsOwnLoot() {
+        return false;
+    }
+
     private static final HashSet<Biome> nether = new HashSet<Biome>() {
         {
             add(Biome.NETHER_WASTES);
@@ -69,6 +73,10 @@ public abstract class SkyblockEntity implements SkyblockFeature {
         addSkyblockTag(e);
         e.getPersistentDataContainer().set(SkyblockD.getKey("entityName"), PersistentDataType.STRING, getName());
         e.getPersistentDataContainer().set(SkyblockD.getKey("entityLevel"), PersistentDataType.INTEGER, getLevel());
+
+        if(!dropsOwnLoot()) {
+            e.getPersistentDataContainer().set(SkyblockD.getKey("dontDropLoot"), PersistentDataType.BYTE, (byte)0);
+        }
 
         // finish initialization by calling postInit
         postInit(e, en);

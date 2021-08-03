@@ -2,6 +2,8 @@ package space.maxus.skyblockd.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
@@ -22,6 +24,7 @@ import space.maxus.skyblockd.objects.BetterListener;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.PlayerSkills;
 import space.maxus.skyblockd.objects.RankContainer;
+import space.maxus.skyblockd.skyblock.entities.EntitySummon;
 import space.maxus.skyblockd.skyblock.events.SkyblockBlockBreakEvent;
 import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
@@ -51,11 +54,72 @@ public class BlockBreakListener extends BetterListener {
         boolean isPlant = MaterialHelper.isMaterialPlant(blockMat);
         if(isStone) {
             operateSkill("Mining", p, b, true);
-        } else if(isWood) {
+        }
+        else if(isWood) {
             operateSkill("Foraging", p, b, true);
-        } else if(isDirt) {
+
+            int foragingLevel = ContainerHelper.getPlayer(p).skills.data.get("foraging").currentLevel;
+
+            if(foragingLevel >= 5) {
+                ItemHelper.trySpawnRareMob(EntitySummon.TREE_GREMLIN, 30, p);
+                if(foragingLevel >= 10) {
+                    ItemHelper.trySpawnRareMob(EntitySummon.BEAVER, 40, p);
+                    if(foragingLevel >= 18) {
+                        ItemHelper.trySpawnRareMob(EntitySummon.ROOT_BOSS, 100, p);
+                    }
+                }
+            }
+        }
+        else if(isDirt) {
             operateSkill("Excavating", p, b, true);
-        } else if(isPlant) {
+
+            int fortune = UniversalHelper.getExcavatingFortune(p);
+
+            int grailPieceChance = ItemHelper.calculateDropChance(600, fortune);
+            Biome bio = e.getBlock().getBiome();
+            if(e.getBlock().getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
+                if (e.getBlock().getY() <= 40)
+                    ItemHelper.trySendRareDrop(SkyblockMaterial.GRAIL_1.getItem(), grailPieceChance, p, ItemHelper.DropRarity.RNGESUS);
+                else if (bio.name().contains("_PLAINS"))
+                    ItemHelper.trySendRareDrop(SkyblockMaterial.GRAIL_4.getItem(), grailPieceChance, p, ItemHelper.DropRarity.RNGESUS);
+                else if(bio.name().contains("MOUNTAIN"))
+                    ItemHelper.trySendRareDrop(SkyblockMaterial.GRAIL_2.getItem(), grailPieceChance, p, ItemHelper.DropRarity.RNGESUS);
+            }
+            else if(e.getBlock().getWorld().getEnvironment().equals(World.Environment.NETHER) && bio.equals(Biome.SOUL_SAND_VALLEY)) {
+                ItemHelper.trySendRareDrop(SkyblockMaterial.GRAIL_3.getItem(), grailPieceChance, p, ItemHelper.DropRarity.RNGESUS);
+            }
+            World.Environment wenv = e.getBlock().getWorld().getEnvironment();
+            if(wenv.equals(World.Environment.NORMAL)) {
+                boolean enchantedDirt = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_DIRT.getItem(), 30, p, ItemHelper.DropRarity.UNCOMMON);
+                if (!enchantedDirt) {
+                    boolean enchantedIron = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_IRON_INGOT.getItem(), 50, p, ItemHelper.DropRarity.UNCOMMON);
+                    if (!enchantedIron) {
+                        boolean enchantedRedstone = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_REDSTONE.getItem(), 60, p, ItemHelper.DropRarity.UNCOMMON);
+                        if (!enchantedRedstone) {
+                            ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_DIAMOND.getItem(), 70, p, ItemHelper.DropRarity.RARE);
+                        }
+                    }
+                }
+            }
+            else if (wenv.equals(World.Environment.NETHER)) {
+                boolean enchantedSoulSand = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_SOUL_SAND.getItem(), 30, p, ItemHelper.DropRarity.UNCOMMON);
+                if(!enchantedSoulSand) {
+                    boolean enchantedGold = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_SOUL_SAND.getItem(), 50, p, ItemHelper.DropRarity.UNCOMMON);
+                    if(!enchantedGold) {
+                        boolean transPowder = ItemHelper.trySendRareDrop(SkyblockMaterial.TRANSMUTATION_POWDER.getItem(), 60, p, ItemHelper.DropRarity.RARE);
+                        if(!transPowder) {
+                            boolean eNetherite = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_NETHERITE_SCRAP.getItem(), 70, p, ItemHelper.DropRarity.VERY_RARE);
+                            if(!eNetherite) {
+                                ItemStack nether = new ItemStack(Material.NETHERITE_INGOT);
+                                CustomItem.toSkyblockItem(nether);
+                                ItemHelper.trySendRareDrop(nether, 100, p, ItemHelper.DropRarity.VERY_RARE);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else if(isPlant) {
             operateSkill("Farming", p, b, true);
 
             ItemStack hoe = p.getInventory().getItemInMainHand();

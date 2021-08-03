@@ -16,7 +16,7 @@ public class ErumdirHelmetRecipe extends RecipeBase<ShapedRecipe> {
         rec.shape(
                 "DNQ",
                 "SFM",
-                "QGD"
+                "QGJ"
         );
 
         rec.setIngredient('D', new RecipeChoice.ExactChoice(SkyblockMaterial.ENCHANTED_DARK_PRISMARINE.getItem()));
@@ -28,6 +28,7 @@ public class ErumdirHelmetRecipe extends RecipeBase<ShapedRecipe> {
         rec.setIngredient('M', new RecipeChoice.ExactChoice(SkyblockMaterial.MAXOR_HELMET.getItem()));
         rec.setIngredient('G', new RecipeChoice.ExactChoice(SkyblockMaterial.GOLDOR_HELMET.getItem()));
 
+        rec.setIngredient('J', new RecipeChoice.ExactChoice(SkyblockMaterial.GALACTICA_SINGULARITY.getItem()));
         return rec;
     }
 }

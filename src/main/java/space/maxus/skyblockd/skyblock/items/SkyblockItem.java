@@ -123,15 +123,7 @@ public abstract class SkyblockItem implements SkyblockFeature, StatContainer {
 
         Material mat = getConfig().getMaterial();
 
-        if(mat != null && mat.name().startsWith("LEATHER_")) {
-            m.getEnchants().forEach(
-                    (k,v) -> m.removeEnchant(k));
-            m.setUnbreakable(true);
-        }
-
-        if(m.getPersistentDataContainer().has(SkyblockD.getKey("WITHER_BLADE"), PersistentDataType.BYTE)) {
-            m.setUnbreakable(true);
-        }
+        m.setUnbreakable(true);
 
         item.setItemMeta(m);
 

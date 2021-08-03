@@ -22,8 +22,12 @@ public enum EntitySummon {
     LOST_DIVER(new LostDiver()),
     SEA_LEECH(new SeaLeech()),
     ATLANTIS(new Atlantis()),
+
     ENDSTONE_PROTECTOR(new EndstoneProtector()),
 
+    TREE_GREMLIN(new TreeGremlin()),
+    BEAVER(new Beaver()),
+    ROOT_BOSS(new RootBoss()),
     ;
 
     private final SkyblockEntity entity;

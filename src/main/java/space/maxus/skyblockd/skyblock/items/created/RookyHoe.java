@@ -19,7 +19,7 @@ public class RookyHoe extends SkyblockItem implements FarmingHoe {
     @Override
     public SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
-                Material.STONE_HOE, "Rooky Hoe", SkyblockRarity.COMMON,
+                Material.STONE_HOE, "Rookie Hoe", SkyblockRarity.COMMON,
                 SkyblockItemType.HOE, new SkyblockItemStats().setDefense(30)
         );
         cfg.setAbilities(addFarmingAbility(1, "Starter Farmer"));

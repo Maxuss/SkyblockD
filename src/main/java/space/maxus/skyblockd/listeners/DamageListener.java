@@ -51,7 +51,7 @@ public class DamageListener extends BetterListener {
             assert extraDamage != null;
 
             LivingEntity le = (LivingEntity) e.getHitEntity();
-            le.damage(extraDamage);
+            le.damage(extraDamage, (Entity) pr.getShooter());
             EntityDamageEvent event = new EntityDamageEvent((Entity) pr.getShooter(), EntityDamageEvent.DamageCause.PROJECTILE, extraDamage);
             le.setLastDamageCause(event);
             SkyblockD.getPluginManager().callEvent(event);

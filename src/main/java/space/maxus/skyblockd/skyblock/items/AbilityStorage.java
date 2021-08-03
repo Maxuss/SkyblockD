@@ -45,6 +45,74 @@ public class AbilityStorage {
             Material.LAPIS_ORE, Material.OBSIDIAN
     ));
 
+    public static void emberlordStaffAbility(ItemStack i, @NotNull Player p) {
+        if(ItemHelper.isOnCooldown(i, 2, p, true)) return;
+
+        int dmg = ItemHelper.calcMagicDamage(p, 15);
+
+        Vector dir = p.getEyeLocation().getDirection();
+
+        int radius = 1;
+        Random r = new Random(p.getWorld().getSeed());
+        float j = 0.1f;
+        for(double y = 0; y <= 4; y+=(0.15+j)) {
+            double x = radius * Math.cos(y) * r.nextFloat() - 0.2;
+            double z = radius * Math.sin(y) * r.nextFloat() - 0.1;
+
+            p.spawnParticle(Particle.FLAME, new Location(p.getWorld(), (float) (dir.getX() + x), (float) (dir.getY() + y), (float) (dir.getZ() + z)), 1, 0, 0, 0, 0);
+            j += 0.05f;
+        }
+
+        int totalDamage = 0;
+        int totalEntities = 0;
+        for(Entity e : p.getNearbyEntities(3, 3, 3)) {
+            if(e instanceof LivingEntity) {
+                if(!e.getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)
+                        && !e.getType().equals(EntityType.WITHER) && !e.getType().equals(EntityType.GIANT)) {
+                    LivingEntity le = (LivingEntity) e;
+                    le.damage(dmg, p);
+                    totalDamage += dmg;
+                    totalEntities++;
+                }
+            }
+        }
+        if(totalEntities > 0) {
+            p.sendMessage(ChatColor.GRAY+"Your Inferno hit " +ChatColor.RED+ totalEntities + ChatColor.GRAY + (totalEntities == 1 ? " enemy" : " enemies")+" for a total of "+ ChatColor.RED + totalDamage*5 + ChatColor.GRAY + " damage!");
+        }
+    }
+
+    public static void emberRodAbility(ItemStack i, @NotNull Player p) {
+        if(ItemHelper.isOnCooldown(i, 2, p, true)) return;
+
+        int dmg = ItemHelper.calcMagicDamage(p, 15);
+        for(int j = 0; j < 2; j++) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
+                p.playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1f);
+
+                Fireball ball = p.launchProjectile(Fireball.class);
+                ball.getPersistentDataContainer().set(SkyblockD.getKey("extraDamage"), PersistentDataType.INTEGER, dmg);
+                ball.setYield(0.5f);
+                ball.setDirection(p.getEyeLocation().getDirection());
+            }, 2L+j);
+        }
+    }
+
+    public static void holyGrailAbility(ItemStack i, @NotNull Player p) {
+        if(ItemHelper.isOnCooldown(i, 3, p, true)) return;
+
+        int dmg = ItemHelper.calcMagicDamage(p, 20);
+        for(int j = 0; j < 8; j++) {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
+                p.playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 0.5f);
+
+                Fireball ball = p.launchProjectile(Fireball.class);
+                ball.getPersistentDataContainer().set(SkyblockD.getKey("extraDamage"), PersistentDataType.INTEGER, dmg);
+                ball.setYield(0.2f);
+                ball.setDirection(p.getEyeLocation().getDirection());
+            }, 2L+j);
+        }
+    }
+
     public static void giantSwordAbility(ItemStack i, @NotNull Player p) {
         if(ItemHelper.isOnCooldown(i, 5, p, true)) return;
         Giant g = (Giant) p.getWorld().spawnEntity(p.getLocation(), EntityType.GIANT, CreatureSpawnEvent.SpawnReason.CUSTOM);

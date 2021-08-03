@@ -8,6 +8,7 @@ import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -314,6 +315,10 @@ public class ItemHelper {
         } catch(IllegalArgumentException ignored) {}
     }
 
+    public static int calculateDropChance(int base, int mod) {
+        return Math.min(Math.round(base * (150f/mod)), base+50);
+    }
+
     public static int getStatFromItems(@NotNull Player p, String stat) {
         PlayerInventory inv = p.getInventory();
         ItemStack mh = inv.getItemInMainHand();
@@ -328,7 +333,7 @@ public class ItemHelper {
         return total;
     }
 
-    public static void trySendRareDrop(@NotNull ItemStack drop, int chance, @NotNull Player p, DropRarity rarity) {
+    public static boolean trySendRareDrop(@NotNull ItemStack drop, int chance, @NotNull Player p, DropRarity rarity) {
         Random r = new Random();
         int m = r.nextInt(chance);
         if(m <= 1) {
@@ -338,7 +343,15 @@ public class ItemHelper {
             if(p.getInventory().firstEmpty() != -1) {
                 p.getInventory().addItem(drop);
             } else p.getWorld().dropItem(p.getLocation(), drop);
+            if(chance > 500 || rarity.equals(DropRarity.INSANE) || rarity.equals(DropRarity.RNGESUS)) {
+                Bukkit.broadcastMessage(p.getDisplayName()+ChatColor.YELLOW+" just got "+rarity+ChatColor.RESET+Objects.requireNonNull(drop.getItemMeta()).getDisplayName()+ChatColor.YELLOW+"!");
+                for(Player pl : SkyblockD.getHost().getOnlinePlayers()) {
+                    pl.playSound(pl.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
+                }
+            }
+            return true;
         }
+        return false;
     }
 
     public static void trySpawnRareMob(@NotNull EntitySummon summon, int chance, @NotNull Player p) {
@@ -397,7 +410,20 @@ public class ItemHelper {
         return bd.floatValue();
     }
 
+    public static void addAttribute(Attribute att, double amount, ItemMeta m) {
+        m.addAttributeModifier(att, new AttributeModifier(
+                UUID.randomUUID(), att.getKey().getKey(), amount, AttributeModifier.Operation.ADD_NUMBER
+        ));
+    }
+
+    public static void addAttribute(Attribute att, double amount, ItemMeta m, EquipmentSlot slot) {
+        m.addAttributeModifier(att, new AttributeModifier(
+                UUID.randomUUID(), att.getKey().getKey(), amount, AttributeModifier.Operation.ADD_NUMBER, slot
+        ));
+    }
+
     public enum DropRarity {
+        UNCOMMON("UNCOMMON", ChatColor.GREEN),
         RARE("RARE", ChatColor.AQUA),
         SCRIPTED_RARE("RARE", ChatColor.GOLD),
         VERY_RARE("VERY RARE", ChatColor.DARK_PURPLE),

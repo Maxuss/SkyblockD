@@ -54,7 +54,7 @@ public class EmeraldBoots extends SkyblockItem {
                 Attribute.GENERIC_ARMOR,
                 new AttributeModifier("generic.armor", 2, AttributeModifier.Operation.ADD_NUMBER));
         LeatherArmorMeta lm = (LeatherArmorMeta) m;
-        lm.setColor(Color.OLIVE);
+        lm.setColor(Color.LIME);
         i.setItemMeta(m);
         return i;
     }

@@ -305,6 +305,8 @@ public enum SkyblockMaterial {
     SIMPLE_HOE_BLUEPRINT(new SimpleHoeBlueprint()),
     ADVANCED_HOE_BLUEPRINT(new AdvancedHoeBlueprint()),
 
+    WOODEN_SINGULARITY(new WoodenSingularity()),
+
     ROOKY_HOE(new RookyHoe()),
     HARDWOOD_HOE(new HardwoodHoe()),
     STEEL_HOE(new SteelHoe()),
@@ -322,6 +324,27 @@ public enum SkyblockMaterial {
     MUDSTONE_LEGGINGS(new MudstoneLeggings()),
     MUDSTONE_CHESTPLATE(new MudstoneChestplate()),
     MUDSTONE_HELMET(new MudstoneHelmet()),
+
+    ATLANTIS_BOOTS(new AtlantisBoots()),
+    ATLANTIS_LEGGINGS(new AtlantisLeggings()),
+    ATLANTIS_CHESTPLATE(new AtlantisChestplate()),
+    ATLANTIS_HELMET(new AtlantisHelmet()),
+
+    DIVER_BOOTS(new DiverBoots()),
+    DIVER_LEGGINGS(new DiverLeggings()),
+    DIVER_CHESTPLATE(new DiverChestplate()),
+    DIVER_HELMET(new DiverHelmet()),
+
+    MASTER_CROWN(new MasterCrown()),
+    TUXEDO_CHESTPLATE(new TuxedoChestplate()),
+    TUXEDO_LEGGINGS(new TuxedoLeggings()),
+    TUXEDO_BOOTS(new TuxedoBoots()),
+
+    SHADOW_GOGGLES(new ShadowGoggles()),
+    WITHER_GOGGLES(new WitherGoggles()),
+
+    EMBER_ROD(new EmberRod()),
+    EMBERLORD_STAFF(new EmberlordStaff()),
 
     THE_SEAL(new TheSeal()),
 

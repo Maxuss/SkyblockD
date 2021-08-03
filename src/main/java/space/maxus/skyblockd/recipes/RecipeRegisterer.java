@@ -154,6 +154,22 @@ public class RecipeRegisterer {
         new SweetBerryRecipe();
         new TangledSeaweedRecipe();
 
+        new TreecapitatorRecipe();
+        new TreenihilatorRecipe();
+        new IcarusWingsRecipe();
+        new MasterCrownRecipe();
+
+        new TuxedoBootsRecipe();
+        new TuxedoLeggingsRecipe();
+        new TuxedoChestplateRecipe();
+        new MadnessRecipe();
+
+        new ShadowGogglesRecipe();
+        new WitherGogglesRecipe();
+
+        new EmberRodRecipe();
+        new EmberlordStaffRecipe();
+
         new SimpleHoeBlueprintRecipe();
         new AdvancedHoeBlueprintRecipe();
 

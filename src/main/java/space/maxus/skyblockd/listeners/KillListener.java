@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
@@ -34,6 +35,10 @@ public class KillListener extends BetterListener {
         Player p = en.getKiller();
         if(p == null || p.hasMetadata("NPC")) return;
         List<ItemStack> drops = e.getDrops();
+
+        if(en.getPersistentDataContainer().has(SkyblockD.getKey("dontDropLoot"), PersistentDataType.BYTE)) {
+            e.getDrops().clear();
+        }
 
         if(en.getType() == EntityType.ENDER_DRAGON) {
             operateDragonLoot(en);
@@ -66,8 +71,84 @@ public class KillListener extends BetterListener {
             operateWitherLoot(SkyblockEntity.WitherType.values()[type]);
         }
 
-        if(en.getPersistentDataContainer().has(SkyblockD.getKey("FANATIC"), PersistentDataType.BYTE)) {
+        PersistentDataContainer c = en.getPersistentDataContainer();
+
+        if(c.has(SkyblockD.getKey("FANATIC"), PersistentDataType.BYTE)) {
             ItemHelper.trySendRareDrop(SkyblockMaterial.SHADED_EYE.getItem(), 1, p, ItemHelper.DropRarity.SCRIPTED_RARE);
+        } else if(c.has(SkyblockD.getKey("BEAVER"), PersistentDataType.BYTE)) {
+            ItemHelper.trySendRareDrop(SkyblockMaterial.JUNGLE_AXE.getItem(), 3, p, ItemHelper.DropRarity.SCRIPTED_RARE);
+        } else if (c.has(SkyblockD.getKey("ROOT_BOSS"), PersistentDataType.BYTE)) {
+            ItemHelper.trySendRareDrop(SkyblockMaterial.WOODEN_SINGULARITY.getItem(), 3, p, ItemHelper.DropRarity.SUPER_RARE);
+        } else if (c.has(SkyblockD.getKey("LOST_DIVER"), PersistentDataType.BYTE)) {
+            ItemHelper.trySendRareDrop(SkyblockMaterial.DIVER_BOOTS.getItem(), 35, p, ItemHelper.DropRarity.RNGESUS);
+            ItemHelper.trySendRareDrop(SkyblockMaterial.DIVER_LEGGINGS.getItem(), 60, p, ItemHelper.DropRarity.RNGESUS);
+            ItemHelper.trySendRareDrop(SkyblockMaterial.DIVER_CHESTPLATE.getItem(), 70, p, ItemHelper.DropRarity.RNGESUS);
+            ItemHelper.trySendRareDrop(SkyblockMaterial.DIVER_HELMET.getItem(), 40, p, ItemHelper.DropRarity.RNGESUS);
+        } else if (c.has(SkyblockD.getKey("ATLANTIS"), PersistentDataType.BYTE)) {
+            ItemHelper.trySendRareDrop(SkyblockMaterial.DIVER_BOOTS.getItem(), 30, p, ItemHelper.DropRarity.INSANE);
+            ItemHelper.trySendRareDrop(SkyblockMaterial.DIVER_LEGGINGS.getItem(), 40, p, ItemHelper.DropRarity.INSANE);
+            ItemHelper.trySendRareDrop(SkyblockMaterial.DIVER_CHESTPLATE.getItem(), 50, p, ItemHelper.DropRarity.INSANE);
+            ItemHelper.trySendRareDrop(SkyblockMaterial.DIVER_HELMET.getItem(), 35, p, ItemHelper.DropRarity.INSANE);
+        }
+
+        if(ItemHelper.isUndead(en.getType()))
+            ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_BONE.getItem(), 30, p, ItemHelper.DropRarity.RARE);
+
+        switch(en.getType()) {
+            case ZOMBIFIED_PIGLIN:
+            case ZOGLIN:
+            case ZOMBIE_VILLAGER:
+            case ZOMBIE:
+                ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_ROTTEN_FLESH.getItem(), 30, p, ItemHelper.DropRarity.RARE);
+                break;
+            case PIGLIN_BRUTE:
+            case PIGLIN:
+            case PIG:
+                ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_PORKCHOP.getItem(), 40, p, ItemHelper.DropRarity.RARE);
+                break;
+            case BLAZE:
+                ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_BLAZE_POWDER.getItem(), 50, p, ItemHelper.DropRarity.RARE);
+                ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_BLAZE_ROD.getItem(), 70, p, ItemHelper.DropRarity.SUPER_RARE);
+                break;
+            case MAGMA_CUBE:
+                ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_MAGMA_CREAM.getItem(), 40, p, ItemHelper.DropRarity.RARE);
+                ItemHelper.trySendRareDrop(SkyblockMaterial.MOLTEN_MAGMA.getItem(), 120, p, ItemHelper.DropRarity.SUPER_RARE);
+                break;
+            case WITHER_SKELETON:
+                ItemStack skull = new ItemStack(Material.WITHER_SKELETON_SKULL);
+                CustomItem.toSkyblockItem(skull);
+                ItemHelper.trySendRareDrop(skull, 40, p, ItemHelper.DropRarity.SCRIPTED_RARE);
+                break;
+            case SHULKER:
+                ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_END_STONE.getItem(), 25, p, ItemHelper.DropRarity.SCRIPTED_RARE);
+                ItemHelper.trySendRareDrop(SkyblockMaterial.ENDSTONE_SWORD.getItem(), 50, p, ItemHelper.DropRarity.VERY_RARE);
+                ItemHelper.trySendRareDrop(SkyblockMaterial.PURPUR_SWORD.getItem(), 150, p, ItemHelper.DropRarity.SUPER_RARE);
+                break;
+            case PHANTOM:
+                ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_PHANTOM_MEMBRANE.getItem(), 20, p, ItemHelper.DropRarity.RARE);
+                ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_PHANTOM_WING.getItem(), 70, p, ItemHelper.DropRarity.SUPER_RARE);
+                break;
+            case ENDERMITE:
+            case ENDERMAN:
+                ItemStack crystal = new ItemStack(Material.END_CRYSTAL);
+                CustomItem.toSkyblockItem(crystal);
+                ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_ENDER_PEARL.getItem(), 25, p, ItemHelper.DropRarity.RARE);
+                ItemHelper.trySendRareDrop(crystal, 30, p, ItemHelper.DropRarity.VERY_RARE);
+                ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_EYE_OF_ENDER.getItem(), 70, p, ItemHelper.DropRarity.SUPER_RARE);
+                ItemHelper.trySendRareDrop(SkyblockMaterial.CURSED_EYE.getItem(), 90, p, ItemHelper.DropRarity.INSANE);
+                break;
+            case EVOKER:
+            case ILLUSIONER:
+            case PILLAGER:
+            case VINDICATOR:
+                ItemStack totem = new ItemStack(Material.TOTEM_OF_UNDYING);
+                CustomItem.toSkyblockItem(totem);
+                ItemHelper.trySendRareDrop(totem, 40, p, ItemHelper.DropRarity.SUPER_RARE);
+                break;
+            case SPIDER:
+            case SILVERFISH:
+            case CAVE_SPIDER:
+                ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_STRING.getItem(), 25, p, ItemHelper.DropRarity.RARE);
         }
 
         if(ItemHelper.hasMagnet(p) && !drops.isEmpty()) {
@@ -91,7 +172,7 @@ public class KillListener extends BetterListener {
                 }
             }
         }
-        List<PlayerContainer> players = UniversalHelper.filter(SkyblockD.players, c -> c.uuid.equals(p.getUniqueId()));
+        List<PlayerContainer> players = UniversalHelper.filter(SkyblockD.players, co -> co.uuid.equals(p.getUniqueId()));
         PlayerContainer pc = players.get(players.size()-1);
 
         if(en.getPersistentDataContainer().has(SkyblockD.getKey("FISHED"), PersistentDataType.BYTE)) {

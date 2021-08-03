@@ -6,6 +6,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockSkull;
@@ -21,7 +22,7 @@ public class HolyGrail extends SkyblockSkull {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.PLAYER_HEAD, "The Holy Grail",
                 SkyblockRarity.RELIC, SkyblockItemType.OTHER_NONCONSUMABLE,
-                new SkyblockItemStats().setMagicFind(15).setHealth(100)
+                new SkyblockItemStats().setAbilityDamage(15).setHealth(100)
         );
         cfg.setDescription(Collections.singletonList(ChatColor.DARK_GRAY+"...you were hidden from everyone..."));
         cfg.setAbilities(Collections.singletonList(
@@ -52,6 +53,10 @@ public class HolyGrail extends SkyblockSkull {
         m.addAttributeModifier(
                 Attribute.GENERIC_MAX_HEALTH,
                 new AttributeModifier("generic.maxHealth", 10, AttributeModifier.Operation.ADD_NUMBER));
+        addAbilityDamage(15, m);
+        m.getPersistentDataContainer().set(SkyblockD.getKey("HOLY_GRAIL"), PersistentDataType.BYTE, (byte)0);
+        m.getPersistentDataContainer().set(SkyblockD.getKey("blockClicks"), PersistentDataType.BYTE, (byte)0);
+        m.getPersistentDataContainer().remove(SkyblockD.getKey("headClicks"));
         i.setItemMeta(m);
         return i;
     }

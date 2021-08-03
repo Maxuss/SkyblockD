@@ -15,30 +15,32 @@ import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
 import java.util.Collections;
 
-public class ContaminatedWither extends SkyblockSkull {
+public class WoodenSingularity extends SkyblockSkull {
     @Override
     public @NotNull SkyblockItemConfig getConfig() {
-        SkyblockItemConfig cfg = new SkyblockItemConfig(
-                Material.PLAYER_HEAD, "Contaminated Wither",
-                SkyblockRarity.EPIC, SkyblockItemType.OTHER_NONCONSUMABLE,
-                new SkyblockItemStats()
-        );
-        cfg.setDescription(Collections.singletonList(ChatColor.DARK_GRAY+"You can hear screams from it"));
+        SkyblockItemConfig cfg = new SkyblockItemConfig(Material.PLAYER_HEAD,
+                "Wooden Singularity",
+                SkyblockRarity.EPIC,
+                SkyblockItemType.OTHER_NONCONSUMABLE,
+                new SkyblockItemStats());
+        cfg.setDescription(Collections.singletonList(
+                ChatColor.DARK_GRAY+"Heavy!"
+        ));
         return cfg;
     }
 
     @Override
     public boolean hasGlint() {
-        return true;
+        return false;
     }
 
     @Override
     public @NotNull String getSkyblockId() {
-        return SkyblockD.getNamespace("jar_wither");
+        return SkyblockD.getNamespace("wooden_singularity");
     }
 
     @Override
-    public ItemStack postInit(ItemStack i) {
+    public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
         m.getPersistentDataContainer().set(SkyblockD.getKey("blockClicks"), PersistentDataType.BYTE, (byte)0);
@@ -47,9 +49,7 @@ public class ContaminatedWither extends SkyblockSkull {
         return i;
     }
 
-    @Override
     public @NotNull String getSkinHash() {
-        // https://minecraft-heads.com/custom-heads/decoration/33342-ink
-        return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTAyOGQ0NzRjNGEzMzJkY2Y4ZTM0Mzk1N2NlMGNhNGVlYmFjZTI1OGMzN2Y2ZDkwNGNmMjI4ZDM0NTY3ZjU1MSJ9fX0=";
+        return "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2QyY2UzYjI2M2E1ZjJjNzcxMzJlYmVmOWUxZDdjZTgyODg2ZmMzNWM4OTNmYjJhZjk3ZGY3OGU5NjFmYzQifX19";
     }
 }

@@ -16,7 +16,7 @@ public class ErumdirLeggingsRecipe extends RecipeBase<ShapedRecipe> {
         rec.shape(
                 "DNQ",
                 "SFM",
-                "QGD"
+                "QGJ"
         );
 
         rec.setIngredient('D', new RecipeChoice.ExactChoice(SkyblockMaterial.ENCHANTED_EMERALD_BLOCK.getItem()));
@@ -28,6 +28,7 @@ public class ErumdirLeggingsRecipe extends RecipeBase<ShapedRecipe> {
         rec.setIngredient('M', new RecipeChoice.ExactChoice(SkyblockMaterial.MAXOR_LEGGINGS.getItem()));
         rec.setIngredient('G', new RecipeChoice.ExactChoice(SkyblockMaterial.GOLDOR_LEGGINGS.getItem()));
 
+        rec.setIngredient('J', new RecipeChoice.ExactChoice(SkyblockMaterial.GALACTICA_SINGULARITY.getItem()));
         return rec;
     }
 }
