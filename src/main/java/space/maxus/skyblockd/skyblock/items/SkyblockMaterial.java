@@ -335,6 +335,12 @@ public enum SkyblockMaterial {
     DIVER_CHESTPLATE(new DiverChestplate()),
     DIVER_HELMET(new DiverHelmet()),
 
+    REINFORCED_ROD(new ReinforcedRod()),
+    CORAL_ROD(new CoralRod()),
+    GOLDEN_ROD(new GoldenRod()),
+    DARK_MATTER_ROD(new DarkMatterRod()),
+    HERO_ROD(new HeroRod()),
+
     MASTER_CROWN(new MasterCrown()),
     TUXEDO_CHESTPLATE(new TuxedoChestplate()),
     TUXEDO_LEGGINGS(new TuxedoLeggings()),

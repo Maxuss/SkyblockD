@@ -25,8 +25,8 @@ public class Recombobulator extends SkyblockSkull {
                 SkyblockItemType.OTHER_CONSUMABLE,
                 new SkyblockItemStats());
         cfg.setDescription(Arrays.asList(
-                ChatColor.DARK_GRAY+"Right click this item to",
-                ChatColor.DARK_GRAY+"upgrade rarity of any item!"
+                ChatColor.GRAY+"Use on reforge anvil to upgrade",
+                ChatColor.GRAY+"rarity of an item!"
         ));
         return cfg;
     }
@@ -45,7 +45,7 @@ public class Recombobulator extends SkyblockSkull {
     public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
-        m.getPersistentDataContainer().set(SkyblockD.getKey("skyblockType"), PersistentDataType.STRING, "RECOMB");
+        m.getPersistentDataContainer().set(SkyblockD.getKey("RECOMB"), PersistentDataType.BYTE, (byte)0);
         m.getPersistentDataContainer().remove(SkyblockD.getKey("blockClicks"));
         m.getPersistentDataContainer().remove(SkyblockD.getKey("headClick"));
         i.setItemMeta(m);

@@ -61,11 +61,11 @@ public class BlockBreakListener extends BetterListener {
             int foragingLevel = ContainerHelper.getPlayer(p).skills.data.get("foraging").currentLevel;
 
             if(foragingLevel >= 5) {
-                ItemHelper.trySpawnRareMob(EntitySummon.TREE_GREMLIN, 30, p);
+                ItemHelper.trySpawnRareMob(EntitySummon.TREE_GREMLIN, 60, p);
                 if(foragingLevel >= 10) {
-                    ItemHelper.trySpawnRareMob(EntitySummon.BEAVER, 40, p);
+                    ItemHelper.trySpawnRareMob(EntitySummon.BEAVER, 100, p);
                     if(foragingLevel >= 18) {
-                        ItemHelper.trySpawnRareMob(EntitySummon.ROOT_BOSS, 100, p);
+                        ItemHelper.trySpawnRareMob(EntitySummon.ROOT_BOSS, 150, p);
                     }
                 }
             }
@@ -75,44 +75,44 @@ public class BlockBreakListener extends BetterListener {
 
             int fortune = UniversalHelper.getExcavatingFortune(p);
 
-            int grailPieceChance = ItemHelper.calculateDropChance(600, fortune);
+            int grailPieceChance = ItemHelper.calculateDropChance(300, fortune);
             Biome bio = e.getBlock().getBiome();
             if(e.getBlock().getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
                 if (e.getBlock().getY() <= 40)
-                    ItemHelper.trySendRareDrop(SkyblockMaterial.GRAIL_1.getItem(), grailPieceChance, p, ItemHelper.DropRarity.RNGESUS);
+                    ItemHelper.trySendRareDrop(SkyblockMaterial.GRAIL_1.getItem(), grailPieceChance, p, ItemHelper.DropRarity.INSANE);
                 else if (bio.name().contains("_PLAINS"))
-                    ItemHelper.trySendRareDrop(SkyblockMaterial.GRAIL_4.getItem(), grailPieceChance, p, ItemHelper.DropRarity.RNGESUS);
+                    ItemHelper.trySendRareDrop(SkyblockMaterial.GRAIL_4.getItem(), grailPieceChance, p, ItemHelper.DropRarity.INSANE);
                 else if(bio.name().contains("MOUNTAIN"))
-                    ItemHelper.trySendRareDrop(SkyblockMaterial.GRAIL_2.getItem(), grailPieceChance, p, ItemHelper.DropRarity.RNGESUS);
+                    ItemHelper.trySendRareDrop(SkyblockMaterial.GRAIL_2.getItem(), grailPieceChance, p, ItemHelper.DropRarity.INSANE);
             }
             else if(e.getBlock().getWorld().getEnvironment().equals(World.Environment.NETHER) && bio.equals(Biome.SOUL_SAND_VALLEY)) {
-                ItemHelper.trySendRareDrop(SkyblockMaterial.GRAIL_3.getItem(), grailPieceChance, p, ItemHelper.DropRarity.RNGESUS);
+                ItemHelper.trySendRareDrop(SkyblockMaterial.GRAIL_3.getItem(), grailPieceChance, p, ItemHelper.DropRarity.INSANE);
             }
             World.Environment wenv = e.getBlock().getWorld().getEnvironment();
             if(wenv.equals(World.Environment.NORMAL)) {
-                boolean enchantedDirt = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_DIRT.getItem(), 30, p, ItemHelper.DropRarity.UNCOMMON);
+                boolean enchantedDirt = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_DIRT.getItem(), 90, p, ItemHelper.DropRarity.UNCOMMON);
                 if (!enchantedDirt) {
-                    boolean enchantedIron = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_IRON_INGOT.getItem(), 50, p, ItemHelper.DropRarity.UNCOMMON);
+                    boolean enchantedIron = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_IRON_INGOT.getItem(), 140, p, ItemHelper.DropRarity.UNCOMMON);
                     if (!enchantedIron) {
-                        boolean enchantedRedstone = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_REDSTONE.getItem(), 60, p, ItemHelper.DropRarity.UNCOMMON);
+                        boolean enchantedRedstone = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_REDSTONE.getItem(), 150, p, ItemHelper.DropRarity.UNCOMMON);
                         if (!enchantedRedstone) {
-                            ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_DIAMOND.getItem(), 70, p, ItemHelper.DropRarity.RARE);
+                            ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_DIAMOND.getItem(), 250, p, ItemHelper.DropRarity.RARE);
                         }
                     }
                 }
             }
             else if (wenv.equals(World.Environment.NETHER)) {
-                boolean enchantedSoulSand = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_SOUL_SAND.getItem(), 30, p, ItemHelper.DropRarity.UNCOMMON);
+                boolean enchantedSoulSand = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_SOUL_SAND.getItem(), 70, p, ItemHelper.DropRarity.UNCOMMON);
                 if(!enchantedSoulSand) {
-                    boolean enchantedGold = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_SOUL_SAND.getItem(), 50, p, ItemHelper.DropRarity.UNCOMMON);
+                    boolean enchantedGold = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_GOLD_INGOT.getItem(), 140, p, ItemHelper.DropRarity.UNCOMMON);
                     if(!enchantedGold) {
-                        boolean transPowder = ItemHelper.trySendRareDrop(SkyblockMaterial.TRANSMUTATION_POWDER.getItem(), 60, p, ItemHelper.DropRarity.RARE);
+                        boolean transPowder = ItemHelper.trySendRareDrop(SkyblockMaterial.TRANSMUTATION_POWDER.getItem(), 190, p, ItemHelper.DropRarity.RARE);
                         if(!transPowder) {
-                            boolean eNetherite = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_NETHERITE_SCRAP.getItem(), 70, p, ItemHelper.DropRarity.VERY_RARE);
+                            boolean eNetherite = ItemHelper.trySendRareDrop(SkyblockMaterial.ENCHANTED_NETHERITE_SCRAP.getItem(), 250, p, ItemHelper.DropRarity.VERY_RARE);
                             if(!eNetherite) {
                                 ItemStack nether = new ItemStack(Material.NETHERITE_INGOT);
                                 CustomItem.toSkyblockItem(nether);
-                                ItemHelper.trySendRareDrop(nether, 100, p, ItemHelper.DropRarity.VERY_RARE);
+                                ItemHelper.trySendRareDrop(nether, 300, p, ItemHelper.DropRarity.VERY_RARE);
                             }
                         }
                     }

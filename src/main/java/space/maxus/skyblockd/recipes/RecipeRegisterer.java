@@ -132,6 +132,11 @@ public class RecipeRegisterer {
         new WitherBladeRecipe("STORM", "HYPERION");
         new WitherBladeRecipe("GOLDOR", "ASTRAEA");
 
+        new DowngradeBladeRecipe(SkyblockMaterial.ASTRAEA);
+        new DowngradeBladeRecipe(SkyblockMaterial.SCYLLA);
+        new DowngradeBladeRecipe(SkyblockMaterial.VALKYRIE);
+        new DowngradeBladeRecipe(SkyblockMaterial.HYPERION);
+
         new ShortbowRecipe("EMERALD_SHORTBOW", SkyblockMaterial.ENCHANTED_EMERALD);
         new ShortbowRecipe("OBSIDIAN_SHORTBOW", SkyblockMaterial.ENCHANTED_OBSIDIAN);
         new ShortbowRecipe("GEMSTONE_SHORTBOW", SkyblockMaterial.GEMSTONE);
@@ -169,6 +174,13 @@ public class RecipeRegisterer {
 
         new EmberRodRecipe();
         new EmberlordStaffRecipe();
+
+        new ReinforcedRodRecipe();
+        new RodOfSeasRecipe();
+        new GoldenRodRecipe();
+        new CoralRodRecipe();
+        new DarkMatterRodRecipe();
+        new HeroRodRecipe();
 
         new SimpleHoeBlueprintRecipe();
         new AdvancedHoeBlueprintRecipe();

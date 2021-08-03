@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.items.SkyblockItem;
@@ -16,14 +15,13 @@ import space.maxus.skyblockd.skyblock.objects.SkyblockRarity;
 
 import java.util.Collections;
 
-public class RodOfSeas extends SkyblockItem {
-
+public class DarkMatterRod extends SkyblockItem {
     @Override
     public @NotNull SkyblockItemConfig getConfig() {
-        SkyblockItemConfig cfg = new SkyblockItemConfig(Material.FISHING_ROD, "Rod of Seas",
-                SkyblockRarity.RARE, SkyblockItemType.FISHING_ROD,
-                new SkyblockItemStats().setSeaCreatureChance(10).setDamage(5));
-        cfg.setDescription(Collections.singletonList(ChatColor.DARK_GRAY+"Made of purest lily pads!"));
+        SkyblockItemConfig cfg = new SkyblockItemConfig(Material.FISHING_ROD, "Dark Matter Rod",
+                SkyblockRarity.LEGENDARY, SkyblockItemType.FISHING_ROD,
+                new SkyblockItemStats().setSeaCreatureChance(23));
+        cfg.setDescription(Collections.singletonList(ChatColor.DARK_GRAY+"Dangerous!"));
         return cfg;
     }
 
@@ -34,17 +32,16 @@ public class RodOfSeas extends SkyblockItem {
 
     @Override
     public @NotNull String getSkyblockId() {
-        return SkyblockD.getNamespace("rod_of_seas");
+        return SkyblockD.getNamespace("dark_matter_rod");
     }
 
     @Override
     public @NotNull ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
-        m.addEnchant(Enchantment.LURE, 2, true);
-        m.addEnchant(Enchantment.DURABILITY, 4, true);
-        m.addEnchant(Enchantment.LUCK, 3, true);
-        m.getPersistentDataContainer().set(SkyblockD.getKey("scc"), PersistentDataType.INTEGER, 10);
+        m.addEnchant(Enchantment.LURE, 5, true);
+        m.addEnchant(Enchantment.LUCK, 5, true);
+        addSeaCreatureChance(23, m);
         i.setItemMeta(m);
         return i;
     }

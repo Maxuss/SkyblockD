@@ -208,27 +208,46 @@ public class InventoryListener extends BetterListener {
                     p.sendMessage(ChatColor.RED + "Put an item to be reforged on the right!");
                     return;
                 }
-                if (stone == null || !stone.hasItemMeta() ||
-                        !Objects.requireNonNull(stone.getItemMeta())
+                if(stone == null || !stone.hasItemMeta()) {
+                    p.sendMessage(ChatColor.RED+"Please put reforge stone on the left!");
+                    return;
+                }
+                if (stone.getItemMeta().getPersistentDataContainer().has(SkyblockD.getKey("RECOMB"), PersistentDataType.BYTE)) {
+                    PersistentDataContainer c = tool.getItemMeta().getPersistentDataContainer();
+                    if (c.has(SkyblockD.getKey("recombobulated"), PersistentDataType.STRING)) {
+                        p.sendMessage(ChatColor.RED+"You can not recombobulate an item twice!");
+                    } else if(!c.has(SkyblockD.getKey("itemRarity"), PersistentDataType.INTEGER)){
+                        p.sendMessage(ChatColor.RED+"This item can not be recombobulated!");
+                    } else if(i.getAmount() > 1) {
+                        p.sendMessage(ChatColor.RED + "You can only recombobulate one item at a time!");
+                    } else {
+                        ItemStack recombed = SkyblockItem.recombobulate(tool);
+                        inv.setItem(28, new ItemStack(Material.AIR));
+                        inv.setItem(34, recombed);
+                    }
+                    return;
+                }
+                if (!Objects.requireNonNull(stone.getItemMeta())
                                 .getPersistentDataContainer()
                                 .has(SkyblockD.getKey("reforgeStone"), PersistentDataType.INTEGER)) {
-                    p.sendMessage(ChatColor.RED + "Put reforge stone on the right!");
-                    return;
+                    p.sendMessage(ChatColor.RED + "Put reforge stone on the left!");
                 }
-                if (tool.getType().isBlock()) {
-                    p.sendMessage(ChatColor.RED + "You can't reforge blocks!");
-                    return;
+                else {
+                    if (tool.getType().isBlock()) {
+                        p.sendMessage(ChatColor.RED + "You can't reforge blocks!");
+                        return;
+                    }
+                    Integer refIndex = Objects.requireNonNull(stone.getItemMeta())
+                            .getPersistentDataContainer()
+                            .get(SkyblockD.getKey("reforgeStone"), PersistentDataType.INTEGER);
+                    assert refIndex != null;
+                    SkyblockReforge ref = SkyblockReforge.byIndex(refIndex);
+                    String name = tool.getItemMeta().getDisplayName();
+                    ref.getBase().apply(tool);
+                    inv.setItem(28, new ItemStack(Material.AIR));
+                    p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
+                    p.sendMessage(ChatColor.YELLOW + "Successfully applied " + ChatColor.BLUE + ref.getDisplayName() + ChatColor.YELLOW + " reforge to your " + name);
                 }
-                Integer refIndex = Objects.requireNonNull(stone.getItemMeta())
-                        .getPersistentDataContainer()
-                        .get(SkyblockD.getKey("reforgeStone"), PersistentDataType.INTEGER);
-                assert refIndex != null;
-                SkyblockReforge ref = SkyblockReforge.byIndex(refIndex);
-                String name = tool.getItemMeta().getDisplayName();
-                ref.getBase().apply(tool);
-                inv.setItem(28, new ItemStack(Material.AIR));
-                p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_USE, 1, 1);
-                p.sendMessage(ChatColor.YELLOW+"Successfully applied "+ChatColor.BLUE+ref.getDisplayName()+ChatColor.YELLOW+" reforge to your "+name);
             }
         }
     }
@@ -464,7 +483,7 @@ public class InventoryListener extends BetterListener {
                             && i.getType() != Material.GRAY_STAINED_GLASS_PANE
                             && i.getType() != Material.ANVIL) {
                 if(inv.getItem(13) != null){
-                    p.getInventory().addItem(inv.getItem(13));
+                    p.getInventory().addItem(Objects.requireNonNull(inv.getItem(13)));
                 }
                 inv.setItem(13, i);
                 p.getInventory().remove(i);

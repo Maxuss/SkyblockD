@@ -12,12 +12,11 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.BlockIterator;
-import org.bukkit.util.BoundingBox;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.MaterialHelper;
+import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.listeners.BlockBreakListener;
 
@@ -49,22 +48,21 @@ public class AbilityStorage {
         if(ItemHelper.isOnCooldown(i, 2, p, true)) return;
 
         int dmg = ItemHelper.calcMagicDamage(p, 15);
-
-        Vector dir = p.getEyeLocation().getDirection();
-
+        Location loc = p.getLocation();
         int radius = 1;
-        Random r = new Random(p.getWorld().getSeed());
-        float j = 0.1f;
-        for(double y = 0; y <= 4; y+=(0.15+j)) {
-            double x = radius * Math.cos(y) * r.nextFloat() - 0.2;
-            double z = radius * Math.sin(y) * r.nextFloat() - 0.1;
 
-            p.spawnParticle(Particle.FLAME, new Location(p.getWorld(), (float) (dir.getX() + x), (float) (dir.getY() + y), (float) (dir.getZ() + z)), 1, 0, 0, 0, 0);
+        float j = 0.1f;
+        for (double y = 0; y <= 4; y += (0.15 + j)) {
+            double x = radius * Math.cos(y);
+            double z = radius * Math.sin(y);
+
+            p.spawnParticle(Particle.FLAME, new Location(p.getWorld(), (float) (loc.getX() + x), (float) (loc.getY() + y), (float) (loc.getZ() + z)), 1, 0, 0, 0, 0);
             j += 0.05f;
         }
 
         int totalDamage = 0;
         int totalEntities = 0;
+        p.playSound(p.getLocation(), Sound.ENTITY_ZOMBIFIED_PIGLIN_DEATH, 1, 1);
         for(Entity e : p.getNearbyEntities(3, 3, 3)) {
             if(e instanceof LivingEntity) {
                 if(!e.getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)
@@ -84,32 +82,32 @@ public class AbilityStorage {
     public static void emberRodAbility(ItemStack i, @NotNull Player p) {
         if(ItemHelper.isOnCooldown(i, 2, p, true)) return;
 
-        int dmg = ItemHelper.calcMagicDamage(p, 15);
+        double dmg = ItemHelper.calcMagicDamage(p, 15);
         for(int j = 0; j < 2; j++) {
             Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
                 p.playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1f);
 
-                Fireball ball = p.launchProjectile(Fireball.class);
-                ball.getPersistentDataContainer().set(SkyblockD.getKey("extraDamage"), PersistentDataType.INTEGER, dmg);
+                Fireball ball = p.launchProjectile(Fireball.class, p.getEyeLocation().getDirection());
+                ball.getPersistentDataContainer().set(SkyblockD.getKey("extraDamage"), PersistentDataType.DOUBLE, dmg);
                 ball.setYield(0.5f);
                 ball.setDirection(p.getEyeLocation().getDirection());
-            }, 2L+j);
+            }, 5L+j);
         }
     }
 
     public static void holyGrailAbility(ItemStack i, @NotNull Player p) {
         if(ItemHelper.isOnCooldown(i, 3, p, true)) return;
 
-        int dmg = ItemHelper.calcMagicDamage(p, 20);
+        double dmg = ItemHelper.calcMagicDamage(p, 20);
         for(int j = 0; j < 8; j++) {
             Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
                 p.playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 0.5f);
 
-                Fireball ball = p.launchProjectile(Fireball.class);
-                ball.getPersistentDataContainer().set(SkyblockD.getKey("extraDamage"), PersistentDataType.INTEGER, dmg);
+                Fireball ball = p.launchProjectile(Fireball.class, p.getEyeLocation().getDirection());
+                ball.getPersistentDataContainer().set(SkyblockD.getKey("extraDamage"), PersistentDataType.DOUBLE, dmg);
                 ball.setYield(0.2f);
                 ball.setDirection(p.getEyeLocation().getDirection());
-            }, 2L+j);
+            }, 5L+j);
         }
     }
 
@@ -117,8 +115,7 @@ public class AbilityStorage {
         if(ItemHelper.isOnCooldown(i, 5, p, true)) return;
         Giant g = (Giant) p.getWorld().spawnEntity(p.getLocation(), EntityType.GIANT, CreatureSpawnEvent.SpawnReason.CUSTOM);
         g.setInvisible(true);
-        BoundingBox bb = g.getBoundingBox();
-        bb.expand(0.1d-bb.getMaxX(), 0.1d-bb.getMaxY(), 0.1d-bb.getMaxZ());
+        g.getBoundingBox().expand(-2, -2, -2);
         g.setInvulnerable(true);
         g.getPersistentDataContainer().set(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING, "true");
         g.setCustomName("Dinnerbone");
@@ -127,16 +124,20 @@ public class AbilityStorage {
         EntityEquipment eq = g.getEquipment();
         assert eq != null;
         eq.setItemInMainHand(SkyblockMaterial.GIANT_SWORD.getItem());
-        p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_FALL, 1, 0);
+        p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 0);
         int totalDamage = 0;
         int totalEntities = 0;
         float dmg = ItemHelper.calcMagicDamage(p, 40);
+        boolean isAtlantis = UniversalHelper.fullSetOfName("Atlantis", p);
         for(Entity e : p.getNearbyEntities(6, 6, 6)) {
             if(e instanceof LivingEntity) {
                 if(!e.getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)
                         && !e.getType().equals(EntityType.WITHER) && !e.getType().equals(EntityType.GIANT)) {
                     LivingEntity le = (LivingEntity) e;
-                    le.damage(dmg, p);
+                    double tmpDmg = dmg;
+                    if(isAtlantis && isFished(e))
+                        tmpDmg = dmg * 1.2;
+                    le.damage(tmpDmg, p);
                     totalDamage += dmg;
                     totalEntities++;
                 }
@@ -145,7 +146,7 @@ public class AbilityStorage {
         if(totalEntities > 0) {
             p.sendMessage(ChatColor.GRAY+"Your Giant Slam hit " +ChatColor.RED+ totalEntities + ChatColor.GRAY + (totalEntities == 1 ? " enemy" : " enemies")+" for a total of "+ ChatColor.RED + totalDamage*5 + ChatColor.GRAY + " damage!");
         }
-        Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), g::remove, 20L);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), g::remove, 50L);
     }
 
     public static void hyperionAbility(ItemStack i, @NotNull Player p) {
@@ -159,12 +160,16 @@ public class AbilityStorage {
         int totalDamage = 0;
         int totalEntities = 0;
         float dmg = ItemHelper.calcMagicDamage(p, 15);
+        boolean isAtlantis = UniversalHelper.fullSetOfName("Atlantis", p);
         for(Entity e : p.getNearbyEntities(4, 4, 4)) {
             if(e instanceof LivingEntity) {
                 if(!e.getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)
                 && !e.getType().equals(EntityType.WITHER)) {
                     LivingEntity le = (LivingEntity) e;
-                    le.damage(dmg, p);
+                    double tmpDmg = dmg;
+                    if(isAtlantis && isFished(e))
+                        tmpDmg = dmg * 1.2;
+                    le.damage(tmpDmg, p);
                     totalDamage += dmg;
                     totalEntities++;
                 }
@@ -198,7 +203,7 @@ public class AbilityStorage {
     }
 
     public static void aoteAbility(@NotNull Player p, ItemStack i) {
-        if(!ItemHelper.isOnCooldown(i, 0.5f, p, false)) {
+        if(!ItemHelper.isOnCooldown(i, 0.6f, p, false)) {
             Location n = raycast(p, 6);
             p.teleport(n);
             p.playSound(p.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 0.3f, 1f);
@@ -210,11 +215,8 @@ public class AbilityStorage {
     }
 
     public static void tripleShot(@NotNull Player p) {
-        Vector base = p.getEyeLocation().getDirection();
-        Vector left = base.rotateAroundZ(-60d);
-        Vector right = base.rotateAroundZ(60d);
-        Arrow arr1 = p.launchProjectile(Arrow.class, left);
-        Arrow arr2 = p.launchProjectile(Arrow.class, right);
+        Arrow arr1 = p.launchProjectile(Arrow.class);
+        Arrow arr2 = p.launchProjectile(Arrow.class);
         arr1.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
         arr2.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
     }
@@ -229,11 +231,15 @@ public class AbilityStorage {
             int damage = ItemHelper.calcMagicDamage(p, 5f);
             int totalDamage = 0;
             int totalEntities = 0;
+            boolean isAtlantis = UniversalHelper.fullSetOfName("Atlantis", p);
             if (!entities.isEmpty()) {
                 for (Entity en : entities) {
                     if (en instanceof LivingEntity && !(en instanceof Wither)) {
                         LivingEntity le = (LivingEntity) en;
-                        le.damage(damage, p);
+                        double tmpDmg = damage;
+                        if(isAtlantis && isFished(le))
+                            tmpDmg = damage * 1.2;
+                        le.damage(tmpDmg, p);
                         totalDamage += damage;
                         totalEntities++;
                     }
@@ -246,19 +252,23 @@ public class AbilityStorage {
     }
 
     public static void dragonAspectAbility(ItemStack i, @NotNull Player p) {
-        if(!ItemHelper.isOnCooldown(i, 0.7f, p, false)) {
+        if(!ItemHelper.isOnCooldown(i, 1.5f, p, false)) {
             p.spawnParticle(Particle.EXPLOSION_HUGE, p.getLocation(), 2, 1, 1, 1, 1);
             createHelix(p);
             List<Entity> entities = p.getNearbyEntities(4, 4, 4);
             p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
-            int damage = ItemHelper.calcMagicDamage(p, 7.5f);
+            int damage = ItemHelper.calcMagicDamage(p, 15f);
             int totalDamage = 0;
             int entityAmount = 0;
+            boolean isAtlantis = UniversalHelper.fullSetOfName("Atlantis", p);
             if (!entities.isEmpty()) {
                 for (Entity en : entities) {
                     if (en instanceof LivingEntity && !(en instanceof Wither)) {
                         LivingEntity le = (LivingEntity) en;
-                        le.damage(damage);
+                        double tmpDmg = damage;
+                        if(isAtlantis && isFished(le))
+                            tmpDmg = damage * 1.2;
+                        le.damage(tmpDmg);
                         le.setFireTicks(40);
                         totalDamage += damage;
                         entityAmount++;
@@ -372,6 +382,10 @@ public class AbilityStorage {
         }
     }
 
+    private static boolean isFished(Entity e) {
+        return e.getPersistentDataContainer().has(SkyblockD.getKey("FISHED"), PersistentDataType.BYTE);
+    }
+    
     private enum BreakType {
         WOOD(Sound.BLOCK_WOOD_BREAK, "Foraging"),
         ROCK(Sound.BLOCK_STONE_BREAK, "Mining"),

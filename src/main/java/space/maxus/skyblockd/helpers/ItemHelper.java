@@ -344,7 +344,7 @@ public class ItemHelper {
                 p.getInventory().addItem(drop);
             } else p.getWorld().dropItem(p.getLocation(), drop);
             if(chance > 500 || rarity.equals(DropRarity.INSANE) || rarity.equals(DropRarity.RNGESUS)) {
-                Bukkit.broadcastMessage(p.getDisplayName()+ChatColor.YELLOW+" just got "+rarity+ChatColor.RESET+Objects.requireNonNull(drop.getItemMeta()).getDisplayName()+ChatColor.YELLOW+"!");
+                Bukkit.broadcastMessage(p.getDisplayName()+ChatColor.YELLOW+" just got "+rarity.toString().replace("!", "")+ChatColor.RESET+" "+Objects.requireNonNull(drop.getItemMeta()).getDisplayName()+ChatColor.YELLOW+"!");
                 for(Player pl : SkyblockD.getHost().getOnlinePlayers()) {
                     pl.playSound(pl.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
                 }

@@ -13,7 +13,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.gui.MainMenuGUI;
-import space.maxus.skyblockd.gui.RecombobulatorInventory;
 import space.maxus.skyblockd.objects.BetterListener;
 
 import java.util.Objects;
@@ -49,12 +48,7 @@ public class ActionListener extends BetterListener {
                 p.openInventory(inv);
                 p.updateInventory();
             } else if(name.equalsIgnoreCase(ChatColor.GOLD+"Recombobulator 4000")){
-                RecombobulatorInventory in = new RecombobulatorInventory();
-                Inventory tr = Bukkit.createInventory(in.getHolder(p), in.getSize(), in.getName());
-                in.generateContains(tr);
-                p.openInventory(tr);
-                p.getInventory().remove(i);
-                p.updateInventory();
+                e.setCancelled(true);
             }
         }
     }
