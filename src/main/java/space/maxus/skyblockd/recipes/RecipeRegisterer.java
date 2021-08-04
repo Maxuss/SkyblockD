@@ -142,10 +142,25 @@ public class RecipeRegisterer {
         new ShortbowRecipe("GEMSTONE_SHORTBOW", SkyblockMaterial.GEMSTONE);
         new ShortbowRecipe("HOLY_SHORTBOW", SkyblockMaterial.ENCHANTED_HONEYCOMB);
 
+        new SwiftDaggerRecipe();
+        new SimpleSetRecipe("LAPIS", SkyblockMaterial.ENCHANTED_LAPIS_LAZULI, null);
         new SimpleSetRecipe("OBSIDIAN", SkyblockMaterial.ENCHANTED_OBSIDIAN, null);
         new SimpleSetRecipe("TITAN", SkyblockMaterial.ENCHANTED_IRON_INGOT, "OBSIDIAN");
         new SimpleSetRecipe("MUDSTONE", SkyblockMaterial.ENCHANTED_DIRT, null);
         new SimpleSetRecipe("NAUTILUS", SkyblockMaterial.ENCHANTED_COD, "LILY");
+        new SimpleSetRecipe("GEMSTONE", SkyblockMaterial.GEMSTONE, "EMERALD");
+
+        new ShadowFractureBootsRecipe();
+        new ShadowFractureLeggingsRecipe();
+        new ShadowFractureChestplateRecipe();
+        new ShadowFractureHelmetRecipe();
+
+        new BonemerangRecipe();
+        new GiantSwordRecipe();
+        new YetiSwordRecipe();
+
+        new EtherealCrusherRecipe();
+        new WorldDigesterRecipe();
 
         new ConduitRecipe();
         new DeepslateRecipe();

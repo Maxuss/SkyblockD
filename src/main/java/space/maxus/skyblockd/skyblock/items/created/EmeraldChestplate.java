@@ -52,9 +52,9 @@ public class EmeraldChestplate extends SkyblockItem {
                 new AttributeModifier("generic.maxHealth", 3, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_ARMOR,
-                new AttributeModifier("generic.armor", 50, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.armor", 5, AttributeModifier.Operation.ADD_NUMBER));
         LeatherArmorMeta lm = (LeatherArmorMeta) m;
-        lm.setColor(Color.GREEN);
+        lm.setColor(Color.fromRGB(53, 240, 43));
         i.setItemMeta(m);
         return i;
     }

@@ -15,11 +15,12 @@ public class KasmirFuryRecipe extends RecipeBase<ShapedRecipe> {
         rec.shape(
                 "WKW",
                 "KDK",
-                "WKW"
+                "WGW"
         );
 
         rec.setIngredient('W', new RecipeChoice.ExactChoice(SkyblockMaterial.WITHER_JAR.getItem()));
         rec.setIngredient('K', new RecipeChoice.ExactChoice(SkyblockMaterial.KASMIR_SOUL_FRAGMENT.getItem()));
+        rec.setIngredient('G', new RecipeChoice.ExactChoice(SkyblockMaterial.GALACTICA_SINGULARITY.getItem()));
         rec.setIngredient('D', new RecipeChoice.ExactChoice(SkyblockMaterial.DRACONIC_SHORTBOW.getItem()));
 
         return rec;

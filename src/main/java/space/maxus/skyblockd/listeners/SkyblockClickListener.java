@@ -113,6 +113,12 @@ public class SkyblockClickListener extends BetterListener {
                 AbilityStorage.emberRodAbility(i, p);
             } else if(c.has(SkyblockD.getKey("EMBERLORD_STAFF"), b)) {
                 AbilityStorage.emberlordStaffAbility(i, p);
+            } else if(c.has(SkyblockD.getKey("GOLEM_SWORD"), b)) {
+                AbilityStorage.golemSwordAbility(i, p);
+            } else if(c.has(SkyblockD.getKey("BONEMERANG"), b)) {
+                AbilityStorage.bonemerangAbility(i, p);
+            } else if(c.has(SkyblockD.getKey("YETI_SWORD"), b)) {
+                AbilityStorage.yetiSwordAbility(i, p);
             }
         }
     }

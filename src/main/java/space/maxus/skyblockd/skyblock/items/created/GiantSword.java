@@ -22,7 +22,7 @@ public class GiantSword extends SkyblockItem {
     public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.IRON_SWORD, "Giant's Sword", SkyblockRarity.LEGENDARY,
-                SkyblockItemType.SWORD, new SkyblockItemStats().setDamage(250).setAbilityDamage(25)
+                SkyblockItemType.SWORD, new SkyblockItemStats().setDamage(300).setAbilityDamage(25)
         );
         cfg.setAbilities(Collections.singletonList(new SkyblockItemAbility("Giant's Slam",
                 SkyblockAbilityType.RIGHT_CLICK, Arrays.asList(
@@ -49,8 +49,9 @@ public class GiantSword extends SkyblockItem {
         assert m != null;
         m.addAttributeModifier(
                 Attribute.GENERIC_ATTACK_DAMAGE,
-                new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", 250, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+                new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", 300, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
         m.setUnbreakable(true);
+        addAbilityDamage(25, m);
         m.getPersistentDataContainer().set(SkyblockD.getKey("GIANT_SWORD"), PersistentDataType.BYTE, (byte)0);
         i.setItemMeta(m);
         return i;

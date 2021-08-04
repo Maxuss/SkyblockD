@@ -1,5 +1,7 @@
 package space.maxus.skyblockd.listeners;
 
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EnderDragon;
@@ -24,7 +26,9 @@ import space.maxus.skyblockd.skyblock.items.SkyblockMaterial;
 import space.maxus.skyblockd.skyblock.utility.SkillHelper;
 import space.maxus.skyblockd.util.WeightedList;
 
+import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class KillListener extends BetterListener {
     public static int endermanCounter = 0;
@@ -44,7 +48,7 @@ public class KillListener extends BetterListener {
             operateDragonLoot(en);
         } else if(en.getType() == EntityType.ENDERMAN && en.getWorld().getEnvironment() == World.Environment.THE_END) {
             endermanCounter++;
-            ItemHelper.trySpawnRareMob(EntitySummon.CORRUPTED_FANATIC, 100, p);
+            ItemHelper.trySpawnRareMob(EntitySummon.CORRUPTED_FANATIC, 200, p);
             if(endermanCounter == 30) {
                 p.getWorld().playSound(p.getLocation(), Sound.ENTITY_IRON_GOLEM_DEATH, 10, 0);
                 Bukkit.broadcastMessage(ChatColor.RED+""+ChatColor.BOLD+"You hear distant tremor from beneath the earth");
@@ -232,7 +236,7 @@ public class KillListener extends BetterListener {
         displays.add(ChatColor.GOLD+
                 "                         Most Damage dealt:");
         displays.add(" ");
-
+        List<String> sdrops = new ArrayList<>();
         HashMap<UUID, WeightedList<ItemStack>> drops = new HashMap<>();
 
         for(Map.Entry<UUID, Double> ent : parsed.entrySet()) {
@@ -245,13 +249,18 @@ public class KillListener extends BetterListener {
             if(Bukkit.getPlayer(id) == null) continue;
 
             String playerName = Objects.requireNonNull(Bukkit.getPlayer(id)).getDisplayName();
-            displays.add("  "+ChatColor.YELLOW+""+ChatColor.BOLD+(i+1)+". Place: "+ChatColor.RESET+playerName+ChatColor.YELLOW+" "+Math.round(dmg)*5+" Damage");
+            String n = "  "+ChatColor.YELLOW+""+ChatColor.BOLD+(i+1)+". Place: "+ChatColor.RESET+playerName+ChatColor.YELLOW+" "+Math.round(dmg)*5+" Damage";
+            displays.add(n);
+            sdrops.add(n);
             i++;
         }
         displays.add(ChatColor.RED+
                 "-----------------------------------------------------");
 
         displays.add(" ");
+
+        sdrops.add(" ");
+        sdrops.add("Obtained loot: ");
 
         for (Map.Entry<UUID, WeightedList<ItemStack>> entry: drops.entrySet()) {
             Player p = Bukkit.getPlayer(entry.getKey());
@@ -269,7 +278,10 @@ public class KillListener extends BetterListener {
                 if(n.contains("Fragment") && !n.contains("Erumdir"))
                     dropped.setAmount(prand.nextInt(1)+2);
 
-                displays.add(p.getDisplayName()+ChatColor.RED+" has obtained "+ Objects.requireNonNull(dropped.getItemMeta()).getDisplayName()+" "+dropped.getAmount()+"x ");
+                String d = p.getDisplayName()+ChatColor.RED+" has obtained "+ Objects.requireNonNull(dropped.getItemMeta()).getDisplayName()+" "+dropped.getAmount()+"x ";
+
+                displays.add(d);
+                sdrops.add(d);
                 if(p.getInventory().firstEmpty() != -1) {
                     p.getInventory().addItem(dropped);
                 } else p.getWorld().dropItemNaturally(p.getLocation(), dropped);
@@ -283,7 +295,9 @@ public class KillListener extends BetterListener {
                 } else {
                     p.getWorld().dropItemNaturally(p.getLocation(), rare);
                 }
-                displays.add(p.getDisplayName()+ChatColor.RED+" has obtained "+ Objects.requireNonNull(rare.getItemMeta()).getDisplayName()+" "+rare.getAmount()+"x ");
+                String d = p.getDisplayName()+ChatColor.RED+" has obtained "+ Objects.requireNonNull(rare.getItemMeta()).getDisplayName()+" "+rare.getAmount()+"x ";
+                displays.add(d);
+                sdrops.add(d);
             }
             if(p.getInventory().firstEmpty() != -1) {
                 p.getInventory().addItem(ecoal);
@@ -294,6 +308,21 @@ public class KillListener extends BetterListener {
 
         Bukkit.broadcastMessage(String.join("\n", displays));
         DamageListener.witherDamagers.clear();
+
+        if(SkyblockD.getDiscord() != null) {
+            TextChannel channel = SkyblockD.getDiscord().getChannel();
+
+            sdrops.add(0, witherType.name()+" WAS DEFEATED!");
+            sdrops.add(1, "Top damagers: ");
+            String desc = sdrops.stream().map(ChatColor::stripColor).collect(Collectors.joining("\n"));
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setColor(java.awt.Color.RED)
+                    .setDescription(desc)
+                    .setImage("https://static.wikia.nocookie.net/minecraft_gamepedia/images/a/aa/Wither.png")
+                    .setTimestamp(Instant.now());
+
+            channel.sendMessage(builder.build()).queue();
+        }
     }
 
     public static void operateProtectorLoot() {
@@ -381,6 +410,8 @@ public class KillListener extends BetterListener {
                      "                         Most Damage dealt:");
         displays.add(" ");
 
+        List<String> sdrops = new ArrayList<>();
+
         HashMap<UUID, List<WeightedList<ItemStack>>> drops = new HashMap<>();
         DragonLoot loot = SkyblockD.getServerData().dragonLoot;
         for(Map.Entry<UUID, Double> ent : parsed.entrySet()) {
@@ -398,13 +429,17 @@ public class KillListener extends BetterListener {
             if(Bukkit.getPlayer(id) == null) continue;
 
             String playerName = Objects.requireNonNull(Bukkit.getPlayer(id)).getDisplayName();
-            displays.add("  "+ChatColor.YELLOW+""+ChatColor.BOLD+(i+1)+". Place: "+ChatColor.RESET+playerName+ChatColor.YELLOW+" "+Math.round(dmg)*5+" Damage");
+            String n = "  "+ChatColor.YELLOW+""+ChatColor.BOLD+(i+1)+". Place: "+ChatColor.RESET+playerName+ChatColor.YELLOW+" "+Math.round(dmg)*5+" Damage";
+            displays.add(n);
+            sdrops.add(n);
             i++;
         }
         displays.add(ChatColor.LIGHT_PURPLE+
                 "-----------------------------------------------------");
 
         displays.add(" ");
+        sdrops.add(" ");
+        sdrops.add("Obtained loot: ");
 
         for (Map.Entry<UUID, List<WeightedList<ItemStack>>> entry: drops.entrySet()) {
             Player p = Bukkit.getPlayer(entry.getKey());
@@ -425,7 +460,9 @@ public class KillListener extends BetterListener {
             for(int j = 0; j < 1; j++) {
                 ItemStack dropped = sb.get(prand);
                 assert dropped.getItemMeta() != null;
-                displays.add(p.getDisplayName()+ChatColor.YELLOW+" has obtained "+dropped.getItemMeta().getDisplayName()+" "+dropped.getAmount()+"x ");
+                String n = p.getDisplayName()+ChatColor.YELLOW+" has obtained "+dropped.getItemMeta().getDisplayName()+" "+dropped.getAmount()+"x ";
+                displays.add(n);
+                sdrops.add(n);
                 if(p.getInventory().firstEmpty() != -1) {
                     p.getInventory().addItem(dropped);
                 } else p.getWorld().dropItemNaturally(p.getLocation(), dropped);
@@ -444,6 +481,21 @@ public class KillListener extends BetterListener {
 
         Bukkit.broadcastMessage(String.join("\n", displays));
         DamageListener.dragonDamagers.clear();
+
+        if(SkyblockD.getDiscord() != null) {
+            TextChannel channel = SkyblockD.getDiscord().getChannel();
+
+            sdrops.add(0, "ENDER DRAGON WAS DEFEATED!");
+            sdrops.add(1, "Top damagers: ");
+            String desc = sdrops.stream().map(ChatColor::stripColor).collect(Collectors.joining("\n"));
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setColor(java.awt.Color.RED)
+                    .setDescription(desc)
+                    .setImage("https://static.wikia.nocookie.net/minecraft_gamepedia/images/0/0a/Ender_Dragon.gif")
+                    .setTimestamp(Instant.now());
+
+            channel.sendMessage(builder.build()).queue();
+        }
     }
 
     private void operateSkill(@NotNull String name, int xp, @NotNull Player p, @NotNull PlayerContainer pc) {

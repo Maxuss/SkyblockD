@@ -131,19 +131,18 @@ public class WeightedList<E> extends HashMap<E, Double> {
 
     public static @NotNull WeightedList<ItemStack> getProtectorDrops() {
         WeightedList<ItemStack> list = new WeightedList<>();
-        ItemStack irons = SkyblockMaterial.ENCHANTED_IRON_INGOT.getItem().clone();
+        ItemStack irons = SkyblockMaterial.ENCHANTED_IRON_INGOT.getItem();
         irons.setAmount(new Random().nextInt(2)+7);
         list.put(irons, 0.2d);
         list.put(SkyblockMaterial.ENCHANTED_IRON_BLOCK.getItem(), 0.2d);
-        ItemStack eyes = SkyblockMaterial.ENCHANTED_EYE_OF_ENDER.getItem().clone();
+        ItemStack eyes = SkyblockMaterial.ENCHANTED_EYE_OF_ENDER.getItem();
         eyes.setAmount(new Random().nextInt(1)+3);
         list.put(eyes, 0.2d);
+        list.put(SkyblockMaterial.GOLEM_SWORD.getItem(), 0.1d);
         list.put(SkyblockMaterial.RECOMBOBULATOR_CORE.getItem(), 0.1d);
-        list.put(SkyblockMaterial.DARK_MATTER.getItem(), 0.05d);
-        list.put(SkyblockMaterial.YOUNG_FRAGMENT.getItem(), 0.05d);
+        list.put(SkyblockMaterial.DARK_MATTER.getItem(), 0.1d);
         list.put(SkyblockMaterial.ENCHANTED_MOON_STONE.getItem(), 0.05d);
         list.put(SkyblockMaterial.SHADED_EYE.getItem(), 0.1d);
-        list.put(SkyblockMaterial.STRONG_FRAGMENT.getItem(), 0.05d);
         return list;
     }
 

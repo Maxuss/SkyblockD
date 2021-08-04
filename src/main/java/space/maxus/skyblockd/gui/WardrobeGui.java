@@ -64,10 +64,10 @@ public class WardrobeGui extends InventoryBase {
             } catch (IOException e) {
                 p.sendMessage(ChatColor.RED + "Could not load wardrobe!");
             }
-            helmets[i] = storaged[0];
-            chestplates[i] = storaged[1];
-            leggings[i] = storaged[2];
-            boots[i] = storaged[3];
+            helmets[i] = storaged[0] == null || storaged[0].getType().isEmpty() ? put.clone() : storaged[0];
+            chestplates[i] = storaged[1] == null || storaged[1].getType().isEmpty() ? put.clone() : storaged[1];
+            leggings[i] = storaged[2] == null || storaged[2].getType().isEmpty() ? put.clone() : storaged[2];
+            boots[i] = storaged[3] == null || storaged[3].getType().isEmpty() ? put.clone() : storaged[3];
         }
 
         ItemStack[] contents = {

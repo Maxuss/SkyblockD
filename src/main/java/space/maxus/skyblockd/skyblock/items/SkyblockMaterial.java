@@ -169,10 +169,17 @@ public enum SkyblockMaterial {
     TREENIHILATOR(new Treenihilator()),
     THANATHOS(new Thanathos()),
     THANATHOPHOBIA(new Thanathophobia()),
+
     EMERALD_BOOTS(new EmeraldBoots()),
     EMERALD_LEGGINGS(new EmeraldLeggings()),
     EMERALD_CHESTPLATE(new EmeraldChestplate()),
     EMERALD_HELMET(new EmeraldHelmet()),
+
+    GEMSTONE_BOOTS(new GemstoneBoots()),
+    GEMSTONE_LEGGINGS(new GemstoneLeggings()),
+    GEMSTONE_CHESTPLATE(new GemstoneChestplate()),
+    GEMSTONE_HELMET(new GemstoneHelmet()),
+
     MAGIC_MAGNET(new MagicMagnet()),
     WORLD_DIGESTER(new WorldDigester()),
     PERSONAL_COMPACTOR(new HydraulicPress()),
@@ -296,7 +303,11 @@ public enum SkyblockMaterial {
     SCYLLA(new Scylla()),
     VALKYRIE(new Valkyrie()),
 
+    ERODED_FOSSIL(new ErodedFossil()),
+    BONEMERANG(new Bonemerang()),
+    GOLEM_SWORD(new GolemSword()),
     GIANT_SWORD(new GiantSword()),
+    YETI_SWORD(new YetiSword()),
 
     WITHER_SINGULARITY(new WitherSingularity()),
     GALACTICA_SINGULARITY(new GalacticaSingularity()),
@@ -314,6 +325,12 @@ public enum SkyblockMaterial {
     ENDSTONE_HOE(new EndstoneHoe()),
     MOONSTONE_HOE(new MoonstoneHoe()),
     GALAXY_HOE(new GalaxyHoe()),
+
+    LAPIS_BOOTS(new LapisBoots()),
+    LAPIS_LEGGINGS(new LapisLeggings()),
+    LAPIS_CHESTPLATE(new LapisChestplate()),
+    LAPIS_HELMET(new LapisHelmet()),
+    SWIFT_DAGGER(new SwiftDagger()),
 
     NAUTILUS_BOOTS(new NautilusBoots()),
     NAUTILUS_LEGGINGS(new NautilusLeggings()),

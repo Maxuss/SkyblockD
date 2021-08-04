@@ -57,7 +57,7 @@ public class FarmingSkillMap extends SkillMap {
                 item0, item1, stat2, stat2, stat2, stat2, item2,
                 stat3, stat3, stat3, item3, stat3, item3, stat3,
                 item4, stat3, item4, stat4, item5, item6, stat4,
-                item6, stat4, item7
+                item6, stat4, item7, stat4
         ));
 
         return rewards;

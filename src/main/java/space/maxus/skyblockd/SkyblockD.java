@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
 import space.maxus.skyblockd.commands.ChatCommand;
+import space.maxus.skyblockd.discord.Discord;
 import space.maxus.skyblockd.enchants.ItemGlint;
 import space.maxus.skyblockd.enchants.ReplenishEnchantment;
 import space.maxus.skyblockd.helpers.ContainerHelper;
@@ -54,6 +55,8 @@ public class SkyblockD extends JavaPlugin {
     private static SkyblockItemRegisterer itemRegisterer;
     private static @NotNull HashMap<String, ArmorSet> armorSets = new HashMap<>();
     private static ServerStorage serverData;
+
+    private static Discord discord;
 
     public static List<PlayerContainer> players = new ArrayList<>();
     public static boolean inMaintenace = false;
@@ -143,6 +146,8 @@ public class SkyblockD extends JavaPlugin {
         return namespacedKey + ":";
     }
     public static String getMotd() { return motd; }
+
+    public static Discord getDiscord() { return discord; }
 
     public static @NotNull String getNamespace(@NotNull String name) {
         return namespacedKey + ":" + name.toUpperCase(Locale.ENGLISH);
@@ -338,6 +343,10 @@ public class SkyblockD extends JavaPlugin {
         mapManager.addMap("combat", new CombatSkillMap("Combat", "Warrior"));
         mapManager.addMap("fishing", new FishingSkillMap("Fishing", "Angler"));
 
+        if(config.discordEnabled()) {
+            discord = new Discord();
+            discord.sendMessage("Server launched! Everyone can join now!");
+        }
         // send success message and log
         getSender().sendMessage(ChatColor.BOLD + "[" + ChatColor.GOLD + "SkyblockD" + ChatColor.RESET + "" + ChatColor.BOLD + "]" + ChatColor.RESET + " Plugin initialized!");
         logger.info("Successfully loaded SkyblockD plugin!");
@@ -345,6 +354,9 @@ public class SkyblockD extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
+        discord.sendMessage("Server is closing!");
+        if(discord != null) discord.shutdown();
 
         // clear all recipes cus they break on /reload otherwise
         getHost().clearRecipes();

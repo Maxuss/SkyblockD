@@ -7,6 +7,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import space.maxus.skyblockd.SkyblockD;
@@ -22,11 +23,11 @@ public class TuxedoLeggings extends SkyblockItem {
     public @NotNull SkyblockItemConfig getConfig() {
         SkyblockItemConfig cfg = new SkyblockItemConfig(
                 Material.LEATHER_LEGGINGS, "Tuxedo Leggings", SkyblockRarity.LEGENDARY,
-                SkyblockItemType.LEGGINGS, new SkyblockItemStats().setStrength(450));
+                SkyblockItemType.LEGGINGS, new SkyblockItemStats().setStrength(350).setAbilityDamage(20));
         cfg.setAbilities(Collections.singletonList(
                 new SkyblockItemAbility("Dashing", SkyblockAbilityType.PASSIVE, Arrays.asList(
-                        ChatColor.GRAY + "Deal lots of damage by the",
-                        ChatColor.GRAY + "cost of your health!"))));
+                        ChatColor.GRAY + "Deal 150% more damage!",
+                        ChatColor.GRAY + "Sets your max health to 1!"))));
         return cfg;
     }
 
@@ -44,7 +45,9 @@ public class TuxedoLeggings extends SkyblockItem {
     public @Nullable ItemStack postInit(@NotNull ItemStack i) {
         ItemMeta m = i.getItemMeta();
         assert m != null;
-        addStrength(450, m);
+        addStrength(350, m);
+        addAbilityDamage(20, m);
+        m.getPersistentDataContainer().set(SkyblockD.getKey("TUXEDO"), PersistentDataType.BYTE, (byte)0);
         ItemHelper.addAttribute(Attribute.GENERIC_MAX_HEALTH, -15, m);
         LeatherArmorMeta lm = (LeatherArmorMeta) m;
         lm.setColor(Color.fromRGB(219, 219, 219));

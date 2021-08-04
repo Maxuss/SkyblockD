@@ -13,11 +13,11 @@ public class MadnessRecipe extends RecipeBase<ShapedRecipe> {
         ShapedRecipe rec = new ShapedRecipe(SkyblockD.getKey("madness_recipe"), SkyblockMaterial.MADNESS.getItem());
         rec.shape(
                 "GDG",
-                "GMG"
+                "GCG"
         );
         rec.setIngredient('G', new RecipeChoice.ExactChoice(SkyblockMaterial.ENCHANTED_GOLD_BLOCK.getItem()));
         rec.setIngredient('D', new RecipeChoice.ExactChoice(SkyblockMaterial.GALACTICA_SINGULARITY.getItem()));
-        rec.setIngredient('M', new RecipeChoice.ExactChoice(SkyblockMaterial.KASMIR_HELMET.getItem()));
+        rec.setIngredient('C', new RecipeChoice.ExactChoice(SkyblockMaterial.LOST_CROWN.getItem()));
 
         return rec;
     }

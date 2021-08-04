@@ -12,14 +12,13 @@ public class ShadowGogglesRecipe extends RecipeBase<ShapedRecipe> {
     @Override
     public @NotNull ShapedRecipe getRecipe() {
         ShapedRecipe rec = new ShapedRecipe(SkyblockD.getKey("shadow_goggles_recipe"), SkyblockMaterial.SHADOW_GOGGLES.getItem());
-
         rec.shape(
                 "OOO",
                 "ESE"
         );
         rec.setIngredient('O', new RecipeChoice.ExactChoice(SkyblockMaterial.ENCHANTED_OBSIDIAN.getItem()));
         rec.setIngredient('E', new RecipeChoice.ExactChoice(SkyblockMaterial.ENCHANTED_EYE_OF_ENDER.getItem()));
-        rec.setIngredient('S', new RecipeChoice.ExactChoice(SkyblockMaterial.SHADED_ORB.getItem()));
+        rec.setIngredient('S', new RecipeChoice.ExactChoice(SkyblockMaterial.ENCHANTED_QUARTZ.getItem()));
         return rec;
     }
 }

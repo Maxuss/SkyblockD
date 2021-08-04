@@ -77,6 +77,10 @@ public class BlockBreakListener extends BetterListener {
 
             int grailPieceChance = ItemHelper.calculateDropChance(300, fortune);
             Biome bio = e.getBlock().getBiome();
+
+            if(bio.name().contains("DESERT"))
+                ItemHelper.trySendRareDrop(SkyblockMaterial.ERODED_FOSSIL.getItem(), 220, p, ItemHelper.DropRarity.RNGESUS);
+
             if(e.getBlock().getWorld().getEnvironment().equals(World.Environment.NORMAL)) {
                 if (e.getBlock().getY() <= 40)
                     ItemHelper.trySendRareDrop(SkyblockMaterial.GRAIL_1.getItem(), grailPieceChance, p, ItemHelper.DropRarity.INSANE);

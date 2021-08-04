@@ -33,4 +33,9 @@ public class Config extends ConfigurationFile {
     }
 
     public boolean updateEachTime() { return getBool("skyblockd.extra.updateServerData"); }
+
+    public boolean discordEnabled() { return getBool("skyblockd.discord.enabled"); }
+
+    public String discordToken() { return getStr("skyblockd.discord.token"); }
+
 }

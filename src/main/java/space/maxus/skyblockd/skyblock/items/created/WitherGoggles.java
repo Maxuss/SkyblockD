@@ -16,9 +16,9 @@ public class WitherGoggles extends SkyblockSkull {
     @Override
     public @NotNull SkyblockItemConfig getConfig() {
         return new SkyblockItemConfig(
-                null, "Shadow Goggles",
+                null, "Wither Goggles",
                 SkyblockRarity.LEGENDARY, SkyblockItemType.HELMET,
-                new SkyblockItemStats().setDefense(40).setAbilityDamage(60).setHealth(40));
+                new SkyblockItemStats().setDefense(20).setAbilityDamage(60).setHealth(20));
     }
 
     @Override
@@ -37,10 +37,10 @@ public class WitherGoggles extends SkyblockSkull {
         assert m != null;
         m.addAttributeModifier(
                 Attribute.GENERIC_ARMOR,
-                new AttributeModifier("generic.armor", 4, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.armor", 2, AttributeModifier.Operation.ADD_NUMBER));
         m.addAttributeModifier(
                 Attribute.GENERIC_MAX_HEALTH,
-                new AttributeModifier("generic.maxHealth", 40d, AttributeModifier.Operation.ADD_NUMBER));
+                new AttributeModifier("generic.maxHealth", 20d, AttributeModifier.Operation.ADD_NUMBER));
         addAbilityDamage(60, m);
         i.setItemMeta(m);
         return i;

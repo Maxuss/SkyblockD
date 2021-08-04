@@ -222,6 +222,7 @@ public class InventoryListener extends BetterListener {
                         p.sendMessage(ChatColor.RED + "You can only recombobulate one item at a time!");
                     } else {
                         ItemStack recombed = SkyblockItem.recombobulate(tool);
+                        p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1, 1);
                         inv.setItem(28, new ItemStack(Material.AIR));
                         inv.setItem(34, recombed);
                     }
@@ -233,7 +234,7 @@ public class InventoryListener extends BetterListener {
                     p.sendMessage(ChatColor.RED + "Put reforge stone on the left!");
                 }
                 else {
-                    if (tool.getType().isBlock()) {
+                    if (tool.getType().isBlock() && !tool.getType().name().contains("HEAD") && !tool.getType().name().contains("SKULL")) {
                         p.sendMessage(ChatColor.RED + "You can't reforge blocks!");
                         return;
                     }

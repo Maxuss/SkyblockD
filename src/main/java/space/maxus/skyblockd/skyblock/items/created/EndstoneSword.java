@@ -29,7 +29,7 @@ public class EndstoneSword extends SkyblockItem {
                 SkyblockItemType.SWORD,
                 new SkyblockItemStats().setDamage(50).setAttackSpeed(25).setHealth(10)
                 );
-        cfg.setDescription(Arrays.asList("", ChatColor.DARK_GRAY + "Power of endstone in your hands."));
+        cfg.setDescription(Arrays.asList(ChatColor.DARK_GRAY + "Power of endstone in your hands."));
         return cfg;
     }
 

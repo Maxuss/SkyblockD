@@ -88,6 +88,16 @@ commands:
     usage: /<command>
     permission: skyblockd.default
     permission-message: §6You don't have sufficient permission! Requires <permission>
+  broadcast:
+    description: Broadcasts the message to everyone on discord server
+    usage: /<command> [message..]
+    permission: skyblockd.admin
+    permission-message: §6You don't have sufficient permission! Requires <permission>
+  wardrobe:
+    description: Opens your wardrobe
+    usage: /<command>
+    permission: skyblockd.default
+    permission-message: §6You don't have sufficient permission! Requires <permission>
 permissions:
   skyblockd.default:
     description: Allows you basic command access

@@ -54,7 +54,7 @@ public class EmeraldHelmet extends SkyblockItem {
                 Attribute.GENERIC_ARMOR,
                 new AttributeModifier("generic.armor", 2, AttributeModifier.Operation.ADD_NUMBER));
         LeatherArmorMeta lm = (LeatherArmorMeta) m;
-        lm.setColor(Color.LIME);
+        lm.setColor(Color.fromRGB(32, 237, 21));
         i.setItemMeta(m);
         return i;
     }

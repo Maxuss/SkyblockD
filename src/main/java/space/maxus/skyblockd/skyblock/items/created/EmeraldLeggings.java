@@ -54,7 +54,7 @@ public class EmeraldLeggings extends SkyblockItem {
                 Attribute.GENERIC_ARMOR,
                 new AttributeModifier("generic.armor", 4, AttributeModifier.Operation.ADD_NUMBER));
         LeatherArmorMeta lm = (LeatherArmorMeta) m;
-        lm.setColor(Color.GREEN);
+        lm.setColor(Color.fromRGB(66, 245, 56));
         i.setItemMeta(m);
         return i;
     }

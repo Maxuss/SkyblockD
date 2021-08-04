@@ -49,7 +49,7 @@ public class ForagingSkillMap extends SkillMap {
                 item1, stat2, stat2, stat2, stat2, stat2, item2,
                 stat3, stat3, stat3, item3, stat3, item3, stat3,
                 item4, stat3, item4, stat4, item4, stat4, item5,
-                stat4, item6
+                stat4, item6, stat4
         ));
 
         return rewards;

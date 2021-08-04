@@ -17,6 +17,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.discord.DiscordListener;
 import space.maxus.skyblockd.enchants.ItemGlint;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.skyblock.entities.EntitySummon;
@@ -337,7 +338,7 @@ public class ItemHelper {
         Random r = new Random();
         int m = r.nextInt(chance);
         if(m <= 1) {
-            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 2);
+            playRareSound(p);
             String percented = Float.toString(round((1f/chance)*100)).replace(",", ".")+"%";
             p.sendMessage(rarity +""+ChatColor.AQUA+" ("+percented+" "+ SkyblockConstants.MAGIC_FIND+" Chance) "+ Objects.requireNonNull(drop.getItemMeta()).getDisplayName()+ChatColor.YELLOW+"!");
             if(p.getInventory().firstEmpty() != -1) {
@@ -347,6 +348,23 @@ public class ItemHelper {
                 Bukkit.broadcastMessage(p.getDisplayName()+ChatColor.YELLOW+" just got "+rarity.toString().replace("!", "")+ChatColor.RESET+" "+Objects.requireNonNull(drop.getItemMeta()).getDisplayName()+ChatColor.YELLOW+"!");
                 for(Player pl : SkyblockD.getHost().getOnlinePlayers()) {
                     pl.playSound(pl.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1, 1);
+                }
+
+                if(SkyblockD.getDiscord() != null) {
+                    SkyblockD
+                            .getDiscord()
+                            .sendEmbedFromPlayer(
+                                    p,
+                                    p.getName()+" has gotten "+rarity.name.toLowerCase(Locale.ENGLISH)
+                                            +" drop: "+
+                                            ChatColor
+                                                    .stripColor(
+                                                            Objects.requireNonNull(drop
+                                                                    .getItemMeta())
+                                                                    .getDisplayName()),
+                                    true,
+                                    DiscordListener
+                                            .getColorFromPlayer(p));
                 }
             }
             return true;
@@ -404,7 +422,7 @@ public class ItemHelper {
         }
     }
 
-    private static float round(float value) {
+    public static float round(float value) {
         BigDecimal bd = new BigDecimal(Float.toString(value));
         bd = bd.setScale(1, RoundingMode.HALF_UP);
         return bd.floatValue();
@@ -420,6 +438,15 @@ public class ItemHelper {
         m.addAttributeModifier(att, new AttributeModifier(
                 UUID.randomUUID(), att.getKey().getKey(), amount, AttributeModifier.Operation.ADD_NUMBER, slot
         ));
+    }
+
+    private static void playRareSound(Player p) {
+        for(int i = 0; i < 5; i++) {
+            int finalI = i;
+            Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
+                p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 0+(finalI/5f));
+            },4+(i*2));
+        }
     }
 
     public enum DropRarity {

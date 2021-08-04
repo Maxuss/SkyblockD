@@ -11,6 +11,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.GuiHelper;
+import space.maxus.skyblockd.helpers.ItemHelper;
 import space.maxus.skyblockd.helpers.UniversalHelper;
 import space.maxus.skyblockd.objects.PlayerContainer;
 import space.maxus.skyblockd.objects.SkillContainer;
@@ -58,6 +59,9 @@ public class SkillsGui extends InventoryBase {
         int craftingLevel = sd.get("crafting").currentLevel;
         int farmingLevel = sd.get("farming").currentLevel;
         int fishingLevel = sd.get("fishing").currentLevel;
+
+        float asl = ItemHelper.round((combatLevel+foragingLevel+excavatingLevel
+                +miningLevel+mysticismLevel+craftingLevel+farmingLevel+fishingLevel) / 8f);
 
         List<Integer> ints = SkyblockD.getMapManager().getMaps().get("mining").getExperience().table;
 
@@ -118,10 +122,11 @@ public class SkillsGui extends InventoryBase {
         ItemMeta meta = total.getItemMeta();
         assert meta != null;
         meta.getPersistentDataContainer().set(SkyblockD.getKey("skyblockNative"), PersistentDataType.STRING, "true");
-        meta.setDisplayName(ChatColor.YELLOW+"Total stats");
+        meta.setDisplayName(ChatColor.YELLOW+"Your skills");
         meta.setLore(Arrays.asList(
-                ChatColor.DARK_GRAY+"Total experience: "+ChatColor.GREEN+pc.skills.totalExp+" EXP",
-                ChatColor.DARK_GRAY+"Global Skills leaderboard: "+ ChatColor.GREEN+position));
+                ChatColor.DARK_GRAY+"Total experience: "+ChatColor.GOLD+pc.skills.totalExp+" EXP",
+                ChatColor.DARK_GRAY+"Global Skills leaderboard: "+ ChatColor.GOLD+position,
+                ChatColor.DARK_GRAY+"Averagel level: "+ChatColor.GOLD+asl));
         total.setItemMeta(meta);
 
         ItemStack[] contents = {
@@ -144,6 +149,6 @@ public class SkillsGui extends InventoryBase {
     }
 
     private @NotNull String isMax(int level, @NotNull List<Integer> ints, String name, @NotNull HashMap<String, SkillContainer> sd) {
-        return level+1 >= 28 ? "MAX" : (ints.get(level+1)-sd.get(name).levelExp)+ " EXP";
+        return level >= 28 ? "MAX" : (ints.get(level+1)-sd.get(name).levelExp)+ " EXP";
     }
 }

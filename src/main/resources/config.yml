@@ -15,3 +15,7 @@ skyblockd:
     devmode: true
   extra:
     updateServerData: true
+  discord:
+    enabled: true
+    token: <REDACTED>
+    channel: 846278558052515931

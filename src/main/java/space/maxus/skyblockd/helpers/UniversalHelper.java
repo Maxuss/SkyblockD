@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.helpers;
 
 import com.google.gson.reflect.TypeToken;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
+import space.maxus.skyblockd.discord.DiscordListener;
 import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.nms.NMSColor;
 import space.maxus.skyblockd.nms.PacketUtils;
@@ -74,6 +76,15 @@ public class UniversalHelper {
         messages.add(ChatColor.DARK_AQUA+"----------------------------------------------");
         String[] array = messages.toArray(new String[0]);
         p.sendMessage(array);
+
+        if(newLevel >= 25) {
+            String message = p.getDisplayName() + ChatColor.DARK_AQUA + " Has achieved Level "+ChatColor.AQUA+newLevel+ChatColor.DARK_AQUA+" in "+cap(skillName);
+            Bukkit.broadcastMessage(message);
+
+            if(SkyblockD.getDiscord() != null) {
+                SkyblockD.getDiscord().sendEmbedFromPlayer(p, p.getName()+" has achieved LVL "+newLevel+" in "+cap(skillName)+"!", true, DiscordListener.getColorFromPlayer(p));
+            }
+        }
     }
 
     public static void giveSkillExperience(@NotNull Player p, @NotNull String skill, int exp) {
@@ -92,7 +103,7 @@ public class UniversalHelper {
 
         skc.totalExp += exp;
         skc.levelExp += exp;
-        if(skc.currentLevel+1 < 28) {
+        if(skc.currentLevel+1 <= 28) {
             int toNext = map.getExperience().table.get(skc.currentLevel + 1);
             int div = skc.levelExp - toNext;
             if (div >= 0) {
@@ -193,6 +204,14 @@ public class UniversalHelper {
         return Arrays.stream(inv.getArmorContents()).allMatch(n ->
                 n != null &&
                 ChatColor.stripColor(n.getItemMeta().getDisplayName()).contains(name));
+    }
+
+    public static boolean checkTuxedo(Player p) {
+        List<ItemStack> contents = Arrays.asList(p.getInventory().getBoots(), p.getInventory().getLeggings(), p.getInventory().getChestplate());
+        return contents.stream().allMatch(item -> {
+            if(item == null || !item.hasItemMeta()) return false;
+            return Objects.requireNonNull(item.getItemMeta()).getPersistentDataContainer().has(SkyblockD.getKey("TUXEDO"), PersistentDataType.BYTE);
+        });
     }
 
     public static boolean setHasKey(@NotNull NamespacedKey key, @NotNull PersistentDataType<?, ?> type, @NotNull Player p) {

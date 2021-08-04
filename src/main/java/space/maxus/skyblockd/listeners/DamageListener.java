@@ -316,6 +316,9 @@ public class DamageListener extends BetterListener {
         int strength = UniversalHelper.getStrength((Player) damager);
         Player p = (Player) ev.getDamager();
         ItemStack crtmp = p.getInventory().getItemInMainHand();
+        if(UniversalHelper.checkTuxedo(p)) {
+            e.setDamage(e.getDamage()*2.5);
+        }
         if(!crtmp.getType().isEmpty() && ItemHelper.isOnCooldown(crtmp, 0.5f, p, false)) {
             return;
         }

@@ -7,11 +7,15 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.BlockIterator;
+import org.bukkit.util.EulerAngle;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.helpers.ItemHelper;
@@ -21,6 +25,7 @@ import space.maxus.skyblockd.items.CustomItem;
 import space.maxus.skyblockd.listeners.BlockBreakListener;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 // a class that stores all item abilities inside itself
 public class AbilityStorage {
@@ -43,6 +48,154 @@ public class AbilityStorage {
             Material.EMERALD_ORE, Material.REDSTONE_ORE, Material.DIAMOND_ORE,
             Material.LAPIS_ORE, Material.OBSIDIAN
     ));
+
+    public static void yetiSwordAbility(ItemStack i, @NotNull Player p) {
+        if(ItemHelper.isOnCooldown(i, 3, p, true)) return;
+
+
+        Location location = p.getLocation();
+
+        int radius = 2;
+        List<Block> blocks = new ArrayList<>();
+        for(int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
+            for(int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
+                for (int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
+                    if (!blocks.contains(location.getWorld().getBlockAt(x, location.getBlockY() - 1, z)))
+                        blocks.add(location.getWorld().getBlockAt(x, y, z));
+                }
+            }
+        }
+
+        p.playSound(p.getLocation(), Sound.ENTITY_IRON_GOLEM_ATTACK, 1, 1);
+
+        for (Block bat: blocks) {
+            if(!bat.getType().isSolid() || bat.getType() == Material.BEDROCK) continue;
+            Location newLoc = bat.getLocation().add(0, 3, 0);
+            FallingBlock fb = newLoc.getWorld().spawnFallingBlock(newLoc, bat.getBlockData());
+            fb.setVelocity(p.getEyeLocation().getDirection().multiply(2));
+            fb.setHurtEntities(true);
+            fb.setDropItem(false);
+        }
+
+        Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(),
+                () -> p.playSound(p.getLocation(), Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1), 30L);
+    }
+
+    public static void bonemerangAbility(ItemStack i, @NotNull Player p) {
+        if(i.getItemMeta().getPersistentDataContainer().has(SkyblockD.getKey("BONE_RECHARGE"), PersistentDataType.BYTE))
+            return;
+
+        i.setType(Material.GHAST_TEAR);
+        ArmorStand stand = (ArmorStand) p.getWorld().spawnEntity(p.getLocation(), EntityType.ARMOR_STAND);
+        stand.setArms(true);
+        stand.setVisible(false);
+        stand.setInvulnerable(true);
+        stand.addEquipmentLock(EquipmentSlot.HAND, ArmorStand.LockType.ADDING_OR_CHANGING);
+
+        Objects.requireNonNull(stand.getEquipment()).setItemInMainHand(new ItemStack(Material.BONE));
+
+        AtomicBoolean hit = new AtomicBoolean(false);
+        for(int j = 0; j < 15; j++) {
+            int finalJ = j;
+            Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(),
+                    () -> {
+                if(stand.isDead()) return;
+                stand.setVelocity(p.getEyeLocation().getDirection().multiply(1.9));
+                EulerAngle a = new EulerAngle(stand.getRightArmPose().getX(),stand.getRightArmPose().getY()+(finalJ/3d), stand.getRightArmPose().getZ());
+                stand.setRightArmPose(a);
+                Location stl = stand.getLocation();
+                List<Boolean> solids = new ArrayList<>();
+                for(int x = stl.getBlockX(); x < stl.getBlockX()+2; x++) {
+                    for(int y = stl.getBlockY(); y < stl.getBlockY()+2; y++) {
+                        for(int z = stl.getBlockZ(); z < stl.getBlockZ()+2; z++) {
+                            solids.add(stl.getWorld().getBlockAt(x, y, z).isSolid());
+                        }
+                    }
+                }
+                if(solids.stream().anyMatch(pr -> pr) || stand.getLocation().distance(p.getLocation()) > 12) {
+                    hit.set(true);
+                    stand.getWorld().playSound(stand.getLocation(), Sound.ENTITY_SKELETON_HURT, 10, 2);
+                    stand.remove();
+                    ItemMeta m = i.getItemMeta();
+                    m.getPersistentDataContainer().set(SkyblockD.getKey("BONE_RECHARGE"), PersistentDataType.BYTE, (byte)0);
+                    i.setItemMeta(m);
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
+                        ItemMeta im = i.getItemMeta();
+                        im.getPersistentDataContainer().remove(SkyblockD.getKey("BONE_RECHARGE"));
+                        i.setItemMeta(im);
+                        i.setType(Material.BONE);
+                    }, 40L);
+                    return;
+                }
+                List<Entity> nearby = stand.getNearbyEntities(1, 1, 1);
+                if(!nearby.isEmpty()) {
+                    for(Entity e : nearby) {
+                        if(e instanceof LivingEntity && e.getType() != EntityType.PLAYER) {
+                            ((LivingEntity)e).damage(50, p);
+                        }
+                    }
+                }
+                    }, (2*j));
+        }
+        if(!hit.get())
+            Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
+                stand.getWorld().playSound(stand.getLocation(), Sound.ENTITY_SKELETON_HURT, 10, 2);
+                stand.remove();
+                ItemMeta m = i.getItemMeta();
+                m.getPersistentDataContainer().set(SkyblockD.getKey("BONE_RECHARGE"), PersistentDataType.BYTE, (byte)0);
+                i.setItemMeta(m);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(), () -> {
+                    ItemMeta im = i.getItemMeta();
+                    im.getPersistentDataContainer().remove(SkyblockD.getKey("BONE_RECHARGE"));
+                    i.setItemMeta(im);
+                    i.setType(Material.BONE);
+                }, 40L);
+            }, 30L);
+    }
+
+    public static void golemSwordAbility(ItemStack i, @NotNull Player p) {
+        if(ItemHelper.isOnCooldown(i, 3, p, true)) return;
+
+        int dmg = ItemHelper.calcMagicDamage(p, 15);
+
+        int radius = 3;
+        List<Block> blocks = new ArrayList<>();
+        Location location = p.getLocation();
+        for(int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
+            for(int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
+                if(!blocks.contains(location.getWorld().getBlockAt(x, location.getBlockY()-1, z)))
+                blocks.add(location.getWorld().getBlockAt(x, location.getBlockY()-1, z));
+            }
+        }
+
+        for(Block b : blocks) {
+            if(b.getType().isEmpty() || !b.getType().isSolid()) continue;
+            Location newLoc = b.getLocation();
+            newLoc.setY(newLoc.getY()+1);
+            FallingBlock fb = b.getWorld().spawnFallingBlock(newLoc, b.getBlockData());
+            fb.setDropItem(false);
+            fb.setHurtEntities(false);
+            fb.setVelocity(new Vector(0, 0.4d, 0));
+            Bukkit.getScheduler().scheduleSyncDelayedTask(SkyblockD.getInstance(),fb::remove, 10L);
+        }
+        int totalDamage = 0;
+        int totalEntities = 0;
+        p.playSound(p.getLocation(), Sound.ENTITY_IRON_GOLEM_DEATH, 1, 1);
+        for(Entity e : p.getNearbyEntities(3, 3, 3)) {
+            if(e instanceof LivingEntity) {
+                if(!e.getPersistentDataContainer().has(SkyblockD.getKey("ENDSTONE_PROTECTOR"), PersistentDataType.BYTE)
+                        && !e.getType().equals(EntityType.WITHER) && !e.getType().equals(EntityType.GIANT)) {
+                    LivingEntity le = (LivingEntity) e;
+                    le.damage(dmg, p);
+                    totalDamage += dmg;
+                    totalEntities++;
+                }
+            }
+        }
+        if(totalEntities > 0) {
+            p.sendMessage(ChatColor.GRAY+"Your Golem Slam hit " +ChatColor.RED+ totalEntities + ChatColor.GRAY + (totalEntities == 1 ? " enemy" : " enemies")+" for a total of "+ ChatColor.RED + totalDamage*5 + ChatColor.GRAY + " damage!");
+        }
+    }
 
     public static void emberlordStaffAbility(ItemStack i, @NotNull Player p) {
         if(ItemHelper.isOnCooldown(i, 2, p, true)) return;
@@ -127,7 +280,7 @@ public class AbilityStorage {
         p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 1, 0);
         int totalDamage = 0;
         int totalEntities = 0;
-        float dmg = ItemHelper.calcMagicDamage(p, 40);
+        float dmg = ItemHelper.calcMagicDamage(p, 50);
         boolean isAtlantis = UniversalHelper.fullSetOfName("Atlantis", p);
         for(Entity e : p.getNearbyEntities(6, 6, 6)) {
             if(e instanceof LivingEntity) {
