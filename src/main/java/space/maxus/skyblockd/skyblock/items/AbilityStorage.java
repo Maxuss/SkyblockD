@@ -69,7 +69,8 @@ public class AbilityStorage {
         p.playSound(p.getLocation(), Sound.ENTITY_IRON_GOLEM_ATTACK, 1, 1);
 
         for (Block bat: blocks) {
-            if(!bat.getType().isSolid() || bat.getType() == Material.BEDROCK) continue;
+            if(!bat.getType().isSolid() || unbreakable.contains(bat.getType())
+            || bat.getType().name().contains("_BLOCK")) continue;
             Location newLoc = bat.getLocation().add(0, 3, 0);
             FallingBlock fb = newLoc.getWorld().spawnFallingBlock(newLoc, bat.getBlockData());
             fb.setVelocity(p.getEyeLocation().getDirection().multiply(2));

@@ -1,5 +1,8 @@
 package space.maxus.skyblockd.skyblock.entities;
 
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.TextChannel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -18,6 +21,7 @@ import space.maxus.skyblockd.SkyblockD;
 import space.maxus.skyblockd.skyblock.utility.SkyblockConstants;
 import space.maxus.skyblockd.skyblock.utility.SkyblockFeature;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
@@ -115,6 +119,19 @@ public abstract class SkyblockEntity implements SkyblockFeature {
             e.getPersistentDataContainer().set(SkyblockD.getKey("witherType"), PersistentDataType.INTEGER, it);
             e.setHealth(type.hp);
             Bukkit.broadcastMessage(type.name+" has spawned!");
+
+            if(SkyblockD.getDiscord() != null) {
+                SkyblockD.getDiscord().getRichPresence().setActivity(Activity.competing("for Wither Boss"));
+                TextChannel boss = SkyblockD.getDiscord().getBossChannel();
+
+                EmbedBuilder eb = new EmbedBuilder()
+                        .setAuthor("Server", null,
+                                "https://cdn.maxus.space/files/plugins/online.png")
+                        .setDescription("Players have summoned the wither!\nWither: **"+ChatColor.stripColor(type.name)+"**")
+                        .setTimestamp(Instant.now());
+
+                boss.sendMessage(eb.build()).queue();
+            }
         }
 
         if(e.getType() == EntityType.ENDER_DRAGON) {
@@ -169,6 +186,19 @@ public abstract class SkyblockEntity implements SkyblockFeature {
             if(!name.equals(ChatColor.LIGHT_PURPLE + "Absolute Dragon")) {
                 Bukkit.broadcastMessage(ChatColor.GOLD + "A " + name + ChatColor.GOLD + " has spawned!");
             } else Bukkit.broadcastMessage(ChatColor.LIGHT_PURPLE+""+ChatColor.BOLD+"Rare Absolute Dragon has spawned in the End!");
+
+            if(SkyblockD.getDiscord() != null) {
+                SkyblockD.getDiscord().getRichPresence().setActivity(Activity.competing("for Ender Dragon"));
+                TextChannel boss = SkyblockD.getDiscord().getBossChannel();
+
+                EmbedBuilder eb = new EmbedBuilder()
+                        .setAuthor("Server", null,
+                                "https://cdn.maxus.space/files/plugins/online.png")
+                        .setDescription("Players have summoned the dragon!\nDragon: **"+ChatColor.stripColor(name)+"**")
+                        .setTimestamp(Instant.now());
+
+                boss.sendMessage(eb.build()).queue();
+            }
         }
 
         if(isEnd) {

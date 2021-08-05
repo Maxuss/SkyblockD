@@ -159,6 +159,8 @@ public class RecipeRegisterer {
         new GiantSwordRecipe();
         new YetiSwordRecipe();
 
+        new MenuRecipe();
+
         new EtherealCrusherRecipe();
         new WorldDigesterRecipe();
 

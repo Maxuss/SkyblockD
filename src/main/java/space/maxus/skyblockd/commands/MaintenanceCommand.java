@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,6 +21,7 @@ public class MaintenanceCommand extends ChatCommand {
             SkyblockD.inMaintenace = false;
             sender.sendMessage(ChatColor.GREEN+"Server is now back in normal mode!");
             if(SkyblockD.getDiscord() != null) {
+                SkyblockD.getDiscord().getRichPresence().setActivity(Activity.playing("SkyblockD"));
                 TextChannel channel = SkyblockD.getDiscord().getChannel();
                 EmbedBuilder eb = new EmbedBuilder()
                         .setAuthor("Server State", null, "https://cdn.maxus.space/files/plugins/online.png")
@@ -56,6 +58,7 @@ public class MaintenanceCommand extends ChatCommand {
                     Bukkit.broadcastMessage(ChatColor.RED + "Server is now in maintenance");
 
                     if(SkyblockD.getDiscord() != null) {
+                        SkyblockD.getDiscord().getRichPresence().setActivity(Activity.watching("SkyblockD Maintenance State"));
                         TextChannel channel = SkyblockD.getDiscord().getChannel();
                         EmbedBuilder eb = new EmbedBuilder()
                                 .setAuthor("Server State", null, "https://cdn.maxus.space/files/plugins/offline.png")

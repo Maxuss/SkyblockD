@@ -1,6 +1,7 @@
 package space.maxus.skyblockd.listeners;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -321,6 +322,8 @@ public class KillListener extends BetterListener {
                     .setImage("https://static.wikia.nocookie.net/minecraft_gamepedia/images/a/aa/Wither.png")
                     .setTimestamp(Instant.now());
 
+            SkyblockD.getDiscord().getRichPresence().setActivity(Activity.playing("SkyblockD"));
+
             channel.sendMessage(builder.build()).queue();
         }
     }
@@ -493,6 +496,8 @@ public class KillListener extends BetterListener {
                     .setDescription(desc)
                     .setImage("https://static.wikia.nocookie.net/minecraft_gamepedia/images/0/0a/Ender_Dragon.gif")
                     .setTimestamp(Instant.now());
+
+            SkyblockD.getDiscord().getRichPresence().setActivity(Activity.playing("SkyblockD"));
 
             channel.sendMessage(builder.build()).queue();
         }
